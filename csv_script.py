@@ -93,7 +93,10 @@ def run(root: str | Path, csv: str | Path, gpr: bool = False, gsa: bool = False,
                                           kernel_parameters=kernel_parameters, likelihood_variance=likelihood_variance)
                 else:
                     # Collect stored GPR models.
-                    repo = data.storage.Repository(repo_folder)
+                    try:
+                        repo = data.storage.Repository(repo_folder)
+                    except FileNotFoundError as fnfe:
+                        raise FileNotFoundError(f'You have never run GPR on {repo_folder}, so there is no GSA or results collection to be done.')
                     models = [path.name for path in repo.folder.glob('gpr.*')]
 
                 # Collect GPR results from GPR models.
