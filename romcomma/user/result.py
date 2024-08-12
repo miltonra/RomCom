@@ -24,22 +24,9 @@
 from __future__ import annotations
 
 from romcomma.base.definitions import *
-from romcomma.base.classes import Data
-from romcomma.data.storage import Repository, Fold
+from romcomma.base.models import Store
+from romcomma.data.models import Repository, Fold
 from shutil import rmtree
-
-
-def copy(src: Path | str, dst: Path | str) -> Path:
-    """ Copy a folder destructively.
-
-    Args:
-        src: The folder to be copied, relative to the ``Fold.folder``.
-        dst: The folder of the copy, relative to the ``Fold.folder``.
-
-    Returns: dst if successful.
-    """
-    Data.copy(src, dst)
-    return dst
 
 
 class Collect:

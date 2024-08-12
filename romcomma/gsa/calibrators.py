@@ -87,7 +87,7 @@ class ClosedSobol(gf.Module, Calibrator):
         self.g0 = tf.exp(Gaussian(mean=self.gp.X[tf.newaxis, tf.newaxis, ...], variance=self.Lambda2[1][1], is_variance_diagonal=True, LBunch=2).exponent)
         self.g0 *= pre_factor[..., tf.newaxis]     # Symmetric in L^2
         self.g0KY = self.g0 * self.K_inv_Y     # NOT symmetric in L^2
-        self.g0KY -= tf.einsum('lLN -> l', self.g0KY)[..., tf.newaxis, tf.newaxis]/tf.cast(tf.reduce_prod(self.g0KY.shape[1:]), dtype=FLOAT())
+        self.g0KY -= tf.einsum('lLN -> l', self.g0KY)[..., tf.newaxis, tf.newaxis]/tf.cast(tf.reduce_prod(self.g0KY.shape[1:]), dtype=Float())
         self.G = tf.einsum('lLM, NM -> lLNM', self.Lambda2[-1][1], self.gp.X)     # Symmetric in L^2
         self.Phi = self.Lambda2[-1][1]     # Symmetric in L^2
         self.V = {0: self._V(self.G, self.Phi)}     # Symmetric in L^2
@@ -120,11 +120,11 @@ class ClosedSobol(gf.Module, Calibrator):
         self.meta = self.META | kwargs
         # Unwrap data
         self.L, self.M, self.N = self.gp.L, self.gp.M, self.gp.N
-        self.Ms = tf.constant([0, self.M], dtype=INT())
-        self.F = tf.constant(self.gp.kernel.data.frames.variance.tf, dtype=FLOAT())
+        self.Ms = tf.constant([0, self.M], dtype=Int())
+        self.F = tf.constant(self.gp.kernel.data.tables.variance.tf, dtype=Float())
         # Cache the training data kernel
-        self.K_cho = tf.constant(self.gp.K_cho, dtype=FLOAT())
-        self.K_inv_Y = tf.constant(self.gp.K_inv_Y, dtype=FLOAT())
+        self.K_cho = tf.constant(self.gp.K_cho, dtype=Float())
+        self.K_inv_Y = tf.constant(self.gp.K_inv_Y, dtype=Float())
         # Determine if F is diagonal
         self.is_F_diagonal = self.meta.pop('is_F_diagonal', None)
         if self.is_F_diagonal is None:
@@ -137,7 +137,7 @@ class ClosedSobol(gf.Module, Calibrator):
         else:
             self.K_inv_Y = tf.transpose(self.K_inv_Y, [1, 0, 2])
         # Set Lambdas
-        self.Lambda = tf.broadcast_to(tf.constant(self.gp.kernel.data.frames.lengthscales.np, dtype=FLOAT()), [self.L, self.M])
+        self.Lambda = tf.broadcast_to(tf.constant(self.gp.kernel.data.tables.lengthscales.np, dtype=Float()), [self.L, self.M])
         self.Lambda2 = self._Lambda2()
         # Calculate and store values for m=0 and m=M
         self._calibrate()
@@ -254,7 +254,7 @@ class ClosedSobolWithError(ClosedSobol):
         Upsilon_cho = tf.sqrt(Upsilon)
         mean = tf.einsum('ikM, lLNM -> liLNkM', Upsilon_cho, G)[..., tf.newaxis, :, tf.newaxis, :]
         variance = 1 - tf.einsum('ikM, lLM, ikM -> liLkM', Upsilon_cho, Phi, Upsilon_cho)[..., tf.newaxis, :, tf.newaxis, :]
-        return self._equatedRanksGaussian(mean, variance, tf.constant(0, dtype=FLOAT()), rank_eqs)
+        return self._equatedRanksGaussian(mean, variance, tf.constant(0, dtype=Float()), rank_eqs)
 
     def _mu_phi_mu(self, GGaussian: Gaussian, UpsilonGaussians: List[Gaussian], OmegaGaussians: List[Gaussian], rank_eqs: Tuple[RankEquation]) -> TF.Tensor:
         """ Calculate E_m E_mp (mu[m] phi[m][mp] mu[mp]).
@@ -414,7 +414,7 @@ class ClosedSobolWithRotation(ClosedSobol):
         Returns: The inner matrix inverse of tensor.
         """
         if I is None:
-            I = tf.eye(self.M, batch_shape=[1, 1, 1, 1], dtype=FLOAT())
+            I = tf.eye(self.M, batch_shape=[1, 1, 1, 1], dtype=Float())
             ein = 'IiLlmM, IiLlmJ -> IiLlMJ'
         else:
             ein = 'LlmM, LlmJ -> LlMJ'

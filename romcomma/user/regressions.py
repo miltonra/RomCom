@@ -27,7 +27,7 @@ import numpy as np
 
 from romcomma.base.definitions import *
 import scipy.stats
-from romcomma.data.storage import Frame, Repository, Fold
+from romcomma.data.models import DataTable, Repository, Fold
 from romcomma.user import functions
 import shutil
 import sys

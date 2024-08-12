@@ -24,11 +24,11 @@
 from __future__ import annotations
 
 from romcomma.base.definitions import *
-from romcomma.data.storage import Repository, Fold
+from romcomma.data.models import Repository, Fold
 from romcomma.gpr.kernels import Kernel
 from romcomma.gpr.models import GPR, MOGP
 from romcomma.gsa.models import GSA, Sobol
-from romcomma.user import contexts, results
+from romcomma.user import contexts, result
 import shutil
 
 

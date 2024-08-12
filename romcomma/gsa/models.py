@@ -24,7 +24,7 @@
 from __future__ import annotations
 
 from romcomma.base.definitions import *
-from romcomma.base.classes import Model, Data, Frame
+from romcomma.base.models import Model, DataBase, DataTable
 from romcomma.gpr.models import GPR
 from romcomma.gsa.base import Calibrator
 from romcomma.gsa.calibrators import ClosedSobol, ClosedSobolWithError
@@ -82,11 +82,11 @@ class GSA(Model):
         result = []
         ms = range(M) if m < 0 else [m]
         if self.kind == GSA.Kind.FIRST_ORDER:
-            result = [tf.constant([m, m + 1], dtype=INT()) for m in ms]
+            result = [tf.constant([m, m + 1], dtype=Int()) for m in ms]
         elif self.kind == GSA.Kind.CLOSED:
-            result = [tf.constant([0, m + 1], dtype=INT()) for m in ms]
+            result = [tf.constant([0, m + 1], dtype=Int()) for m in ms]
         elif self.kind == GSA.Kind.TOTAL:
-            result = [tf.constant([m + 1, M], dtype=INT()) for m in ms]
+            result = [tf.constant([m + 1, M], dtype=Int()) for m in ms]
         return tf.data.Dataset.from_tensor_slices(result)
 
     @property
@@ -107,12 +107,12 @@ class GSA(Model):
         """
         m, M = self.meta['m'], self.meta['M']
         m_list = list(range(M)) if m < 0 else [m]
-        for key, value in self.data.asdict().items():
+        for key, value in self.data.tables_as_dict().items():
             result = results.get(key, None)
             if result is not None:
                 shape = result.shape.as_list()
                 result = pd.DataFrame(tf.reshape(result, [-1, shape[-1]]).numpy(), columns=GSA._columns(M, shape[-1], m_list), index=GSA._index(shape))
-                Frame(value.csv, result, float_format='%.6f')
+                DataTable(value.csv, result, float_format='%.6f')
 
     def calibrate(self, method: str = None, **kwargs) -> Dict[str, Any]:
         """ Perform a generic GSA calculation. This method should be overriden by specific subclasses, and called via ``super()`` as a matter of priority.
@@ -163,7 +163,7 @@ class GSA(Model):
 class Sobol(GSA):
     """ Class encapsulating a generic Sobol calculation."""
 
-    class Data(Data):
+    class Data(DataBase):
         """ The Data set of a GSA."""
 
         @classmethod

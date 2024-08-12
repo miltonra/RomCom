@@ -23,6 +23,6 @@
 
 from . import contexts
 from . import functions
-from . import results
+from . import result
 from . import run
 from . import sample

@@ -89,7 +89,7 @@ class Gaussian:
         result.cho_diag /= other.cho_diag
         return result
 
-    def __init__(self, mean: TF.Tensor, variance: TF.Tensor, is_variance_diagonal: bool, ordinate: TF.Tensor = tf.constant(0, dtype=FLOAT()), LBunch: int = 2):
+    def __init__(self, mean: TF.Tensor, variance: TF.Tensor, is_variance_diagonal: bool, ordinate: TF.Tensor = tf.constant(0, dtype=Float()), LBunch: int = 2):
         """ Computes the logarithm of the un-normalized gaussian probability density, and the broadcast diagonal of variance_cho.
         Taking the product ``2 * Pi * Gaussian.det(variance_cho_diagonal)`` gives the normalization factor for the gaussian pdf.
         Batch dimensions of ordinate, mean and variance are internally broadcast to match each other.
@@ -131,7 +131,7 @@ def sym_check(tensor: TF.Tensor, transposition: List[int]) -> TF.Tensor:
 
 
 def mean(tensor: TF.Tensor):
-    n = tf.cast(tf.reduce_prod(tensor.shape), FLOAT())
+    n = tf.cast(tf.reduce_prod(tensor.shape), Float())
     return tf.divide(tf.reduce_sum(tensor), n)
 
 
@@ -140,7 +140,7 @@ def sos(tensor: TF.Tensor, ein: str = 'lijk, lijk'):
 
 
 def ms(tensor: TF.Tensor, ein: str = 'lijk'):
-    n = tf.cast(tf.reduce_prod(tensor.shape), FLOAT())
+    n = tf.cast(tf.reduce_prod(tensor.shape), Float())
     return tf.divide(sos(tensor, ein), n)
 
 

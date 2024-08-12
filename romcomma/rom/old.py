@@ -224,8 +224,8 @@
 #             concatenate((self.data.lengthscales, atleast_2d(self._sobol.lengthscales)), axis=0),
 #             concatenate((self.data.log_marginal_likelihood, atleast_2d(self._gp.log_marginal_likelihood)), axis=0)))
 #         column_headings = ("x{:d}".format(i) for i in range(self._sobol.Mu))
-#         frame = Frame(self._sobol.parameters_csv.Theta, DataFrame(self._Theta, columns=column_headings))
-#         frame.write()
+#         DataTable = DataTable(self._sobol.parameters_csv.Theta, DataFrame(self._Theta, columns=column_headings))
+#         DataTable.write()
 #
 #     def reduce(self, Mu: int = -1):
 #         """

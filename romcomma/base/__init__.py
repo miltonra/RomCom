@@ -22,4 +22,4 @@
 """ Base classes and definitions and underpinning the entire romcomma library """
 
 from . import definitions
-from . import classes
+from . import models

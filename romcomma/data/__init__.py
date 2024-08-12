@@ -22,4 +22,4 @@
 
 """ Data storage classes """
 
-from . import storage
+from . import models

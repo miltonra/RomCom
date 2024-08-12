@@ -19,77 +19,72 @@
 #  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-""" Type and constant definitions. All modules of romcomma ``import *`` from this module, so all types and constants in this module may be
-referenced without adornment throughout romcomma."""
+""" Type and constant definitions.
+
+All modules of RomComma ``import *`` from this module, so all types and constants in this module are referenced without adornment throughout romcomma."""
 
 from typing import *
 from pathlib import Path
+from abc import ABC, abstractmethod
 import numpy as np
 import tensorflow as tf
 import gpflow as gf
 import romcomma.gpf as mf
 import pandas as pd
-from abc import abstractmethod
 
 
-EFFECTIVELY_ZERO = 1.0E-64  #: Tolerance when testing floats for equality.
+ZERO = 1.0E-64  #: Tolerance when testing floats for equality.
 
 
-def INT() -> Type:
+def Int() -> Type:
     """ The ``dtype`` of ``int`` in :ref:`romcomma.run.context.Environment`. """
     return gf.config.default_int()
 
 
-def FLOAT() -> Type:
+def Float() -> Type:
     """ The ``dtype`` of ``float`` in :ref:`romcomma.run.context.Environment`. """
     return gf.config.default_float()
 
 
-# noinspection PyPep8Naming
+Kwargs = dict[str, Any]
+
+
+class PD:
+    """ Extended Pandas types and constants."""
+    DataFrame = pd.DataFrame
+    Index = pd.Index
+    MultiIndex = pd.MultiIndex
+
+
 class NP:
-    """ Extended numpy types."""
+    """ Extended NumPy types and constants."""
     DType = np.dtype
     Array = np.ndarray
-    Tensor = np.ndarray  # Generic Tensor.
+    Tensor = Array      # Generic Tensor.
     Tensor1 = Tensor    # Second Order Tensor, tf.shape = (i,j)
     Tensor2 = Tensor    # Second Order Tensor, tf.shape = (i,j)
     Vector = Tensor2    # First Order Tensor, column vector, tf.shape = (j,1)
     Covector = Tensor2    # First Order Tensor, row vector, tf.shape = (1,j)
     Matrix = Tensor2    # Second Order Tensor, tf.shape = (i,j)
-    Tensor3 = Tensor    # Third Order Tensor, tf.shape = (i,j,k).
-    Tensor4 = Tensor    # Fourth Order Tensor, tf.shape = (i,j,k,l).
-    Tensor5 = Tensor
-    Tensor6 = Tensor
-    Tensor7 = Tensor
-    Tensor8 = Tensor
     VectorLike = int | float | Sequence[int | float] | Array
     MatrixLike = VectorLike | Sequence[VectorLike]
-    CovectorLike = MatrixLike
     ArrayLike = TensorLike = MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]
 
 
-# noinspection PyPep8Naming
 class TF:
-    """ Extended tensorflow types, and constants."""
+    """ Extended TensorFlow types and constants."""
     DType = np.dtype
     Array = tf.Tensor
-    Tensor = tf.Tensor  # Generic Tensor.
+    Tensor = Array      # Generic Tensor.
     Tensor1 = Tensor    # Second Order Tensor, tf.shape = (i,j)
     Tensor2 = Tensor    # Second Order Tensor, tf.shape = (i,j)
     Vector = Tensor2    # First Order Tensor, column vector, tf.shape = (j,1)
     Covector = Tensor2    # First Order Tensor, row vector, tf.shape = (1,j)
     Matrix = Tensor2    # Second Order Tensor, tf.shape = (i,j)
-    Tensor3 = Tensor    # Third Order Tensor, tf.shape = (i,j,k).
-    Tensor4 = Tensor    # Fourth Order Tensor, tf.shape = (i,j,k,l).
-    Tensor5 = Tensor
-    Tensor6 = Tensor
-    Tensor7 = Tensor
-    Tensor8 = Tensor
     VectorLike = int | float | Sequence[int | float] | Array
-    MatrixLike = Union[VectorLike, Sequence[VectorLike]]
-    CovectorLike = MatrixLike
+    MatrixLike = VectorLike | Sequence[VectorLike]
     ArrayLike = TensorLike = MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]
     Slice = PairOfInts = tf.Tensor      #: A slice, for indexing and marginalization.
 
-    NaN: Tensor = tf.constant(np.NaN, dtype=FLOAT())     #: A constant Tensor representing NaN.
+    NaN: Tensor = tf.constant(np.NaN, dtype=Float())     #: A constant Tensor representing NaN.
 

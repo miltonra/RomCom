@@ -27,7 +27,7 @@ import numpy as np
 
 from romcomma.base.definitions import *
 import scipy.stats
-from romcomma.data.storage import Frame, Repository, Fold
+from romcomma.data.models import DataTable, Repository, Fold
 from romcomma.user import functions
 import shutil
 import sys
@@ -168,7 +168,7 @@ class GaussianNoise:
         return self._rvs
 
     def __init__(self, N: int, variance: NP.MatrixLike):
-        """ Generate N samples of L-dimensional Gaussian noise, sampled from :math:`\mathsf{N}[0,variance]`.
+        """ Generate N samples of L-dimensional Gaussian noise, sampled from :math:`\\mathsf{N}[0,variance]`.
 
         Args:
             N: Number of samples (rows).
@@ -205,9 +205,9 @@ class Function:
         shutil.copytree(self._repo.fold_folder(self._repo.K), self._repo.fold_folder(self._repo.K + 1))
         fold = Fold(self._repo, self._repo.K + 1)
         fold.X_rotation = np.transpose(fold.X_rotation)
-        Frame(fold.test_csv, fold.normalization.undo_from(fold.test_data.df))
+        DataTable(fold.test_csv, fold.normalization.undo_from(fold.test_data.pd))
         fold = Fold(self._repo, self._repo.K)
-        Frame(self._repo.folder / 'undo_from.csv', fold.normalization.undo_from(fold.test_data.df))
+        DataTable(self._repo.folder / 'undo_from.csv', fold.normalization.undo_from(fold.test_data.pd))
         return self
 
     def _construct(self, folder: Path | str, X: NP.Matrix, function_vector: functions.Vector, noise: NP.Matrix, origin_meta: Dict[str, Any]) -> Repository:
@@ -251,7 +251,7 @@ class Function:
             self._repo = self._construct(folder=folder, X=doe(N, M, **kwargs), function_vector=function_vector,
                                          noise=GaussianNoise(N, self._noise_variance())(repo=None),
                                          origin_meta={'DOE': doe.__name__, 'function_vector': function_vector.meta, 'noise': self._noise_variance.meta})
-            Frame(folder / 'likelihood.variance.csv', pd.DataFrame(self._noise_variance()))
+            DataTable(folder / 'likelihood.variance.csv', pd.DataFrame(self._noise_variance()))
 
 def PCA(root: str | Path, csv: str | Path) -> Path:
     """ Perform Principal Component Analysis on a Repository.

@@ -27,14 +27,14 @@ import numpy as np
 import pandas as pd
 
 from romcomma.base.definitions import *
-from romcomma.data.storage import Fold, Frame
-from romcomma.base.classes import Data, Model
+from romcomma.data.models import Fold, DataTable
+from romcomma.base.models import DataBase, Model
 from romcomma.gpr.kernels import Kernel
 
 
 class Likelihood(Model):
 
-    class Data(Data):
+    class Data(DataBase):
         """ The Data set of a MOGP."""
 
         @classmethod
@@ -66,7 +66,7 @@ class Likelihood(Model):
 
     @property
     def is_covariant(self) -> bool:
-        return self._data.frames.variance.df.shape[0] > 1
+        return self._database.tables.variance.pd.shape[0] > 1
 
     def calibrate(self, **kwargs) -> Dict[str, Any]:
         """ Merely sets the trainable data."""
@@ -88,7 +88,7 @@ class Likelihood(Model):
 class GPR(Model):
     """ Interface to a Gaussian Process."""
 
-    class Data(Data):
+    class Data(DataBase):
         """ The Data set of a MOGP."""
 
         @classmethod
@@ -210,7 +210,7 @@ class GPR(Model):
         """
         X_heading, Y_heading = self._fold.meta['data']['X_heading'], self._fold.meta['data']['Y_heading']
         prediction = self.predict(x, y_instead_of_f)
-        result = pd.DataFrame(np.concatenate([x, prediction[0]], axis=1), columns=self._fold.test_data.df.columns)
+        result = pd.DataFrame(np.concatenate([x, prediction[0]], axis=1), columns=self._fold.test_data.pd.columns)
         predictive_std = result.loc[:, [Y_heading]].copy()
         predictive_std.iloc[:] = prediction[1]
         if not is_normalized:
@@ -232,32 +232,32 @@ class GPR(Model):
             else (mean (o, L, M), cov (o, O, L, M)).
         """
 
-    def test(self) -> Frame:
+    def test(self) -> DataTable:
         """ Tests the MOGP on the test data in self._fold.test_data. Test results comprise three values for each output at each sample:
         The mean prediction, the std error of prediction and the Z score of prediction (i.e. error of prediction scaled by std error of prediction).
 
-        Returns: The test_data results as a Frame backed by MOGP.test_result_csv.
+        Returns: The test_data results as a DataTable backed by MOGP.test_result_csv.
         """
-        result = Frame(self.test_csv, self._fold.test_data.df)
+        result = DataTable(self.test_csv, self._fold.test_data.pd)
         Y_heading = self._fold.meta['data']['Y_heading']
         prediction = self.predict(self._fold.test_x.values)
-        predictive_mean = result.df.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Mean'}, level=0)
+        predictive_mean = result.pd.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Mean'}, level=0)
         predictive_mean.iloc[:] = prediction[0]
-        predictive_std = result.df.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'SD'}, level=0)
+        predictive_std = result.pd.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'SD'}, level=0)
         predictive_std.iloc[:] = prediction[1]
-        predictive_score = result.df.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Z Score'}, level=0)
+        predictive_score = result.pd.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Z Score'}, level=0)
         predictive_score.iloc[:] -= predictive_mean.to_numpy(dtype=float, copy=False)
-        abs_err = result.df.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Abs Error'}, level=0)
+        abs_err = result.pd.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Abs Error'}, level=0)
         abs_err.iloc[:] -= predictive_mean.to_numpy(dtype=float, copy=False)
         abs_err = abs(abs_err)
         rmse = abs_err.iloc[:].copy().rename(columns={'Abs Error': 'RMSE'}, level=0)
         predictive_score.iloc[:] /= predictive_std.to_numpy(dtype=float, copy=False)
-        outliers = result.df.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Outlier'}, level=0)
+        outliers = result.pd.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Outlier'}, level=0)
         outliers.iloc[:] = predictive_score.to_numpy(dtype=float, copy=False)**2 > 4.0
         outliers = outliers.join(pd.DataFrame(np.column_stack((np.logical_or.reduce(outliers.to_numpy(dtype=float, copy=False), axis=1),
                                                               np.logical_and.reduce(outliers.to_numpy(dtype=float, copy=False), axis=1))),
                                               index=outliers.index, columns=pd.MultiIndex.from_tuples([('Outlier', 'Any Output'), ('Outlier', 'All Outputs')])))
-        result.df = result.df.join([predictive_mean, predictive_std, abs_err, predictive_score, outliers])
+        result.df = result.pd.join([predictive_mean, predictive_std, abs_err, predictive_score, outliers])
         result.write()
         rmse = rmse**2
         rmse = rmse.sum(axis=0)/rmse.count(axis=0)
@@ -268,7 +268,7 @@ class GPR(Model):
         outliers = outliers[outliers].count(axis=0)/outliers.count(axis=0)
         outliers = outliers if isinstance(outliers, pd.DataFrame) else pd.DataFrame(outliers).transpose()
         summary = rmse.join([predictive_std, outliers])
-        summary = Frame(self.test_summary_csv, summary)
+        summary = DataTable(self.test_summary_csv, summary)
         return result
 
     def broadcast_parameters(self, is_covariant: bool, is_isotropic: bool) -> GPR:
@@ -281,7 +281,7 @@ class GPR(Model):
         Returns: ``self``, for chaining calls.
         """
         target_shape = (self._L, self._L) if is_covariant else (1, self._L)
-        self._likelihood.data.frames.variance.broadcast_value(target_shape=target_shape, is_diagonal=True)
+        self._likelihood.data.tables.variance.broadcast_to(target_shape=target_shape, is_diagonal=True)
         self._kernel.broadcast_parameters(variance_shape=target_shape, M=1 if is_isotropic else self._M)
         self._implementation = None
         self._implementation = self.implementation
@@ -304,19 +304,19 @@ class GPR(Model):
             IndexError: If a parameter is mis-shaped.
         """
         self._fold = fold
-        self._X, self._Y = self._fold.X.to_numpy(dtype=FLOAT(), copy=True), self._fold.Y.to_numpy(dtype=FLOAT(), copy=True)
+        self._X, self._Y = self._fold.X.to_numpy(dtype=Float(), copy=True), self._fold.Y.to_numpy(dtype=Float(), copy=True)
         self._N, self._M, self._L = self._fold.N, self._fold.M, self._fold.L
         super().__init__(self._fold.folder / name, is_read)
         self._likelihood = Likelihood(self, is_read) if likelihood_variance is None else Likelihood(self, is_read, variance=likelihood_variance)
         if is_read and kernel_parameters is None:
-            KernelType = Kernel.TypeFromIdentifier(self.data.frames.kernel.np[0, 0])
+            KernelType = Kernel.TypeFromIdentifier(self.data.tables.kernel.np[0, 0])
             self._kernel = KernelType(self._folder / self.KERNEL_FOLDER_NAME, is_read)
         else:
             if kernel_parameters is None:
                 kernel_parameters = Kernel.Data(self._folder / self.KERNEL_FOLDER_NAME)
             KernelType = Kernel.TypeFromParameters(kernel_parameters)
-            self._kernel = KernelType(self._folder / self.KERNEL_FOLDER_NAME, is_read, **kernel_parameters.asdict())
-            self._data.replace(kernel=np.atleast_2d(KernelType.TYPE_IDENTIFIER))
+            self._kernel = KernelType(self._folder / self.KERNEL_FOLDER_NAME, is_read, **kernel_parameters.tables_as_dict())
+            self._database.replace(kernel=np.atleast_2d(KernelType.TYPE_IDENTIFIER))
         self.broadcast_parameters(is_covariant, is_isotropic)
 
 
@@ -334,11 +334,11 @@ class MOGP(GPR):
         if self._implementation is None:
             if self._likelihood.is_covariant:
                 self._implementation = tuple(mf.models.MOGPR(data=(self._X, self._Y), kernel=kernel, mean_function=None,
-                                                             noise_variance=self._likelihood._data.frames.variance.np)
+                                                             noise_variance=self._likelihood._database.tables.variance.np)
                                              for kernel in self._kernel.implementation)
             else:
                 self._implementation = tuple(gf.models.GPR(data=(self._X, self._Y[:, [l]]), kernel=kernel, mean_function=None,
-                                                           noise_variance=max(self._likelihood._data.frames.variance.np[0, l], self._likelihood.VARIANCE_FLOOR))
+                                                           noise_variance=max(self._likelihood._database.tables.variance.np[0, l], self._likelihood.VARIANCE_FLOOR))
                                              for l, kernel in enumerate(self._kernel.implementation))
         return self._implementation
 
@@ -373,7 +373,7 @@ class MOGP(GPR):
         return meta
 
     def predict(self, X: NP.Matrix, y_instead_of_f: bool = True) -> Tuple[NP.Matrix, NP.Matrix]:
-        X = X.astype(dtype=FLOAT())
+        X = X.astype(dtype=Float())
         if self._likelihood.is_covariant:
             gp = self.implementation[0]
             results = gp.predict_y(X) if y_instead_of_f else gp.predict_f(X)
@@ -384,8 +384,8 @@ class MOGP(GPR):
         return np.atleast_2d(results[0]), np.atleast_2d(np.sqrt(results[1]))
 
     def predict_gradient(self, x: NP.Matrix, y_instead_of_f: bool = True) -> Tuple[TF.Tensor, TF.Tensor]:
-        x = tf.Variable(x.astype(dtype=FLOAT()))
-        Lambda = tf.broadcast_to(1.0 / tf.constant(self.kernel.data.frames.lengthscales.np, dtype=FLOAT()), [x.shape[0], self.L, self.M])
+        x = tf.Variable(x.astype(dtype=Float()))
+        Lambda = tf.broadcast_to(1.0 / tf.constant(self.kernel.data.tables.lengthscales.np, dtype=Float()), [x.shape[0], self.L, self.M])
         with tf.GradientTape() as tape:
             @tf.function
             def _KXx(x: tf.Variable) -> TF.Tensor:

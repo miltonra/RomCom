@@ -75,11 +75,11 @@ def run(root: str | Path, csv: str | Path, gpr: bool = False, gsa: bool = False,
         k = K if k is None else k
         rbf_folder = root / 'rbf'
         if rbf_variance is None:
-            kernel_parameters = None if rbf_lengthscale is None else kernels.RBF.Data(folder=rbf_folder, lengthscales=np.atleast_2d(rbf_lengthscale))
+            kernel_parameters = None if rbf_lengthscale is None else kernels.RBF.Data(path=rbf_folder, lengthscales=np.atleast_2d(rbf_lengthscale))
         elif rbf_lengthscale is None:
-            kernel_parameters = kernels.RBF.Data(folder=rbf_folder, variance=np.atleast_2d(rbf_variance))
+            kernel_parameters = kernels.RBF.Data(path=rbf_folder, variance=np.atleast_2d(rbf_variance))
         else:
-            kernel_parameters = kernels.RBF.Data(folder=rbf_folder, lengthscales=np.atleast_2d(rbf_lengthscale), variance=np.atleast_2d(rbf_variance))
+            kernel_parameters = kernels.RBF.Data(path=rbf_folder, lengthscales=np.atleast_2d(rbf_lengthscale), variance=np.atleast_2d(rbf_variance))
         for ext, permutation in INPUT_AXIS_PERMUTATIONS.items():
             repo_folder = root if len(INPUT_AXIS_PERMUTATIONS) == 1 else (root / root.name).with_suffix(root.suffix + ext)
             with user.contexts.Timer(f'ext={ext}', is_inline=False):

@@ -49,7 +49,7 @@ Setting `repo.K=K` generates _K_ `Fold` objects.
 
 #### `Fold`
 All data analysis is performed on `Fold` objects. A `Fold` is really a kind of `Repository`, with the addition of
-* `fold.test_data`, stored in a table (`Frame`) of _N_/_K_ rows. 
+* `fold.test_data`, stored in a table (`DataTable`) of _N_/_K_ rows. 
 The `test_data` does not overlap the (training) `data` in this `Fold`, except when the parent `repo.K=1` and the ersatz `fold.test_data=fold.data` is applied.
 * `Normalization` of inputs: All training and test data inputs are transformed from _X_<sub>i</sub> ~ U[_min_<sub>i</sub>, _max_<sub>i</sub>] 
 to the standard normal distribution _X_<sub>_i_</sub> ~ N[0, 1], as demanded by the analyses implemented by `romcomma`.
