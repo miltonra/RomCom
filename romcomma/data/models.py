@@ -62,7 +62,6 @@ class DataTable:
     def __str__(self) -> str:
         return self._csv.name
 
-    # noinspection PyDefaultArgument
     def __init__(self, csv: Path | str = Path(), df: pd.DataFrame = pd.DataFrame(), **kwargs):
         Args:
             csv: The csv file.

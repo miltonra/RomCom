@@ -46,7 +46,7 @@ def Float() -> Type:
     return gf.config.default_float()
 
 
-Kwargs = dict[str, Any]
+Options = dict[str, Any]
 
 
 class PD:

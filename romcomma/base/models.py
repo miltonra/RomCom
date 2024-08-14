@@ -20,6 +20,7 @@
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 """ Base and concrete classes for RomComma Models."""
+from sys import meta_path
 
 from romcomma.base.definitions import *
 from shutil import copyfile, copytree, rmtree
@@ -32,7 +33,7 @@ class Store(ABC):
     Attributes:
         ext: Class attribute specifying the file extension terminating ``self.path``. Override if and only if the derived class must be stored in a file.
             Otherwise, ``cls.ext == ''`` and the derived class is stored in a folder.
-        Path: Class attribute aliasing Types used to specify the ``path`` to this Store. Do not override.
+        Path: Class attribute aliasing Types used to specify the ``path`` to a Store. Do not override.
     """
 
     ext: str = ''
@@ -86,7 +87,6 @@ class Store(ABC):
         
         Args:
             path: Where to create the folder. If ``cls.ext != ''``, the parent folder of ``path`` is created.
-
         Returns: ``path.with_suffix(cls.ext)``.
         Raises:
             FileExistsError: If attempting to overwrite a file with a folder.
@@ -108,7 +108,6 @@ class Store(ABC):
         Args:
             src: The source Path, which must be a folder or a file.
             dst: The destination Path, which may or may not exist.
-
         Returns: ``dst``.
         Raises:
             FileNotFoundError: If ``src`` does not exist.
@@ -127,10 +126,10 @@ class Store(ABC):
         """ Delete any file or folder at ``path``.
 
         Args:
-            path: The path to delete.
+            path: The Path to delete.
         Returns: ``path``, which no longer exists.
         """
-        path = Path(path)
+        path = Path(path).with_suffix(cls.ext)
         if path.is_dir():
             rmtree(path, ignore_errors=True)
         else:
@@ -144,17 +143,17 @@ class DataTable(Store):
     Attributes:
         Data: Class attribute aliasing data Types which a DataTable accepts.
         ext: Class attribute specifying the file extension of DataTable instances.
-        read_options: Instance attribute Kwargs passed to `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_.
+        read_options: Instance attribute Options passed to `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_.
             Defaults to ``{'index_col': 0}``.
-        write_options: Instance attribute Kwargs passed to `DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`_.
+        write_options: Instance attribute Options passed to `DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`_.
             Defaults to ``{}``.
     """
 
     Data = Union[PD.DataFrame, NP.Matrix, TF.Matrix]
     ext: str = '.csv'
 
-    read_options: Kwargs
-    write_options: Kwargs
+    read_options: Options
+    write_options: Options
 
     @property
     def pd(self) -> PD.DataFrame:
@@ -186,13 +185,13 @@ class DataTable(Store):
             data = np.diag(np.diagonal(data))
         return self(data)
 
-    def __call__(self, data: Self | Data | None, path: Store.Path | None = None, **kwargs: Any) -> Self:
+    def __call__(self, data: Self | Data | None, path: Store.Path | None = None, **options: Any) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
             data: The data updates.
             path: Optionally, an update to ``self.path``, overwritten if existing. A .csv extension is appended.
-            **kwargs: Kwargs to update ``self.write_options``.
+            **options: Options to update ``self.write_options``.
         Returns: ``self``.
         """
         super(Store).__call__(path)
@@ -204,30 +203,30 @@ class DataTable(Store):
             self._pd.iloc[:, :] = data
         elif isinstance(data, TF.Matrix):
             self._pd.iloc[:, :] = data.numpy()
-        self.write_options |= kwargs
+        self.write_options |= options
         self._pd.to_csv(self._path, **self.write_options)
         return self
 
-    def __init__(self, path: Store.Path, data: PD.DataFrame | None = None, **kwargs: Any):
+    def __init__(self, path: Store.Path, data: PD.DataFrame | None = None, **options: Any):
         """ Construct ``self`` from a .csv file or pd.DataFrame.
 
         Args:
             path: The Path (file) to store ``self``. A .csv extension is appended.
             data: The data to store. If ``None``, ``data`` is read from ``path``, otherwise ``data`` is stored in ``path`` (which is overwritten if existing).
-            **kwargs: Updates ``self.read_options`` if ``data is None``, otherwise updates ``self.write_options``.
+            **options: Updates ``self.read_options`` if ``data is None``, otherwise updates ``self.write_options``.
         """
         super(Store).__init__(path)
         if data is None:
-            self.read_options = {'index_col': 0} | kwargs
+            self.read_options = {'index_col': 0} | options
             self(pd.read_csv(self.path, **self.read_options))
         else:
-            self.write_options = {} | kwargs
+            self.write_options = {} | options
             self(data, **self.write_options)
 
     @classmethod
     def create(cls, path: Store.Path, data: Self | Data | None = None,
                index: PD.Index | NP.ArrayLike = None, columns: PD.Index | NP.ArrayLike = None, dtype: NP.DType | None = None, copy: bool | None = None,
-               **kwargs) -> Self:
+               **options) -> Self:
         """ Create a DataTable at ``path``, overwriting.
 
         Args:
@@ -238,22 +237,21 @@ class DataTable(Store):
             columns: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
             dtype: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
             copy: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
-            **kwargs: Kwargs passed straight to `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_
+            **options: Options passed to `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_
                 or `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`_.
         Returns: The DataTable created.
         """
         return cls(path,
                    pd.DataFrame(data.pd if isinstance(data, DataTable) else data, index, columns, dtype, copy),
-                   **kwargs)
+                   **options)
 
     @classmethod
-    def copy(cls, src: Self, dst: Path) -> Self:
+    def copy(cls, src: Self, dst: Store.Path) -> Self:
         """ Copy ``src`` to ``dst``, overwriting.
 
         Args:
             src: The source DataTable.
             dst: The destination Path, overwritten if existing. A .csv extension is appended.
-
         Returns: The DataTable now stored at ``dst.with_suffix('.csv')``.
         """
         return cls(dst, src.pd, **src.write_options)
@@ -293,7 +291,7 @@ class Meta(Store):
 
         Args:
             path: The Path (file) to store ``self``. A .json extension is appended.
-            **data: The metadata to store. If absent, ``self.data`` is read from ``path``, otherwise ``self.data = data`` is stored in ``path``
+            **data: The metadata to store. If absent, ``self.data`` is read from ``path``, otherwise ``self.data=data`` is stored in ``path``
                 (which is overwritten if existing).
         """
         super(Store).__init__(path)
@@ -315,37 +313,38 @@ class Meta(Store):
         return cls(path, **data)
 
     @classmethod
-    def copy(cls, src: Self, dst: Path) -> Self:
+    def copy(cls, src: Self, dst: Store.Path) -> Self:
         """ Copy ``src`` to ``dst``, overwriting.
 
         Args:
             src: The source Meta.
             dst: The destination Path, overwritten if existing. A .json extension is appended.
-
         Returns: The Meta now stored at ``dst.with_suffix('.json')``.
         """
         return cls(dst, **src.data)
 
 
 class DataBase(Store):
-    """ A NamedTuple of DataTables in a folder. Base class for any Model DataBase, *this class is abstract and will raise AssertionErrors*.
+    """ A NamedTuple of DataTables in a folder. Base class for any Model DataBase. 
+        *This class is abstract and must be subclassed*. Usage will raise AssertionErrors*.
 
     DataBase subclasses must be implemented according to the template::
 
         class MyDataBase(DataBase):
             class Tables(NamedTuple):
-                table_names[i]: DataBase.Table = pd.DataFrame(table_defaults[i].pd)
+                table_names[i]: DataBase.Table=pd.DataFrame(table_defaults[i].pd)
             read_options: dict[str, type(DataTable.read_options)] = {table_names[i]: DataTable.read_options[i]}
             write_options: dict[str, type(DataTable.write_options)] = {table_names[i]: DataTable.write_options[i]}
 
     Attributes:
         Data: Class attribute aliasing `` DataTable | DataTable.Data``. Do not override.
-        read_options: Class attribute ``dict`` of the form ``{table_names[i]: DataTable.read_options[i]}.
+        read_options: Class attribute ``dict`` of the form ``{table_names[i]: DataTable.read_options[i]}. 
             Override as necessary for bespoke ``DataTable.read_options``.
-        write_options: Class attribute ``dict`` of the form {table_names[i]: DataTable.write_options[i]}. Override as necessary.
+        write_options: Class attribute ``dict`` of the form {table_names[i]: DataTable.write_options[i]}. 
             Override as necessary for bespoke ``DataTable.write_options``.
     Raises:
-        AssertionError: Whenever used in a ``__debug__ = True`` environment (i.e. whenever ``python`` is invoked without the ``-O`` or ``--O`` flags).
+        AssertionError: Whenever used in a ``__debug__=True`` environment (i.e. whenever ``python`` is invoked without the ``-O`` or ``--O`` flags).
+            This class is abstract, and must be subclassed.
     """
 
     Data = DataTable | DataTable.Data
@@ -360,8 +359,8 @@ class DataBase(Store):
         """
         NotImplemented: DataTable | DataTable.Data = pd.DataFrame(data=(('DataBase.Tables must be overridden by a subclass of NamedTuple.',),))
 
-    read_options: dict[str, Kwargs] = {}
-    write_options: dict[str, Kwargs] = {}
+    read_options: dict[str, Options] = {'Default value for any DataTable is': {'index_col': 0}}
+    write_options: dict[str, Options] = {'Default value for any DataTable is': {}}
 
     @classmethod
     def DataNotImplementedError(cls) -> str:
@@ -369,7 +368,7 @@ class DataBase(Store):
                 f'class {cls.__name__}(DataBase):\n    class Tables(NamedTuple):\n        table_names[i]: DataBase.Data = pd.DataFrame(table_defaults[i].pd)')
 
     @property
-    def tables(self) -> Data:
+    def tables(self) -> Tables:
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
         return self._tables
 
@@ -377,45 +376,44 @@ class DataBase(Store):
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
         return self._tables._asdict()
 
-    def __call__(self, path: Path | None, **kwargs: DataTable | DataTable.Data) -> Self:
-        """ Update this DataBase.
+    def __call__(self, path: Store.Path | None, **tables: Data) -> Self:
+        """ Update and store ``self``, overwriting.
 
         Args:
-            path: The new path to store this class.
-            **kwargs: Data to update the existing tables, in the form table_name=data.
-
-        Returns: ``self``, once path and data have been updated and stored.
+            path: Optionally, an update to ``self.path``, overwritten if existing.
+            **tables: Data to update ``self.tables``, in the form ``table_name[i]=data[i]``.
+        Returns: ``self``.
         """
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
-        tables = self.tables_as_dict()
+        all_tables = self.tables_as_dict()
         if path is not None:
             super(Store).__call__(path)
-            create = {name: DataTable.create(path=(self._path / name).with_suffix('.csv'), data=data, **self.write_options.get(name, {}))
-                      for name, data in tables.items()}
-            self._tables = self.Tables(**create)
-        for name, data in kwargs.items():
-            tables[name](data, **self.write_options.get(name, {}))
+            all_tables = {name:
+                              DataTable.create(path=self._path / name, data=tables.get(name, data), **self.write_options.get(name, {}))
+                          for name, data in all_tables.items()}
+        else:
+            for name, data in tables.items():
+                all_tables[name](data, **self.write_options.get(name, {}))
+        self._tables = self.Tables(**all_tables)
         return self
 
-    def __init__(self, path: Store.Path | None, **kwargs: DataTable | DataTable.Data):
-        """ Read the DataBase in ``path``.
+    def __init__(self, path: Store.Path, **tables: Data):
+        """ Read the DataBase in ``path``, updating ``**tables``.
 
-        If ``**kwargs`` updates all tables no reading is performed.
+        Reading is lazy: If a table appears in ``**tables`` it is not read.
 
         Args:
-            path: A folder storing a DataBase. Must exist and contain all DataTables in ``cls.DataTables``.
-            **kwargs: Data to update those read, in the form table_name=data.
-        Returns: The DataBase stored in ``path``.
+            path: The Path to read from, and update in.
+            **tables: Data to update ``self.tables``, in the form ``table_name[i]=data[i]``.
         Raises:
-            FileNotFoundError: If reading is performed and ``path`` is missing any member of ``self.Data``, even one updated by ``**kwargs``.
+            FileNotFoundError: If reading is performed and ``path`` is missing any member of ``self.Tables`` not included in ``**tables``.
         """
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
-        if set(kwargs.keys()) == set(self.table_names()):
-            self._tables = self.Tables()
-        else:
-            self._tables = self.Tables(**({name: DataTable((path / name).with_suffix('.csv'), **self.read_options.get(name, {}))
-                                           for name in self.table_names()} | kwargs))
-        self(path, **kwargs)
+        super(Store).__init__(path)
+        self._tables = self.Tables(**{name:
+                                          DataTable(path=path / name, data=tables[name], **self.write_options.get(name, {})) if name in tables
+                                          else DataTable(path / name, **self.read_options.get(name, {}))
+                                      for name in self.table_names()})
 
     @classmethod    # Class Property
     def table_names(cls) -> Tuple[str, ...]:
@@ -428,16 +426,16 @@ class DataBase(Store):
         return cls.Tables._field_defaults
 
     @classmethod
-    def create(cls, path: Store.Path | None, **kwargs: DataTable | DataTable.Data) -> Self:
+    def create(cls, path: Store.Path, **tables: Data) -> Self:
         """ Create a DataBase in ``path``.
 
         Args:
             path: The folder to store the DataBase in. Need not exist, existing DataTables will be overwritten if it does.
-            **kwargs: Data to update the defaults, in the form table_name=data.
+            **tables: Data to update ``self.table_defaults``, in the form ``table_name[i]=data[i]``.
         Returns: The DataBase created.
         """
         assert cls.Tables is not DataBase.Tables, cls.DataNotImplementedError()
-        return cls(Store.create(path), **(cls.table_defaults() | kwargs))
+        return cls(path, **(cls.table_defaults() | tables))
 
     @classmethod
     def copy(cls, src: Self, dst: Path) -> Self:
@@ -446,108 +444,114 @@ class DataBase(Store):
         Args:
             src: The source DataBase.
             dst: The destination Path, which may or may not exist.
-
         Returns: The DataBase now stored at ``dst``.
         """
         assert cls.Tables is not DataBase.Tables, cls.DataNotImplementedError()
-        return cls(Store.create(dst), **src.tables_as_dict())
+        return cls(dst, **src.tables_as_dict())
 
+    @classmethod
+    def delete(cls, path: Store.Path) -> Path:
+        """ Delete ``cls.table_names[i].with_suffix(.csv)`` from ``path``, retaining ``path`` and any files it contains.
 
-class Model(ABC):
-    """ A DataBase, metadata and a calibrate method. Base class for any model."""
+        If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
 
-    Meta = Dict[str, Any]
+        Args:
+            path: Path to the DataBase to delete.
+        Returns: ``path``, which still exists.
+        """
+        assert cls.Tables is not DataBase.Tables, cls.DataNotImplementedError()
+        path = Path(path)
+        for table_name in cls.table_names():
+            DataTable.delete(path / table_name)
+        return path
 
-    _meta: Meta = {"Must be overridden.": 'With the default meta data for the derived class.'}
+class Model(Store):
+    """ A DataBase and Meta. Base class for any model.
+
+    Attributes:
+        defaultMetaData: Class attribute. Must be overridden using ``Model.defaultMetaData | {subclass updates}``.
+    """
+
+    defaultMetaData: Meta.Data = {}
 
     class DataBase(DataBase):
-        """ This is a placeholder which must be overridden in any implementation."""
+        """ Must be overridden."""
 
     @property
-    def database(self) -> DataBase:
+    def data(self) -> DataBase:
         return self._database
 
     @property
     def meta(self) -> Meta:
         return self._meta
 
-    def read_meta(self, **kwargs: Any) -> Meta:
-        """ Read ``self.meta`` from csv.
+    @abstractmethod
+    def __call__(self, **options: Any) -> Self:
+        """ Optimize the Model.
 
         Args:
-            **kwargs: a dict of ``self.meta`` updates, expressed as key=value.
-        Returns: ``self.meta``.
-        """
-        with open(self._meta_json, mode='r') as file:
-            self._meta = load(file) | kwargs
-        return self._meta
+            **options: Optimization options.
 
-    def write_meta(self, **kwargs: Any) -> Meta:
-        """ Write ``self.meta`` to csv.
-
-        Args:
-            **kwargs: a dict of ``self.meta`` updates, expressed as key=value.
-        Returns: ``self.meta``.
+        Returns: ``self``
         """
-        self._meta |= kwargs
-        with open(self._meta_json, mode='w') as file:
-            dump(self._meta, file, indent=8)
-        return self._meta
 
     @abstractmethod
-    def calibrate(self, method: str, **kwargs) -> Meta:
-        if method != 'Not Implemented.':
-            raise NotImplementedError('base.calibrate() must never be called.')
-        else:   # Template code follows
-            meta = self._meta | kwargs
-            meta = (meta if meta is not None
-                       else self.read_meta() if self._meta_json.exists() else self.META)
-            meta.pop('result', default=None)
-            meta = {**meta, 'result': 'OPTIMIZE HERE !!!'}
-            self.write_meta(meta)
-            self._database = self._database.replace('WITH OPTIMAL PARAMETERS!!!').write(self.folder)   # Remember to write optimization results.
-        return meta
-
-    # def copy(self, dst_folder: Path) -> Self:
-    #     """ Returns a copy of this DataBase at ``dst_folder``, overwriting any DataBase tables at the destination."""
-    #     return type(self)(dst_folder,(dst_folder, **self.asdict())
-
-    def __repr__(self) -> str:
-        """ Returns the folder path."""
-        return str(self._folder)
-
-    def __str__(self) -> str:
-        """ Returns the folder name."""
-        return self._folder.name
-
-    @abstractmethod
-    def __init__(self, folder: Path, is_read: bool = False, **kwargs: DataTable.Data):
-        """ Model constructor, to be called by all subclasses as a matter of priority.
+    def __init__(self, path: Store.Path, **data: DataBase.Data):
+        """ Read the Model in ``path``.
 
         Args:
-            folder: The model file location.
-            is_read: Tries to read data and meta from folder if True, else uses defaults.
-            **kwargs: The model.database.tables=values to replace the default/read values in the form ``table=value``.
-                Plus a ``dict`` of meta updates communicated as ``meta=dict``.
+            path: The Path to read from.
+            **data: Data to update those read, in the form ``table_name[i]=data[i]``.
+        Raises:
+            FileNotFoundError: If ``path`` is missing ``self.meta`` or any member of ``self.DataBase.Tables`` not included in ``**data``.
         """
-        if is_read:
-            self._folder = self.DataBase.create(folder)
-            self._database = self.DataBase.read(self._folder)
-        else:
-            self._folder = self.DataBase.create(self.DataBase.delete(folder))
-            self._database = self.DataBase(self._folder)
-        self._meta_json = self._folder / "meta.json"
-        self._meta = self.read_meta() if self._meta_json.exists() else self.META
-        self._meta |= kwargs.pop('meta', {})
-        self._database = self._database.replace(**kwargs)
-        self._implementation = None
+        super(Store).__init__(path)
+        self._meta = Meta(self._meta_in(path))
+        self._database = DataBase(path, **data)
 
+    @classmethod
+    def create(cls, path: Store.Path, meta: Meta.Data = {}, **data: DataBase.Data) -> Self:
+        """ Create a Model in ``path``.
 
-class ToyStore(Store):
-    def __init__(self, folder: Path):
-        self._path = folder
+        Args:
+            path: The folder to store the Model in. Need not exist, existing DataTables will be overwritten if it does.
+            meta: Optional metadata to update the default.
+            **data: Data to update ``cls.DataBase.table_defaults``, in the form ``table_name[i]=data[i]``.
+        Returns: The Model created.
+        """
+        Meta.create(cls._meta_in(path), **(cls.defaultMetaData | meta))
+        return cls(path, **(cls.DataBase.table_defaults() | data))
 
+    @classmethod
+    def copy(cls, src: Self, dst: Store.Path) -> Self:
+        """ Copy ``src`` to ``dst``, overwriting any files in common.
 
+        Args:
+            src: The source Model.
+            dst: The destination Path, which may or may not exist.
+        Returns: The Model now stored at ``dst``.
+        """
+        return cls.create(dst, src.meta.data, **src.data.tables_as_dict())
+
+    @classmethod
+    def delete(cls, path: Store.Path) -> Path:
+        """ Delete all Model files from ``path``, retaining ``path`` and any other files it contains.
+
+        If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
+
+        Args:
+            path: Path to the Model to delete.
+        Returns: ``path``, which still exists.
+        """
+        Meta.delete(cls._meta_in(path))
+        cls.DataBase.delete(path)
+        return path
+
+    @staticmethod
+    def _meta_in(path: Store.Path) -> Path:
+        return Path(path) / 'meta'
+
+        
 class Toy(DataBase):
 
     class Data(NamedTuple):

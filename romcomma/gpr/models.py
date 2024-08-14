@@ -84,7 +84,6 @@ class Likelihood(Model):
         self._parent = parent
 
 
-# noinspection PyPep8Naming
 class GPR(Model):
     """ Interface to a Gaussian Process."""
 
@@ -320,7 +319,6 @@ class GPR(Model):
         self.broadcast_parameters(is_covariant, is_isotropic)
 
 
-# noinspection PyPep8Naming
 class MOGP(GPR):
     """ Implementation of a Gaussian Process."""
 
