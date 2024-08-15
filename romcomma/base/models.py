@@ -20,7 +20,8 @@
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 """ Base and concrete classes for RomComma Models."""
-from sys import meta_path
+
+from __future__ import annotations
 
 from romcomma.base.definitions import *
 from shutil import copyfile, copytree, rmtree
@@ -63,7 +64,7 @@ class Store(ABC):
         Returns: ``self``.
         """
         if path is not None:
-            self._path = self.create(path)
+            self._path = self._create(path)
         return self
 
     @abstractmethod
@@ -76,7 +77,16 @@ class Store(ABC):
         Args:
             path: The Path ``self`` is stored in. A ``cls.ext`` suffix is appended.
         """
-        self._path = self.create(path)
+        self._path = self._create(path)
+
+    @classmethod
+    def _create(cls, path: Path) -> Self | Path:
+        path = Path(path).with_suffix(cls.ext)
+        if cls.ext == '':
+            path.mkdir(mode=0o777, parents=True, exist_ok=True)
+        else:
+            path.parent.mkdir(mode=0o777, parents=True, exist_ok=True)
+        return path
 
     @classmethod
     @abstractmethod
@@ -84,19 +94,14 @@ class Store(ABC):
         """ Create a folder (and its parents) if it doesn't already exist.
 
         Overrides should create and return an instance of ``cls``.
-        
+
         Args:
             path: Where to create the folder. If ``cls.ext != ''``, the parent folder of ``path`` is created.
         Returns: ``path.with_suffix(cls.ext)``.
         Raises:
             FileExistsError: If attempting to overwrite a file with a folder.
         """
-        path = Path(path).with_suffix(cls.ext)
-        if cls.ext == '':
-            path.mkdir(mode=0o777, parents=True, exist_ok=True)
-        else:
-            path.parent.mkdir(mode=0o777, parents=True, exist_ok=True)
-        return path
+        return cls._create(path)
 
     @classmethod
     @abstractmethod
@@ -194,7 +199,7 @@ class DataTable(Store):
             **options: Options to update ``self.write_options``.
         Returns: ``self``.
         """
-        super(Store).__call__(path)
+        super().__call__(path)
         if isinstance(data, DataTable):
             self._pd = data.pd.copy()
         elif isinstance(data, pd.DataFrame):
@@ -215,12 +220,14 @@ class DataTable(Store):
             data: The data to store. If ``None``, ``data`` is read from ``path``, otherwise ``data`` is stored in ``path`` (which is overwritten if existing).
             **options: Updates ``self.read_options`` if ``data is None``, otherwise updates ``self.write_options``.
         """
-        super(Store).__init__(path)
+        super().__init__(path)
+        self.read_options = {'index_col': 0}
+        self.write_options = {}
         if data is None:
-            self.read_options = {'index_col': 0} | options
+            self.read_options |= options
             self(pd.read_csv(self.path, **self.read_options))
         else:
-            self.write_options = {} | options
+            self.write_options |= options
             self(data, **self.write_options)
 
     @classmethod
@@ -280,7 +287,7 @@ class Meta(Store):
             **data: Data to update ``self.data``.
         Returns: ``self``.
         """
-        super(Store).__call__(path)
+        super().__call__(path)
         self._data |= data
         with open(self._path, mode='w') as file:
             dump(self._data, file, indent=4)
@@ -294,7 +301,7 @@ class Meta(Store):
             **data: The metadata to store. If absent, ``self.data`` is read from ``path``, otherwise ``self.data=data`` is stored in ``path``
                 (which is overwritten if existing).
         """
-        super(Store).__init__(path)
+        super().__init__(path)
         if data == {}:
             with open(self._path, mode='r') as file:
                 self._data = load(file)
@@ -328,17 +335,17 @@ class DataBase(Store):
     """ A NamedTuple of DataTables in a folder. Base class for any Model DataBase. 
         *This class is abstract and must be subclassed*. Usage will raise AssertionErrors*.
 
-    DataBase subclasses must be implemented according to the template::
+    DataBase subclasses must be implemented according to the template (copy and paste it)::
 
         class MyDataBase(DataBase):
             class Tables(NamedTuple):
-                table_names[i]: DataBase.Table=pd.DataFrame(table_defaults[i].pd)
-            read_options: dict[str, type(DataTable.read_options)] = {table_names[i]: DataTable.read_options[i]}
-            write_options: dict[str, type(DataTable.write_options)] = {table_names[i]: DataTable.write_options[i]}
+                table_names[i]: DataBase.Table = pd.DataFrame(table_defaults[i].pd)
+            read_options: dict[str, Options] = {table_names[i]: DataTable.read_options[i]}
+            write_options: dict[str, Options] = {table_names[i]: DataTable.write_options[i]}
 
     Attributes:
-        Data: Class attribute aliasing `` DataTable | DataTable.Data``. Do not override.
-        read_options: Class attribute ``dict`` of the form ``{table_names[i]: DataTable.read_options[i]}. 
+        Table: Class attribute aliasing `` DataTable | DataTable.Data``. Do not override.
+        read_options: Class attribute ``dict`` of the form ``{table_names[i]: DataTable.read_options[i]}.
             Override as necessary for bespoke ``DataTable.read_options``.
         write_options: Class attribute ``dict`` of the form {table_names[i]: DataTable.write_options[i]}. 
             Override as necessary for bespoke ``DataTable.write_options``.
@@ -347,20 +354,20 @@ class DataBase(Store):
             This class is abstract, and must be subclassed.
     """
 
-    Data = DataTable | DataTable.Data
+    Table = DataTable | DataTable.Data
 
     class Tables(NamedTuple):
         """ Must be overridden by a subclass of NamedTuple.
 
-        Every Attribute (table) must be of type DataTable.Data and possess a default pd.Dataframe.
+        Every attribute (table) must be of Type Database.Table and possess a default pd.DataFrame.
 
         Attributes:
-            NotImplemented: A DataTable.Data containing the words "Not Implemented".
+            NotImplemented: A PD.DataFrame containing the words "Not Implemented".
         """
-        NotImplemented: DataTable | DataTable.Data = pd.DataFrame(data=(('DataBase.Tables must be overridden by a subclass of NamedTuple.',),))
+        NotImplemented: DataBase.Table = pd.DataFrame(data=(('Attribute type should be DataBase.Table in any implementation.',),))
 
-    read_options: dict[str, Options] = {'Default value for any DataTable is': {'index_col': 0}}
-    write_options: dict[str, Options] = {'Default value for any DataTable is': {}}
+    read_options: dict[str, Options] = {'Default for any DataTable is': {'index_col': 0}}
+    write_options: dict[str, Options] = {'Default for any DataTable is': {}}
 
     @classmethod
     def DataNotImplementedError(cls) -> str:
@@ -372,11 +379,11 @@ class DataBase(Store):
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
         return self._tables
 
-    def tables_as_dict(self) -> Dict[str, Any]:
+    def tables_as_dict(self) -> Dict[str, Table]:
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
         return self._tables._asdict()
 
-    def __call__(self, path: Store.Path | None, **tables: Data) -> Self:
+    def __call__(self, path: Store.Path | None, **tables: Table) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
@@ -387,7 +394,7 @@ class DataBase(Store):
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
         all_tables = self.tables_as_dict()
         if path is not None:
-            super(Store).__call__(path)
+            super().__call__(path)
             all_tables = {name:
                               DataTable.create(path=self._path / name, data=tables.get(name, data), **self.write_options.get(name, {}))
                           for name, data in all_tables.items()}
@@ -397,7 +404,7 @@ class DataBase(Store):
         self._tables = self.Tables(**all_tables)
         return self
 
-    def __init__(self, path: Store.Path, **tables: Data):
+    def __init__(self, path: Store.Path, **tables: Table):
         """ Read the DataBase in ``path``, updating ``**tables``.
 
         Reading is lazy: If a table appears in ``**tables`` it is not read.
@@ -409,11 +416,17 @@ class DataBase(Store):
             FileNotFoundError: If reading is performed and ``path`` is missing any member of ``self.Tables`` not included in ``**tables``.
         """
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
-        super(Store).__init__(path)
-        self._tables = self.Tables(**{name:
-                                          DataTable(path=path / name, data=tables[name], **self.write_options.get(name, {})) if name in tables
-                                          else DataTable(path / name, **self.read_options.get(name, {}))
-                                      for name in self.table_names()})
+        super().__init__(path)
+        try:
+            self._tables = self.Tables(**{name:
+                                              DataTable(path=path / name, data=tables[name], **self.write_options.get(name, {})) if name in tables
+                                              else DataTable(path / name, **self.read_options.get(name, {}))
+                                          for name in self.table_names()})
+        except FileNotFoundError as error:
+            print(f'DataBase "{self}" is trying to read a non-existent DataTable. '
+                                    f'Did your script mean to call {type(self).__qualname__}.create("{str(self)}") '
+                                    f'instead of {type(self).__qualname__}("{str(self)}")?')
+            raise error
 
     @classmethod    # Class Property
     def table_names(cls) -> Tuple[str, ...]:
@@ -426,7 +439,7 @@ class DataBase(Store):
         return cls.Tables._field_defaults
 
     @classmethod
-    def create(cls, path: Store.Path, **tables: Data) -> Self:
+    def create(cls, path: Store.Path, **tables: Table) -> Self:
         """ Create a DataBase in ``path``.
 
         Args:
@@ -438,7 +451,7 @@ class DataBase(Store):
         return cls(path, **(cls.table_defaults() | tables))
 
     @classmethod
-    def copy(cls, src: Self, dst: Path) -> Self:
+    def copy(cls, src: Self, dst: Store.Path) -> Self:
         """ Copy ``src`` to ``dst``, overwriting any files in common.
 
         Args:
@@ -465,17 +478,28 @@ class DataBase(Store):
             DataTable.delete(path / table_name)
         return path
 
+
 class Model(Store):
-    """ A DataBase and Meta. Base class for any model.
+    """ A DataBase with Meta. Base class for any model.
 
     Attributes:
-        defaultMetaData: Class attribute. Must be overridden using ``Model.defaultMetaData | {subclass updates}``.
+        defaultMetaData: Class attribute. Must be overridden.
     """
 
     defaultMetaData: Meta.Data = {}
 
     class DataBase(DataBase):
-        """ Must be overridden."""
+        """ Must be overridden by a subclass of DataBase."""
+        class Tables(NamedTuple):
+            """ Must be overridden by a subclass of NamedTuple.
+
+            Attributes:
+                NotImplemented: A DataBase.Table of
+            """
+            NotImplemented: DataBase.Table = pd.DataFrame(data=(('NotImplemented',),))
+
+        read_options: dict[str, Options] = {'Default for any DataTable is': {'index_col': 0}}
+        write_options: dict[str, Options] = {'Default for any DataTable is': {}}
 
     @property
     def data(self) -> DataBase:
@@ -495,9 +519,10 @@ class Model(Store):
         Returns: ``self``
         """
 
-    @abstractmethod
-    def __init__(self, path: Store.Path, **data: DataBase.Data):
+    def __init__(self, path: Store.Path, **data: DataBase.Table):
         """ Read the Model in ``path``.
+
+        Overrides must call ``super(Model).__init__(path, **data)`` as a matter of priority.
 
         Args:
             path: The Path to read from.
@@ -505,12 +530,18 @@ class Model(Store):
         Raises:
             FileNotFoundError: If ``path`` is missing ``self.meta`` or any member of ``self.DataBase.Tables`` not included in ``**data``.
         """
-        super(Store).__init__(path)
-        self._meta = Meta(self._meta_in(path))
-        self._database = DataBase(path, **data)
+        super().__init__(path)
+        try:
+            self._meta = Meta(self._meta_in(path))
+            self._database = DataBase(path, **data)
+        except FileNotFoundError as error:
+            print(f'Model "{self}" is trying to read a non-existent file. '
+                                    f'Did your script mean to call {type(self).__qualname__}.create("{str(self)}") '
+                                    f'instead of {type(self).__qualname__}("{str(self)}")?')
+            raise error
 
     @classmethod
-    def create(cls, path: Store.Path, meta: Meta.Data = {}, **data: DataBase.Data) -> Self:
+    def create(cls, path: Store.Path, meta: Meta.Data | None = None, **data: DataBase.Table) -> Self:
         """ Create a Model in ``path``.
 
         Args:
@@ -519,7 +550,7 @@ class Model(Store):
             **data: Data to update ``cls.DataBase.table_defaults``, in the form ``table_name[i]=data[i]``.
         Returns: The Model created.
         """
-        Meta.create(cls._meta_in(path), **(cls.defaultMetaData | meta))
+        Meta.create(cls._meta_in(path), **(cls.defaultMetaData | ({} if meta is None else meta)))
         return cls(path, **(cls.DataBase.table_defaults() | data))
 
     @classmethod
@@ -551,10 +582,42 @@ class Model(Store):
     def _meta_in(path: Store.Path) -> Path:
         return Path(path) / 'meta'
 
-        
-class Toy(DataBase):
 
-    class Data(NamedTuple):
-
-        data: DataTable.Data = pd.DataFrame([[0, 0, 0]],
+class ToyDataBase(DataBase):
+    """ Play with me."""
+    class Tables(NamedTuple):
+        """
+        """
+        data: DataBase.Table = pd.DataFrame(data=[[0, 0, 0]],
                                             columns=pd.MultiIndex.from_tuples((('Category', 'int'), ('Input', 'float'), ('Output', 'float'))))
+
+    read_options: dict[str, Options] = {'data': {'header': [0, 1]}}
+    write_options: dict[str, Options] = {'data': {'index': True}}
+
+
+class ToyModel(Model):
+    """ A DataBase with Meta. Base class for any model.
+
+    Attributes:
+        defaultMetaData: Class attribute. Must be overridden.
+    """
+
+    defaultMetaData: Meta.Data = {}
+
+    class DataBase(DataBase):
+        """ Must be overridden by a subclass of DataBase."""
+        class Tables(NamedTuple):
+            """ Must be overridden by a subclass of NamedTuple.
+
+            Attributes:
+                NotImplemented: A DataBase.Table of
+            """
+            data: DataBase.Table = pd.DataFrame(data=[[0, 0, 0]],
+                                                columns=pd.MultiIndex.from_tuples((('Category', 'int'), ('Input', 'float'), ('Output', 'float'))))
+
+        read_options: dict[str, Options] = {'data': {'header': [0, 1]}}
+        write_options: dict[str, Options] = {'data': {}}
+
+    def __call__(self, **options: Any) -> Self:
+        return self
+

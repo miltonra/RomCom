@@ -30,7 +30,7 @@ import os
 
 from romcomma.base.definitions import *
 from romcomma import user
-from romcomma.base.models import Toy, ToyStore
+from romcomma.base.models import ToyDataBase, ToyModel
 
 #: Parameters to generate data from test functions.
 K: int = 2  #: The number of Folds in a new repository.
@@ -99,9 +99,5 @@ if __name__ == '__main__':
     # Run the code.
     root = Path('test')
     # print(f'Root path is {run(root)}')
-    toystore = ToyStore(root)
-    x = repr(toystore)
-    print(type(x))
-    print(x)
-
-    # toy = Toy(root, data=[1, 2, 3])
+    toydatabase = ToyDataBase.create(root)
+    toymodel = ToyModel(root / 'model')
