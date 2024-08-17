@@ -99,5 +99,6 @@ if __name__ == '__main__':
     # Run the code.
     root = Path('test')
     # print(f'Root path is {run(root)}')
-    toydatabase = ToyDataBase.create(root)
-    toymodel = ToyModel(root / 'model')
+    toydatabase = ToyDataBase(root)
+    toymodel = ToyModel.create(root / 'model')
+    toymodel(data=(1,2,3))

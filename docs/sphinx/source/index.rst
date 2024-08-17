@@ -1,5 +1,5 @@
 
-rom-comma User Guide
+RomComma User Guide
 ==========================================================================================================================================
 
 .. rubric:: Reduced Order Modelling via Global Sensitivity Analysis using Gaussian Process Regression, by Robert A. Milton of The University of Sheffield

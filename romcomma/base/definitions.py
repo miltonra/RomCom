@@ -21,7 +21,10 @@
 
 """ Type and constant definitions.
 
-All modules of RomComma ``import *`` from this module, so all types and constants in this module are referenced without adornment throughout romcomma."""
+All modules of RomComma ``import *`` from this module, so all types and constants in this module are referenced without adornment throughout RomComma."""
+
+from os import environ
+environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 from typing import *
 from pathlib import Path
@@ -31,7 +34,6 @@ import tensorflow as tf
 import gpflow as gf
 import romcomma.gpf as mf
 import pandas as pd
-
 
 ZERO = 1.0E-64  #: Tolerance when testing floats for equality.
 

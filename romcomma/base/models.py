@@ -306,7 +306,8 @@ class Meta(Store):
             with open(self._path, mode='r') as file:
                 self._data = load(file)
         else:
-            self(**data)
+            self._data = data
+            self(path)
 
     @classmethod
     def create(cls, path: Store.Path, **data: Any):
@@ -317,7 +318,7 @@ class Meta(Store):
             **data: The metadata to store.
         Returns: The Meta created.
         """
-        return cls(path, **data)
+        return cls(path, **({'NotImplemented': 'in call to Meta.create()'} if data == {} else data) )
 
     @classmethod
     def copy(cls, src: Self, dst: Store.Path) -> Self:
@@ -533,7 +534,7 @@ class Model(Store):
         super().__init__(path)
         try:
             self._meta = Meta(self._meta_in(path))
-            self._database = DataBase(path, **data)
+            self._database = self.DataBase(path, **data)
         except FileNotFoundError as error:
             print(f'Model "{self}" is trying to read a non-existent file. '
                                     f'Did your script mean to call {type(self).__qualname__}.create("{str(self)}") '
@@ -619,5 +620,6 @@ class ToyModel(Model):
         write_options: dict[str, Options] = {'data': {}}
 
     def __call__(self, **options: Any) -> Self:
+        self._database(**options)
         return self
 

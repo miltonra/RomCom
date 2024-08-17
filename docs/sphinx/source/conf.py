@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'rom-comma'
+project = 'RomComma'
 copyright = '2023, Robert A. Milton'
 author = 'Robert A. Milton'
 release = '1.0'
@@ -36,7 +36,8 @@ modindex_common_prefix = ['romcomma.']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_permalinks_icon = '§'
-html_theme = 'insipid'
+# html_theme = 'insipid'
+html_theme = 'pydata_sphinx_theme'
 html_theme_options = {"body_max_width": "13in", 'breadcrumbs': False,}
 html_static_path = ['_static']
 # html_theme = 'cloud'
