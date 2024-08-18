@@ -1,4 +1,4 @@
-romcomma.base.definitions
+﻿romcomma.base.definitions
 =========================
 
 .. automodule:: romcomma.base.definitions
@@ -10,6 +10,7 @@ romcomma.base.definitions
    .. autosummary::
       :toctree:
    
+      TF_CPP_MIN_LOG_LEVEL
       ZERO
    
    

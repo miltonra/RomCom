@@ -11,13 +11,13 @@ Module Reference
     :template: custom-module-template.rst
     :recursive:
 
-    romcomma.base
-    romcomma.data
-    romcomma.gpf
-    romcomma.gpr
-    romcomma.gsa
-    romcomma.rom
-    romcomma.user
+    base
+    data
+    gpf
+    gpr
+    gsa
+    rom
+    user
 
 .. rubric:: Glossary
 
@@ -30,16 +30,16 @@ Module Reference
     StdDev
       standard deviation
 
-    ``pd``
+    ``PD, pd``
       ``pandas``
 
-    ``np``
+    ``NP, np``
       ``numpy``
 
-    ``tf``
+    ``TF, tf``
       ``tensorflow``
 
-    ``gf``
+    ``GP, gf``
       ``gpflow``
 
 

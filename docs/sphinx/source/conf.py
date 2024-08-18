@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'RomComma'
-copyright = '2023, Robert A. Milton'
+copyright = '2024, Robert A. Milton'
 author = 'Robert A. Milton'
 release = '1.0'
 
@@ -40,7 +40,3 @@ html_permalinks_icon = '§'
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {"body_max_width": "13in", 'breadcrumbs': False,}
 html_static_path = ['_static']
-# html_theme = 'cloud'
-# import sphinx_theme
-# html_theme = 'stanford_theme'
-# html_theme_path = [sphinx_theme.get_html_theme_path('stanford-theme')]

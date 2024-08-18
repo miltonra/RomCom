@@ -23,8 +23,10 @@
 
 All modules of RomComma ``import *`` from this module, so all types and constants in this module are referenced without adornment throughout RomComma."""
 
+TF_CPP_MIN_LOG_LEVEL: int = 2   #: TensorFlow logging level. 0 = INFO+WARNING+ERROR, 1 = WARNING+ERROR, 2 = ERROR, 3 = NOTHING logged.
+
 from os import environ
-environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+environ['TF_CPP_MIN_LOG_LEVEL'] = str(TF_CPP_MIN_LOG_LEVEL)
 
 from typing import *
 from pathlib import Path
@@ -35,7 +37,7 @@ import gpflow as gf
 import romcomma.gpf as mf
 import pandas as pd
 
-ZERO = 1.0E-64  #: Tolerance when testing floats for equality.
+ZERO: float = 1.0E-64  #: Tolerance when testing floats for equality.
 
 
 def Int() -> Type:
