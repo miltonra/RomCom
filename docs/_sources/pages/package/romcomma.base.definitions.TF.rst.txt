@@ -1,10 +1,12 @@
-romcomma.base.definitions.TF
+﻿romcomma.base.definitions.TF
 ============================
 
 .. currentmodule:: romcomma.base.definitions
 
 .. autoclass:: TF
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

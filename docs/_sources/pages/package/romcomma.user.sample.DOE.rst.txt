@@ -1,10 +1,12 @@
-romcomma.user.sample.DOE
+﻿romcomma.user.sample.DOE
 ========================
 
 .. currentmodule:: romcomma.user.sample
 
 .. autoclass:: DOE
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

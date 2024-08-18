@@ -1,10 +1,12 @@
-romcomma.data.models.Fold
+﻿romcomma.data.models.Fold
 =========================
 
 .. currentmodule:: romcomma.data.models
 
 .. autoclass:: Fold
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

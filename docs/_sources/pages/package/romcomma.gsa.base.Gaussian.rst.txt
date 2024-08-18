@@ -1,10 +1,12 @@
-romcomma.gsa.base.Gaussian
+﻿romcomma.gsa.base.Gaussian
 ==========================
 
 .. currentmodule:: romcomma.gsa.base
 
 .. autoclass:: Gaussian
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

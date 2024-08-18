@@ -1,10 +1,12 @@
-romcomma.user.functions.Scalar
+﻿romcomma.user.functions.Scalar
 ==============================
 
 .. currentmodule:: romcomma.user.functions
 
 .. autoclass:: Scalar
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

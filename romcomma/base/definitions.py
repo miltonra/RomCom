@@ -23,7 +23,9 @@
 
 All modules of RomComma ``import *`` from this module, so all types and constants in this module are referenced without adornment throughout RomComma."""
 
-TF_CPP_MIN_LOG_LEVEL: int = 2   #: TensorFlow logging level. 0 = INFO+WARNING+ERROR, 1 = WARNING+ERROR, 2 = ERROR, 3 = NOTHING logged.
+LOGGING_LEVEL: dict[str,str] = {'NOTHING LOGGED': '3', 'ERROR': '2', 'ERROR+WARN': '1', 'ERROR+WARN+INFO': '0'}    #: Admissible logging verbosity levels.
+
+TF_CPP_MIN_LOG_LEVEL: str = LOGGING_LEVEL['ERROR']   #: LOGGING_LEVEL for TensorFlow.
 
 from os import environ
 environ['TF_CPP_MIN_LOG_LEVEL'] = str(TF_CPP_MIN_LOG_LEVEL)
@@ -50,26 +52,50 @@ def Float() -> Type:
     return gf.config.default_float()
 
 
-Options = dict[str, Any]
+Options = dict[str, Any] #: Type for passing options as ``**kwargs``.
 
 
 class PD:
-    """ Extended Pandas types and constants."""
-    DataFrame = pd.DataFrame
-    Index = pd.Index
-    MultiIndex = pd.MultiIndex
+    """ Extended Pandas types and constants.
+
+    Attributes:
+        DataFrame: pd.DataFrame.
+        Index: pd.Index.
+        MultiIndex(class): pd.MultiIndex.
+    """
+    DataFrame = pd.DataFrame    #: :meta private:
+    Index = pd.Index    #: :meta private:
+    MultiIndex = pd.MultiIndex  #:  :meta private:
+
+    def __init__(self):
+        raise NotImplementedError
 
 
 class NP:
-    """ Extended NumPy types and constants."""
+    """ Extended NumPy types and constants.
+
+    Attributes:
     DType = np.dtype
     Array = np.ndarray
-    Tensor = Array      # Generic Tensor.
-    Tensor1 = Tensor    # Second Order Tensor, tf.shape = (i,j)
-    Tensor2 = Tensor    # Second Order Tensor, tf.shape = (i,j)
-    Vector = Tensor2    # First Order Tensor, column vector, tf.shape = (j,1)
-    Covector = Tensor2    # First Order Tensor, row vector, tf.shape = (1,j)
-    Matrix = Tensor2    # Second Order Tensor, tf.shape = (i,j)
+    Tensor = Array      #: Generic Tensor.
+    Tensor1 = Tensor    #: First Order Tensor, ``np.shape = (i,1)``.
+    Tensor2 = Tensor    #: Second Order Tensor, ``np.shape = (i,j)``.
+    Vector = Tensor2    #: First Order Tensor, column vector, ``np.shape = (j,1)``.
+    Covector = Tensor2    #: First Order Tensor, row vector, ``np.shape = (1,j)``.
+    Matrix = Tensor2    #: Second Order Tensor, ``np.shape = (i,j)``.
+    VectorLike = int | float | Sequence[int | float] | Array
+    MatrixLike = VectorLike | Sequence[VectorLike]
+    ArrayLike = TensorLike = MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]
+
+    """
+    DType = np.dtype
+    Array = np.ndarray
+    Tensor = Array      #: Generic Tensor.
+    Tensor1 = Tensor    #: First Order Tensor, ``np.shape = (i,1)``.
+    Tensor2 = Tensor    #: Second Order Tensor, ``np.shape = (i,j)``.
+    Vector = Tensor2    #: First Order Tensor, column vector, ``np.shape = (j,1)``.
+    Covector = Tensor2    #: First Order Tensor, row vector, ``np.shape = (1,j)``.
+    Matrix = Tensor2    #: Second Order Tensor, ``np.shape = (i,j)``.
     VectorLike = int | float | Sequence[int | float] | Array
     MatrixLike = VectorLike | Sequence[VectorLike]
     ArrayLike = TensorLike = MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]
@@ -79,12 +105,12 @@ class TF:
     """ Extended TensorFlow types and constants."""
     DType = np.dtype
     Array = tf.Tensor
-    Tensor = Array      # Generic Tensor.
-    Tensor1 = Tensor    # Second Order Tensor, tf.shape = (i,j)
-    Tensor2 = Tensor    # Second Order Tensor, tf.shape = (i,j)
-    Vector = Tensor2    # First Order Tensor, column vector, tf.shape = (j,1)
-    Covector = Tensor2    # First Order Tensor, row vector, tf.shape = (1,j)
-    Matrix = Tensor2    # Second Order Tensor, tf.shape = (i,j)
+    Tensor = Array      #: Generic Tensor.
+    Tensor1 = Tensor    #: First Order Tensor, ``tf.shape = (i,1)``.
+    Tensor2 = Tensor    #: Second Order Tensor, ``tf.shape = (i,j)``.
+    Vector = Tensor2    #: First Order Tensor, column vector, ``tf.shape = (j,1)``.
+    Covector = Tensor2    #: First Order Tensor, row vector, ``tf.shape = (1,j)``.
+    Matrix = Tensor2    #: Second Order Tensor, ``tf.shape = (i,j)``.
     VectorLike = int | float | Sequence[int | float] | Array
     MatrixLike = VectorLike | Sequence[VectorLike]
     ArrayLike = TensorLike = MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]

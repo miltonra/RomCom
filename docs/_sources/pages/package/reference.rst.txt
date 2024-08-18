@@ -27,19 +27,22 @@ Module Reference
     folder
       directory
 
-    StdDev
-      standard deviation
+    RMSE
+      Root Mean Square Error.
 
-    ``pd``
-      ``pandas``
+    SD
+      Standard Deviation.
 
-    ``np``
-      ``numpy``
+    ``PD | pd``
+      ``pandas``.
 
-    ``tf``
-      ``tensorflow``
+    ``NP | np``
+      ``numpy``.
 
-    ``gf``
-      ``gpflow``
+    ``TF | tf``
+      ``tensorflow``.
+
+    ``GP | gf``
+      ``gpflow``.
 
 

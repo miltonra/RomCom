@@ -1,10 +1,12 @@
-romcomma.gpf.base.Variance
+﻿romcomma.gpf.base.Variance
 ==========================
 
 .. currentmodule:: romcomma.gpf.base
 
 .. autoclass:: Variance
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

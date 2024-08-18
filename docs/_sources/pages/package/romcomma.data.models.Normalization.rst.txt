@@ -1,10 +1,12 @@
-romcomma.data.models.Normalization
+﻿romcomma.data.models.Normalization
 ==================================
 
 .. currentmodule:: romcomma.data.models
 
 .. autoclass:: Normalization
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

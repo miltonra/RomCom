@@ -1,10 +1,12 @@
-romcomma.gpr.models.MOGP
+﻿romcomma.gpr.models.MOGP
 ========================
 
 .. currentmodule:: romcomma.gpr.models
 
 .. autoclass:: MOGP
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

@@ -1,10 +1,12 @@
-romcomma.gpr.models.GPR
+﻿romcomma.gpr.models.GPR
 =======================
 
 .. currentmodule:: romcomma.gpr.models
 
 .. autoclass:: GPR
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

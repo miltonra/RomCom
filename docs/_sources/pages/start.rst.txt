@@ -32,7 +32,7 @@ The ``romcomma`` package is organized in a modular hierarchy
 .. toctree::
    :maxdepth: 3
 
-   romcomma <package/reference>
+   <package/reference>
 
 No module depends on any module below it in this table.
 We refer to items in this list as modules, even if they are technically packages.

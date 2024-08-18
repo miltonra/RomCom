@@ -1,10 +1,12 @@
-romcomma.gpf.likelihoods.MOGaussian
+﻿romcomma.gpf.likelihoods.MOGaussian
 ===================================
 
 .. currentmodule:: romcomma.gpf.likelihoods
 
 .. autoclass:: MOGaussian
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

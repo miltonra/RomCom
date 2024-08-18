@@ -1,10 +1,12 @@
-romcomma.data.models.Repository
+﻿romcomma.data.models.Repository
 ===============================
 
 .. currentmodule:: romcomma.data.models
 
 .. autoclass:: Repository
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

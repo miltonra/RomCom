@@ -4,6 +4,8 @@
 
 .. autoclass:: {{ objname }}
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

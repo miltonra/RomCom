@@ -1,10 +1,12 @@
-romcomma.gpr.models.Likelihood
+﻿romcomma.gpr.models.Likelihood
 ==============================
 
 .. currentmodule:: romcomma.gpr.models
 
 .. autoclass:: Likelihood
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

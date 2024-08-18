@@ -1,10 +1,12 @@
-romcomma.user.functions.Vector
+﻿romcomma.user.functions.Vector
 ==============================
 
 .. currentmodule:: romcomma.user.functions
 
 .. autoclass:: Vector
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

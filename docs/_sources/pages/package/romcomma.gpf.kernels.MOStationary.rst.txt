@@ -1,10 +1,12 @@
-romcomma.gpf.kernels.MOStationary
+﻿romcomma.gpf.kernels.MOStationary
 =================================
 
 .. currentmodule:: romcomma.gpf.kernels
 
 .. autoclass:: MOStationary
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

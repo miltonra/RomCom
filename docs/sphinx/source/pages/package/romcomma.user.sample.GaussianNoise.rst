@@ -1,10 +1,12 @@
-romcomma.user.sample.GaussianNoise
+﻿romcomma.user.sample.GaussianNoise
 ==================================
 
 .. currentmodule:: romcomma.user.sample
 
 .. autoclass:: GaussianNoise
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

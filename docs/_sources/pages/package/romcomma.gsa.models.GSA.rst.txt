@@ -1,10 +1,12 @@
-romcomma.gsa.models.GSA
+﻿romcomma.gsa.models.GSA
 =======================
 
 .. currentmodule:: romcomma.gsa.models
 
 .. autoclass:: GSA
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

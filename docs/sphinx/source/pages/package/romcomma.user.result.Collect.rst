@@ -1,10 +1,12 @@
-romcomma.user.result.Collect
+﻿romcomma.user.result.Collect
 ============================
 
 .. currentmodule:: romcomma.user.result
 
 .. autoclass:: Collect
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

@@ -22,7 +22,7 @@ cd RomComma
 pip install .
 python installation_test.py
 ```
-This should install the correct runtime dependencies. These are exhaustively documented in 
+This should install, and test, all the correct runtime dependencies. These are exhaustively documented in 
 [pyproject.toml](https://github.com/miltonra/RomComma/blob/main/pyproject.toml).
 
 ## Documentation

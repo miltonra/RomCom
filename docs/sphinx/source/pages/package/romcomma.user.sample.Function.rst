@@ -1,10 +1,12 @@
-romcomma.user.sample.Function
+﻿romcomma.user.sample.Function
 =============================
 
 .. currentmodule:: romcomma.user.sample
 
 .. autoclass:: Function
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

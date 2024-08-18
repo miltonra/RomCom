@@ -361,6 +361,7 @@ class DataBase(Store):
         """ Must be overridden by a subclass of NamedTuple.
 
         Every attribute (table) must be of Type Database.Table and possess a default pd.DataFrame.
+        No attribute (table) may be named ``path``, as this is reserved for the Path to the DataBase.
 
         Attributes:
             NotImplemented: A PD.DataFrame containing the words "Not Implemented".
@@ -384,23 +385,23 @@ class DataBase(Store):
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
         return self._tables._asdict()
 
-    def __call__(self, path: Store.Path | None, **tables: Table) -> Self:
+    def __call__(self, **tables_and_path: Table | Store.Path) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
             path: Optionally, an update to ``self.path``, overwritten if existing.
-            **tables: Data to update ``self.tables``, in the form ``table_name[i]=data[i]``.
+            **tables_and_path: Data to update ``self.tables``, in the form ``table_name[i]=data[i]``, and/or ``self.path`` in the form ``path=[path]``.
         Returns: ``self``.
         """
         assert self.Tables is not DataBase.Tables, type(self).DataNotImplementedError()
         all_tables = self.tables_as_dict()
-        if path is not None:
+        if path := tables_and_path.pop('path', None) is not None:
             super().__call__(path)
             all_tables = {name:
-                              DataTable.create(path=self._path / name, data=tables.get(name, data), **self.write_options.get(name, {}))
+                              DataTable.create(path=self._path / name, data=tables_and_path.get(name, data), **self.write_options.get(name, {}))
                           for name, data in all_tables.items()}
         else:
-            for name, data in tables.items():
+            for name, data in tables_and_path.items():
                 all_tables[name](data, **self.write_options.get(name, {}))
         self._tables = self.Tables(**all_tables)
         return self

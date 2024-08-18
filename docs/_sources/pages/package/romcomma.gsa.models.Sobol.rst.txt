@@ -1,10 +1,12 @@
-romcomma.gsa.models.Sobol
+﻿romcomma.gsa.models.Sobol
 =========================
 
 .. currentmodule:: romcomma.gsa.models
 
 .. autoclass:: Sobol
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

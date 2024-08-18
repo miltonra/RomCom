@@ -1,10 +1,12 @@
-romcomma.gpf.mean\_functions.MOMeanFunction
+﻿romcomma.gpf.mean\_functions.MOMeanFunction
 ===========================================
 
 .. currentmodule:: romcomma.gpf.mean_functions
 
 .. autoclass:: MOMeanFunction
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

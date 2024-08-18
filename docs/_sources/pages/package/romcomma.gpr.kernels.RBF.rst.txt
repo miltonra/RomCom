@@ -1,10 +1,12 @@
-romcomma.gpr.kernels.RBF
+﻿romcomma.gpr.kernels.RBF
 ========================
 
 .. currentmodule:: romcomma.gpr.kernels
 
 .. autoclass:: RBF
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

@@ -1,10 +1,12 @@
-romcomma.gsa.calibrators.ClosedSobolWithError
+﻿romcomma.gsa.calibrators.ClosedSobolWithError
 =============================================
 
 .. currentmodule:: romcomma.gsa.calibrators
 
 .. autoclass:: ClosedSobolWithError
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

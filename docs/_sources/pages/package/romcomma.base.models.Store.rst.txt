@@ -1,10 +1,12 @@
-romcomma.base.models.Store
+﻿romcomma.base.models.Store
 ==========================
 
 .. currentmodule:: romcomma.base.models
 
 .. autoclass:: Store
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

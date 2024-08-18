@@ -1,10 +1,12 @@
-romcomma.gsa.calibrators.ClosedSobolWithRotation
+﻿romcomma.gsa.calibrators.ClosedSobolWithRotation
 ================================================
 
 .. currentmodule:: romcomma.gsa.calibrators
 
 .. autoclass:: ClosedSobolWithRotation
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

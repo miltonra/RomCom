@@ -1,10 +1,12 @@
-romcomma.base.models.ToyDataBase
+﻿romcomma.base.models.ToyDataBase
 ================================
 
 .. currentmodule:: romcomma.base.models
 
 .. autoclass:: ToyDataBase
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

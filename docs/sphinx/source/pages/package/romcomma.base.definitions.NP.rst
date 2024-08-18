@@ -1,10 +1,12 @@
-romcomma.base.definitions.NP
+﻿romcomma.base.definitions.NP
 ============================
 
 .. currentmodule:: romcomma.base.definitions
 
 .. autoclass:: NP
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

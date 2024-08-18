@@ -1,10 +1,12 @@
-romcomma.gpf.models.MOGPR
+﻿romcomma.gpf.models.MOGPR
 =========================
 
 .. currentmodule:: romcomma.gpf.models
 
 .. autoclass:: MOGPR
    :members:
+   :undoc-members:
+   :member-order: bysource
    :show-inheritance:
    :inherited-members:
 

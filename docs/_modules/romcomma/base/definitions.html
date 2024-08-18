@@ -355,7 +355,9 @@ document.write(`
 
 <span class="sd">All modules of RomComma ``import *`` from this module, so all types and constants in this module are referenced without adornment throughout RomComma.&quot;&quot;&quot;</span>
 
-<span class="n">TF_CPP_MIN_LOG_LEVEL</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>   <span class="c1">#: TensorFlow logging level. 0 = INFO+WARNING+ERROR, 1 = WARNING+ERROR, 2 = ERROR, 3 = NOTHING logged.</span>
+<span class="n">LOGGING_LEVEL</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;NOTHING LOGGED&#39;</span><span class="p">:</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR+WARN&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR+WARN+INFO&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">}</span>    <span class="c1">#: Admissible logging verbosity levels.</span>
+
+<span class="n">TF_CPP_MIN_LOG_LEVEL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">LOGGING_LEVEL</span><span class="p">[</span><span class="s1">&#39;ERROR&#39;</span><span class="p">]</span>   <span class="c1">#: LOGGING_LEVEL for TensorFlow.</span>
 
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
 <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">TF_CPP_MIN_LOG_LEVEL</span><span class="p">)</span>
@@ -388,31 +390,58 @@ document.write(`
 
 
 
-<span class="n">Options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="n">Options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="c1">#: Type for passing options as ``**kwargs``.</span>
 
 
 <div class="viewcode-block" id="PD">
 <a class="viewcode-back" href="../../../pages/package/romcomma.base.definitions.PD.html#romcomma.base.definitions.PD">[docs]</a>
 <span class="k">class</span> <span class="nc">PD</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Extended Pandas types and constants.&quot;&quot;&quot;</span>
-    <span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
-    <span class="n">Index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span>
-    <span class="n">MultiIndex</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Extended Pandas types and constants.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        DataFrame: pd.DataFrame.</span>
+<span class="sd">        Index: pd.Index.</span>
+<span class="sd">        MultiIndex(class): pd.MultiIndex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>    <span class="c1">#: :meta private:</span>
+    <span class="n">Index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span>    <span class="c1">#: :meta private:</span>
+    <span class="n">MultiIndex</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span>  <span class="c1">#:  :meta private:</span>
+
+<div class="viewcode-block" id="PD.__init__">
+<a class="viewcode-back" href="../../../pages/package/romcomma.base.definitions.PD.html#romcomma.base.definitions.PD.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</div>
 
 
 
 <div class="viewcode-block" id="NP">
 <a class="viewcode-back" href="../../../pages/package/romcomma.base.definitions.NP.html#romcomma.base.definitions.NP">[docs]</a>
 <span class="k">class</span> <span class="nc">NP</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Extended NumPy types and constants.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Extended NumPy types and constants.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    DType = np.dtype</span>
+<span class="sd">    Array = np.ndarray</span>
+<span class="sd">    Tensor = Array      #: Generic Tensor.</span>
+<span class="sd">    Tensor1 = Tensor    #: First Order Tensor, ``np.shape = (i,1)``.</span>
+<span class="sd">    Tensor2 = Tensor    #: Second Order Tensor, ``np.shape = (i,j)``.</span>
+<span class="sd">    Vector = Tensor2    #: First Order Tensor, column vector, ``np.shape = (j,1)``.</span>
+<span class="sd">    Covector = Tensor2    #: First Order Tensor, row vector, ``np.shape = (1,j)``.</span>
+<span class="sd">    Matrix = Tensor2    #: Second Order Tensor, ``np.shape = (i,j)``.</span>
+<span class="sd">    VectorLike = int | float | Sequence[int | float] | Array</span>
+<span class="sd">    MatrixLike = VectorLike | Sequence[VectorLike]</span>
+<span class="sd">    ArrayLike = TensorLike = MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">DType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span>
     <span class="n">Array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-    <span class="n">Tensor</span> <span class="o">=</span> <span class="n">Array</span>      <span class="c1"># Generic Tensor.</span>
-    <span class="n">Tensor1</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1"># Second Order Tensor, tf.shape = (i,j)</span>
-    <span class="n">Tensor2</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1"># Second Order Tensor, tf.shape = (i,j)</span>
-    <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1"># First Order Tensor, column vector, tf.shape = (j,1)</span>
-    <span class="n">Covector</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1"># First Order Tensor, row vector, tf.shape = (1,j)</span>
-    <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1"># Second Order Tensor, tf.shape = (i,j)</span>
+    <span class="n">Tensor</span> <span class="o">=</span> <span class="n">Array</span>      <span class="c1">#: Generic Tensor.</span>
+    <span class="n">Tensor1</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1">#: First Order Tensor, ``np.shape = (i,1)``.</span>
+    <span class="n">Tensor2</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1">#: Second Order Tensor, ``np.shape = (i,j)``.</span>
+    <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1">#: First Order Tensor, column vector, ``np.shape = (j,1)``.</span>
+    <span class="n">Covector</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1">#: First Order Tensor, row vector, ``np.shape = (1,j)``.</span>
+    <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1">#: Second Order Tensor, ``np.shape = (i,j)``.</span>
     <span class="n">VectorLike</span> <span class="o">=</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">Array</span>
     <span class="n">MatrixLike</span> <span class="o">=</span> <span class="n">VectorLike</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">VectorLike</span><span class="p">]</span>
     <span class="n">ArrayLike</span> <span class="o">=</span> <span class="n">TensorLike</span> <span class="o">=</span> <span class="n">MatrixLike</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MatrixLike</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">MatrixLike</span><span class="p">]]</span></div>
@@ -425,12 +454,12 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Extended TensorFlow types and constants.&quot;&quot;&quot;</span>
     <span class="n">DType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span>
     <span class="n">Array</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span>
-    <span class="n">Tensor</span> <span class="o">=</span> <span class="n">Array</span>      <span class="c1"># Generic Tensor.</span>
-    <span class="n">Tensor1</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1"># Second Order Tensor, tf.shape = (i,j)</span>
-    <span class="n">Tensor2</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1"># Second Order Tensor, tf.shape = (i,j)</span>
-    <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1"># First Order Tensor, column vector, tf.shape = (j,1)</span>
-    <span class="n">Covector</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1"># First Order Tensor, row vector, tf.shape = (1,j)</span>
-    <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1"># Second Order Tensor, tf.shape = (i,j)</span>
+    <span class="n">Tensor</span> <span class="o">=</span> <span class="n">Array</span>      <span class="c1">#: Generic Tensor.</span>
+    <span class="n">Tensor1</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1">#: First Order Tensor, ``tf.shape = (i,1)``.</span>
+    <span class="n">Tensor2</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1">#: Second Order Tensor, ``tf.shape = (i,j)``.</span>
+    <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1">#: First Order Tensor, column vector, ``tf.shape = (j,1)``.</span>
+    <span class="n">Covector</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1">#: First Order Tensor, row vector, ``tf.shape = (1,j)``.</span>
+    <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor2</span>    <span class="c1">#: Second Order Tensor, ``tf.shape = (i,j)``.</span>
     <span class="n">VectorLike</span> <span class="o">=</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">Array</span>
     <span class="n">MatrixLike</span> <span class="o">=</span> <span class="n">VectorLike</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">VectorLike</span><span class="p">]</span>
     <span class="n">ArrayLike</span> <span class="o">=</span> <span class="n">TensorLike</span> <span class="o">=</span> <span class="n">MatrixLike</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MatrixLike</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">MatrixLike</span><span class="p">]]</span>

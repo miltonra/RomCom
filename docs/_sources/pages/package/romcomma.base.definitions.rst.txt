@@ -10,8 +10,10 @@
    .. autosummary::
       :toctree:
    
+      LOGGING_LEVEL
       TF_CPP_MIN_LOG_LEVEL
       ZERO
+      Options
    
    
 
