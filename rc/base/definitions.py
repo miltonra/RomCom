@@ -21,7 +21,7 @@
 
 """ Type and constant definitions.
 
-All modules of RomComma ``import *`` from this module, so all types and constants in this module are referenced without adornment throughout RomComma."""
+All modules of RomCom ``import *`` from this module, so all types and constants in this module are referenced without adornment throughout RomCom."""
 
 LOGGING_LEVEL: dict[str,str] = {'NOTHING LOGGED': '3', 'ERROR': '2', 'ERROR+WARN': '1', 'ERROR+WARN+INFO': '0'}    #: Admissible logging verbosity levels.
 

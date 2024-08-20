@@ -63,6 +63,6 @@ requires = ["setuptools>=68.2", "wheel"]
 python = ">= 3.10 <= 3.11"
 
 [project.urls]
-homepage = "https://github.com/C-O-M-M-A/rom-comma"
-repository = "https://github.com/C-O-M-M-A/rom-comma"
-documentation = "https://c-o-m-m-a.github.io/rom-comma/"
+homepage = "https://github.com/miltonra/RomCom"
+repository = "https://github.com/miltonra/RomCom"
+documentation = "https://miltonra.github.io/RomCom/index.html"

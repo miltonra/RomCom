@@ -7,10 +7,11 @@ from contextlib import suppress
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'RomComma'
+project = 'RomCom'
 copyright = '2024, Robert A. Milton'
 author = 'Robert A. Milton'
-release = '1.0'
+version = '1.0'
+release = version
 
 # -- General configuration ---------------------------------------------------
 
@@ -20,6 +21,7 @@ sys.path.insert(0, os.path.abspath('../'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 
+needs_sphinx = '8.0'
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.autosummary', 'sphinx.ext.viewcode', "sphinx.ext.mathjax", 'sphinx_copybutton']
 
 autodoc_member_order = 'bysource'
@@ -40,7 +42,7 @@ autodoc_default_options = {'members': True, 'private-members': False, 'inherited
                             'special-members': '__init__, __call__'
 }
 
-html_css_files = ['_static/pydata-custom.css']
+html_css_files = ['pydata-custom.css']
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -48,6 +50,7 @@ html_css_files = ['_static/pydata-custom.css']
 html_permalinks_icon = '§'
 html_title = project
 html_logo = '_static/logo.svg'
+html_favicon = '_static/favicon.svg'
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {}
 html_static_path = ['_static']
