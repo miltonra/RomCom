@@ -1,0 +1,1163 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>rc.gpf.likelihoods.MOGaussian &#8212; RomComma</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/_static/pydata-custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/package/rc.gpf.likelihoods.MOGaussian';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="rc.gpf.mean_functions" href="rc.gpf.mean_functions.html" />
+    <link rel="prev" title="rc.gpf.likelihoods" href="rc.gpf.likelihoods.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="RomComma - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="RomComma - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../start.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="reference.html">
+    Module Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../glossary.html">
+    Glossary
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../start.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="reference.html">
+    Module Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../glossary.html">
+    Glossary
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.base.html">rc.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.base.definitions.html">rc.base.definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.LOGGING_LEVEL.html">rc.base.definitions.LOGGING_LEVEL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.TF_CPP_MIN_LOG_LEVEL.html">rc.base.definitions.TF_CPP_MIN_LOG_LEVEL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.Options.html">rc.base.definitions.Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.ZERO.html">rc.base.definitions.ZERO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.Float.html">rc.base.definitions.Float</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.Int.html">rc.base.definitions.Int</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.NP.html">rc.base.definitions.NP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.PD.html">rc.base.definitions.PD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.TF.html">rc.base.definitions.TF</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.base.models.html">rc.base.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.DataBase.html">rc.base.models.DataBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.DataTable.html">rc.base.models.DataTable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.Meta.html">rc.base.models.Meta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.Model.html">rc.base.models.Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.Store.html">rc.base.models.Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.ToyDataBase.html">rc.base.models.ToyDataBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.ToyModel.html">rc.base.models.ToyModel</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.data.html">rc.data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.data.models.html">rc.data.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.data.models.Fold.html">rc.data.models.Fold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.data.models.Normalization.html">rc.data.models.Normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.data.models.Repository.html">rc.data.models.Repository</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="rc.gpf.html">rc.gpf</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.base.html">rc.gpf.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.base.Variance.html">rc.gpf.base.Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.kernels.html">rc.gpf.kernels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.kernels.MOStationary.html">rc.gpf.kernels.MOStationary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.kernels.RBF.html">rc.gpf.kernels.RBF</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="rc.gpf.likelihoods.html">rc.gpf.likelihoods</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">rc.gpf.likelihoods.MOGaussian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.mean_functions.html">rc.gpf.mean_functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.mean_functions.MOMeanFunction.html">rc.gpf.mean_functions.MOMeanFunction</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.models.html">rc.gpf.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.models.MOGPR.html">rc.gpf.models.MOGPR</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.tests.html">rc.gpf.tests</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.covariance.html">rc.gpf.tests.covariance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.increment.html">rc.gpf.tests.increment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.kernel.html">rc.gpf.tests.kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.likelihood.html">rc.gpf.tests.likelihood</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.regression_data.html">rc.gpf.tests.regression_data</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.gpr.html">rc.gpr</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpr.kernels.html">rc.gpr.kernels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.kernels.Kernel.html">rc.gpr.kernels.Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.kernels.RBF.html">rc.gpr.kernels.RBF</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpr.models.html">rc.gpr.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.models.GPR.html">rc.gpr.models.GPR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.models.Likelihood.html">rc.gpr.models.Likelihood</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.models.MOGP.html">rc.gpr.models.MOGP</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.gsa.html">rc.gsa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gsa.base.html">rc.gsa.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.diag_det.html">rc.gsa.base.diag_det</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.mean.html">rc.gsa.base.mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.ms.html">rc.gsa.base.ms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.rms.html">rc.gsa.base.rms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.sos.html">rc.gsa.base.sos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.sym_check.html">rc.gsa.base.sym_check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.Calibrator.html">rc.gsa.base.Calibrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.Gaussian.html">rc.gsa.base.Gaussian</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gsa.calibrators.html">rc.gsa.calibrators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.calibrators.ClosedSobol.html">rc.gsa.calibrators.ClosedSobol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.calibrators.ClosedSobolWithError.html">rc.gsa.calibrators.ClosedSobolWithError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.calibrators.ClosedSobolWithRotation.html">rc.gsa.calibrators.ClosedSobolWithRotation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gsa.models.html">rc.gsa.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.models.GSA.html">rc.gsa.models.GSA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.models.Sobol.html">rc.gsa.models.Sobol</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.rom.html">rc.rom</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="rc.rom.old.html">rc.rom.old</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.user.html">rc.user</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.contexts.html">rc.user.contexts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.contexts.Environment.html">rc.user.contexts.Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.contexts.Timer.html">rc.user.contexts.Timer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.functions.html">rc.user.functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.ISHIGAMI.html">rc.user.functions.ISHIGAMI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.SOBOL_G.html">rc.user.functions.SOBOL_G</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.OAKLEY2004_5.html">rc.user.functions.OAKLEY2004_5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.OAKLEY2004.html">rc.user.functions.OAKLEY2004</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.ALL.html">rc.user.functions.ALL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.linspace.html">rc.user.functions.linspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.Scalar.html">rc.user.functions.Scalar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.Vector.html">rc.user.functions.Vector</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.regressions.html">rc.user.regressions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.regressions.gls.html">rc.user.regressions.gls</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.result.html">rc.user.result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.result.Collect.html">rc.user.result.Collect</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.run.html">rc.user.run</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.run.gpr.html">rc.user.run.gpr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.run.gsa.html">rc.user.run.gsa</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.sample.html">rc.user.sample</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.PCA.html">rc.user.sample.PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.permute_axes.html">rc.user.sample.permute_axes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.DOE.html">rc.user.sample.DOE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.Function.html">rc.user.sample.Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.GaussianNoise.html">rc.user.sample.GaussianNoise</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="reference.html" class="nav-link">Module Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="rc.gpf.likelihoods.html" class="nav-link">rc.gpf.likelihoods</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">rc.gpf.likel...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="rc-gpf-likelihoods-mogaussian">
+<h1>rc.gpf.likelihoods.MOGaussian<a class="headerlink" href="#rc-gpf-likelihoods-mogaussian" title="Link to this heading">§</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MOGaussian</span></span><a class="reference internal" href="../../_modules/rc/gpf/likelihoods.html#MOGaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian" title="Link to this definition">§</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QuadratureLikelihood</span></code></p>
+<p>A non-diagonal, multivariate likelihood, extending gpflow. The code is the multivariate version of gf.likelihoods.Gaussian.</p>
+<p>The Gaussian likelihood is appropriate where uncertainties associated with
+the data are believed to follow a normal distribution, with constant
+variance.</p>
+<p>Very small uncertainties can lead to numerical instability during the
+optimization process. A lower bound of 1e-3 is therefore imposed on the
+likelihood Variance.cholesky_diagonal elements by default.</p>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.name" title="rc.gpf.likelihoods.MOGaussian.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Returns the name of this module as passed or determined in the ctor.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.name_scope" title="rc.gpf.likelihoods.MOGaussian.name_scope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_scope</span></code></a></p></td>
+<td><p>Returns a <cite>tf.name_scope</cite> instance for this class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.non_trainable_variables" title="rc.gpf.likelihoods.MOGaussian.non_trainable_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">non_trainable_variables</span></code></a></p></td>
+<td><p>Sequence of non-trainable variables owned by this module and its submodules.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.submodules" title="rc.gpf.likelihoods.MOGaussian.submodules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">submodules</span></code></a></p></td>
+<td><p>Sequence of all sub-modules.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_parameters</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.trainable_variables" title="rc.gpf.likelihoods.MOGaussian.trainable_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trainable_variables</span></code></a></p></td>
+<td><p>Sequence of trainable variables owned by this module and its submodules.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.variables" title="rc.gpf.likelihoods.MOGaussian.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
+<td><p>Sequence of variables owned by this module and its submodules.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.N" title="rc.gpf.likelihoods.MOGaussian.N"><code class="xref py py-obj docutils literal notranslate"><span class="pre">N</span></code></a>(data)</p></td>
+<td><p>The number of samples in data, assuming the last 2 dimensions have been concatenated to LN.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.__init__" title="rc.gpf.likelihoods.MOGaussian.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(variance, **kwargs)</p></td>
+<td><p>Constructor, which passes the Cholesky decomposition of the variance matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_to</span></code>(Fvar)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.conditional_mean" title="rc.gpf.likelihoods.MOGaussian.conditional_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conditional_mean</span></code></a>(X, F)</p></td>
+<td><p>The conditional mean of Y|X,F: [E[Y₁|X,F], ..., E[Yₖ|X,F]] where K = observation_dim</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.conditional_variance" title="rc.gpf.likelihoods.MOGaussian.conditional_variance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conditional_variance</span></code></a>(X, F)</p></td>
+<td><p>The conditional marginal variance of Y|X,F: [var(Y₁|X,F), ..., var(Yₖ|X,F)] where K = observation_dim</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.log_prob" title="rc.gpf.likelihoods.MOGaussian.log_prob"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log_prob</span></code></a>(X, F, Y)</p></td>
+<td><p>The log probability density log p(Y|X,F)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.predict_log_density" title="rc.gpf.likelihoods.MOGaussian.predict_log_density"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_log_density</span></code></a>(X, Fmu, Fvar, Y)</p></td>
+<td><p>Given a Normal distribution for the latent function, and a datum Y, compute the log predictive density of Y,</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.predict_mean_and_var" title="rc.gpf.likelihoods.MOGaussian.predict_mean_and_var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_mean_and_var</span></code></a>(X, Fmu, Fvar)</p></td>
+<td><p>Given a Normal distribution for the latent function, return the mean and marginal variance of Y,</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.split_axis_shape" title="rc.gpf.likelihoods.MOGaussian.split_axis_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_axis_shape</span></code></a>(data)</p></td>
+<td><p>Split the final data axis length LN into the pair (L,N).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.variational_expectations" title="rc.gpf.likelihoods.MOGaussian.variational_expectations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variational_expectations</span></code></a>(X, Fmu, Fvar, Y)</p></td>
+<td><p>Compute the expected log density of the data, given a Gaussian distribution for the function values,</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.gpf.likelihoods.MOGaussian.with_name_scope" title="rc.gpf.likelihoods.MOGaussian.with_name_scope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">with_name_scope</span></code></a>(method)</p></td>
+<td><p>Decorator to automatically enter the module name scope.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variance</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/gpf/likelihoods.html#MOGaussian.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.__init__" title="Link to this definition">§</a></dt>
+<dd><p>Constructor, which passes the Cholesky decomposition of the variance matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variance</strong> – The covariance matrix of the likelihood, expressed in tensorflow or numpy. Is checked for symmetry and positive definiteness.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments forwarded to <code class="xref py py-class docutils literal notranslate"><span class="pre">Likelihood</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.N">
+<span class="sig-name descname"><span class="pre">N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/gpf/likelihoods.html#MOGaussian.N"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.N" title="Link to this definition">§</a></dt>
+<dd><p>The number of samples in data, assuming the last 2 dimensions have been concatenated to LN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.split_axis_shape">
+<span class="sig-name descname"><span class="pre">split_axis_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/gpf/likelihoods.html#MOGaussian.split_axis_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.split_axis_shape" title="Link to this definition">§</a></dt>
+<dd><p>Split the final data axis length LN into the pair (L,N).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tuple</em>[int, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.conditional_mean">
+<span class="sig-name descname"><span class="pre">conditional_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.conditional_mean" title="Link to this definition">§</a></dt>
+<dd><p>The conditional mean of Y|X,F: [E[Y₁|X,F], …, E[Yₖ|X,F]]
+where K = observation_dim</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>X</strong> has shape [broadcast <em>batch</em>…, <em>input_dim</em>].</p></li>
+</ul>
+<p>input tensor</p>
+</p></li>
+<li><p><strong>F</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>F</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>function evaluation tensor</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>return</strong> has shape [<em>batch</em>…, <em>observation_dim</em>].</p></li>
+</ul>
+<p>mean</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tensor</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.conditional_variance">
+<span class="sig-name descname"><span class="pre">conditional_variance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.conditional_variance" title="Link to this definition">§</a></dt>
+<dd><p>The conditional marginal variance of Y|X,F: [var(Y₁|X,F), …, var(Yₖ|X,F)]
+where K = observation_dim</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>X</strong> has shape [broadcast <em>batch</em>…, <em>input_dim</em>].</p></li>
+</ul>
+<p>input tensor</p>
+</p></li>
+<li><p><strong>F</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>F</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>function evaluation tensor</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>return</strong> has shape [<em>batch</em>…, <em>observation_dim</em>].</p></li>
+</ul>
+<p>variance</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tensor</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.log_prob">
+<span class="sig-name descname"><span class="pre">log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.log_prob" title="Link to this definition">§</a></dt>
+<dd><p>The log probability density log p(Y|X,F)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>X</strong> has shape [broadcast <em>batch</em>…, <em>input_dim</em>].</p></li>
+</ul>
+<p>input tensor</p>
+</p></li>
+<li><p><strong>F</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>F</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>function evaluation tensor</p>
+</p></li>
+<li><p><strong>Y</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Y</strong> has shape [broadcast <em>batch</em>…, <em>observation_dim</em>].</p></li>
+</ul>
+<p>observation tensor</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>return</strong> has shape [<em>batch</em>…].</p></li>
+</ul>
+<p>log pdf</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tensor</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.name" title="Link to this definition">§</a></dt>
+<dd><p>Returns the name of this module as passed or determined in the ctor.</p>
+<p>NOTE: This is not the same as the <cite>self.name_scope.name</cite> which includes
+parent module names.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.name_scope">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name_scope</span></span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.name_scope" title="Link to this definition">§</a></dt>
+<dd><p>Returns a <cite>tf.name_scope</cite> instance for this class.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.non_trainable_variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">non_trainable_variables</span></span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.non_trainable_variables" title="Link to this definition">§</a></dt>
+<dd><p>Sequence of non-trainable variables owned by this module and its submodules.</p>
+<p>Note: this method uses reflection to find variables on the current instance
+and submodules. For performance reasons you may wish to cache the result
+of calling this method if you don’t expect the return value to change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of variables for the current module (sorted by attribute
+name) followed by variables from all submodules recursively (breadth
+first).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.predict_log_density">
+<span class="sig-name descname"><span class="pre">predict_log_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fmu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fvar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.predict_log_density" title="Link to this definition">§</a></dt>
+<dd><p>Given a Normal distribution for the latent function, and a datum Y,
+compute the log predictive density of Y,</p>
+<dl class="simple">
+<dt>i.e. if</dt><dd><p>q(F) = N(Fmu, Fvar)</p>
+</dd>
+</dl>
+<p>and this object represents</p>
+<blockquote>
+<div><p>p(y|F)</p>
+</div></blockquote>
+<p>then this method computes the predictive density</p>
+<blockquote>
+<div><p>log ∫ p(y=Y|F)q(F) df</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>X</strong> has shape [broadcast <em>batch</em>…, <em>input_dim</em>].</p></li>
+</ul>
+<p>input tensor</p>
+</p></li>
+<li><p><strong>Fmu</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Fmu</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>mean function evaluation tensor</p>
+</p></li>
+<li><p><strong>Fvar</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Fvar</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>variance of function evaluation tensor</p>
+</p></li>
+<li><p><strong>Y</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Y</strong> has shape [broadcast <em>batch</em>…, <em>observation_dim</em>].</p></li>
+</ul>
+<p>observation tensor</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>return</strong> has shape [<em>batch</em>…].</p></li>
+</ul>
+<p>log predictive density</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tensor</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.predict_mean_and_var">
+<span class="sig-name descname"><span class="pre">predict_mean_and_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fmu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fvar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.predict_mean_and_var" title="Link to this definition">§</a></dt>
+<dd><p>Given a Normal distribution for the latent function,
+return the mean and marginal variance of Y,</p>
+<dl class="simple">
+<dt>i.e. if</dt><dd><p>q(f) = N(Fmu, Fvar)</p>
+</dd>
+</dl>
+<p>and this object represents</p>
+<blockquote>
+<div><p>p(y|f)</p>
+</div></blockquote>
+<p>then this method computes the predictive mean</p>
+<blockquote>
+<div><p>∫∫ y p(y|f)q(f) df dy</p>
+</div></blockquote>
+<p>and the predictive variance</p>
+<blockquote>
+<div><p>∫∫ y² p(y|f)q(f) df dy  - [ ∫∫ y p(y|f)q(f) df dy ]²</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>X</strong> has shape [broadcast <em>batch</em>…, <em>input_dim</em>].</p></li>
+</ul>
+<p>input tensor</p>
+</p></li>
+<li><p><strong>Fmu</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Fmu</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>mean function evaluation tensor</p>
+</p></li>
+<li><p><strong>Fvar</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Fvar</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>variance of function evaluation tensor</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>return[0]</strong> has shape [<em>batch</em>…, <em>observation_dim</em>].</p></li>
+<li><p><strong>return[1]</strong> has shape [<em>batch</em>…, <em>observation_dim</em>].</p></li>
+</ul>
+<p>mean and variance</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tuple</em>[<em>Tensor</em>, <em>Tensor</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.submodules">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">submodules</span></span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.submodules" title="Link to this definition">§</a></dt>
+<dd><p>Sequence of all sub-modules.</p>
+<p>Submodules are modules which are properties of this module, or found as
+properties of modules which are properties of this module (and so on).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">submodules</span><span class="p">)</span> <span class="o">==</span> <span class="p">[]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of all submodules.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.trainable_variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trainable_variables</span></span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.trainable_variables" title="Link to this definition">§</a></dt>
+<dd><p>Sequence of trainable variables owned by this module and its submodules.</p>
+<p>Note: this method uses reflection to find variables on the current instance
+and submodules. For performance reasons you may wish to cache the result
+of calling this method if you don’t expect the return value to change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of variables for the current module (sorted by attribute
+name) followed by variables from all submodules recursively (breadth
+first).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variables</span></span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.variables" title="Link to this definition">§</a></dt>
+<dd><p>Sequence of variables owned by this module and its submodules.</p>
+<p>Note: this method uses reflection to find variables on the current instance
+and submodules. For performance reasons you may wish to cache the result
+of calling this method if you don’t expect the return value to change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sequence of variables for the current module (sorted by attribute
+name) followed by variables from all submodules recursively (breadth
+first).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.variational_expectations">
+<span class="sig-name descname"><span class="pre">variational_expectations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fmu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fvar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.variational_expectations" title="Link to this definition">§</a></dt>
+<dd><p>Compute the expected log density of the data, given a Gaussian
+distribution for the function values,</p>
+<dl class="simple">
+<dt>i.e. if</dt><dd><p>q(f) = N(Fmu, Fvar)</p>
+</dd>
+</dl>
+<p>and this object represents</p>
+<blockquote>
+<div><p>p(y|f)</p>
+</div></blockquote>
+<p>then this method computes</p>
+<blockquote>
+<div><p>∫ log(p(y=Y|f)) q(f) df.</p>
+</div></blockquote>
+<p>This only works if the broadcasting dimension of the statistics of q(f) (mean and variance)
+are broadcastable with that of the data Y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>X</strong> has shape [broadcast <em>batch</em>…, <em>input_dim</em>].</p></li>
+</ul>
+<p>input tensor</p>
+</p></li>
+<li><p><strong>Fmu</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Fmu</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>mean function evaluation tensor</p>
+</p></li>
+<li><p><strong>Fvar</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Fvar</strong> has shape [broadcast <em>batch</em>…, <em>latent_dim</em>].</p></li>
+</ul>
+<p>variance of function evaluation tensor</p>
+</p></li>
+<li><p><strong>Y</strong> (<em>ndarray</em><em>[</em><em>Any</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>Tensor</em><em> | </em><em>Variable</em><em> | </em><em>Parameter</em>) – <ul>
+<li><p><strong>Y</strong> has shape [broadcast <em>batch</em>…, <em>observation_dim</em>].</p></li>
+</ul>
+<p>observation tensor</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>return</strong> has shape [<em>batch</em>…].</p></li>
+</ul>
+<p>expected log density of the data given q(F)</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tensor</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gpf.likelihoods.MOGaussian.with_name_scope">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">with_name_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gpf.likelihoods.MOGaussian.with_name_scope" title="Link to this definition">§</a></dt>
+<dd><p>Decorator to automatically enter the module name scope.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="nd">@tf</span><span class="o">.</span><span class="n">Module</span><span class="o">.</span><span class="n">with_name_scope</span>
+<span class="gp">... </span>  <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">):</span>
+<span class="gp">... </span>      <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">]))</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using the above module would produce <a href="#id1"><span class="problematic" id="id2">`</span></a>tf.Variable`s and <a href="#id3"><span class="problematic" id="id4">`</span></a>tf.Tensor`s whose
+names included the module name:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">MyModule</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="go">&lt;tf.Tensor: shape=(1, 3), dtype=float32, numpy=..., dtype=float32)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span><span class="o">.</span><span class="n">w</span>
+<span class="go">&lt;tf.Variable &#39;my_module/Variable:0&#39; shape=(2, 3) dtype=float32,</span>
+<span class="go">numpy=..., dtype=float32)&gt;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>method</strong> – The method to wrap.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The original method wrapped such that it enters the module’s name scope.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="rc.gpf.likelihoods.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">rc.gpf.likelihoods</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="rc.gpf.mean_functions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">rc.gpf.mean_functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian"><code class="docutils literal notranslate"><span class="pre">MOGaussian</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.__init__"><code class="docutils literal notranslate"><span class="pre">MOGaussian.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.N"><code class="docutils literal notranslate"><span class="pre">MOGaussian.N()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.split_axis_shape"><code class="docutils literal notranslate"><span class="pre">MOGaussian.split_axis_shape()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.conditional_mean"><code class="docutils literal notranslate"><span class="pre">MOGaussian.conditional_mean()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.conditional_variance"><code class="docutils literal notranslate"><span class="pre">MOGaussian.conditional_variance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.log_prob"><code class="docutils literal notranslate"><span class="pre">MOGaussian.log_prob()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.name"><code class="docutils literal notranslate"><span class="pre">MOGaussian.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.name_scope"><code class="docutils literal notranslate"><span class="pre">MOGaussian.name_scope</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.non_trainable_variables"><code class="docutils literal notranslate"><span class="pre">MOGaussian.non_trainable_variables</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.predict_log_density"><code class="docutils literal notranslate"><span class="pre">MOGaussian.predict_log_density()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.predict_mean_and_var"><code class="docutils literal notranslate"><span class="pre">MOGaussian.predict_mean_and_var()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.submodules"><code class="docutils literal notranslate"><span class="pre">MOGaussian.submodules</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.trainable_variables"><code class="docutils literal notranslate"><span class="pre">MOGaussian.trainable_variables</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.variables"><code class="docutils literal notranslate"><span class="pre">MOGaussian.variables</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.variational_expectations"><code class="docutils literal notranslate"><span class="pre">MOGaussian.variational_expectations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gpf.likelihoods.MOGaussian.with_name_scope"><code class="docutils literal notranslate"><span class="pre">MOGaussian.with_name_scope()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/pages/package/rc.gpf.likelihoods.MOGaussian.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Robert A. Milton.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

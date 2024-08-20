@@ -2,7 +2,7 @@
 Module Reference
 ==================
 
-.. automodule:: romcomma
+.. automodule:: rc
 
 .. rubric:: Modules
 

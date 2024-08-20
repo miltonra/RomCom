@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Overview: module code &#8212; RomComma1.0</title>
+    <title>Overview: module code &#8212; RomComma</title>
   
   
   
@@ -28,6 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/_static/pydata-custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -37,6 +39,8 @@
     <script src="../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/index';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -114,8 +118,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="RomComma - Home"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="RomComma - Home"/>`);</script>
   
-    <p class="title logo__title">RomComma1.0</p>
   
 </a></div>
     
@@ -328,26 +338,29 @@ document.write(`
                   
   <h1>All modules for which code is available</h1>
 <ul><li><a href="builtins.html">builtins</a></li>
-<li><a href="romcomma/base/definitions.html">romcomma.base.definitions</a></li>
-<li><a href="romcomma/base/models.html">romcomma.base.models</a></li>
-<li><a href="romcomma/data/models.html">romcomma.data.models</a></li>
-<li><a href="romcomma/gpf/base.html">romcomma.gpf.base</a></li>
-<li><a href="romcomma/gpf/kernels.html">romcomma.gpf.kernels</a></li>
-<li><a href="romcomma/gpf/likelihoods.html">romcomma.gpf.likelihoods</a></li>
-<li><a href="romcomma/gpf/mean_functions.html">romcomma.gpf.mean_functions</a></li>
-<li><a href="romcomma/gpf/models.html">romcomma.gpf.models</a></li>
-<li><a href="romcomma/gpf/tests.html">romcomma.gpf.tests</a></li>
-<li><a href="romcomma/gpr/kernels.html">romcomma.gpr.kernels</a></li>
-<li><a href="romcomma/gpr/models.html">romcomma.gpr.models</a></li>
-<li><a href="romcomma/gsa/base.html">romcomma.gsa.base</a></li>
-<li><a href="romcomma/gsa/calibrators.html">romcomma.gsa.calibrators</a></li>
-<li><a href="romcomma/gsa/models.html">romcomma.gsa.models</a></li>
-<li><a href="romcomma/user/contexts.html">romcomma.user.contexts</a></li>
-<li><a href="romcomma/user/functions.html">romcomma.user.functions</a></li>
-<li><a href="romcomma/user/regressions.html">romcomma.user.regressions</a></li>
-<li><a href="romcomma/user/result.html">romcomma.user.result</a></li>
-<li><a href="romcomma/user/run.html">romcomma.user.run</a></li>
-<li><a href="romcomma/user/sample.html">romcomma.user.sample</a></li>
+<li><a href="namedtuple_RankEquation.html">namedtuple_RankEquation</a></li>
+<li><a href="namedtuple_RankEquations.html">namedtuple_RankEquations</a></li>
+<li><a href="namedtuple_Tables.html">namedtuple_Tables</a></li>
+<li><a href="rc/base/definitions.html">rc.base.definitions</a></li>
+<li><a href="rc/base/models.html">rc.base.models</a></li>
+<li><a href="rc/data/models.html">rc.data.models</a></li>
+<li><a href="rc/gpf/base.html">rc.gpf.base</a></li>
+<li><a href="rc/gpf/kernels.html">rc.gpf.kernels</a></li>
+<li><a href="rc/gpf/likelihoods.html">rc.gpf.likelihoods</a></li>
+<li><a href="rc/gpf/mean_functions.html">rc.gpf.mean_functions</a></li>
+<li><a href="rc/gpf/models.html">rc.gpf.models</a></li>
+<li><a href="rc/gpf/tests.html">rc.gpf.tests</a></li>
+<li><a href="rc/gpr/kernels.html">rc.gpr.kernels</a></li>
+<li><a href="rc/gpr/models.html">rc.gpr.models</a></li>
+<li><a href="rc/gsa/base.html">rc.gsa.base</a></li>
+<li><a href="rc/gsa/calibrators.html">rc.gsa.calibrators</a></li>
+<li><a href="rc/gsa/models.html">rc.gsa.models</a></li>
+<li><a href="rc/user/contexts.html">rc.user.contexts</a></li>
+<li><a href="rc/user/functions.html">rc.user.functions</a></li>
+<li><a href="rc/user/regressions.html">rc.user.regressions</a></li>
+<li><a href="rc/user/result.html">rc.user.result</a></li>
+<li><a href="rc/user/run.html">rc.user.run</a></li>
+<li><a href="rc/user/sample.html">rc.user.sample</a></li>
 </ul>
 
                 </article>

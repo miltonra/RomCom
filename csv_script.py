@@ -27,9 +27,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from romcomma.base.definitions import *
-from romcomma import user, data
-from romcomma.gpr import kernels
+from rc.base.definitions import *
+from rc import user, data
+from rc.gpr import kernels
 import argparse
 import tarfile
 import os

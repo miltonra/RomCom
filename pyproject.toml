@@ -53,7 +53,8 @@ namespaces = false
 dev = [
     "Sphinx >= 8.0",
     "insipid-sphinx-theme >= 0.4",
-    "pydata_sphinx_theme >= 0.15"
+    "pydata-sphinx-theme >= 0.15",
+    "sphinx-copybutton >= 0.5"
 ]
 
 [build-system]

@@ -27,8 +27,8 @@ import argparse
 import tarfile
 import os
 
-from romcomma.base.definitions import *
-from romcomma import user
+from rc.base.definitions import *
+from rc import user
 
 #: Parameters to generate data from test functions.
 K: int = -2  #: The number of Folds in a new repository.

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Module Reference &#8212; RomComma1.0</title>
+    <title>Module Reference &#8212; RomComma</title>
   
   
   
@@ -29,6 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/_static/pydata-custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -38,11 +40,13 @@
     <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/package/reference';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="romcomma.base" href="romcomma.base.html" />
+    <link rel="next" title="rc.base" href="rc.base.html" />
     <link rel="prev" title="Getting Started" href="../start.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -118,8 +122,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="RomComma - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="RomComma - Home"/>`);</script>
   
-    <p class="title logo__title">RomComma1.0</p>
   
 </a></div>
     
@@ -289,151 +299,151 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="romcomma.base.html">romcomma.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.base.definitions.html">romcomma.base.definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.LOGGING_LEVEL.html">romcomma.base.definitions.LOGGING_LEVEL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.TF_CPP_MIN_LOG_LEVEL.html">romcomma.base.definitions.TF_CPP_MIN_LOG_LEVEL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.ZERO.html">romcomma.base.definitions.ZERO</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.Options.html">romcomma.base.definitions.Options</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.Float.html">romcomma.base.definitions.Float</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.Int.html">romcomma.base.definitions.Int</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.NP.html">romcomma.base.definitions.NP</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.PD.html">romcomma.base.definitions.PD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.definitions.TF.html">romcomma.base.definitions.TF</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.base.html">rc.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.base.definitions.html">rc.base.definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.LOGGING_LEVEL.html">rc.base.definitions.LOGGING_LEVEL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.TF_CPP_MIN_LOG_LEVEL.html">rc.base.definitions.TF_CPP_MIN_LOG_LEVEL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.Options.html">rc.base.definitions.Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.ZERO.html">rc.base.definitions.ZERO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.Float.html">rc.base.definitions.Float</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.Int.html">rc.base.definitions.Int</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.NP.html">rc.base.definitions.NP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.PD.html">rc.base.definitions.PD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.definitions.TF.html">rc.base.definitions.TF</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.base.models.html">romcomma.base.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.models.DataBase.html">romcomma.base.models.DataBase</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.models.DataTable.html">romcomma.base.models.DataTable</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.models.Meta.html">romcomma.base.models.Meta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.models.Model.html">romcomma.base.models.Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.models.Store.html">romcomma.base.models.Store</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.models.ToyDataBase.html">romcomma.base.models.ToyDataBase</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.base.models.ToyModel.html">romcomma.base.models.ToyModel</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="romcomma.data.html">romcomma.data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.data.models.html">romcomma.data.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.data.models.Fold.html">romcomma.data.models.Fold</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.data.models.Normalization.html">romcomma.data.models.Normalization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.data.models.Repository.html">romcomma.data.models.Repository</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.base.models.html">rc.base.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.DataBase.html">rc.base.models.DataBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.DataTable.html">rc.base.models.DataTable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.Meta.html">rc.base.models.Meta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.Model.html">rc.base.models.Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.Store.html">rc.base.models.Store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.ToyDataBase.html">rc.base.models.ToyDataBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.base.models.ToyModel.html">rc.base.models.ToyModel</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="romcomma.gpf.html">romcomma.gpf</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gpf.base.html">romcomma.gpf.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.base.Variance.html">romcomma.gpf.base.Variance</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gpf.kernels.html">romcomma.gpf.kernels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.kernels.MOStationary.html">romcomma.gpf.kernels.MOStationary</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.kernels.RBF.html">romcomma.gpf.kernels.RBF</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gpf.likelihoods.html">romcomma.gpf.likelihoods</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.likelihoods.MOGaussian.html">romcomma.gpf.likelihoods.MOGaussian</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gpf.mean_functions.html">romcomma.gpf.mean_functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.mean_functions.MOMeanFunction.html">romcomma.gpf.mean_functions.MOMeanFunction</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gpf.models.html">romcomma.gpf.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.models.MOGPR.html">romcomma.gpf.models.MOGPR</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gpf.tests.html">romcomma.gpf.tests</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.tests.covariance.html">romcomma.gpf.tests.covariance</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.tests.increment.html">romcomma.gpf.tests.increment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.tests.kernel.html">romcomma.gpf.tests.kernel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.tests.likelihood.html">romcomma.gpf.tests.likelihood</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpf.tests.regression_data.html">romcomma.gpf.tests.regression_data</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.data.html">rc.data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.data.models.html">rc.data.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.data.models.Fold.html">rc.data.models.Fold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.data.models.Normalization.html">rc.data.models.Normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.data.models.Repository.html">rc.data.models.Repository</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="romcomma.gpr.html">romcomma.gpr</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gpr.kernels.html">romcomma.gpr.kernels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpr.kernels.Kernel.html">romcomma.gpr.kernels.Kernel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpr.kernels.RBF.html">romcomma.gpr.kernels.RBF</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.gpf.html">rc.gpf</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.base.html">rc.gpf.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.base.Variance.html">rc.gpf.base.Variance</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gpr.models.html">romcomma.gpr.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpr.models.GPR.html">romcomma.gpr.models.GPR</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpr.models.Likelihood.html">romcomma.gpr.models.Likelihood</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gpr.models.MOGP.html">romcomma.gpr.models.MOGP</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.kernels.html">rc.gpf.kernels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.kernels.MOStationary.html">rc.gpf.kernels.MOStationary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.kernels.RBF.html">rc.gpf.kernels.RBF</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.likelihoods.html">rc.gpf.likelihoods</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.likelihoods.MOGaussian.html">rc.gpf.likelihoods.MOGaussian</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="romcomma.gsa.html">romcomma.gsa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gsa.base.html">romcomma.gsa.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.base.diag_det.html">romcomma.gsa.base.diag_det</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.base.mean.html">romcomma.gsa.base.mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.base.ms.html">romcomma.gsa.base.ms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.base.rms.html">romcomma.gsa.base.rms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.base.sos.html">romcomma.gsa.base.sos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.base.sym_check.html">romcomma.gsa.base.sym_check</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.base.Calibrator.html">romcomma.gsa.base.Calibrator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.base.Gaussian.html">romcomma.gsa.base.Gaussian</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.mean_functions.html">rc.gpf.mean_functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.mean_functions.MOMeanFunction.html">rc.gpf.mean_functions.MOMeanFunction</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gsa.calibrators.html">romcomma.gsa.calibrators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.calibrators.ClosedSobol.html">romcomma.gsa.calibrators.ClosedSobol</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.calibrators.ClosedSobolWithError.html">romcomma.gsa.calibrators.ClosedSobolWithError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.calibrators.ClosedSobolWithRotation.html">romcomma.gsa.calibrators.ClosedSobolWithRotation</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.models.html">rc.gpf.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.models.MOGPR.html">rc.gpf.models.MOGPR</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.gsa.models.html">romcomma.gsa.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.models.GSA.html">romcomma.gsa.models.GSA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.gsa.models.Sobol.html">romcomma.gsa.models.Sobol</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpf.tests.html">rc.gpf.tests</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.covariance.html">rc.gpf.tests.covariance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.increment.html">rc.gpf.tests.increment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.kernel.html">rc.gpf.tests.kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.likelihood.html">rc.gpf.tests.likelihood</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpf.tests.regression_data.html">rc.gpf.tests.regression_data</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="romcomma.rom.html">romcomma.rom</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="romcomma.rom.old.html">romcomma.rom.old</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.gpr.html">rc.gpr</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpr.kernels.html">rc.gpr.kernels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.kernels.Kernel.html">rc.gpr.kernels.Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.kernels.RBF.html">rc.gpr.kernels.RBF</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="romcomma.user.html">romcomma.user</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.user.contexts.html">romcomma.user.contexts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.contexts.Environment.html">romcomma.user.contexts.Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.contexts.Timer.html">romcomma.user.contexts.Timer</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gpr.models.html">rc.gpr.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.models.GPR.html">rc.gpr.models.GPR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.models.Likelihood.html">rc.gpr.models.Likelihood</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gpr.models.MOGP.html">rc.gpr.models.MOGP</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.user.functions.html">romcomma.user.functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.functions.ISHIGAMI.html">romcomma.user.functions.ISHIGAMI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.functions.SOBOL_G.html">romcomma.user.functions.SOBOL_G</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.functions.OAKLEY2004_5.html">romcomma.user.functions.OAKLEY2004_5</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.functions.OAKLEY2004.html">romcomma.user.functions.OAKLEY2004</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.functions.ALL.html">romcomma.user.functions.ALL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.functions.linspace.html">romcomma.user.functions.linspace</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.functions.Scalar.html">romcomma.user.functions.Scalar</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.functions.Vector.html">romcomma.user.functions.Vector</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.user.regressions.html">romcomma.user.regressions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.regressions.gls.html">romcomma.user.regressions.gls</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.gsa.html">rc.gsa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gsa.base.html">rc.gsa.base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.diag_det.html">rc.gsa.base.diag_det</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.mean.html">rc.gsa.base.mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.ms.html">rc.gsa.base.ms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.rms.html">rc.gsa.base.rms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.sos.html">rc.gsa.base.sos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.sym_check.html">rc.gsa.base.sym_check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.Calibrator.html">rc.gsa.base.Calibrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.base.Gaussian.html">rc.gsa.base.Gaussian</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.user.result.html">romcomma.user.result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.result.Collect.html">romcomma.user.result.Collect</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gsa.calibrators.html">rc.gsa.calibrators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.calibrators.ClosedSobol.html">rc.gsa.calibrators.ClosedSobol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.calibrators.ClosedSobolWithError.html">rc.gsa.calibrators.ClosedSobolWithError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.calibrators.ClosedSobolWithRotation.html">rc.gsa.calibrators.ClosedSobolWithRotation</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.user.run.html">romcomma.user.run</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.run.gpr.html">romcomma.user.run.gpr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.run.gsa.html">romcomma.user.run.gsa</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.gsa.models.html">rc.gsa.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.models.GSA.html">rc.gsa.models.GSA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.gsa.models.Sobol.html">rc.gsa.models.Sobol</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="romcomma.user.sample.html">romcomma.user.sample</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.sample.PCA.html">romcomma.user.sample.PCA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.sample.permute_axes.html">romcomma.user.sample.permute_axes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.sample.DOE.html">romcomma.user.sample.DOE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.sample.Function.html">romcomma.user.sample.Function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="romcomma.user.sample.GaussianNoise.html">romcomma.user.sample.GaussianNoise</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.rom.html">rc.rom</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="rc.rom.old.html">rc.rom.old</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rc.user.html">rc.user</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.contexts.html">rc.user.contexts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.contexts.Environment.html">rc.user.contexts.Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.contexts.Timer.html">rc.user.contexts.Timer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.functions.html">rc.user.functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.ISHIGAMI.html">rc.user.functions.ISHIGAMI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.SOBOL_G.html">rc.user.functions.SOBOL_G</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.OAKLEY2004_5.html">rc.user.functions.OAKLEY2004_5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.OAKLEY2004.html">rc.user.functions.OAKLEY2004</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.ALL.html">rc.user.functions.ALL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.linspace.html">rc.user.functions.linspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.Scalar.html">rc.user.functions.Scalar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.functions.Vector.html">rc.user.functions.Vector</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.regressions.html">rc.user.regressions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.regressions.gls.html">rc.user.regressions.gls</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.result.html">rc.user.result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.result.Collect.html">rc.user.result.Collect</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.run.html">rc.user.run</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.run.gpr.html">rc.user.run.gpr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.run.gsa.html">rc.user.run.gsa</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rc.user.sample.html">rc.user.sample</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.PCA.html">rc.user.sample.PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.permute_axes.html">rc.user.sample.permute_axes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.DOE.html">rc.user.sample.DOE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.Function.html">rc.user.sample.Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rc.user.sample.GaussianNoise.html">rc.user.sample.GaussianNoise</a></li>
 </ul>
 </details></li>
 </ul>
@@ -492,51 +502,51 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-romcomma">
-<span id="module-reference"></span><h1>Module Reference<a class="headerlink" href="#module-romcomma" title="Link to this heading">#</a></h1>
+  <section id="module-rc">
+<span id="module-reference"></span><h1>Module Reference<a class="headerlink" href="#module-rc" title="Link to this heading">§</a></h1>
 <p>The rom-comma library</p>
 <p class="rubric">Modules</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="romcomma.base.html#module-romcomma.base" title="romcomma.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></p></td>
-<td><p>Base classes and definitions and underpinning the entire romcomma library</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.base.html#module-rc.base" title="rc.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></a></p></td>
+<td><p>Base classes and definitions and underpinning the entire rc library</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="romcomma.data.html#module-romcomma.data" title="romcomma.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rc.data.html#module-rc.data" title="rc.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
 <td><p>Data storage classes</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="romcomma.gpf.html#module-romcomma.gpf" title="romcomma.gpf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpf</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.gpf.html#module-rc.gpf" title="rc.gpf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpf</span></code></a></p></td>
 <td><p>Extensions to the GPFlow (GPF) library, to support multi-output Gaussian Process Regression with mutually dependent outputs</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="romcomma.gpr.html#module-romcomma.gpr" title="romcomma.gpr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rc.gpr.html#module-rc.gpr" title="rc.gpr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpr</span></code></a></p></td>
 <td><p>Gaussian Process Regression (GPR) functionality</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="romcomma.gsa.html#module-romcomma.gsa" title="romcomma.gsa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gsa</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.gsa.html#module-rc.gsa" title="rc.gsa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gsa</span></code></a></p></td>
 <td><p>Global Sensitivity Analysis (GSA) functionality</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="romcomma.rom.html#module-romcomma.rom" title="romcomma.rom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rom</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rc.rom.html#module-rc.rom" title="rc.rom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rom</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="romcomma.user.html#module-romcomma.user" title="romcomma.user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user</span></code></a></p></td>
-<td><p><strong>The primary user interface to romcomma</strong></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.user.html#module-rc.user" title="rc.user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user</span></code></a></p></td>
+<td><p><strong>The primary user interface to rc</strong></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <p class="rubric">Glossary</p>
 <dl class="simple glossary">
-<dt id="term-folder">folder<a class="headerlink" href="#term-folder" title="Link to this term">#</a></dt><dd><p>directory</p>
+<dt id="term-folder">folder<a class="headerlink" href="#term-folder" title="Link to this term">§</a></dt><dd><p>directory</p>
 </dd>
-<dt id="term-GP-gf"><code class="docutils literal notranslate"><span class="pre">GP</span> <span class="pre">|</span> <span class="pre">gf</span></code><a class="headerlink" href="#term-GP-gf" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">gpflow</span></code>.</p>
+<dt id="term-GP-gf"><code class="docutils literal notranslate"><span class="pre">GP</span> <span class="pre">|</span> <span class="pre">gf</span></code><a class="headerlink" href="#term-GP-gf" title="Link to this term">§</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">gpflow</span></code>.</p>
 </dd>
-<dt id="term-NP-np"><code class="docutils literal notranslate"><span class="pre">NP</span> <span class="pre">|</span> <span class="pre">np</span></code><a class="headerlink" href="#term-NP-np" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+<dt id="term-NP-np"><code class="docutils literal notranslate"><span class="pre">NP</span> <span class="pre">|</span> <span class="pre">np</span></code><a class="headerlink" href="#term-NP-np" title="Link to this term">§</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
 </dd>
-<dt id="term-PD-pd"><code class="docutils literal notranslate"><span class="pre">PD</span> <span class="pre">|</span> <span class="pre">pd</span></code><a class="headerlink" href="#term-PD-pd" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<dt id="term-PD-pd"><code class="docutils literal notranslate"><span class="pre">PD</span> <span class="pre">|</span> <span class="pre">pd</span></code><a class="headerlink" href="#term-PD-pd" title="Link to this term">§</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
 </dd>
-<dt id="term-RMSE">RMSE<a class="headerlink" href="#term-RMSE" title="Link to this term">#</a></dt><dd><p>Root Mean Square Error.</p>
+<dt id="term-RMSE">RMSE<a class="headerlink" href="#term-RMSE" title="Link to this term">§</a></dt><dd><p>Root Mean Square Error.</p>
 </dd>
-<dt id="term-SD">SD<a class="headerlink" href="#term-SD" title="Link to this term">#</a></dt><dd><p>Standard Deviation.</p>
+<dt id="term-SD">SD<a class="headerlink" href="#term-SD" title="Link to this term">§</a></dt><dd><p>Standard Deviation.</p>
 </dd>
-<dt id="term-TF-tf"><code class="docutils literal notranslate"><span class="pre">TF</span> <span class="pre">|</span> <span class="pre">tf</span></code><a class="headerlink" href="#term-TF-tf" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>.</p>
+<dt id="term-TF-tf"><code class="docutils literal notranslate"><span class="pre">TF</span> <span class="pre">|</span> <span class="pre">tf</span></code><a class="headerlink" href="#term-TF-tf" title="Link to this term">§</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>.</p>
 </dd>
 </dl>
 </section>
@@ -561,11 +571,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="romcomma.base.html"
+       href="rc.base.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">romcomma.base</p>
+        <p class="prev-next-title">rc.base</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

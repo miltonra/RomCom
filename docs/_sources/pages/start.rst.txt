@@ -19,7 +19,7 @@ Runtime dependencies are documented in `pyproject.toml <https://github.com/C-O-M
 
 
 Conceptual Hierarchy
-------------------
+----------------------
 The ``romcomma`` package is organized in a modular hierarchy
 
 .. image:: resources/folder_tree.png

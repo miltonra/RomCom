@@ -1,0 +1,579 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rc.user.run &#8212; RomComma</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/_static/pydata-custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/rc/user/run';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="RomComma - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="RomComma - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pages/start.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pages/package/reference.html">
+    Module Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../glossary.html">
+    Glossary
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pages/start.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pages/package/reference.html">
+    Module Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../glossary.html">
+    Glossary
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">rc.user.run</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for rc.user.run</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  BSD 3-Clause License.</span>
+<span class="c1"># </span>
+<span class="c1">#  Copyright (c) 2019-2024 Robert A. Milton. All rights reserved.</span>
+<span class="c1"># </span>
+<span class="c1">#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</span>
+<span class="c1"># </span>
+<span class="c1">#  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</span>
+<span class="c1"># </span>
+<span class="c1">#  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the</span>
+<span class="c1">#     documentation and/or other materials provided with the distribution.</span>
+<span class="c1"># </span>
+<span class="c1">#  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this</span>
+<span class="c1">#     software without specific prior written permission.</span>
+<span class="c1"># </span>
+<span class="c1">#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,</span>
+<span class="c1">#  THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR</span>
+<span class="c1">#  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,</span>
+<span class="c1">#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF</span>
+<span class="c1">#  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,</span>
+<span class="c1">#  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="sd">&quot;&quot;&quot; **User interface to GPR, GSA and ROM** &quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">rc.base.definitions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">rc.data.models</span> <span class="kn">import</span> <span class="n">Repository</span><span class="p">,</span> <span class="n">Fold</span>
+<span class="kn">from</span> <span class="nn">rc.gpr.kernels</span> <span class="kn">import</span> <span class="n">Kernel</span>
+<span class="kn">from</span> <span class="nn">rc.gpr.models</span> <span class="kn">import</span> <span class="n">GPR</span><span class="p">,</span> <span class="n">MOGP</span>
+<span class="kn">from</span> <span class="nn">rc.gsa.models</span> <span class="kn">import</span> <span class="n">GSA</span><span class="p">,</span> <span class="n">Sobol</span>
+<span class="kn">from</span> <span class="nn">rc.user</span> <span class="kn">import</span> <span class="n">contexts</span><span class="p">,</span> <span class="n">result</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+
+<div class="viewcode-block" id="gpr">
+<a class="viewcode-back" href="../../../pages/package/rc.user.run.gpr.html#rc.user.run.gpr">[docs]</a>
+<span class="k">def</span> <span class="nf">gpr</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">repo</span><span class="p">:</span> <span class="n">Repository</span><span class="p">,</span> <span class="n">is_read</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">kernel_parameters</span><span class="p">:</span> <span class="n">Kernel</span><span class="o">.</span><span class="n">Data</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">is_calibrated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">is_tested</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Undertake GPR on a Fold, or recursively across the Folds in a Repository.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: The MOGP name.</span>
+<span class="sd">        repo: A Fold to house the MOGP, or a Repository containing Folds to house the GPs.</span>
+<span class="sd">        is_read: If True, MOGP kernel data and likelihood_variance are read from ``fold.folder/name``, otherwise defaults are used.</span>
+<span class="sd">            If None, the nearest ancestor MOGP in the independence/isotropy hierarchy is recursively constructed from its nearest ancestor MOGP if necessary,</span>
+<span class="sd">            then read and broadcast available.</span>
+<span class="sd">        is_covariant: Whether the outputs are independent of each other or not. If None, independent is run then broadcast to run dependent.</span>
+<span class="sd">        is_isotropic: Whether the kernel is isotropic. If None, isotropic is run, then broadcast to run anisotropic.</span>
+<span class="sd">        ignore_exceptions: Whether to continue when the MOGP provider throws an exception.</span>
+<span class="sd">        kernel_parameters: If not None, this replaces the Kernel specified by the MOGP default.</span>
+<span class="sd">        likelihood_variance: If not None this replaces the likelihood_variance specified by the MOGP default.</span>
+<span class="sd">        is_calibrated: Whether to is_calibrated each MOGP.</span>
+<span class="sd">        is_tested: Whether to test_data each MOGP.</span>
+<span class="sd">        kwargs: A Dict of implementation-dependent passes straight to MOGP.Optimize().</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of the names of the GPs which have been constructed. The MOGP.Data are ``user.results.Aggregated`` over folds</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: If repo is not a Fold, and contains no Folds.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">Fold</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">repo</span><span class="o">.</span><span class="n">folds</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gpr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">Fold</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">is_read</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">kernel_parameters</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">,</span> <span class="n">is_calibrated</span><span class="p">,</span> <span class="n">is_tested</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_tested</span><span class="p">:</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">Collect</span><span class="p">({</span><span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]},</span> <span class="s1">&#39;test_summary&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}},</span>
+                      <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">},</span> <span class="n">ignore_exceptions</span><span class="p">)</span><span class="o">.</span><span class="n">from_folds</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">Collect</span><span class="p">({</span><span class="s1">&#39;variance&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;log_marginal&#39;</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">/likelihood&#39;</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">},</span> <span class="n">ignore_exceptions</span><span class="p">)</span><span class="o">.</span><span class="n">from_folds</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">Collect</span><span class="p">({</span><span class="s1">&#39;variance&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;lengthscales&#39;</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">/kernel&#39;</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">},</span> <span class="n">ignore_exceptions</span><span class="p">)</span><span class="o">.</span><span class="n">from_folds</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">names</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_covariant</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gpr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">is_read</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">kernel_parameters</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">,</span> <span class="n">is_calibrated</span><span class="p">,</span> <span class="n">is_tested</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">names</span> <span class="o">+</span>
+                    <span class="n">gpr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">is_isotropic</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span>
+                        <span class="n">kernel_parameters</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">,</span> <span class="n">is_calibrated</span><span class="p">,</span> <span class="n">is_tested</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;.c&#39;</span> <span class="k">if</span> <span class="n">is_covariant</span> <span class="k">else</span> <span class="s1">&#39;.v&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_isotropic</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gpr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">is_read</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">kernel_parameters</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">,</span> <span class="n">is_calibrated</span><span class="p">,</span> <span class="n">is_tested</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">names</span> <span class="o">+</span> <span class="n">gpr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">kernel_parameters</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">,</span> <span class="n">is_calibrated</span><span class="p">,</span> <span class="n">is_tested</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">full_name</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;.i&#39;</span> <span class="k">if</span> <span class="n">is_isotropic</span> <span class="k">else</span> <span class="s1">&#39;.a&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_read</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="n">full_name</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">nearest_name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.v&#39;</span> <span class="o">+</span> <span class="n">full_name</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_covariant</span> <span class="ow">and</span> <span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="n">nearest_name</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()):</span>
+                    <span class="n">nearest_name</span> <span class="o">=</span> <span class="n">full_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.i&#39;</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="n">nearest_name</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                        <span class="k">return</span> <span class="n">gpr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">kernel_parameters</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">,</span>
+                                   <span class="n">is_calibrated</span><span class="p">,</span> <span class="n">is_tested</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">GPR</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">src_folder</span><span class="o">=</span><span class="n">repo</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="n">nearest_name</span><span class="p">,</span> <span class="n">dst_folder</span><span class="o">=</span><span class="n">repo</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="n">full_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">gpr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">kernel_parameters</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">,</span> <span class="n">is_calibrated</span><span class="p">,</span> <span class="n">is_tested</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">contexts</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;fold.</span><span class="si">{</span><span class="n">repo</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">full_name</span><span class="si">}</span><span class="s1"> GPR&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_read</span><span class="p">:</span>
+                    <span class="n">gp</span> <span class="o">=</span> <span class="n">MOGP</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">is_read</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">gp</span> <span class="o">=</span> <span class="n">MOGP</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">is_read</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">kernel_parameters</span><span class="p">,</span> <span class="n">likelihood_variance</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_calibrated</span><span class="p">:</span>
+                    <span class="n">gp</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_tested</span><span class="p">:</span>
+                    <span class="n">gp</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ignore_exceptions</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">exception</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">full_name</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="gsa">
+<a class="viewcode-back" href="../../../pages/package/rc.user.run.gsa.html#rc.user.run.gsa">[docs]</a>
+<span class="k">def</span> <span class="nf">gsa</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">repo</span><span class="p">:</span> <span class="n">Repository</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span> <span class="n">is_isotropic</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span>
+
+        <span class="n">kinds</span><span class="p">:</span> <span class="n">GSA</span><span class="o">.</span><span class="n">Kind</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">GSA</span><span class="o">.</span><span class="n">Kind</span><span class="p">]</span> <span class="o">=</span> <span class="n">GSA</span><span class="o">.</span><span class="n">ALL_KINDS</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">ignore_exceptions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_error_calculated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Undertake GSA on a Fold, or recursively across the Folds in a Repository.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: The GSA name.</span>
+<span class="sd">        repo: A Fold to house the GSA, or a Repository containing Folds to house the GSAs.</span>
+<span class="sd">        is_covariant: Whether each output is independent of the other outputs. None results in variant (independent) followed by covariant (dependent).</span>
+<span class="sd">        is_isotropic: Whether the kernel is isotropic. If None, isotropic is run, then broadcast to run anisotropic.</span>
+<span class="sd">        kinds: Kind of index to calculate - first_order, closed or total. A Sequence of Kinds will be run consecutively.</span>
+<span class="sd">        is_error_calculated: Whether to calculate variances (errors) on the Sobol indices.</span>
+<span class="sd">            The calculation of error is memory intensive, so leave this flag as False unless you are sure you need errors.</span>
+<span class="sd">            Furthermore, errors will only be calculated if the kernel of the GP has diagonal variance F.</span>
+<span class="sd">        m: The dimensionality of the reduced model. For a single calculation it is required that ``0 &lt; m &lt; gp.M``.</span>
+<span class="sd">            Any m outside this range results the Sobol index of each kind being calculated for all ``m in range(1, M+1)``.</span>
+<span class="sd">        ignore_exceptions: Whether to ignore exceptions (e.g. file not found) when they are encountered, or halt.</span>
+<span class="sd">        kwargs: A Dict of gsa calculation options, which updates the default gsa.undertake.calculation.META.</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: If repo is not a Fold, and contains no Folds.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of the calculation names which have been run, relative to repo.folder.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kinds</span> <span class="o">=</span> <span class="p">(</span><span class="n">kinds</span><span class="p">,)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kinds</span><span class="p">,</span> <span class="n">GSA</span><span class="o">.</span><span class="n">Kind</span><span class="p">)</span> <span class="k">else</span> <span class="n">kinds</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">Fold</span><span class="p">):</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">repo</span><span class="o">.</span><span class="n">folds</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gsa</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">Fold</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">is_error_calculated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">Collect</span><span class="p">({</span><span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="p">{}}</span> <span class="o">|</span> <span class="p">({</span><span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="p">{}}</span> <span class="k">if</span> <span class="n">is_error_calculated</span> <span class="k">else</span> <span class="p">{}),</span>
+                        <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">},</span> <span class="n">ignore_exceptions</span><span class="p">)</span><span class="o">.</span><span class="n">from_folds</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">fold_folder</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">folds</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="s1">&#39;meta.json&#39;</span><span class="p">,</span> <span class="n">repo</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="n">name</span> <span class="o">/</span> <span class="s1">&#39;meta.json&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_covariant</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gsa</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">is_error_calculated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">names</span> <span class="o">+</span>
+                    <span class="n">gsa</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">is_isotropic</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">is_isotropic</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">is_error_calculated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;.c&#39;</span> <span class="k">if</span> <span class="n">is_covariant</span> <span class="k">else</span> <span class="s1">&#39;.v&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_isotropic</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gsa</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">is_error_calculated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">names</span> <span class="o">+</span> <span class="n">gsa</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">is_covariant</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">kinds</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ignore_exceptions</span><span class="p">,</span> <span class="n">is_error_calculated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">full_name</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;.i&#39;</span> <span class="k">if</span> <span class="n">is_isotropic</span> <span class="k">else</span> <span class="s1">&#39;.a&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">contexts</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;fold.</span><span class="si">{</span><span class="n">repo</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">full_name</span><span class="si">}</span><span class="s1"> GSA&#39;</span><span class="p">):</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">gp</span> <span class="o">=</span> <span class="n">MOGP</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">is_read</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_covariant</span><span class="o">=</span><span class="n">is_covariant</span><span class="p">,</span> <span class="n">is_isotropic</span><span class="o">=</span><span class="n">is_isotropic</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">:</span>
+                    <span class="n">folder</span> <span class="o">=</span> <span class="n">Sobol</span><span class="p">(</span><span class="n">gp</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">is_error_calculated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">calibrate</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;folder&#39;</span><span class="p">)</span>
+                    <span class="n">names</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">folder</span><span class="p">)]</span>
+            <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ignore_exceptions</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">exception</span>
+    <span class="k">return</span> <span class="n">names</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Robert A. Milton.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
