@@ -33,12 +33,12 @@ classifiers = ["Topic :: Scientific/Engineering :: Artificial Intelligence",
                 "Intended Audience :: Science/Research", "Development Status :: 4 - Beta"]
 
 dependencies = [
-    "tensorflow == 2.16 ; python_version >= '3.11'",
+    "tensorflow == 2.17 ; python_version >= '3.11'",
     "tensorflow == 2.10 ; python_version < '3.11'",
-    "keras == 2.16 ; python_version >= '3.11'",
+    "keras == 2.15 ; python_version >= '3.11'",
     "keras == 2.10 ; python_version < '3.11'",
     "tensorflow-probability == 0.24 ; python_version >= '3.11'",
-    "tensorflow-probability == 0.23 ; python_version < '3.11'",
+    "tensorflow-probability == 0.18 ; python_version < '3.11'",
     "gpflow >= 2.9",
     "pandas >= 2.2",
     "SALib >= 1.5",
@@ -46,15 +46,14 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = [""]
-include = ["romcomma*"]  # alternatively: `exclude = ["additional*"]`
+include = ["rc*"]  # alternatively: `exclude = ["additional*"]`
 namespaces = false
 
 [project.optional-dependencies ]
 dev = [
     "Sphinx >= 8.0",
-    "insipid-sphinx-theme >= 0.4",
+    "sphinx-copybutton >= 0.5",
     "pydata-sphinx-theme >= 0.15",
-    "sphinx-copybutton >= 0.5"
 ]
 
 [build-system]
