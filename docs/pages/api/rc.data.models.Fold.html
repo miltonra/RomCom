@@ -1,0 +1,1108 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>rc.data.models.Fold &#8212; RomCom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pydata-custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/api/rc.data.models.Fold';</script>
+    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="rc.data.models.Normalization" href="rc.data.models.Normalization.html" />
+    <link rel="prev" title="rc.data.models" href="rc.data.models.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../intro.html">
+    Intro
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../glossary.html">
+    Glossary
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../intro.html">
+    Intro
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../glossary.html">
+    Glossary
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="api.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="rc.data.models.html" class="nav-link">rc.data.models</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">rc.data.models.Fold</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="rc-data-models-fold">
+<h1>rc.data.models.Fold<a class="headerlink" href="#rc-data-models-fold" title="Link to this heading">§</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rc.data.models.Fold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Fold</span></span><a class="reference internal" href="../../_modules/rc/data/models.html#Fold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Fold" title="Link to this definition">§</a></dt>
+<dd><p>Bases: <a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><code class="xref py py-class docutils literal notranslate"><span class="pre">Repository</span></code></a></p>
+<p>A Fold is defined as a folder containing a <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>, a <code class="docutils literal notranslate"><span class="pre">meta.json</span></code> file and a <code class="docutils literal notranslate"><span class="pre">test.csv</span></code> file.
+A Fold is a Repository equipped with a test_data pd.DataFrame backed by <code class="docutils literal notranslate"><span class="pre">test.csv</span></code>.</p>
+<p>Additionally, a fold can reduce the dimensionality <code class="docutils literal notranslate"><span class="pre">M</span></code> of the input <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.C" title="rc.data.models.Fold.C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">C</span></code></a></p></td>
+<td><p>The categorical input C, as an (N,I) design Matrix with column headings.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSV_OPTIONS</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.K" title="rc.data.models.Fold.K"><code class="xref py py-obj docutils literal notranslate"><span class="pre">K</span></code></a></p></td>
+<td><p>The number of folds contained in this Repository.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">META</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.Path" title="rc.data.models.Fold.Path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a></p></td>
+<td><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.X" title="rc.data.models.Fold.X"><code class="xref py py-obj docutils literal notranslate"><span class="pre">X</span></code></a></p></td>
+<td><p>The continuous input X, as an (N,M) design Matrix with column headings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.X_rotation" title="rc.data.models.Fold.X_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">X_rotation</span></code></a></p></td>
+<td><p>The rotation matrix applied to the input variables self.X, stored in X_rotation.csv.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.Y" title="rc.data.models.Fold.Y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+<td><p>The output Y as an (N,L) Matrix with column headings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.data" title="rc.data.models.Fold.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<td><p>The (N,M+L) design Matrix of input and output with column headings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.defaultMetaData" title="rc.data.models.Fold.defaultMetaData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">defaultMetaData</span></code></a></p></td>
+<td><p>Class attribute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.ext" title="rc.data.models.Fold.ext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ext</span></code></a></p></td>
+<td><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.folds" title="rc.data.models.Fold.folds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folds</span></code></a></p></td>
+<td><p>The indices of the folds contained in this Repository.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.meta" title="rc.data.models.Fold.meta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meta</span></code></a></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">Meta</span></code> currently in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalization</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.path" title="rc.data.models.Fold.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to this <code class="docutils literal notranslate"><span class="pre">Store.</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_csv</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_data</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.test_x" title="rc.data.models.Fold.test_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_x</span></code></a></p></td>
+<td><p>The test_data input x, as an (n,M) design Matrix with column headings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.test_y" title="rc.data.models.Fold.test_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_y</span></code></a></p></td>
+<td><p>The test_data output y as an (n,L) Matrix with column headings.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.__call__" title="rc.data.models.Fold.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(**options)</p></td>
+<td><p>Optimize the <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.__init__" title="rc.data.models.Fold.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(parent, k, **kwargs)</p></td>
+<td><p>Initialize Fold by reading existing files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.copy" title="rc.data.models.Fold.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>(src, dst)</p></td>
+<td><p>Copy <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>, overwriting any files in common.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.create" title="rc.data.models.Fold.create"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create</span></code></a>(path, **data_and_meta)</p></td>
+<td><p>Create a <code class="docutils literal notranslate"><span class="pre">Model</span></code> in <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.delete" title="rc.data.models.Fold.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>(path)</p></td>
+<td><p>Delete all <code class="docutils literal notranslate"><span class="pre">Model</span></code> files in <code class="docutils literal notranslate"><span class="pre">path</span></code>, retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any other files it contains.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fold_folder</span></code>(k)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.from_csv" title="rc.data.models.Fold.from_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_csv</span></code></a>(folder, csv[, PCA, meta])</p></td>
+<td><p>Create a Repository from a csv file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.from_df" title="rc.data.models.Fold.from_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_df</span></code></a>(folder, df[, meta])</p></td>
+<td><p>Create a Repository from a pd.DataFrame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.from_dfs" title="rc.data.models.Fold.from_dfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dfs</span></code></a>(parent, k, data, test_data[, ...])</p></td>
+<td><p>Create a Fold from a pd.DataFrame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.into_K_folds" title="rc.data.models.Fold.into_K_folds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">into_K_folds</span></code></a>(K[, shuffle_before_folding, ...])</p></td>
+<td><p>Fold this repo into K Folds, indexed by range(K).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.rotate_folds" title="rc.data.models.Fold.rotate_folds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_folds</span></code></a>(rotation)</p></td>
+<td><p>Uniformly rotate the Folds in a Repository.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.test_x">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.test_x" title="Link to this definition">§</a></dt>
+<dd><p>The test_data input x, as an (n,M) design Matrix with column headings.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.test_y">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test_y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.test_y" title="Link to this definition">§</a></dt>
+<dd><p>The test_data output y as an (n,L) Matrix with column headings.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.X_rotation">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X_rotation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#rc.data.models.Fold.X_rotation" title="Link to this definition">§</a></dt>
+<dd><p>The rotation matrix applied to the input variables self.X, stored in X_rotation.csv. Rotations are applied and stored cumulatively.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Fold.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Fold.__init__" title="Link to this definition">§</a></dt>
+<dd><p>Initialize Fold by reading existing files. Creation is handled by the classmethod Fold.from_dfs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent</strong> (<a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a>) – The parent Repository.</p></li>
+<li><p><strong>k</strong> (<em>int</em>) – The index of the Fold within parent.</p></li>
+<li><p><strong>M</strong> – The number of input columns used. If not 0 &amp;lt M &amp;lt self.M, all columns are used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.from_dfs">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_normalization_applicable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Fold.from_dfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Fold.from_dfs" title="Link to this definition">§</a></dt>
+<dd><p>Create a Fold from a pd.DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent</strong> (<a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a>) – The parent Repository.</p></li>
+<li><p><strong>k</strong> (<em>int</em>) – The index of the fold to be created.</p></li>
+<li><p><strong>data</strong> (<em>DataFrame</em>) – Training data.</p></li>
+<li><p><strong>test_data</strong> (<em>DataFrame</em>) – Test data.</p></li>
+<li><p><strong>normalization</strong> (<em>Path</em><em> | </em><em>str</em><em> | </em><em>None</em>) – An optional normalization.csv file to use.</p></li>
+<li><p><strong>is_normalization_applicable</strong> (<em>bool</em>) – Whether normalization is applicable. <code class="docutils literal notranslate"><span class="pre">False</span></code> means that normalization whatsoever will be applied.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#rc.data.models.Fold" title="rc.data.models.Fold"><em>Fold</em></a></p>
+</dd>
+</dl>
+<p>Returns: The Fold created.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.C">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">C</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.C" title="Link to this definition">§</a></dt>
+<dd><p>The categorical input C, as an (N,I) design Matrix with column headings.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DataBase</span></span><a class="headerlink" href="#rc.data.models.Fold.DataBase" title="Link to this definition">§</a></dt>
+<dd><p>Bases: <a class="reference internal" href="rc.base.models.DataBase.html#rc.base.models.DataBase" title="rc.base.models.DataBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataBase</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Path">
+<span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.data.models.Fold.DataBase.Path" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store. Do not override.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Table">
+<span class="sig-name descname"><span class="pre">Table</span></span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Table" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">DataTable.Data</span></code>. Do not override.</p>
+<p>alias of <a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Tables">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Tables</span></span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Tables" title="Link to this definition">§</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Tables(NotImplemented,)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Tables.__new__">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NotImplemented=</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0</span> <span class="pre">0</span>&#160; <span class="pre">Attribute</span> <span class="pre">type</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">DataBase.Table</span> <span class="pre">in</span> <span class="pre">any...</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Tables.__new__" title="Link to this definition">§</a></dt>
+<dd><p>Create new instance of Tables(NotImplemented,)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>NotImplemented</strong> (<em>DataBase.Table</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Tables.count">
+<span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Tables.count" title="Link to this definition">§</a></dt>
+<dd><p>Return number of occurrences of value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Tables.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9223372036854775807</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Tables.index" title="Link to this definition">§</a></dt>
+<dd><p>Return first index of value.</p>
+<p>Raises ValueError if the value is not present.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">tables_and_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.__call__" title="Link to this definition">§</a></dt>
+<dd><p>Update and store <code class="docutils literal notranslate"><span class="pre">self</span></code>, overwriting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – Optionally, an update to <code class="docutils literal notranslate"><span class="pre">self.path</span></code>, overwritten if existing.</p></li>
+<li><p><strong>**tables_and_path</strong> (<em>Table</em><em> | </em><em>Store.Path</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">self.tables</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>,
+and/or <code class="docutils literal notranslate"><span class="pre">self.path</span></code> in the form <code class="docutils literal notranslate"><span class="pre">path=[Store.Path]</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self</p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.__init__" title="Link to this definition">§</a></dt>
+<dd><p>Read the DataBase in <code class="docutils literal notranslate"><span class="pre">path</span></code>, updating <code class="docutils literal notranslate"><span class="pre">**tables</span></code>.</p>
+<p>Reading is lazy: If <code class="docutils literal notranslate"><span class="pre">table_names[i]</span></code> occurs in <code class="docutils literal notranslate"><span class="pre">**tables</span></code> it’s <code class="docutils literal notranslate"><span class="pre">table</span></code> is not read, just updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to read from, and update to.</p></li>
+<li><p><strong>**tables</strong> (<em>Table</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">self.tables</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks any member of <code class="docutils literal notranslate"><span class="pre">cls.table_names()</span></code> not mentioned in <code class="docutils literal notranslate"><span class="pre">**tables</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.copy">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.copy" title="Link to this definition">§</a></dt>
+<dd><p>Copy <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>, overwriting any files in common.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> (<em>Self</em>) – The source <code class="docutils literal notranslate"><span class="pre">DataBase</span></code>.</p></li>
+<li><p><strong>dst</strong> (<em>Store.Path</em>) – The destination <code class="docutils literal notranslate"><span class="pre">Path</span></code>, which may or may not exist.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self</p>
+</dd>
+</dl>
+<p>Returns: The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">tables</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.create" title="Link to this definition">§</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> in <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> in. Need not exist, any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
+<li><p><strong>**tables</strong> (<em>Table</em>) – <code class="docutils literal notranslate"><span class="pre">Table</span></code> s to update <code class="docutils literal notranslate"><span class="pre">self.table_defaults</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self</p>
+</dd>
+</dl>
+<p>Returns: The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> created.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.delete">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.delete" title="Link to this definition">§</a></dt>
+<dd><p>Delete <code class="docutils literal notranslate"><span class="pre">cls.table_names[i].with_suffix(.csv)</span></code> from <code class="docutils literal notranslate"><span class="pre">path</span></code>, retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any files it contains.</p>
+<p>If you wish to delete <code class="docutils literal notranslate"><span class="pre">path</span></code> entirely, use <code class="docutils literal notranslate"><span class="pre">Store.delete(path)</span></code> instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Store.Path</em>) – <code class="docutils literal notranslate"><span class="pre">Path</span></code> to the <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> to delete.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Path</em></p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">path</span></code>, which still exists.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.ext">
+<span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.data.models.Fold.DataBase.ext" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Path</span></em><a class="headerlink" href="#rc.data.models.Fold.DataBase.path" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to this <code class="docutils literal notranslate"><span class="pre">Store.</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.read_options">
+<span class="sig-name descname"><span class="pre">read_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Default</span> <span class="pre">for</span> <span class="pre">any</span> <span class="pre">DataTable</span> <span class="pre">is':</span> <span class="pre">{'index_col':</span> <span class="pre">0}}</span></em><a class="headerlink" href="#rc.data.models.Fold.DataBase.read_options" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">Options[i],</span> <span class="pre">...}.</span> <span class="pre">Override</span> <span class="pre">as</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">bespoke</span> <span class="pre">``DataTable.read_options</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.table_defaults">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">table_defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.table_defaults" title="Link to this definition">§</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">PD.DataFrame[i],</span> <span class="pre">...}</span></code> of default tables for this <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Dict</em>[str, <em>DataFrame</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.table_names">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">table_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.table_names" title="Link to this definition">§</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">(table_names[i],</span> <span class="pre">...)</span></code> of table names for this <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tuple</em>[str, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.tables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tables</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#rc.data.models.Fold.DataBase.Tables" title="rc.data.models.Fold.DataBase.Tables"><span class="pre">Tables</span></a></em><a class="headerlink" href="#rc.data.models.Fold.DataBase.tables" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Tables(NamedTuple)</span></code> of <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.tables_as_dict">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tables_as_dict</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Table</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.data.models.Fold.DataBase.tables_as_dict" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Tables(NamedTuple)</span></code> of <code class="docutils literal notranslate"><span class="pre">self</span></code> as a <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.write_options">
+<span class="sig-name descname"><span class="pre">write_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Default</span> <span class="pre">for</span> <span class="pre">any</span> <span class="pre">DataTable</span> <span class="pre">is':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#rc.data.models.Fold.DataBase.write_options" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">Options[i],</span> <span class="pre">...}.</span> <span class="pre">Override</span> <span class="pre">as</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">bespoke</span> <span class="pre">``DataTable.write_options</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.K">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">K</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#rc.data.models.Fold.K" title="Link to this definition">§</a></dt>
+<dd><p>The number of folds contained in this Repository.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.Path">
+<span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.data.models.Fold.Path" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store. Do not override.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.X">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.X" title="Link to this definition">§</a></dt>
+<dd><p>The continuous input X, as an (N,M) design Matrix with column headings.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.Y">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.Y" title="Link to this definition">§</a></dt>
+<dd><p>The output Y as an (N,L) Matrix with column headings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.__call__">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.__call__" title="Link to this definition">§</a></dt>
+<dd><p>Optimize the <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**options</strong> (<em>Any</em>) – Optimization <code class="docutils literal notranslate"><span class="pre">Options</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self</p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.copy">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.copy" title="Link to this definition">§</a></dt>
+<dd><p>Copy <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>, overwriting any files in common.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> (<em>Self</em>) – The source <code class="docutils literal notranslate"><span class="pre">Model</span></code>.</p></li>
+<li><p><strong>dst</strong> (<em>Store.Path</em>) – The destination <code class="docutils literal notranslate"><span class="pre">Path</span></code>, which may or may not exist.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self</p>
+</dd>
+</dl>
+<p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> now stored in <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data_and_meta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.create" title="Link to this definition">§</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">Model</span></code> in <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in. Need not exist, any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
+<li><p><strong>**data_and_meta</strong> (<em>DataBase.Table</em><em> | </em><em>Meta.Data</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i]</span></code>,
+and optional <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to update <code class="docutils literal notranslate"><span class="pre">cls.defaultMetaData</span></code> in the form <code class="docutils literal notranslate"><span class="pre">meta=Options</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self</p>
+</dd>
+</dl>
+<p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> created.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.data" title="Link to this definition">§</a></dt>
+<dd><p>The (N,M+L) design Matrix of input and output with column headings.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.defaultMetaData">
+<span class="sig-name descname"><span class="pre">defaultMetaData</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Meta.Data</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rc.data.models.Fold.defaultMetaData" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute. Must be overridden.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.delete">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.delete" title="Link to this definition">§</a></dt>
+<dd><p>Delete all <code class="docutils literal notranslate"><span class="pre">Model</span></code> files in <code class="docutils literal notranslate"><span class="pre">path</span></code>, retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any other files it contains.</p>
+<p>If you wish to delete <code class="docutils literal notranslate"><span class="pre">path</span></code> entirely, use <code class="docutils literal notranslate"><span class="pre">Store.delete(path)</span></code> instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Store.Path</em>) – <code class="docutils literal notranslate"><span class="pre">Path</span></code> to the <code class="docutils literal notranslate"><span class="pre">Model</span></code> to delete.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Path</em></p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">path</span></code>, which still exists.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.ext">
+<span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.data.models.Fold.ext" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.folds">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">folds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">range</span></em><a class="headerlink" href="#rc.data.models.Fold.folds" title="Link to this definition">§</a></dt>
+<dd><p>The indices of the folds contained in this Repository.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.from_csv">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PCA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.from_csv" title="Link to this definition">§</a></dt>
+<dd><p>Create a Repository from a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder</strong> (<em>Path</em><em> | </em><em>str</em>) – The location (folder) of the target Repository.</p></li>
+<li><p><strong>csv</strong> (<em>Path</em><em> | </em><em>str</em>) – The file containing the data to record in [Return].csv.</p></li>
+<li><p><strong>PSA</strong> – Whether to create a single fold in which Principal Component Analysis (PCA) has been performed on the inputs.</p></li>
+<li><p><strong>meta</strong> (<em>Dict</em><em> | </em><em>None</em>) – The metadata to record in [Return].meta.json.</p></li>
+<li><p><strong>kwargs</strong> – Updates Repository.CSV_OPTIONS for reading the csv file, as detailed in
+<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html</a>.</p></li>
+<li><p><strong>PCA</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
+</dd>
+</dl>
+<p>Returns: A new Repository located in folder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.from_df">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.from_df" title="Link to this definition">§</a></dt>
+<dd><p>Create a Repository from a pd.DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder</strong> (<em>Path</em><em> | </em><em>str</em>) – The location (folder) of the Repository.</p></li>
+<li><p><strong>df</strong> (<em>DataFrame</em>) – The data to record in [Return].csv.</p></li>
+<li><p><strong>meta</strong> (<em>Dict</em><em> | </em><em>None</em>) – The metadata to record in [Return].meta.json.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
+</dd>
+</dl>
+<p>Returns: A new Repository.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.into_K_folds">
+<span class="sig-name descname"><span class="pre">into_K_folds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_before_folding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_normalization_applicable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.into_K_folds" title="Link to this definition">§</a></dt>
+<dd><p>Fold this repo into K Folds, indexed by range(K).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>K</strong> (<em>int</em>) – The number of Folds, of absolute value between 1 and N inclusive.
+An improper Fold, indexed by K and including all data for both training and testing is included by default.
+To suppress this give K as a negative integer.</p></li>
+<li><p><strong>shuffle_before_folding</strong> (<em>bool</em>) – Whether to shuffle the data before sampling.</p></li>
+<li><p><strong>normalization</strong> (<em>Path</em><em> | </em><em>str</em><em> | </em><em>None</em>) – An optional normalization.csv file to use.</p></li>
+<li><p><strong>is_normalization_applicable</strong> (<em>bool</em>) – Whether normalization is applicable. <code class="docutils literal notranslate"><span class="pre">False</span></code> means that normalization whatsoever will be applied.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>, for chaining calls.
+:raises IndexError: Unless 1 &amp;lt= K &amp;lt= N.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.meta">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">meta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="rc.base.models.Meta.html#rc.base.models.Meta" title="rc.base.models.Meta"><span class="pre">Meta</span></a></em><a class="headerlink" href="#rc.data.models.Fold.meta" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Meta</span></code> currently in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Path</span></em><a class="headerlink" href="#rc.data.models.Fold.path" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to this <code class="docutils literal notranslate"><span class="pre">Store.</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Fold.rotate_folds">
+<span class="sig-name descname"><span class="pre">rotate_folds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.rotate_folds" title="Link to this definition">§</a></dt>
+<dd><p>Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotation</strong> (<em>ndarray</em><em> | </em><em>None</em>) – The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.</p></li>
+<li><p><strong>orthogonal</strong> (<em>If the matrix supplied has the wrong dimensions</em><em> or </em><em>is not</em>)</p></li>
+<li><p><strong>instead.</strong> (<em>a random rotation is generated and used</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>, for chaining calls.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="rc.data.models.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">rc.data.models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="rc.data.models.Normalization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">rc.data.models.Normalization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold"><code class="docutils literal notranslate"><span class="pre">Fold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.test_x"><code class="docutils literal notranslate"><span class="pre">Fold.test_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.test_y"><code class="docutils literal notranslate"><span class="pre">Fold.test_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.X_rotation"><code class="docutils literal notranslate"><span class="pre">Fold.X_rotation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.__init__"><code class="docutils literal notranslate"><span class="pre">Fold.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.from_dfs"><code class="docutils literal notranslate"><span class="pre">Fold.from_dfs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.C"><code class="docutils literal notranslate"><span class="pre">Fold.C</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Path"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Path</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Table"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Table</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables.__new__"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables.__new__()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables.count"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables.count()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables.index"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables.index()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.__call__"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.__call__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.__init__"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.copy"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.copy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.create"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.create()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.delete"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.delete()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.ext"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.ext</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.path"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.path</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.read_options"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.read_options</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.table_defaults"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.table_defaults()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.table_names"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.table_names()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.tables"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.tables</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.tables_as_dict"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.tables_as_dict</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.write_options"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.write_options</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.K"><code class="docutils literal notranslate"><span class="pre">Fold.K</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.Path"><code class="docutils literal notranslate"><span class="pre">Fold.Path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.X"><code class="docutils literal notranslate"><span class="pre">Fold.X</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.Y"><code class="docutils literal notranslate"><span class="pre">Fold.Y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.__call__"><code class="docutils literal notranslate"><span class="pre">Fold.__call__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.copy"><code class="docutils literal notranslate"><span class="pre">Fold.copy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.create"><code class="docutils literal notranslate"><span class="pre">Fold.create()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.data"><code class="docutils literal notranslate"><span class="pre">Fold.data</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.defaultMetaData"><code class="docutils literal notranslate"><span class="pre">Fold.defaultMetaData</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.delete"><code class="docutils literal notranslate"><span class="pre">Fold.delete()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.ext"><code class="docutils literal notranslate"><span class="pre">Fold.ext</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.folds"><code class="docutils literal notranslate"><span class="pre">Fold.folds</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.from_csv"><code class="docutils literal notranslate"><span class="pre">Fold.from_csv()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.from_df"><code class="docutils literal notranslate"><span class="pre">Fold.from_df()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.into_K_folds"><code class="docutils literal notranslate"><span class="pre">Fold.into_K_folds()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.meta"><code class="docutils literal notranslate"><span class="pre">Fold.meta</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.path"><code class="docutils literal notranslate"><span class="pre">Fold.path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.rotate_folds"><code class="docutils literal notranslate"><span class="pre">Fold.rotate_folds()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/pages/api/rc.data.models.Fold.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Robert A. Milton.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

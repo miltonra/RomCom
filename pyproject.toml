@@ -20,7 +20,7 @@
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 [project]
-name = "rom-comma"
+name = "RomCom"
 version = "1.0.0"
 description = "Reduced Order Modelling software, implementing Global Sensitivity Analysis using Gaussian Processes."
 authors = [

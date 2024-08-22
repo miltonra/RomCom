@@ -13,45 +13,52 @@ author = 'Robert A. Milton'
 version = '1.0'
 release = version
 
-# -- General configuration ---------------------------------------------------
 
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../'))
+
+
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
-
 needs_sphinx = '8.0'
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.autosummary', 'sphinx.ext.viewcode', "sphinx.ext.mathjax", 'sphinx_copybutton']
 
+
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-warning-control
+suppress_warnings = []
+
+
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-python-domain
+add_module_names = False
+modindex_common_prefix = ['rc.']
+
+
+# https://www.sphinx-doc.org/en/master/usage/extensions/autosummary.html
+autosummary_generate = True
+autosummary_imported_members = False
+
+
+# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 autodoc_member_order = 'bysource'
 autodoc_typehints = 'description'
 autodoc_preserve_defaults = True
 autodoc_class_signature = 'separated'
 autodoc_type_aliases = {'Store.Path': 'Store.Path'}
-
-autosummary_generate = True
-autosummary_imported_members = False
 templates_path = ['_templates']
 exclude_patterns = []
-
-add_module_names = False
-modindex_common_prefix = ['rc.']
-
 autodoc_default_options = {'members': True, 'private-members': False, 'inherited-members': True, 'show-inheritance': True,
                             'special-members': '__init__, __call__'
 }
 
-html_css_files = ['pydata-custom.css']
 
-# -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
+html_css_files = ['pydata-custom.css']
 html_permalinks_icon = '§'
 html_title = project
 html_logo = '_static/logo.svg'
-html_favicon = '_static/favicon.svg'
+html_favicon = '_static/favicon.png'
 html_theme = 'pydata_sphinx_theme'
-html_theme_options = {}
+html_theme_options = {
+  "primary_sidebar_end": [],}
 html_static_path = ['_static']
-suppress_warnings = []
+html_sidebars = {"**": []}
