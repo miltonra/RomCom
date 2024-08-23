@@ -151,6 +151,41 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -159,8 +194,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -255,6 +290,41 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -263,8 +333,8 @@ document.write(`
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -351,7 +421,7 @@ document.write(`
                   
   <section id="module-rc.user.sample">
 <span id="rc-user-sample"></span><h1>rc.user.sample<a class="headerlink" href="#module-rc.user.sample" title="Link to this heading">§</a></h1>
-<p><strong>Functionality for sampling and Design of Experiments (DOE)</strong></p>
+<p><strong>Functionality for Design of Experiments (DOE) and sampling.</strong></p>
 <p class="rubric">Functions</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -379,21 +449,6 @@ document.write(`
 </tbody>
 </table>
 </div>
-<dl class="py function">
-<dt class="sig sig-object py" id="rc.user.sample.permute_axes">
-<span class="sig-name descname"><span class="pre">permute_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/user/sample.html#permute_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.user.sample.permute_axes" title="Link to this definition">§</a></dt>
-<dd><p>Provide a rotation matrix which reorders axes. Most use cases are to re-order input axes according to GSA.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>new_order</strong> (<em>Sequence</em><em> | </em><em>None</em>) – A Tuple or List containing a permutation of <code class="docutils literal notranslate"><span class="pre">[0,...,M-1]</span></code>, for passing to <code class="docutils literal notranslate"><span class="pre">np.transpose</span></code>.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>ndarray</em> | None</p>
-</dd>
-</dl>
-<p>Returns: A rotation matrix which will reorder the axes to new_order. Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">new_order</span> <span class="pre">is</span> <span class="pre">None</span></code>.</p>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="rc.user.sample.DOE">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DOE</span></span><a class="reference internal" href="../../_modules/rc/user/sample.html#DOE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.user.sample.DOE" title="Link to this definition">§</a></dt>
@@ -612,6 +667,21 @@ The constructor generates the sample, so repeated calls to any method always ref
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="rc.user.sample.permute_axes">
+<span class="sig-name descname"><span class="pre">permute_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/user/sample.html#permute_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.user.sample.permute_axes" title="Link to this definition">§</a></dt>
+<dd><p>Provide a rotation matrix which reorders axes. Most use cases are to re-order input axes according to GSA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_order</strong> (<em>Sequence</em><em> | </em><em>None</em>) – A Tuple or List containing a permutation of <code class="docutils literal notranslate"><span class="pre">[0,...,M-1]</span></code>, for passing to <code class="docutils literal notranslate"><span class="pre">np.transpose</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em> | None</p>
+</dd>
+</dl>
+<p>Returns: A rotation matrix which will reorder the axes to new_order. Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">new_order</span> <span class="pre">is</span> <span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="rc.user.sample.PCA">
 <span class="sig-name descname"><span class="pre">PCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/user/sample.html#PCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.user.sample.PCA" title="Link to this definition">§</a></dt>
 <dd><p>Perform Principal Component Analysis on a Repository.</p>
@@ -678,7 +748,6 @@ The constructor generates the sample, so repeated calls to any method always ref
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.user.sample.permute_axes"><code class="docutils literal notranslate"><span class="pre">permute_axes()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.user.sample.DOE"><code class="docutils literal notranslate"><span class="pre">DOE</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.user.sample.DOE.Method"><code class="docutils literal notranslate"><span class="pre">DOE.Method</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.user.sample.DOE.latin_hypercube"><code class="docutils literal notranslate"><span class="pre">DOE.latin_hypercube()</span></code></a></li>
@@ -705,18 +774,10 @@ The constructor generates the sample, so repeated calls to any method always ref
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.user.sample.Function.__init__"><code class="docutils literal notranslate"><span class="pre">Function.__init__()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.user.sample.permute_axes"><code class="docutils literal notranslate"><span class="pre">permute_axes()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.user.sample.PCA"><code class="docutils literal notranslate"><span class="pre">PCA()</span></code></a></li>
 </ul>
   </nav></div>
-
-  <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../../_sources/pages/api/rc.user.sample.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
 
 </div></div>
               

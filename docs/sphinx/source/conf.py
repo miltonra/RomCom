@@ -21,7 +21,8 @@ sys.path.insert(0, os.path.abspath('../'))
 
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 needs_sphinx = '8.0'
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.autosummary', 'sphinx.ext.viewcode', "sphinx.ext.mathjax", 'sphinx_copybutton']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.autosummary', 'sphinx.ext.viewcode',
+              "sphinx.ext.mathjax", 'sphinx_copybutton', 'sphinxarg.ext']
 
 
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-warning-control
@@ -58,7 +59,7 @@ html_title = project
 html_logo = '_static/logo.svg'
 html_favicon = '_static/favicon.png'
 html_theme = 'pydata_sphinx_theme'
-html_theme_options = {
-  "primary_sidebar_end": [],}
+html_theme_options = {'header_links_before_dropdown': 8, 'header_dropdown_text': 'Extras'}
 html_static_path = ['_static']
 html_sidebars = {"**": []}
+html_show_sourcelink = False

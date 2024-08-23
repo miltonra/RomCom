@@ -150,6 +150,41 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -158,8 +193,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -254,6 +289,41 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -262,8 +332,8 @@ document.write(`
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -405,7 +475,8 @@ document.write(`
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.Store.ext">
 <span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.base.models.Store.ext" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.
+Override if and only if the derived class must be stored in a file.
 Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
 </dd></dl>
 
@@ -470,7 +541,8 @@ Then they should read <code class="docutils literal notranslate"><span class="pr
 <dt class="sig sig-object py" id="rc.base.models.Store.copy">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Store.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Store.copy" title="Link to this definition">§</a></dt>
 <dd><p>Copy <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>, overwriting only files in common.</p>
-<p>Overrides should copy an instance of <code class="docutils literal notranslate"><span class="pre">cls</span></code> called <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">Store.create(dst)</span></code>, and return the copy.</p>
+<p>Overrides should copy an instance of <code class="docutils literal notranslate"><span class="pre">cls</span></code> called <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">Store.create(dst)</span></code>,
+and return the copy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -580,15 +652,6 @@ Then they should read <code class="docutils literal notranslate"><span class="pr
 </li>
 </ul>
   </nav></div>
-
-  <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../../_sources/pages/api/rc.base.models.Store.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
 
 </div></div>
               

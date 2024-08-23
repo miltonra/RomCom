@@ -42,12 +42,11 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/intro';</script>
     <link rel="icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API" href="api/api.html" />
+    <link rel="next" title="Usage" href="usage.html" />
     <link rel="prev" title="RomCom User Guide" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -152,6 +151,41 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="rom.html">
+    ROM
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="api/api.html">
     API
   </a>
@@ -159,8 +193,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../genindex.html">
+    Index
   </a>
 </li>
 
@@ -256,6 +290,41 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="rom.html">
+    ROM
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="api/api.html">
     API
   </a>
@@ -263,8 +332,8 @@ document.write(`
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../genindex.html">
+    Index
   </a>
 </li>
 
@@ -345,48 +414,56 @@ document.write(`
                   
   <section id="intro">
 <h1>Intro<a class="headerlink" href="#intro" title="Link to this heading">§</a></h1>
-<section id="conceptual-hierarchy">
-<h2>Conceptual Hierarchy<a class="headerlink" href="#conceptual-hierarchy" title="Link to this heading">§</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">rc</span></code> package is organized in a modular hierarchy</p>
-<a class="reference internal image-reference" href="../_images/folder_tree.png"><img alt="../_images/folder_tree.png" src="../_images/folder_tree.png" style="width: 200px;" />
-</a>
+<p>This page is intended to introduce the building blocks of the RomCom Library, providing notation and vocabulary used throughout the User Guide.
+The building blocks constitute Python package <a class="reference internal" href="api/rc.base.html"><span class="doc">rc.base</span></a>, which provides further detail, constants and static typing fundamental to RomCom.</p>
+<section id="conventions">
+<h2>Conventions<a class="headerlink" href="#conventions" title="Link to this heading">§</a></h2>
+<p>Throughout this User Guide, classes will be Capitalized, and <em>Italicized</em> when abstract (not instantiable).
+Pandas, NumPy and TensorFlow will be abbreviated as <code class="docutils literal notranslate"><span class="pre">PD</span> <span class="pre">|</span> <span class="pre">pd</span></code>, <code class="docutils literal notranslate"><span class="pre">NP</span> <span class="pre">|</span> <span class="pre">np</span></code>, and <code class="docutils literal notranslate"><span class="pre">TF</span> <span class="pre">|</span> <span class="pre">tf</span></code> respectively.
+The RomCom library itself is contained in the <code class="docutils literal notranslate"><span class="pre">rc</span></code> package, and will be abbreviated as such.</p>
 </section>
-<section id="module-hierarchy">
-<h2>Module Hierarchy<a class="headerlink" href="#module-hierarchy" title="Link to this heading">§</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">rc</span></code> package is organized in a modular hierarchy</p>
-<div class="toctree-wrapper compound">
-</div>
-<p>No module depends on any module below it in this table.
-We refer to items in this list as modules, even if they are technically packages.</p>
-<p>The <span class="xref std std-ref">rc.user</span> module comprises a gallery of archetypal user scripts to cannibalize.</p>
-<p>User functionality is for the most part exposed in the penultimate module, <span class="xref std std-ref">rc.run</span>. Any direct call to functionality outside <code class="docutils literal notranslate"><span class="pre">rc.run</span></code>
-may be regarded as bespoke, not to say advanced.</p>
+<section id="store">
+<h2><em>Store</em><a class="headerlink" href="#store" title="Link to this heading">§</a></h2>
+<p>An abstract base class whose objects are endowed with (filesystem) storage at <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.</p>
 </section>
-<section id="glossary">
-<h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">§</a></h2>
-<dl class="simple glossary">
-<dt id="term-package">package<a class="headerlink" href="#term-package" title="Link to this term">§</a></dt><dd><p>Python package</p>
-</dd>
-<dt id="term-module">module<a class="headerlink" href="#term-module" title="Link to this term">§</a></dt><dd><p>Python module or package.</p>
-</dd>
-<dt id="term-GPR">GPR<a class="headerlink" href="#term-GPR" title="Link to this term">§</a></dt><dd><p>Gaussian Process Regression.
-A quite general technique for representing a functional dataset as a (Gaussian) stochastic process described thoroughly in
-[<a class="reference external" href="https://direct.mit.edu/books/book/2320/Gaussian-Processes-for-Machine-Learning">Rasmussen and Williams 2005</a>].</p>
-</dd>
-<dt id="term-GSA">GSA<a class="headerlink" href="#term-GSA" title="Link to this term">§</a></dt><dd><p>Global Sensitivity Analysis.
-This Assesses and ranks the relevance of a system’s inputs to its outputs by a variety of methods covered broadly in
-[<a class="reference external" href="https://onlinelibrary.wiley.com/doi/book/10.1002/9780470725184">Saltelli et al. 2007</a>] and
-[<a class="reference external" href="https://doi.org/10.1016/j.envsoft.2020.104954">Razavi et al. 2021</a>].
-RomCom deals exclusively with the variance based method of Ilya M. Sobol.
-This has been somewhat extended, as described in gory technical detail in
-[<a class="reference external" href="https://github.com/C-O-M-M-A/rom-papers/blob/main/Sobol%20Matrices/Sobol%20Matrices.pdf">Milton et al. 2023</a>].</p>
-</dd>
-<dt id="term-ROM">ROM<a class="headerlink" href="#term-ROM" title="Link to this term">§</a></dt><dd><p>Reduction of Order by Marginalization. A novel approach to locating an Active Subspace (AS) using conditional variances or Sobol’ indices.
-In the Active Subspace technique [<a class="reference external" href="https://epubs.siam.org/doi/book/10.1137/1.9781611973860">Constantine 2014</a>]
-the input basis is rotated to align with the eigenvectors of the squared Jacobian vector.
-In ROM, the input basis is rotated to maximise the Sobol’ index of the first <span class="math notranslate nohighlight">\(m\)</span> inputs.</p>
-</dd>
-</dl>
+<section id="meta">
+<h2>Meta<a class="headerlink" href="#meta" title="Link to this heading">§</a></h2>
+<p>A concrete <em>Store</em>, consisting of a Python <code class="docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">Any]</span></code> stored in a <cite>.json</cite> file.
+The metadata <code class="docutils literal notranslate"><span class="pre">dict</span></code> held in any Meta <code class="docutils literal notranslate"><span class="pre">object</span></code> is accessed as the property <code class="docutils literal notranslate"><span class="pre">object.data</span></code>.</p>
+</section>
+<section id="datatable">
+<h2>DataTable<a class="headerlink" href="#datatable" title="Link to this heading">§</a></h2>
+<p>A concrete <em>Store</em>, consisting of a <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> stored in a <cite>.csv</cite> file.
+The data held in any DataTable <code class="docutils literal notranslate"><span class="pre">object</span></code> is accessed in the desired format as the property <code class="docutils literal notranslate"><span class="pre">object.pd</span></code>, <code class="docutils literal notranslate"><span class="pre">object.np</span></code> , or <code class="docutils literal notranslate"><span class="pre">object.tf</span></code>.</p>
+</section>
+<section id="database">
+<h2><em>DataBase</em><a class="headerlink" href="#database" title="Link to this heading">§</a></h2>
+<p>An abstract <em>Store</em>, consisting of a <code class="docutils literal notranslate"><span class="pre">NamedTuple</span></code> of DataTables stored in a folder.
+Any concrete subclass such as <code class="docutils literal notranslate"><span class="pre">MyDataBase</span></code> must define <code class="docutils literal notranslate"><span class="pre">MyDataBase.Tables(NamedTuple)</span></code> listing the <code class="docutils literal notranslate"><span class="pre">DataBase.table_names</span></code> and
+<code class="docutils literal notranslate"><span class="pre">DataBase.table_defaults</span></code> for <code class="docutils literal notranslate"><span class="pre">MyDataBase</span></code>.</p>
+</section>
+<section id="model">
+<h2><em>Model</em><a class="headerlink" href="#model" title="Link to this heading">§</a></h2>
+<p>An abstract <em>Store</em>, consisting of a <em>DataBase</em> plus Meta, all stored in the <em>DataBase</em> folder. Any concrete subclass such
+as <code class="docutils literal notranslate"><span class="pre">MyModel</span></code> must define <code class="docutils literal notranslate"><span class="pre">MyModel.DataBase(DataBase)</span></code>, as a concrete <em>DataBase</em>.
+The majority of RomCom’s work is performed by concrete <em>Models</em>.</p>
+</section>
+<section id="creating-copying-and-deleting-store-objects">
+<h2>Creating, Copying and Deleting <em>Store</em> Objects<a class="headerlink" href="#creating-copying-and-deleting-store-objects" title="Link to this heading">§</a></h2>
+<p>Every class derived from <em>Store</em> has <code class="docutils literal notranslate"><span class="pre">create</span></code>, <code class="docutils literal notranslate"><span class="pre">copy</span></code> and <code class="docutils literal notranslate"><span class="pre">delete</span></code> class methods
+which create or delete a <em>Store</em> in a folder, leaving other folder contents intact.
+So any <em>DataBase</em> or <em>Model</em> may safely reside alongside other files (or folders) in the folder <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.</p>
+</section>
+<section id="reading-store-objects">
+<h2>Reading <em>Store</em> Objects<a class="headerlink" href="#reading-store-objects" title="Link to this heading">§</a></h2>
+<p>Every <code class="docutils literal notranslate"><span class="pre">object</span></code> of class <code class="docutils literal notranslate"><span class="pre">Object</span></code> derived from <em>Store</em> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code> by the constructor <code class="docutils literal notranslate"><span class="pre">object</span> <span class="pre">=</span> <span class="pre">Object(path)</span></code>
+defined in <code class="docutils literal notranslate"><span class="pre">Object.__init__(path)</span></code>.</p>
+</section>
+<section id="updating-store-objects">
+<h2>Updating <em>Store</em> Objects<a class="headerlink" href="#updating-store-objects" title="Link to this heading">§</a></h2>
+<p>Every <code class="docutils literal notranslate"><span class="pre">object</span></code> of class <code class="docutils literal notranslate"><span class="pre">Object</span></code> derived from <em>Store</em> is updated in place and stored in <code class="docutils literal notranslate"><span class="pre">object.path</span></code> by the function <code class="docutils literal notranslate"><span class="pre">object(**kwargs)</span></code> defined in
+<code class="docutils literal notranslate"><span class="pre">Object.__call__(**kwargs)</span></code>.
+This function usually embodies some optimization (or calibration), so that optimizing a <code class="docutils literal notranslate"><span class="pre">Model</span></code> object amounts to evaluating (calling) it as a function.</p>
 </section>
 </section>
 
@@ -410,11 +487,11 @@ In ROM, the input basis is rotated to maximise the Sobol’ index of the first <
       </div>
     </a>
     <a class="right-next"
-       href="api/api.html"
+       href="usage.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API</p>
+        <p class="prev-next-title">Usage</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -436,20 +513,17 @@ In ROM, the input basis is rotated to maximise the Sobol’ index of the first <
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-hierarchy">Conceptual Hierarchy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hierarchy">Module Hierarchy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions">Conventions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#store"><em>Store</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meta">Meta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datatable">DataTable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database"><em>DataBase</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model"><em>Model</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-copying-and-deleting-store-objects">Creating, Copying and Deleting <em>Store</em> Objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-store-objects">Reading <em>Store</em> Objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-store-objects">Updating <em>Store</em> Objects</a></li>
 </ul>
   </nav></div>
-
-  <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../_sources/pages/intro.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
 
 </div></div>
               

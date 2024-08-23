@@ -19,7 +19,7 @@
 #  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-""" **Functionality for sampling and Design of Experiments (DOE)** """
+""" **Functionality for Design of Experiments (DOE) and sampling.** """
 
 from __future__ import annotations
 
@@ -33,17 +33,6 @@ import shutil
 import sys
 import argparse
 import os
-
-
-def permute_axes(new_order: Sequence | None) -> NP.Matrix | None:
-    """ Provide a rotation matrix which reorders axes. Most use cases are to re-order input axes according to GSA.
-
-    Args:
-        new_order: A Tuple or List containing a permutation of ``[0,...,M-1]``, for passing to ``np.transpose``.
-
-    Returns: A rotation matrix which will reorder the axes to new_order. Returns ``None`` if ``new_order is None``.
-    """
-    return None if new_order is None else np.eye(len(new_order))[new_order, :]
 
 
 class DOE:
@@ -252,6 +241,18 @@ class Function:
                                          noise=GaussianNoise(N, self._noise_variance())(repo=None),
                                          origin_meta={'DOE': doe.__name__, 'function_vector': function_vector.meta, 'noise': self._noise_variance.meta})
             DataTable(folder / 'likelihood.variance.csv', pd.DataFrame(self._noise_variance()))
+
+
+def permute_axes(new_order: Sequence | None) -> NP.Matrix | None:
+    """ Provide a rotation matrix which reorders axes. Most use cases are to re-order input axes according to GSA.
+
+    Args:
+        new_order: A Tuple or List containing a permutation of ``[0,...,M-1]``, for passing to ``np.transpose``.
+
+    Returns: A rotation matrix which will reorder the axes to new_order. Returns ``None`` if ``new_order is None``.
+    """
+    return None if new_order is None else np.eye(len(new_order))[new_order, :]
+
 
 def PCA(root: str | Path, csv: str | Path) -> Path:
     """ Perform Principal Component Analysis on a Repository.

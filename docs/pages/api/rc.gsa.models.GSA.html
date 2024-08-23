@@ -150,6 +150,41 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -158,8 +193,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -254,6 +289,41 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -262,8 +332,8 @@ document.write(`
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -666,7 +736,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks any member of <code class="docutils literal notranslate"><span class="pre">cls.table_names()</span></code> not mentioned in <code class="docutils literal notranslate"><span class="pre">**tables</span></code>.</p>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks any member of <code class="docutils literal notranslate"><span class="pre">cls.table_names()</span></code>
+    not mentioned in <code class="docutils literal notranslate"><span class="pre">**tables</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -696,8 +767,10 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> in. Need not exist, any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
-<li><p><strong>**tables</strong> (<em>Table</em>) – <code class="docutils literal notranslate"><span class="pre">Table</span></code> s to update <code class="docutils literal notranslate"><span class="pre">self.table_defaults</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>.</p></li>
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> in. Need not exist,
+any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
+<li><p><strong>**tables</strong> (<em>Table</em>) – <code class="docutils literal notranslate"><span class="pre">Table</span></code> s to update <code class="docutils literal notranslate"><span class="pre">self.table_defaults</span></code>,
+in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -710,7 +783,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="py method">
 <dt class="sig sig-object py" id="rc.gsa.models.GSA.DataBase.delete">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gsa.models.GSA.DataBase.delete" title="Link to this definition">§</a></dt>
-<dd><p>Delete <code class="docutils literal notranslate"><span class="pre">cls.table_names[i].with_suffix(.csv)</span></code> from <code class="docutils literal notranslate"><span class="pre">path</span></code>, retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any files it contains.</p>
+<dd><p>Delete <code class="docutils literal notranslate"><span class="pre">cls.table_names[i].with_suffix(.csv)</span></code> from <code class="docutils literal notranslate"><span class="pre">path</span></code>,
+retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any files it contains.</p>
 <p>If you wish to delete <code class="docutils literal notranslate"><span class="pre">path</span></code> entirely, use <code class="docutils literal notranslate"><span class="pre">Store.delete(path)</span></code> instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -726,7 +800,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.gsa.models.GSA.DataBase.ext">
 <span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.gsa.models.GSA.DataBase.ext" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.
+Override if and only if the derived class must be stored in a file.
 Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
 </dd></dl>
 
@@ -739,7 +814,13 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.gsa.models.GSA.DataBase.read_options">
 <span class="sig-name descname"><span class="pre">read_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Default</span> <span class="pre">for</span> <span class="pre">any</span> <span class="pre">DataTable</span> <span class="pre">is':</span> <span class="pre">{'index_col':</span> <span class="pre">0}}</span></em><a class="headerlink" href="#rc.gsa.models.GSA.DataBase.read_options" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">Options[i],</span> <span class="pre">...}.</span> <span class="pre">Override</span> <span class="pre">as</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">bespoke</span> <span class="pre">``DataTable.read_options</span></code>.</p>
+<dd><p>Options[i], …}.
+Override as necessary for bespoke <code class="docutils literal notranslate"><span class="pre">DataTable.read_options</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <a href="#id5"><span class="problematic" id="id6">``</span></a>{table_names[i]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -779,7 +860,13 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.gsa.models.GSA.DataBase.write_options">
 <span class="sig-name descname"><span class="pre">write_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Default</span> <span class="pre">for</span> <span class="pre">any</span> <span class="pre">DataTable</span> <span class="pre">is':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#rc.gsa.models.GSA.DataBase.write_options" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">Options[i],</span> <span class="pre">...}.</span> <span class="pre">Override</span> <span class="pre">as</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">bespoke</span> <span class="pre">``DataTable.write_options</span></code>.</p>
+<dd><p>Options[i], …}.
+Override as necessary for bespoke <code class="docutils literal notranslate"><span class="pre">DataTable.write_options</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <a href="#id7"><span class="problematic" id="id8">``</span></a>{table_names[i]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -830,8 +917,10 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in. Need not exist, any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
-<li><p><strong>**data_and_meta</strong> (<em>DataBase.Table</em><em> | </em><em>Meta.Data</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i]</span></code>,
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in. Need not exist,
+any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
+<li><p><strong>**data_and_meta</strong> (<em>DataBase.Table</em><em> | </em><em>Meta.Data</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>,
+in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i]</span></code>,
 and optional <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to update <code class="docutils literal notranslate"><span class="pre">cls.defaultMetaData</span></code> in the form <code class="docutils literal notranslate"><span class="pre">meta=Options</span></code>.</p></li>
 </ul>
 </dd>
@@ -873,7 +962,8 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.gsa.models.GSA.ext">
 <span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.gsa.models.GSA.ext" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.
+Override if and only if the derived class must be stored in a file.
 Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
 </dd></dl>
 
@@ -989,15 +1079,6 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 </li>
 </ul>
   </nav></div>
-
-  <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../../_sources/pages/api/rc.gsa.models.GSA.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
 
 </div></div>
               

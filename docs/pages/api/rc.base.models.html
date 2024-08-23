@@ -150,6 +150,41 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -158,8 +193,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -254,6 +289,41 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -262,8 +332,8 @@ document.write(`
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -350,7 +420,7 @@ document.write(`
                   
   <section id="module-rc.base.models">
 <span id="rc-base-models"></span><h1>rc.base.models<a class="headerlink" href="#module-rc.base.models" title="Link to this heading">§</a></h1>
-<p>Base and concrete classes for RomCom Models.</p>
+<p>Abstract and concrete base classes for RomCom Models.</p>
 <p class="rubric">Classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -386,7 +456,8 @@ document.write(`
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.Store.ext">
 <span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.base.models.Store.ext" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.
+Override if and only if the derived class must be stored in a file.
 Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
 </dd></dl>
 
@@ -451,7 +522,8 @@ Then they should read <code class="docutils literal notranslate"><span class="pr
 <dt class="sig sig-object py" id="rc.base.models.Store.copy">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Store.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Store.copy" title="Link to this definition">§</a></dt>
 <dd><p>Copy <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>, overwriting only files in common.</p>
-<p>Overrides should copy an instance of <code class="docutils literal notranslate"><span class="pre">cls</span></code> called <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">Store.create(dst)</span></code>, and return the copy.</p>
+<p>Overrides should copy an instance of <code class="docutils literal notranslate"><span class="pre">cls</span></code> called <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">Store.create(dst)</span></code>,
+and return the copy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -496,6 +568,133 @@ Then they should read <code class="docutils literal notranslate"><span class="pr
 </dd>
 </dl>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">path</span></code>, which no longer exists.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rc.base.models.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta" title="Link to this definition">§</a></dt>
+<dd><p>Bases: <a class="reference internal" href="rc.base.models.Store.html#rc.base.models.Store" title="rc.base.models.Store"><code class="xref py py-class docutils literal notranslate"><span class="pre">Store</span></code></a></p>
+<p>Concrete class encapsulating metadata stored in a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.base.models.Meta.Data">
+<span class="sig-name descname"><span class="pre">Data</span></span><a class="headerlink" href="#rc.base.models.Meta.Data" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute alias for the Type holding metadata.</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.base.models.Meta.ext">
+<span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.json'</span></em><a class="headerlink" href="#rc.base.models.Meta.ext" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute specifying the file extension of Meta instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ext</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.base.models.Meta.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.base.models.Meta.data" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Data</span></code> stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.base.models.Meta.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta.__call__" title="Link to this definition">§</a></dt>
+<dd><p>Update and store <code class="docutils literal notranslate"><span class="pre">self</span></code>, overwriting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Store.Path</em><em> | </em><em>None</em>) – Optionally, an update to <code class="docutils literal notranslate"><span class="pre">self.path</span></code>, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension is automatically appended.</p></li>
+<li><p><strong>**data</strong> (<em>Any</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">self.data</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self</p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.base.models.Meta.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta.__init__" title="Link to this definition">§</a></dt>
+<dd><p>Construct <code class="docutils literal notranslate"><span class="pre">self</span></code> from a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file or <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The Path (file) to store <code class="docutils literal notranslate"><span class="pre">self</span></code>. A <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension is automatically appended.</p></li>
+<li><p><strong>**data</strong> (<em>Any</em>) – The <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to store. If absent, <code class="docutils literal notranslate"><span class="pre">self.data</span></code> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code>,
+otherwise <code class="docutils literal notranslate"><span class="pre">self.data=data</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">path</span></code> (which is overwritten if existing).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.base.models.Meta.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta.create" title="Link to this definition">§</a></dt>
+<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">Meta</span></code> at <code class="docutils literal notranslate"><span class="pre">path</span></code>, overwriting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> (file) to store <code class="docutils literal notranslate"><span class="pre">self</span></code>, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension is automatically appended.</p></li>
+<li><p><strong>**data</strong> (<em>Any</em>) – The <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to store.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: The <code class="docutils literal notranslate"><span class="pre">Meta</span></code> created.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.base.models.Meta.copy">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta.copy" title="Link to this definition">§</a></dt>
+<dd><p>Copy <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>, overwriting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> (<em>Self</em>) – The source <code class="docutils literal notranslate"><span class="pre">Meta</span></code>.</p></li>
+<li><p><strong>dst</strong> (<em>Store.Path</em>) – The destination <code class="docutils literal notranslate"><span class="pre">Path</span></code>, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension is automatically appended.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self</p>
+</dd>
+</dl>
+<p>Returns: The <code class="docutils literal notranslate"><span class="pre">Meta</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst.with_suffix('.json')</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.base.models.Meta.Path">
+<span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.base.models.Meta.Path" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store. Do not override.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.base.models.Meta.delete">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.base.models.Meta.delete" title="Link to this definition">§</a></dt>
+<dd><p>Delete any file or folder at <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to delete.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Path</em></p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">path</span></code>, which no longer exists.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.base.models.Meta.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Path</span></em><a class="headerlink" href="#rc.base.models.Meta.path" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to this <code class="docutils literal notranslate"><span class="pre">Store.</span></code></p>
 </dd></dl>
 
 </dd></dl>
@@ -576,7 +775,8 @@ Then they should read <code class="docutils literal notranslate"><span class="pr
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>Self</em><em> | </em><a class="reference internal" href="rc.gpr.kernels.Kernel.html#rc.gpr.kernels.Kernel.Data" title="rc.gpr.kernels.Kernel.Data"><em>Data</em></a><em> | </em><em>None</em>) – The data updates.</p></li>
-<li><p><strong>path</strong> (<em>Store.Path</em><em> | </em><em>None</em>) – Optionally, an update to <code class="docutils literal notranslate"><span class="pre">self.path</span></code>, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is appended.</p></li>
+<li><p><strong>path</strong> (<em>Store.Path</em><em> | </em><em>None</em>) – Optionally, an update to <code class="docutils literal notranslate"><span class="pre">self.path</span></code>, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is appended.</p></li>
 <li><p><strong>**options</strong> (<em>Any</em>) – Options which update <code class="docutils literal notranslate"><span class="pre">self.write_options</span></code>.</p></li>
 </ul>
 </dd>
@@ -595,7 +795,8 @@ Then they should read <code class="docutils literal notranslate"><span class="pr
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> (file) to store <code class="docutils literal notranslate"><span class="pre">self</span></code>. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
-<li><p><strong>data</strong> (<em>DataFrame</em><em> | </em><em>None</em>) – The data to store. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span></code> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">data</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">path</span></code> (which is overwritten if existing).</p></li>
+<li><p><strong>data</strong> (<em>DataFrame</em><em> | </em><em>None</em>) – The data to store. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span></code> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code>,
+otherwise <code class="docutils literal notranslate"><span class="pre">data</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">path</span></code> (which is overwritten if existing).</p></li>
 <li><p><strong>**options</strong> (<em>Any</em>) – Updates <code class="docutils literal notranslate"><span class="pre">self.read_options</span></code> if <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">is</span> <span class="pre">None</span></code>, otherwise updates <code class="docutils literal notranslate"><span class="pre">self.write_options</span></code>.</p></li>
 </ul>
 </dd>
@@ -605,14 +806,16 @@ Then they should read <code class="docutils literal notranslate"><span class="pr
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataTable.read_options">
 <span class="sig-name descname"><span class="pre">read_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.base.models.DataTable.read_options" title="Link to this definition">§</a></dt>
-<dd><p>Instance attribute <code class="docutils literal notranslate"><span class="pre">Options</span></code> passed to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pd.read_csv</a>.
+<dd><p>Instance attribute <code class="docutils literal notranslate"><span class="pre">Options</span></code> passed to
+<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pd.read_csv</a>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">{'index_col':</span> <span class="pre">0}</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataTable.write_options">
 <span class="sig-name descname"><span class="pre">write_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.base.models.DataTable.write_options" title="Link to this definition">§</a></dt>
-<dd><p>Instance attribute Options passed to <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html">DataFrame.to_csv</a>.
+<dd><p>Instance attribute Options passed to
+<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html">DataFrame.to_csv</a>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">{}</span></code>.</p>
 </dd></dl>
 
@@ -623,7 +826,8 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">{}</spa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to store this DataTable, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to store this DataTable, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
 <li><p><strong>data</strong> (<em>Self</em><em> | </em><a class="reference internal" href="rc.gpr.kernels.Kernel.html#rc.gpr.kernels.Kernel.Data" title="rc.gpr.kernels.Kernel.Data"><em>Data</em></a><em> | </em><em>None</em>) – The data to store. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a <code class="docutils literal notranslate"><span class="pre">PD.DataFrame</span></code> is read from <code class="docutils literal notranslate"><span class="pre">.csv</span></code>.
 See <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">pd.DataFrame</a>.</p></li>
 <li><p><strong>index</strong> (<em>PD.Index</em><em> | </em><em>NP.ArrayLike</em>) – <p>See <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">pd.DataFrame</a>.</p>
@@ -634,8 +838,10 @@ See <a class="reference external" href="https://pandas.pydata.org/docs/reference
 </p></li>
 <li><p><strong>copy</strong> (<em>bool</em><em> | </em><em>None</em>) – <p>See <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">pd.DataFrame</a>.</p>
 </p></li>
-<li><p><strong>**options</strong> – <p>Options passed to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pd.read_csv</a>
-or <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html">pd.DataFrame.to_csv</a>.</p>
+<li><p><strong>**options</strong> – <p>Options passed to
+<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pd.read_csv</a>
+or
+<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html">pd.DataFrame.to_csv</a>.</p>
 </p></li>
 </ul>
 </dd>
@@ -654,7 +860,8 @@ or <a class="reference external" href="https://pandas.pydata.org/docs/reference/
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>src</strong> (<em>Self</em>) – The source <code class="docutils literal notranslate"><span class="pre">DataTable</span></code>.</p></li>
-<li><p><strong>dst</strong> (<em>Store.Path</em>) – The destination <code class="docutils literal notranslate"><span class="pre">Path</span></code>, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
+<li><p><strong>dst</strong> (<em>Store.Path</em>) – The destination <code class="docutils literal notranslate"><span class="pre">Path</span></code>, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -694,130 +901,6 @@ or <a class="reference external" href="https://pandas.pydata.org/docs/reference/
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="rc.base.models.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta" title="Link to this definition">§</a></dt>
-<dd><p>Bases: <a class="reference internal" href="rc.base.models.Store.html#rc.base.models.Store" title="rc.base.models.Store"><code class="xref py py-class docutils literal notranslate"><span class="pre">Store</span></code></a></p>
-<p>Concrete class encapsulating metadata stored in a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.models.Meta.Data">
-<span class="sig-name descname"><span class="pre">Data</span></span><a class="headerlink" href="#rc.base.models.Meta.Data" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute alias for the Type holding metadata.</p>
-<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.models.Meta.ext">
-<span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.json'</span></em><a class="headerlink" href="#rc.base.models.Meta.ext" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute specifying the file extension of Meta instances.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ext</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.base.models.Meta.data">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.base.models.Meta.data" title="Link to this definition">§</a></dt>
-<dd><p>The <code class="docutils literal notranslate"><span class="pre">Data</span></code> stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.base.models.Meta.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta.__call__" title="Link to this definition">§</a></dt>
-<dd><p>Update and store <code class="docutils literal notranslate"><span class="pre">self</span></code>, overwriting.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em><em> | </em><em>None</em>) – Optionally, an update to <code class="docutils literal notranslate"><span class="pre">self.path</span></code>, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension is automatically appended.</p></li>
-<li><p><strong>**data</strong> (<em>Any</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">self.data</span></code>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
-</dd>
-</dl>
-<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.base.models.Meta.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta.__init__" title="Link to this definition">§</a></dt>
-<dd><p>Construct <code class="docutils literal notranslate"><span class="pre">self</span></code> from a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file or <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The Path (file) to store <code class="docutils literal notranslate"><span class="pre">self</span></code>. A <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension is automatically appended.</p></li>
-<li><p><strong>**data</strong> (<em>Any</em>) – The <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to store. If absent, <code class="docutils literal notranslate"><span class="pre">self.data</span></code> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">self.data=data</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">path</span></code>
-(which is overwritten if existing).</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.base.models.Meta.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta.create" title="Link to this definition">§</a></dt>
-<dd><p>Create a <code class="docutils literal notranslate"><span class="pre">Meta</span></code> at <code class="docutils literal notranslate"><span class="pre">path</span></code>, overwriting.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> (file) to store <code class="docutils literal notranslate"><span class="pre">self</span></code>, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension is automatically appended.</p></li>
-<li><p><strong>**data</strong> (<em>Any</em>) – The <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to store.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Returns: The <code class="docutils literal notranslate"><span class="pre">Meta</span></code> created.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.base.models.Meta.copy">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#Meta.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Meta.copy" title="Link to this definition">§</a></dt>
-<dd><p>Copy <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>, overwriting.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<em>Self</em>) – The source <code class="docutils literal notranslate"><span class="pre">Meta</span></code>.</p></li>
-<li><p><strong>dst</strong> (<em>Store.Path</em>) – The destination <code class="docutils literal notranslate"><span class="pre">Path</span></code>, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension is automatically appended.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
-</dd>
-</dl>
-<p>Returns: The <code class="docutils literal notranslate"><span class="pre">Meta</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst.with_suffix('.json')</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.models.Meta.Path">
-<span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.base.models.Meta.Path" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store. Do not override.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.base.models.Meta.delete">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.base.models.Meta.delete" title="Link to this definition">§</a></dt>
-<dd><p>Delete any file or folder at <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to delete.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>Path</em></p>
-</dd>
-</dl>
-<p>Returns: <code class="docutils literal notranslate"><span class="pre">path</span></code>, which no longer exists.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.base.models.Meta.path">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Path</span></em><a class="headerlink" href="#rc.base.models.Meta.path" title="Link to this definition">§</a></dt>
-<dd><p>The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to this <code class="docutils literal notranslate"><span class="pre">Store.</span></code></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="rc.base.models.DataBase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DataBase</span></span><a class="reference internal" href="../../_modules/rc/base/models.html#DataBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.DataBase" title="Link to this definition">§</a></dt>
 <dd><p>Bases: <a class="reference internal" href="rc.base.models.Store.html#rc.base.models.Store" title="rc.base.models.Store"><code class="xref py py-class docutils literal notranslate"><span class="pre">Store</span></code></a></p>
@@ -836,8 +919,8 @@ or <a class="reference external" href="https://pandas.pydata.org/docs/reference/
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>AssertionError</strong> – Whenever used in a <code class="docutils literal notranslate"><span class="pre">__debug__</span></code> environment (i.e. whenever <code class="docutils literal notranslate"><span class="pre">python</span></code> is invoked without the <code class="docutils literal notranslate"><span class="pre">-O</span></code> or <code class="docutils literal notranslate"><span class="pre">--O</span></code> flags).
-    This class is abstract, and must be subclassed.</p>
+<dd class="field-odd"><p><strong>AssertionError</strong> – Whenever used in a <code class="docutils literal notranslate"><span class="pre">__debug__</span></code> environment (i.e. whenever <code class="docutils literal notranslate"><span class="pre">python</span></code> is invoked
+    without the <code class="docutils literal notranslate"><span class="pre">-O</span></code> or <code class="docutils literal notranslate"><span class="pre">--O</span></code> flags). This class is abstract, and must be subclassed.</p>
 </dd>
 </dl>
 <dl class="py class">
@@ -881,13 +964,25 @@ or <a class="reference external" href="https://pandas.pydata.org/docs/reference/
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataBase.read_options">
 <span class="sig-name descname"><span class="pre">read_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Default</span> <span class="pre">for</span> <span class="pre">any</span> <span class="pre">DataTable</span> <span class="pre">is':</span> <span class="pre">{'index_col':</span> <span class="pre">0}}</span></em><a class="headerlink" href="#rc.base.models.DataBase.read_options" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">Options[i],</span> <span class="pre">...}.</span> <span class="pre">Override</span> <span class="pre">as</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">bespoke</span> <span class="pre">``DataTable.read_options</span></code>.</p>
+<dd><p>Options[i], …}.
+Override as necessary for bespoke <code class="docutils literal notranslate"><span class="pre">DataTable.read_options</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <a href="#id6"><span class="problematic" id="id7">``</span></a>{table_names[i]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataBase.write_options">
 <span class="sig-name descname"><span class="pre">write_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Default</span> <span class="pre">for</span> <span class="pre">any</span> <span class="pre">DataTable</span> <span class="pre">is':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#rc.base.models.DataBase.write_options" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">Options[i],</span> <span class="pre">...}.</span> <span class="pre">Override</span> <span class="pre">as</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">bespoke</span> <span class="pre">``DataTable.write_options</span></code>.</p>
+<dd><p>Options[i], …}.
+Override as necessary for bespoke <code class="docutils literal notranslate"><span class="pre">DataTable.write_options</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <a href="#id8"><span class="problematic" id="id9">``</span></a>{table_names[i]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -934,7 +1029,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks any member of <code class="docutils literal notranslate"><span class="pre">cls.table_names()</span></code> not mentioned in <code class="docutils literal notranslate"><span class="pre">**tables</span></code>.</p>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks any member of <code class="docutils literal notranslate"><span class="pre">cls.table_names()</span></code>
+    not mentioned in <code class="docutils literal notranslate"><span class="pre">**tables</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -968,8 +1064,10 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> in. Need not exist, any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
-<li><p><strong>**tables</strong> (<em>Table</em>) – <code class="docutils literal notranslate"><span class="pre">Table</span></code> s to update <code class="docutils literal notranslate"><span class="pre">self.table_defaults</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>.</p></li>
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> in. Need not exist,
+any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
+<li><p><strong>**tables</strong> (<em>Table</em>) – <code class="docutils literal notranslate"><span class="pre">Table</span></code> s to update <code class="docutils literal notranslate"><span class="pre">self.table_defaults</span></code>,
+in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1000,7 +1098,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="py method">
 <dt class="sig sig-object py" id="rc.base.models.DataBase.delete">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/models.html#DataBase.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.DataBase.delete" title="Link to this definition">§</a></dt>
-<dd><p>Delete <code class="docutils literal notranslate"><span class="pre">cls.table_names[i].with_suffix(.csv)</span></code> from <code class="docutils literal notranslate"><span class="pre">path</span></code>, retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any files it contains.</p>
+<dd><p>Delete <code class="docutils literal notranslate"><span class="pre">cls.table_names[i].with_suffix(.csv)</span></code> from <code class="docutils literal notranslate"><span class="pre">path</span></code>,
+retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any files it contains.</p>
 <p>If you wish to delete <code class="docutils literal notranslate"><span class="pre">path</span></code> entirely, use <code class="docutils literal notranslate"><span class="pre">Store.delete(path)</span></code> instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1022,7 +1121,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataBase.ext">
 <span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.base.models.DataBase.ext" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.
+Override if and only if the derived class must be stored in a file.
 Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
 </dd></dl>
 
@@ -1094,13 +1194,25 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.Model.DataBase.read_options">
 <span class="sig-name descname"><span class="pre">read_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Default</span> <span class="pre">for</span> <span class="pre">any</span> <span class="pre">DataTable</span> <span class="pre">is':</span> <span class="pre">{'index_col':</span> <span class="pre">0}}</span></em><a class="headerlink" href="#rc.base.models.Model.DataBase.read_options" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">Options[i],</span> <span class="pre">...}.</span> <span class="pre">Override</span> <span class="pre">as</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">bespoke</span> <span class="pre">``DataTable.read_options</span></code>.</p>
+<dd><p>Options[i], …}.
+Override as necessary for bespoke <code class="docutils literal notranslate"><span class="pre">DataTable.read_options</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <a href="#id10"><span class="problematic" id="id11">``</span></a>{table_names[i]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.Model.DataBase.write_options">
 <span class="sig-name descname"><span class="pre">write_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Default</span> <span class="pre">for</span> <span class="pre">any</span> <span class="pre">DataTable</span> <span class="pre">is':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#rc.base.models.Model.DataBase.write_options" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <code class="docutils literal notranslate"><span class="pre">{table_names[i]:</span> <span class="pre">Options[i],</span> <span class="pre">...}.</span> <span class="pre">Override</span> <span class="pre">as</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">bespoke</span> <span class="pre">``DataTable.write_options</span></code>.</p>
+<dd><p>Options[i], …}.
+Override as necessary for bespoke <code class="docutils literal notranslate"><span class="pre">DataTable.write_options</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Class attribute <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the form <a href="#id12"><span class="problematic" id="id13">``</span></a>{table_names[i]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1148,7 +1260,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks any member of <code class="docutils literal notranslate"><span class="pre">cls.table_names()</span></code> not mentioned in <code class="docutils literal notranslate"><span class="pre">**tables</span></code>.</p>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks any member of <code class="docutils literal notranslate"><span class="pre">cls.table_names()</span></code>
+    not mentioned in <code class="docutils literal notranslate"><span class="pre">**tables</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1178,8 +1291,10 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> in. Need not exist, any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
-<li><p><strong>**tables</strong> (<em>Table</em>) – <code class="docutils literal notranslate"><span class="pre">Table</span></code> s to update <code class="docutils literal notranslate"><span class="pre">self.table_defaults</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>.</p></li>
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> in. Need not exist,
+any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
+<li><p><strong>**tables</strong> (<em>Table</em>) – <code class="docutils literal notranslate"><span class="pre">Table</span></code> s to update <code class="docutils literal notranslate"><span class="pre">self.table_defaults</span></code>,
+in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=Table[i],</span> <span class="pre">...</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1192,7 +1307,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="py method">
 <dt class="sig sig-object py" id="rc.base.models.Model.DataBase.delete">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.base.models.Model.DataBase.delete" title="Link to this definition">§</a></dt>
-<dd><p>Delete <code class="docutils literal notranslate"><span class="pre">cls.table_names[i].with_suffix(.csv)</span></code> from <code class="docutils literal notranslate"><span class="pre">path</span></code>, retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any files it contains.</p>
+<dd><p>Delete <code class="docutils literal notranslate"><span class="pre">cls.table_names[i].with_suffix(.csv)</span></code> from <code class="docutils literal notranslate"><span class="pre">path</span></code>,
+retaining <code class="docutils literal notranslate"><span class="pre">path</span></code> and any files it contains.</p>
 <p>If you wish to delete <code class="docutils literal notranslate"><span class="pre">path</span></code> entirely, use <code class="docutils literal notranslate"><span class="pre">Store.delete(path)</span></code> instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1208,7 +1324,8 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.Model.DataBase.ext">
 <span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.base.models.Model.DataBase.ext" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.
+Override if and only if the derived class must be stored in a file.
 Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
 </dd></dl>
 
@@ -1290,7 +1407,8 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.Model.ext">
 <span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#rc.base.models.Model.ext" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>. Override if and only if the derived class must be stored in a file.
+<dd><p>Class attribute specifying the file extension terminating <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.
+Override if and only if the derived class must be stored in a file.
 Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext</span> <span class="pre">==</span> <span class="pre">''</span></code> and the derived class is stored in a folder.</p>
 </dd></dl>
 
@@ -1313,7 +1431,8 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks <code class="docutils literal notranslate"><span class="pre">self.meta</span></code> or any member of <code class="docutils literal notranslate"><span class="pre">self.DataBase.table_names</span></code> not mentioned in <code class="docutils literal notranslate"><span class="pre">**data</span></code>.</p>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks <code class="docutils literal notranslate"><span class="pre">self.meta</span></code> or any member of
+    <code class="docutils literal notranslate"><span class="pre">self.DataBase.table_names</span></code> not mentioned in <code class="docutils literal notranslate"><span class="pre">**data</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1325,8 +1444,10 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in. Need not exist, any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
-<li><p><strong>**data_and_meta</strong> (<em>DataBase.Table</em><em> | </em><em>Meta.Data</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i]</span></code>,
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in. Need not exist,
+any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
+<li><p><strong>**data_and_meta</strong> (<em>DataBase.Table</em><em> | </em><em>Meta.Data</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>,
+in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i]</span></code>,
 and optional <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to update <code class="docutils literal notranslate"><span class="pre">cls.defaultMetaData</span></code> in the form <code class="docutils literal notranslate"><span class="pre">meta=Options</span></code>.</p></li>
 </ul>
 </dd>
@@ -1432,6 +1553,19 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Store.delete"><code class="docutils literal notranslate"><span class="pre">Store.delete()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta"><code class="docutils literal notranslate"><span class="pre">Meta</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.Data"><code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.ext"><code class="docutils literal notranslate"><span class="pre">Meta.ext</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.data"><code class="docutils literal notranslate"><span class="pre">Meta.data</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.__call__"><code class="docutils literal notranslate"><span class="pre">Meta.__call__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.__init__"><code class="docutils literal notranslate"><span class="pre">Meta.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.create"><code class="docutils literal notranslate"><span class="pre">Meta.create()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.copy"><code class="docutils literal notranslate"><span class="pre">Meta.copy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.Path"><code class="docutils literal notranslate"><span class="pre">Meta.Path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.delete"><code class="docutils literal notranslate"><span class="pre">Meta.delete()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.path"><code class="docutils literal notranslate"><span class="pre">Meta.path</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable"><code class="docutils literal notranslate"><span class="pre">DataTable</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.Data"><code class="docutils literal notranslate"><span class="pre">DataTable.Data</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.ext"><code class="docutils literal notranslate"><span class="pre">DataTable.ext</span></code></a></li>
@@ -1448,19 +1582,6 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.Path"><code class="docutils literal notranslate"><span class="pre">DataTable.Path</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.delete"><code class="docutils literal notranslate"><span class="pre">DataTable.delete()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.path"><code class="docutils literal notranslate"><span class="pre">DataTable.path</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta"><code class="docutils literal notranslate"><span class="pre">Meta</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.Data"><code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.ext"><code class="docutils literal notranslate"><span class="pre">Meta.ext</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.data"><code class="docutils literal notranslate"><span class="pre">Meta.data</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.__call__"><code class="docutils literal notranslate"><span class="pre">Meta.__call__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.__init__"><code class="docutils literal notranslate"><span class="pre">Meta.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.create"><code class="docutils literal notranslate"><span class="pre">Meta.create()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.copy"><code class="docutils literal notranslate"><span class="pre">Meta.copy()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.Path"><code class="docutils literal notranslate"><span class="pre">Meta.Path</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.delete"><code class="docutils literal notranslate"><span class="pre">Meta.delete()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Meta.path"><code class="docutils literal notranslate"><span class="pre">Meta.path</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataBase"><code class="docutils literal notranslate"><span class="pre">DataBase</span></code></a><ul class="nav section-nav flex-column">
@@ -1527,15 +1648,6 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
 </li>
 </ul>
   </nav></div>
-
-  <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../../_sources/pages/api/rc.base.models.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
 
 </div></div>
               

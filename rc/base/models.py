@@ -2,24 +2,30 @@
 # 
 #  Copyright (c) 2019-2024 Robert A. Milton. All rights reserved.
 # 
-#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-# 
-#  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-# 
-#  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
-# 
-#  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
-#     software without specific prior written permission.
-# 
-#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-#  THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-#  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-#  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that
+#  the following conditions are met:
+#
+#  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the
+#  following disclaimer.
+#
+#  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+#  following disclaimer in the documentation and/or other materials provided with the distribution.
+#
+#  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or
+#  promote products derived from this software without specific prior written permission.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+#  PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+#  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+#  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+#  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-""" Base and concrete classes for RomCom Models."""
+
+""" Abstract and concrete base classes for RomCom Models."""
+
 
 from __future__ import annotations
 
@@ -31,10 +37,12 @@ from json import load, dump
 class Store(ABC):
     """ Base class for any stored class. Users are not expected to subclass this class directly."""
 
-    Path = Path | str   #: Class attribute aliasing Types used to specify the ``path`` to a Store. Do not override.
+    #: Class attribute aliasing Types used to specify the ``path`` to a Store. Do not override.
+    Path = Path | str
     ext: str = ''
-    """Class attribute specifying the file extension terminating ``self.path``. Override if and only if the derived class must be stored in a file.
-            Otherwise, ``cls.ext == ''`` and the derived class is stored in a folder."""
+    """Class attribute specifying the file extension terminating ``self.path``. 
+    Override if and only if the derived class must be stored in a file.
+    Otherwise, ``cls.ext == ''`` and the derived class is stored in a folder."""
 
     @property
     def path(self) -> Path:
@@ -115,7 +123,8 @@ class Store(ABC):
     def copy(cls, src: Path, dst: Path) -> Self | Path:
         """ Copy ``src`` to ``dst``, overwriting only files in common.
 
-        Overrides should copy an instance of ``cls`` called ``src`` to ``Store.create(dst)``, and return the copy.
+        Overrides should copy an instance of ``cls`` called ``src`` to ``Store.create(dst)``,
+        and return the copy.
 
         Args:
             src: The source ``Path``, which must be a folder or a file.
@@ -152,20 +161,95 @@ class Store(ABC):
         return path
 
 
+class Meta(Store):
+    """ Concrete class encapsulating metadata stored in a ``.json`` file."""
+
+    Data = dict[str, Any]   #: Class attribute alias for the Type holding metadata.
+
+    ext: str = '.json'  #: ext: Class attribute specifying the file extension of Meta instances.
+
+
+    @property
+    def data(self) -> dict[str, Any]:
+        """ The ``Data`` stored in ``self``."""
+        return self._data
+
+    def __call__(self, path: Store.Path | None = None, **data: Any) -> Self:
+        """ Update and store ``self``, overwriting.
+
+        Args:
+            path: Optionally, an update to ``self.path``, overwritten if existing.
+                A ``.json`` extension is automatically appended.
+            **data: Data to update ``self.data``.
+
+        Returns: ``self``.
+        """
+        super().__call__(path)
+        self._data |= data
+        with open(self._path, mode='w') as file:
+            dump(self._data, file, indent=4)
+        return self
+
+    def __init__(self, path: Store.Path, **data: Any):
+        """ Construct ``self`` from a ``.json`` file or ``Meta.Data``.
+
+        Args:
+            path: The Path (file) to store ``self``. A ``.json`` extension is automatically appended.
+            **data: The ``Meta.Data`` to store. If absent, ``self.data`` is read from ``path``,
+                otherwise ``self.data=data`` is stored in ``path`` (which is overwritten if existing).
+        """
+        super().__init__(path)
+        if data == {}:
+            with open(self._path, mode='r') as file:
+                self._data = load(file)
+        else:
+            self._data = data
+            self(path)
+
+    @classmethod
+    def create(cls, path: Store.Path, **data: Any):
+        """ Create a ``Meta`` at ``path``, overwriting.
+
+        Args:
+            path: The ``Path`` (file) to store ``self``, overwritten if existing.
+                A ``.json`` extension is automatically appended.
+            **data: The ``Meta.Data`` to store.
+
+        Returns: The ``Meta`` created.
+        """
+        return cls(path, **({'NotImplemented': 'in call to Meta.create()'} if data == {} else data) )
+
+    @classmethod
+    def copy(cls, src: Self, dst: Store.Path) -> Self:
+        """ Copy ``src`` to ``dst``, overwriting.
+
+        Args:
+            src: The source ``Meta``.
+            dst: The destination ``Path``, overwritten if existing.
+                A ``.json`` extension is automatically appended.
+
+        Returns: The ``Meta`` now stored at ``dst.with_suffix('.json')``.
+        """
+        return cls(dst, **src.data)
+
+
 class DataTable(Store):
     """ Concrete class encapsulating a ``PD.DataFrame`` backed by a ``.csv`` file."""
 
-    Data = Union[PD.DataFrame, NP.Matrix, TF.Matrix]    #: Class attribute aliasing data Types which a DataTable accepts.
+    #: Class attribute aliasing data Types which a DataTable accepts.
+    Data = Union[PD.DataFrame, NP.Matrix, TF.Matrix]
 
     ext: str = '.csv'   #: Class attribute specifying the file extension of DataTable instances.
 
 
     read_options: Options
-    """ Instance attribute ``Options`` passed to `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_. 
+    """ Instance attribute ``Options`` passed to 
+    `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_. 
     Defaults to ``{'index_col': 0}``."""
     
     write_options: Options
-    """ Instance attribute Options passed to `DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`_. 
+    """ Instance attribute Options passed to 
+    `DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`_. 
     Defaults to ``{}``."""
     
     @property
@@ -198,7 +282,8 @@ class DataTable(Store):
         try:
             data = np.array(np.broadcast_to(self.np, target_shape))
         except ValueError:
-            raise IndexError(f'{repr(self)} has shape {self._pd.shape} 'f' which cannot be broadcast to {target_shape}.')
+            raise IndexError(f'{repr(self)} has shape {self._pd.shape} '
+                             f'which cannot be broadcast to {target_shape}.')
         if is_diagonal and target_shape[0] > 1:
             data = np.diag(np.diagonal(data))
         return self(data)
@@ -208,7 +293,8 @@ class DataTable(Store):
 
         Args:
             data: The data updates.
-            path: Optionally, an update to ``self.path``, overwritten if existing. A ``.csv`` extension is appended.
+            path: Optionally, an update to ``self.path``, overwritten if existing.
+                A ``.csv`` extension is appended.
             **options: Options which update ``self.write_options``.
             
         Returns: ``self``.
@@ -231,7 +317,8 @@ class DataTable(Store):
 
         Args:
             path: The ``Path`` (file) to store ``self``. A ``.csv`` extension is automatically appended.
-            data: The data to store. If ``None``, ``data`` is read from ``path``, otherwise ``data`` is stored in ``path`` (which is overwritten if existing).
+            data: The data to store. If ``None``, ``data`` is read from ``path``,
+                otherwise ``data`` is stored in ``path`` (which is overwritten if existing).
             **options: Updates ``self.read_options`` if ``data is None``, otherwise updates ``self.write_options``.
         """
         super().__init__(path)
@@ -246,20 +333,23 @@ class DataTable(Store):
 
     @classmethod
     def create(cls, path: Store.Path, data: Self | Data | None = None,
-               index: PD.Index | NP.ArrayLike = None, columns: PD.Index | NP.ArrayLike = None, dtype: NP.DType | None = None, copy: bool | None = None,
-               **options) -> Self:
+               index: PD.Index | NP.ArrayLike = None, columns: PD.Index | NP.ArrayLike = None,
+               dtype: NP.DType | None = None, copy: bool | None = None, **options) -> Self:
         """ Create a ``DataTable`` at ``path``, overwriting.
 
         Args:
-            path: The ``Path`` to store this DataTable, overwritten if existing. A ``.csv`` extension is automatically appended.
+            path: The ``Path`` to store this DataTable, overwritten if existing.
+                A ``.csv`` extension is automatically appended.
             data: The data to store. If ``None``, a ``PD.DataFrame`` is read from ``.csv``.
                 See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
             index: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
             columns: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
             dtype: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
             copy: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
-            **options: Options passed to `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_
-                or `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`_.
+            **options: Options passed to
+                `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_
+                or
+                `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`_.
 
         Returns: The ``DataTable`` created.
         """
@@ -273,80 +363,12 @@ class DataTable(Store):
 
         Args:
             src: The source ``DataTable``.
-            dst: The destination ``Path``, overwritten if existing. A ``.csv`` extension is automatically appended.
+            dst: The destination ``Path``, overwritten if existing.
+                A ``.csv`` extension is automatically appended.
 
         Returns: The ``DataTable`` now stored at ``dst.with_suffix('.csv')``.
         """
         return cls(dst, src.pd, **src.write_options)
-
-
-class Meta(Store):
-    """ Concrete class encapsulating metadata stored in a ``.json`` file."""
-
-    Data = dict[str, Any]   #: Class attribute alias for the Type holding metadata.
-
-    ext: str = '.json'  #: ext: Class attribute specifying the file extension of Meta instances.
-
-
-    @property
-    def data(self) -> dict[str, Any]:
-        """ The ``Data`` stored in ``self``."""
-        return self._data
-
-    def __call__(self, path: Store.Path | None = None, **data: Any) -> Self:
-        """ Update and store ``self``, overwriting.
-
-        Args:
-            path: Optionally, an update to ``self.path``, overwritten if existing. A ``.json`` extension is automatically appended.
-            **data: Data to update ``self.data``.
-
-        Returns: ``self``.
-        """
-        super().__call__(path)
-        self._data |= data
-        with open(self._path, mode='w') as file:
-            dump(self._data, file, indent=4)
-        return self
-
-    def __init__(self, path: Store.Path, **data: Any):
-        """ Construct ``self`` from a ``.json`` file or ``Meta.Data``.
-
-        Args:
-            path: The Path (file) to store ``self``. A ``.json`` extension is automatically appended.
-            **data: The ``Meta.Data`` to store. If absent, ``self.data`` is read from ``path``, otherwise ``self.data=data`` is stored in ``path``
-                (which is overwritten if existing).
-        """
-        super().__init__(path)
-        if data == {}:
-            with open(self._path, mode='r') as file:
-                self._data = load(file)
-        else:
-            self._data = data
-            self(path)
-
-    @classmethod
-    def create(cls, path: Store.Path, **data: Any):
-        """ Create a ``Meta`` at ``path``, overwriting.
-
-        Args:
-            path: The ``Path`` (file) to store ``self``, overwritten if existing. A ``.json`` extension is automatically appended.
-            **data: The ``Meta.Data`` to store.
-
-        Returns: The ``Meta`` created.
-        """
-        return cls(path, **({'NotImplemented': 'in call to Meta.create()'} if data == {} else data) )
-
-    @classmethod
-    def copy(cls, src: Self, dst: Store.Path) -> Self:
-        """ Copy ``src`` to ``dst``, overwriting.
-
-        Args:
-            src: The source ``Meta``.
-            dst: The destination ``Path``, overwritten if existing. A ``.json`` extension is automatically appended.
-
-        Returns: The ``Meta`` now stored at ``dst.with_suffix('.json')``.
-        """
-        return cls(dst, **src.data)
 
 
 class DataBase(Store):
@@ -363,25 +385,30 @@ class DataBase(Store):
             write_options: dict[str, Options] = {table_names[i]: DataTable.write_options[i], ...}
 
     Raises:
-        AssertionError: Whenever used in a ``__debug__`` environment (i.e. whenever ``python`` is invoked without the ``-O`` or ``--O`` flags).
-            This class is abstract, and must be subclassed.
+        AssertionError: Whenever used in a ``__debug__`` environment (i.e. whenever ``python`` is invoked
+            without the ``-O`` or ``--O`` flags). This class is abstract, and must be subclassed.
     """
 
     class Tables(NamedTuple):
-        NotImplemented: DataBase.Table = pd.DataFrame(data=(('Attribute type should be DataBase.Table in any implementation.',),))  #: :meta private:
+        NotImplemented: DataBase.Table = pd.DataFrame(data=((f'Attribute type should be DataBase.Table in '
+                                                             f'any implementation.',),))  #: :meta private:
 
-    Table = DataTable | DataTable.Data  #: Class attribute aliasing ``DataTable | DataTable.Data``. Do not override.
+    #: Class attribute aliasing ``DataTable | DataTable.Data``. Do not override.
+    Table = DataTable | DataTable.Data
 
     read_options: dict[str, Options] = {'Default for any DataTable is': {'index_col': 0}}
-    """ Class attribute ``dict`` of the form ``{table_names[i]: Options[i], ...}. Override as necessary for bespoke ``DataTable.read_options``."""
+    """ Class attribute ``dict`` of the form ``{table_names[i]: Options[i], ...}. 
+    Override as necessary for bespoke ``DataTable.read_options``."""
 
     write_options: dict[str, Options] = {'Default for any DataTable is': {}}
-    """ Class attribute ``dict`` of the form ``{table_names[i]: Options[i], ...}. Override as necessary for bespoke ``DataTable.write_options``."""
+    """ Class attribute ``dict`` of the form ``{table_names[i]: Options[i], ...}. 
+    Override as necessary for bespoke ``DataTable.write_options``."""
 
     @classmethod
     def _DataNotImplementedError(cls) -> str:
-        return (f'You must implement {cls.__qualname__}.Tables as a subclass of NamedTuple. Your code (minus docstrings) should read as follows.\n' +
-                f'class {cls.__name__}(DataBase):\n    class Tables(NamedTuple):\n' + 
+        return (f'You must implement {cls.__qualname__}.Tables as a subclass of NamedTuple. '
+                f'Your code (minus docstrings) should read as follows.\n'
+                f'class {cls.__name__}(DataBase):\n    class Tables(NamedTuple):\n'
                 f'        table_names[i]: DataBase.Data = pd.DataFrame(table_defaults[i].pd) ...')
 
     @property
@@ -411,7 +438,8 @@ class DataBase(Store):
         if path := tables_and_path.pop('path', None) is not None:
             super().__call__(path)
             all_tables = {name:
-                              DataTable.create(path=self._path / name, data=tables_and_path.get(name, data), **self.write_options.get(name, {}))
+                              DataTable.create(path=self._path / name, data=tables_and_path.get(name, data),
+                                               **self.write_options.get(name, {}))
                           for name, data in all_tables.items()}
         else:
             for name, data in tables_and_path.items():
@@ -429,19 +457,21 @@ class DataBase(Store):
             **tables: Data to update ``self.tables``, in the form ``table_names[i]=Table[i], ...``.
             
         Raises:
-            FileNotFoundError: If ``path`` lacks any member of ``cls.table_names()`` not mentioned in ``**tables``.
+            FileNotFoundError: If ``path`` lacks any member of ``cls.table_names()``
+                not mentioned in ``**tables``.
         """
         assert self.Tables is not DataBase.Tables, type(self)._DataNotImplementedError()
         super().__init__(path)
         try:
             self._tables = self.Tables(**{name:
-                                              DataTable(path=path / name, data=tables[name], **self.write_options.get(name, {})) if name in tables
+                                              DataTable(path=path / name, data=tables[name],
+                                                        **self.write_options.get(name, {})) if name in tables
                                               else DataTable(path / name, **self.read_options.get(name, {}))
                                           for name in self.table_names()})
         except FileNotFoundError as error:
-            print(f'DataBase "{self}" is trying to read a non-existent DataTable. '
-                                    f'Did your script mean to call {type(self).__qualname__}.create("{str(self)}") '
-                                    f'instead of {type(self).__qualname__}("{str(self)}")?')
+            print(f'DataBase "{self}" is trying to read a non-existent DataTable. Did your script mean to call '
+                  f'{type(self).__qualname__}.create("{str(self)}") '
+                  f'instead of {type(self).__qualname__}("{str(self)}")?')
             raise error
 
     @classmethod    # Class Property
@@ -461,8 +491,10 @@ class DataBase(Store):
         """ Create a ``DataBase`` in ``path``.
 
         Args:
-            path: The folder to store the ``DataBase`` in. Need not exist, any existing ``Tables`` will be overwritten if it does.
-            **tables: ``Table`` s to update ``self.table_defaults``, in the form ``table_names[i]=Table[i], ...``.
+            path: The folder to store the ``DataBase`` in. Need not exist,
+                any existing ``Tables`` will be overwritten if it does.
+            **tables: ``Table`` s to update ``self.table_defaults``,
+                in the form ``table_names[i]=Table[i], ...``.
             
         Returns: The ``DataBase`` created.
         """
@@ -484,7 +516,8 @@ class DataBase(Store):
 
     @classmethod
     def delete(cls, path: Store.Path) -> Path:
-        """ Delete ``cls.table_names[i].with_suffix(.csv)`` from ``path``, retaining ``path`` and any files it contains.
+        """ Delete ``cls.table_names[i].with_suffix(.csv)`` from ``path``,
+        retaining ``path`` and any files it contains.
 
         If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
 
@@ -520,7 +553,8 @@ class Model(Store):
 
     class DataBase(DataBase):
         class Tables(NamedTuple):
-            NotImplemented: DataBase.Table = pd.DataFrame(data=(('Attribute type should be DataBase.Table in any implementation.',),))  #: :meta private:
+            NotImplemented: DataBase.Table = pd.DataFrame(data=((f'Attribute type should be DataBase.Table in '
+                                                                 f'any implementation.',),))  #: :meta private:
 
         read_options: dict[str, Options] = {'Default for any DataTable is': {'index_col': 0}}
         write_options: dict[str, Options] = {'Default for any DataTable is': {}}
@@ -555,7 +589,8 @@ class Model(Store):
             **data: Data to update those read, in the form ``table_names[i]=data[i], ...``.
             
         Raises:
-            FileNotFoundError: If ``path`` lacks ``self.meta`` or any member of ``self.DataBase.table_names`` not mentioned in ``**data``.
+            FileNotFoundError: If ``path`` lacks ``self.meta`` or any member of
+                ``self.DataBase.table_names`` not mentioned in ``**data``.
         """
         super().__init__(path)
         try:
@@ -563,8 +598,8 @@ class Model(Store):
             self._database = self.DataBase(path, **data)
         except FileNotFoundError as error:
             print(f'Model "{self}" is trying to read a non-existent file. '
-                                    f'Did your script mean to call {type(self).__qualname__}.create("{str(self)}") '
-                                    f'instead of {type(self).__qualname__}("{str(self)}")?')
+                  f'Did your script mean to call {type(self).__qualname__}.create("{str(self)}") '
+                  f'instead of {type(self).__qualname__}("{str(self)}")?')
             raise error
 
     @classmethod
@@ -572,8 +607,10 @@ class Model(Store):
         """ Create a ``Model`` in ``path``.
 
         Args:
-            path: The folder to store the ``Model`` in. Need not exist, any existing ``Tables`` will be overwritten if it does.
-            **data_and_meta: Data to update ``cls.DataBase.table_defaults``, in the form ``table_names[i]=data[i]``, 
+            path: The folder to store the ``Model`` in. Need not exist,
+                any existing ``Tables`` will be overwritten if it does.
+            **data_and_meta: Data to update ``cls.DataBase.table_defaults``,
+                in the form ``table_names[i]=data[i]``,
                 and optional ``Meta.Data`` to update ``cls.defaultMetaData`` in the form ``meta=Options``.
             
         Returns: The ``Model`` created.

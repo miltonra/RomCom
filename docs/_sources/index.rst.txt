@@ -2,12 +2,15 @@
 RomCom User Guide
 ==========================================================================================================================================
 
-.. rubric:: Reduced Order Modelling via Global Sensitivity Analysis using Gaussian Process Regression, by Robert A. Milton of The University of Sheffield
+.. rubric:: Reduced Order Modelling via GSA/GPR, by Robert A. Milton of The University of Sheffield
 
 
-.. error:: This documentation is currently under construction
+.. danger:: This documentation is currently under construction
 
-Welcome to the RomCom Python package, which implements Reduction of Order by Marginalization (:term:`ROM`) via Global Sensitivity Analysis (:term:`GSA`)
+Welcome
+---------------
+
+The RomCom Python package performs Reduction of Order by Marginalization (:term:`ROM`) Computations via Global Sensitivity Analysis (:term:`GSA`)
 using Gaussian Process Regression (:term:`GPR`). The mathematics behind this software is covered in some detail in a
 `paper currently under peer review for publication <https://github.com/miltonra/RomDoc/blob/dev/Sobol%20Matrices/Sobol%20Matrices.pdf>`_.
 
@@ -23,9 +26,8 @@ using Gaussian Process Regression (:term:`GPR`). The mathematics behind this sof
         This Assesses and ranks the relevance of a system's inputs to its outputs by a variety of methods covered broadly in
         [`Saltelli et al. 2007 <https://onlinelibrary.wiley.com/doi/book/10.1002/9780470725184>`_] and
         [`Razavi et al. 2021 <https://doi.org/10.1016/j.envsoft.2020.104954>`_].
-        RomCom deals exclusively with the variance based method of Ilya M. Sobol.
-        This has been somewhat extended, as described in gory technical detail in
-        [`Milton et al. 2023 <https://github.com/C-O-M-M-A/rom-papers/blob/main/Sobol%20Matrices/Sobol%20Matrices.pdf>`_].
+        RomCom deals exclusively with the variance based method of Ilya M. Sobol, extended to novel
+        [`Sobol' Matrices <https://github.com/C-O-M-M-A/rom-papers/blob/main/Sobol%20Matrices/Sobol%20Matrices.pdf>`_].
 
     ROM
         Reduction of Order by Marginalization. A novel approach to locating an Active Subspace (AS) using conditional variances or Sobol' indices.
@@ -43,17 +45,19 @@ Detailed installation instructions are contained in RomCom's
 Contents
 ----------
 
+Initially, it is recommended to read :doc:`pages/intro`, then :doc:`pages/usage`, then :doc:`pages/data`, then experiment.
+
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
     pages/intro
+    pages/usage
+    pages/data
+    pages/gpr
+    pages/gsa
+    pages/rom
     pages/api/api
-    glossary
+    genindex
 
+    :ref: `genindex`
 
-Search
---------------------
-
-:ref:`search`
-
-:ref:`genindex`

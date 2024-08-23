@@ -150,6 +150,41 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -158,8 +193,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -254,6 +289,41 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
     API
@@ -262,8 +332,8 @@ document.write(`
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../glossary.html">
-    Glossary
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
   </a>
 </li>
 
@@ -488,7 +558,8 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>Self</em><em> | </em><a class="reference internal" href="rc.gpr.kernels.Kernel.html#rc.gpr.kernels.Kernel.Data" title="rc.gpr.kernels.Kernel.Data"><em>Data</em></a><em> | </em><em>None</em>) – The data updates.</p></li>
-<li><p><strong>path</strong> (<em>Store.Path</em><em> | </em><em>None</em>) – Optionally, an update to <code class="docutils literal notranslate"><span class="pre">self.path</span></code>, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is appended.</p></li>
+<li><p><strong>path</strong> (<em>Store.Path</em><em> | </em><em>None</em>) – Optionally, an update to <code class="docutils literal notranslate"><span class="pre">self.path</span></code>, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is appended.</p></li>
 <li><p><strong>**options</strong> (<em>Any</em>) – Options which update <code class="docutils literal notranslate"><span class="pre">self.write_options</span></code>.</p></li>
 </ul>
 </dd>
@@ -507,7 +578,8 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> (file) to store <code class="docutils literal notranslate"><span class="pre">self</span></code>. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
-<li><p><strong>data</strong> (<em>DataFrame</em><em> | </em><em>None</em>) – The data to store. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span></code> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">data</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">path</span></code> (which is overwritten if existing).</p></li>
+<li><p><strong>data</strong> (<em>DataFrame</em><em> | </em><em>None</em>) – The data to store. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span></code> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code>,
+otherwise <code class="docutils literal notranslate"><span class="pre">data</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">path</span></code> (which is overwritten if existing).</p></li>
 <li><p><strong>**options</strong> (<em>Any</em>) – Updates <code class="docutils literal notranslate"><span class="pre">self.read_options</span></code> if <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">is</span> <span class="pre">None</span></code>, otherwise updates <code class="docutils literal notranslate"><span class="pre">self.write_options</span></code>.</p></li>
 </ul>
 </dd>
@@ -517,14 +589,16 @@ document.write(`
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataTable.read_options">
 <span class="sig-name descname"><span class="pre">read_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.base.models.DataTable.read_options" title="Link to this definition">§</a></dt>
-<dd><p>Instance attribute <code class="docutils literal notranslate"><span class="pre">Options</span></code> passed to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pd.read_csv</a>.
+<dd><p>Instance attribute <code class="docutils literal notranslate"><span class="pre">Options</span></code> passed to
+<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pd.read_csv</a>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">{'index_col':</span> <span class="pre">0}</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataTable.write_options">
 <span class="sig-name descname"><span class="pre">write_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.base.models.DataTable.write_options" title="Link to this definition">§</a></dt>
-<dd><p>Instance attribute Options passed to <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html">DataFrame.to_csv</a>.
+<dd><p>Instance attribute Options passed to
+<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html">DataFrame.to_csv</a>.
 Defaults to <code class="docutils literal notranslate"><span class="pre">{}</span></code>.</p>
 </dd></dl>
 
@@ -535,7 +609,8 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">{}</spa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to store this DataTable, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to store this DataTable, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
 <li><p><strong>data</strong> (<em>Self</em><em> | </em><a class="reference internal" href="rc.gpr.kernels.Kernel.html#rc.gpr.kernels.Kernel.Data" title="rc.gpr.kernels.Kernel.Data"><em>Data</em></a><em> | </em><em>None</em>) – The data to store. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a <code class="docutils literal notranslate"><span class="pre">PD.DataFrame</span></code> is read from <code class="docutils literal notranslate"><span class="pre">.csv</span></code>.
 See <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">pd.DataFrame</a>.</p></li>
 <li><p><strong>index</strong> (<em>PD.Index</em><em> | </em><em>NP.ArrayLike</em>) – <p>See <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">pd.DataFrame</a>.</p>
@@ -546,8 +621,10 @@ See <a class="reference external" href="https://pandas.pydata.org/docs/reference
 </p></li>
 <li><p><strong>copy</strong> (<em>bool</em><em> | </em><em>None</em>) – <p>See <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">pd.DataFrame</a>.</p>
 </p></li>
-<li><p><strong>**options</strong> – <p>Options passed to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pd.read_csv</a>
-or <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html">pd.DataFrame.to_csv</a>.</p>
+<li><p><strong>**options</strong> – <p>Options passed to
+<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pd.read_csv</a>
+or
+<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html">pd.DataFrame.to_csv</a>.</p>
 </p></li>
 </ul>
 </dd>
@@ -566,7 +643,8 @@ or <a class="reference external" href="https://pandas.pydata.org/docs/reference/
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>src</strong> (<em>Self</em>) – The source <code class="docutils literal notranslate"><span class="pre">DataTable</span></code>.</p></li>
-<li><p><strong>dst</strong> (<em>Store.Path</em>) – The destination <code class="docutils literal notranslate"><span class="pre">Path</span></code>, overwritten if existing. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
+<li><p><strong>dst</strong> (<em>Store.Path</em>) – The destination <code class="docutils literal notranslate"><span class="pre">Path</span></code>, overwritten if existing.
+A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -673,15 +751,6 @@ or <a class="reference external" href="https://pandas.pydata.org/docs/reference/
 </li>
 </ul>
   </nav></div>
-
-  <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../../_sources/pages/api/rc.base.models.DataTable.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
 
 </div></div>
               

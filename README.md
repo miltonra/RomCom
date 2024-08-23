@@ -1,6 +1,6 @@
 # RomCom
 
-**Reduced Order Modelling via Global Sensitivity Analysis using Gaussian Process Regression by Robert A. Milton of The University of Sheffield**
+**Reduced Order Modelling via GSA/GPR, by Robert A. Milton of The University of Sheffield**
 
 ## CUDA Prerequisites for GPU usage
 GPU usage requires a ``CUDA`` setup appropriate to the version of TensorFlow installed. 
