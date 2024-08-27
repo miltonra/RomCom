@@ -532,8 +532,8 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>csvs</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Key = csv name (minus extension). Value = a Dict of options (kwargs) passed to <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>.</p></li>
-<li><p><strong>folders</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Key = folder containing csvs. Value = An (ordered) Dict of {Column name: Column value} to insert from R to L.</p></li>
+<li><p><strong>csvs</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Key = csv name (minus extension). Value = a Dict of options (kwargs) passed to <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>.</p></li>
+<li><p><strong>folders</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Key = folder containing csvs. Value = An (ordered) Dict of {Column name: Column value} to insert from R to L.</p></li>
 <li><p><strong>ignore_missing</strong> (<em>bool</em>) – Whether to raise an exception when a csv is missing from a folder.</p></li>
 <li><p><strong>**kwargs</strong> (<em>Any</em>) – kwargs passed straight to <code class="docutils literal notranslate"><span class="pre">pd.to_csv</span></code>.</p></li>
 </ul>

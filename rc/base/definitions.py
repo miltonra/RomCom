@@ -36,7 +36,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 import tensorflow as tf
 import gpflow as gf
-import rc.gpf as mf
+# import rc.gpf as mf
 import pandas as pd
 
 
@@ -98,10 +98,6 @@ class NP:
         Vector: Column vector, first order ``Tensor`` shaped (i,1).
         Covector = Tensor: Row vector, first order ``Tensor`` shaped (1,j).
         Matrix = Tensor: Second order ``Tensor`` shaped (i,j).
-        VectorLike: ``int | float | Sequence[int | float] | Array``.
-        MatrixLike: ``VectorLike | Sequence[VectorLike]``.
-        ArrayLike: ``MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]``.
-        TensorLike: ``ArrayLike``.
     """
     DType = np.dtype    #: :meta private:
     Array = np.ndarray  #: :meta private:
@@ -109,9 +105,6 @@ class NP:
     Vector = Tensor    #: :meta private:
     Covector = Tensor  #: :meta private:
     Matrix = Tensor    #: :meta private:
-    VectorLike = int | float | Sequence[int | float] | Array   #: :meta private:
-    MatrixLike = VectorLike | Sequence[VectorLike]   #: :meta private:
-    ArrayLike = TensorLike = MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]] #: :meta private:
 
     def __init__(self):
         """
@@ -130,9 +123,6 @@ class TF:
         Vector: Column vector, first order ``Tensor`` shaped (i,1).
         Covector = Tensor: Row vector, first order ``Tensor`` shaped (1,j).
         Matrix = Tensor: Second order ``Tensor`` shaped (i,j).
-        VectorLike: ``int | float | Sequence[int | float] | Array``.
-        MatrixLike: ``VectorLike | Sequence[VectorLike]``.
-        TensorLike: ``MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]``.
         Slice = Tensor: A pair of ``int`` s used for slicing a Tensor rank.
         NaN: ``tf.constant(np.NaN, dtype=Float())`` representing Not a Number.
     """
@@ -141,9 +131,6 @@ class TF:
     Vector = Tensor     #: :meta private:
     Covector = Tensor   #: :meta private:
     Matrix = Tensor     #: :meta private:
-    VectorLike = int | float | Sequence[int | float] | Tensor  #: :meta private:
-    MatrixLike = VectorLike | Sequence[VectorLike]   #: :meta private:
-    TensorLike = MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]  #: :meta private:
     Slice = tf.Tensor  #: :meta private:
     NaN: Tensor = tf.constant(np.NaN, dtype=Float())  #: :meta private:
 
@@ -153,3 +140,5 @@ class TF:
         :meta private:
         """
         raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
+
+

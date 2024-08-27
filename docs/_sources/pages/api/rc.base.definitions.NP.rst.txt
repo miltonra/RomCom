@@ -7,15 +7,6 @@ rc.base.definitions.NP
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~NP.ArrayLike
-      ~NP.MatrixLike
-      ~NP.TensorLike
-      ~NP.VectorLike
-   
    
 
    

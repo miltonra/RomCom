@@ -506,7 +506,7 @@ document.write(`
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.gpr.models.Likelihood.Data.Table">
 <span class="sig-name descname"><span class="pre">Table</span></span><a class="headerlink" href="#rc.gpr.models.Likelihood.Data.Table" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">DataTable.Data</span></code>. Do not override.</p>
+<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">Data</span></code>. Do not override.</p>
 <p>alias of <a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd></dl>
 
@@ -591,7 +591,7 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -754,7 +754,7 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.gpr.models.Likelihood.DataBase.Table">
 <span class="sig-name descname"><span class="pre">Table</span></span><a class="headerlink" href="#rc.gpr.models.Likelihood.DataBase.Table" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">DataTable.Data</span></code>. Do not override.</p>
+<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">Data</span></code>. Do not override.</p>
 <p>alias of <a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd></dl>
 
@@ -839,7 +839,7 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -971,7 +971,7 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 <dd class="field-odd"><p><strong>**options</strong> (<em>Any</em>) – Optimization <code class="docutils literal notranslate"><span class="pre">Options</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code></p>
@@ -989,7 +989,7 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> now stored in <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -1004,13 +1004,13 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in. Need not exist,
 any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
-<li><p><strong>**data_and_meta</strong> (<em>DataBase.Table</em><em> | </em><em>Meta.Data</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>,
+<li><p><strong>**data_and_meta</strong> (<a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><em>DataTable</em></a><em> | </em><em>DataFrame</em><em> | </em><em>ndarray</em><em> | </em><em>Tensor</em><em> | </em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>,
 in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i]</span></code>,
 and optional <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to update <code class="docutils literal notranslate"><span class="pre">cls.defaultMetaData</span></code> in the form <code class="docutils literal notranslate"><span class="pre">meta=Options</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> created.</p>

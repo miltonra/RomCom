@@ -527,17 +527,18 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rc.gsa.models.GSA.Kind.to_bytes">
-<span class="sig-name descname"><span class="pre">to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byteorder</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gsa.models.GSA.Kind.to_bytes" title="Link to this definition">§</a></dt>
+<span class="sig-name descname"><span class="pre">to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byteorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'big'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gsa.models.GSA.Kind.to_bytes" title="Link to this definition">§</a></dt>
 <dd><p>Return an array of bytes representing an integer.</p>
 <dl class="simple">
 <dt>length</dt><dd><p>Length of bytes object to use.  An OverflowError is raised if the
-integer is not representable with the given number of bytes.</p>
+integer is not representable with the given number of bytes.  Default
+is length 1.</p>
 </dd>
 <dt>byteorder</dt><dd><p>The byte order used to represent the integer.  If byteorder is ‘big’,
 the most significant byte is at the beginning of the byte array.  If
 byteorder is ‘little’, the most significant byte is at the end of the
 byte array.  To request the native byte order of the host system, use
-<a href="#id1"><span class="problematic" id="id2">`</span></a>sys.byteorder’ as the byte order value.</p>
+<a href="#id1"><span class="problematic" id="id2">`</span></a>sys.byteorder’ as the byte order value.  Default is to use ‘big’.</p>
 </dd>
 <dt>signed</dt><dd><p>Determines whether two’s complement is used to represent the integer.
 If signed is False and a negative integer is given, an OverflowError
@@ -548,7 +549,7 @@ is raised.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rc.gsa.models.GSA.Kind.from_bytes">
-<span class="sig-name descname"><span class="pre">from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">byteorder</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gsa.models.GSA.Kind.from_bytes" title="Link to this definition">§</a></dt>
+<span class="sig-name descname"><span class="pre">from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">byteorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'big'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gsa.models.GSA.Kind.from_bytes" title="Link to this definition">§</a></dt>
 <dd><p>Return the integer represented by the given array of bytes.</p>
 <dl class="simple">
 <dt>bytes</dt><dd><p>Holds the array of bytes to convert.  The argument must either
@@ -560,7 +561,7 @@ buffer protocol.</p>
 the most significant byte is at the beginning of the byte array.  If
 byteorder is ‘little’, the most significant byte is at the end of the
 byte array.  To request the native byte order of the host system, use
-<a href="#id3"><span class="problematic" id="id4">`</span></a>sys.byteorder’ as the byte order value.</p>
+<a href="#id3"><span class="problematic" id="id4">`</span></a>sys.byteorder’ as the byte order value.  Default is to use ‘big’.</p>
 </dd>
 <dt>signed</dt><dd><p>Indicates whether two’s complement is used to represent the integer.</p>
 </dd>
@@ -607,6 +608,11 @@ and with a positive denominator.</p>
 <dd><p>the denominator of a rational number in lowest terms</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.gsa.models.GSA.Kind.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.gsa.models.GSA.Kind.__init__" title="Link to this definition">§</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py property">
@@ -621,7 +627,7 @@ and with a positive denominator.</p>
 <dd><p>Perform a generic GSA calculation. This method should be overriden by specific subclasses, and called via <code class="docutils literal notranslate"><span class="pre">super()</span></code> as a matter of priority.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>method</strong> (<em>str</em><em> | </em><em>None</em>) – Not used.</p>
+<dd class="field-odd"><p><strong>method</strong> (<em>str</em>) – Not used.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><em>Dict</em>[str, <em>Any</em>]</p>
@@ -669,7 +675,7 @@ This is a memory intensive calculation, so leave this flag False unless you are 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.gsa.models.GSA.DataBase.Table">
 <span class="sig-name descname"><span class="pre">Table</span></span><a class="headerlink" href="#rc.gsa.models.GSA.DataBase.Table" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">DataTable.Data</span></code>. Do not override.</p>
+<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">Data</span></code>. Do not override.</p>
 <p>alias of <a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd></dl>
 
@@ -754,7 +760,7 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -886,7 +892,7 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 <dd class="field-odd"><p><strong>**options</strong> (<em>Any</em>) – Optimization <code class="docutils literal notranslate"><span class="pre">Options</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code></p>
@@ -904,7 +910,7 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> now stored in <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -919,13 +925,13 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in. Need not exist,
 any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
-<li><p><strong>**data_and_meta</strong> (<em>DataBase.Table</em><em> | </em><em>Meta.Data</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>,
+<li><p><strong>**data_and_meta</strong> (<a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><em>DataTable</em></a><em> | </em><em>DataFrame</em><em> | </em><em>ndarray</em><em> | </em><em>Tensor</em><em> | </em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>,
 in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i]</span></code>,
 and optional <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to update <code class="docutils literal notranslate"><span class="pre">cls.defaultMetaData</span></code> in the form <code class="docutils literal notranslate"><span class="pre">meta=Options</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> created.</p>
@@ -1036,6 +1042,7 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gsa.models.GSA.Kind.imag"><code class="docutils literal notranslate"><span class="pre">GSA.Kind.imag</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gsa.models.GSA.Kind.numerator"><code class="docutils literal notranslate"><span class="pre">GSA.Kind.numerator</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gsa.models.GSA.Kind.denominator"><code class="docutils literal notranslate"><span class="pre">GSA.Kind.denominator</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gsa.models.GSA.Kind.__init__"><code class="docutils literal notranslate"><span class="pre">GSA.Kind.__init__()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.gsa.models.GSA.calibrator"><code class="docutils literal notranslate"><span class="pre">GSA.calibrator</span></code></a></li>

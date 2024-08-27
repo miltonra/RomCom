@@ -11,6 +11,7 @@ rc.base.models.Meta
 
    .. autosummary::
    
+      ~Meta.Data
       ~Meta.Path
       ~Meta.data
       ~Meta.ext

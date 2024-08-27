@@ -44,11 +44,11 @@ autodoc_member_order = 'bysource'
 autodoc_typehints = 'description'
 autodoc_preserve_defaults = True
 autodoc_class_signature = 'separated'
-autodoc_type_aliases = {'Store.Path': 'Store.Path'}
+autodoc_type_aliases = {'Store.Path': 'Store.Path', 'Data': 'Data'}
 templates_path = ['_templates']
 exclude_patterns = []
-autodoc_default_options = {'members': True, 'private-members': False, 'inherited-members': True, 'show-inheritance': True,
-                            'special-members': '__init__, __call__'
+autodoc_default_options = {'members': True, 'private-members': False, 'inherited-members': True,
+                           'show-inheritance': True, 'special-members': '__init__, __call__'
 }
 
 

@@ -11,10 +11,7 @@ rc.base.definitions.TF
 
    .. autosummary::
    
-      ~TF.MatrixLike
       ~TF.NaN
-      ~TF.TensorLike
-      ~TF.VectorLike
    
    
 

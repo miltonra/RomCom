@@ -466,53 +466,11 @@ document.write(`
 <dd><p>Second order <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> shaped (i,j).</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.NP.VectorLike">
-<span class="sig-name descname"><span class="pre">VectorLike</span></span><a class="headerlink" href="#rc.base.definitions.NP.VectorLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">|</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">Sequence[int</span> <span class="pre">|</span> <span class="pre">float]</span> <span class="pre">|</span> <span class="pre">Array</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.NP.MatrixLike">
-<span class="sig-name descname"><span class="pre">MatrixLike</span></span><a class="headerlink" href="#rc.base.definitions.NP.MatrixLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">VectorLike</span> <span class="pre">|</span> <span class="pre">Sequence[VectorLike]</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.NP.ArrayLike">
-<span class="sig-name descname"><span class="pre">ArrayLike</span></span><a class="headerlink" href="#rc.base.definitions.NP.ArrayLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">MatrixLike</span> <span class="pre">|</span> <span class="pre">Sequence[MatrixLike]</span> <span class="pre">|</span> <span class="pre">Sequence[Sequence[MatrixLike]]</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.NP.TensorLike">
-<span class="sig-name descname"><span class="pre">TensorLike</span></span><a class="headerlink" href="#rc.base.definitions.NP.TensorLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">ArrayLike</span></code>.</p>
-</dd></dl>
-
-<p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.base.definitions.NP.ArrayLike" title="rc.base.definitions.NP.ArrayLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArrayLike</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.base.definitions.NP.MatrixLike" title="rc.base.definitions.NP.MatrixLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MatrixLike</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.base.definitions.NP.TensorLike" title="rc.base.definitions.NP.TensorLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorLike</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.base.definitions.NP.VectorLike" title="rc.base.definitions.NP.VectorLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VectorLike</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code>(**kwargs)</p></td>
+<td><p>Call self as a function.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p></p></td>
@@ -575,10 +533,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Array"><code class="docutils literal notranslate"><span class="pre">NP.Array</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Tensor"><code class="docutils literal notranslate"><span class="pre">NP.Tensor</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Vector"><code class="docutils literal notranslate"><span class="pre">NP.Vector</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.VectorLike"><code class="docutils literal notranslate"><span class="pre">NP.VectorLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.MatrixLike"><code class="docutils literal notranslate"><span class="pre">NP.MatrixLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.ArrayLike"><code class="docutils literal notranslate"><span class="pre">NP.ArrayLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.TensorLike"><code class="docutils literal notranslate"><span class="pre">NP.TensorLike</span></code></a></li>
 </ul>
 </li>
 </ul>

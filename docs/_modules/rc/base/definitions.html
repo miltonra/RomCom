@@ -449,7 +449,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">gpflow</span> <span class="k">as</span> <span class="nn">gf</span>
-<span class="kn">import</span> <span class="nn">rc.gpf</span> <span class="k">as</span> <span class="nn">mf</span>
+<span class="c1"># import rc.gpf as mf</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
@@ -522,10 +522,6 @@ document.write(`
 <span class="sd">        Vector: Column vector, first order ``Tensor`` shaped (i,1).</span>
 <span class="sd">        Covector = Tensor: Row vector, first order ``Tensor`` shaped (1,j).</span>
 <span class="sd">        Matrix = Tensor: Second order ``Tensor`` shaped (i,j).</span>
-<span class="sd">        VectorLike: ``int | float | Sequence[int | float] | Array``.</span>
-<span class="sd">        MatrixLike: ``VectorLike | Sequence[VectorLike]``.</span>
-<span class="sd">        ArrayLike: ``MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]``.</span>
-<span class="sd">        TensorLike: ``ArrayLike``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">DType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span>    <span class="c1">#: :meta private:</span>
     <span class="n">Array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>  <span class="c1">#: :meta private:</span>
@@ -533,9 +529,6 @@ document.write(`
     <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1">#: :meta private:</span>
     <span class="n">Covector</span> <span class="o">=</span> <span class="n">Tensor</span>  <span class="c1">#: :meta private:</span>
     <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1">#: :meta private:</span>
-    <span class="n">VectorLike</span> <span class="o">=</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">Array</span>   <span class="c1">#: :meta private:</span>
-    <span class="n">MatrixLike</span> <span class="o">=</span> <span class="n">VectorLike</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">VectorLike</span><span class="p">]</span>   <span class="c1">#: :meta private:</span>
-    <span class="n">ArrayLike</span> <span class="o">=</span> <span class="n">TensorLike</span> <span class="o">=</span> <span class="n">MatrixLike</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MatrixLike</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">MatrixLike</span><span class="p">]]</span> <span class="c1">#: :meta private:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -557,9 +550,6 @@ document.write(`
 <span class="sd">        Vector: Column vector, first order ``Tensor`` shaped (i,1).</span>
 <span class="sd">        Covector = Tensor: Row vector, first order ``Tensor`` shaped (1,j).</span>
 <span class="sd">        Matrix = Tensor: Second order ``Tensor`` shaped (i,j).</span>
-<span class="sd">        VectorLike: ``int | float | Sequence[int | float] | Array``.</span>
-<span class="sd">        MatrixLike: ``VectorLike | Sequence[VectorLike]``.</span>
-<span class="sd">        TensorLike: ``MatrixLike | Sequence[MatrixLike] | Sequence[Sequence[MatrixLike]]``.</span>
 <span class="sd">        Slice = Tensor: A pair of ``int`` s used for slicing a Tensor rank.</span>
 <span class="sd">        NaN: ``tf.constant(np.NaN, dtype=Float())`` representing Not a Number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -568,9 +558,6 @@ document.write(`
     <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor</span>     <span class="c1">#: :meta private:</span>
     <span class="n">Covector</span> <span class="o">=</span> <span class="n">Tensor</span>   <span class="c1">#: :meta private:</span>
     <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor</span>     <span class="c1">#: :meta private:</span>
-    <span class="n">VectorLike</span> <span class="o">=</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">Tensor</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">MatrixLike</span> <span class="o">=</span> <span class="n">VectorLike</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">VectorLike</span><span class="p">]</span>   <span class="c1">#: :meta private:</span>
-    <span class="n">TensorLike</span> <span class="o">=</span> <span class="n">MatrixLike</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MatrixLike</span><span class="p">]</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">MatrixLike</span><span class="p">]]</span>  <span class="c1">#: :meta private:</span>
     <span class="n">Slice</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span>  <span class="c1">#: :meta private:</span>
     <span class="n">NaN</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Float</span><span class="p">())</span>  <span class="c1">#: :meta private:</span>
 
@@ -580,6 +567,8 @@ document.write(`
 <span class="sd">        :meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;This class is not intended to be instantiated or subclassed.&#39;</span><span class="p">)</span></div>
+
+
 
 </pre></div>
 

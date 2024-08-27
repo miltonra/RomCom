@@ -46,7 +46,7 @@
     <link rel="icon" href="../../_static/favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="rc.base.models.DataBase" href="rc.base.models.DataBase.html" />
+    <link rel="next" title="rc.base.models.Data" href="rc.base.models.Data.html" />
     <link rel="prev" title="rc.base.definitions.TF" href="rc.base.definitions.TF.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -421,6 +421,15 @@ document.write(`
   <section id="module-rc.base.models">
 <span id="rc-base-models"></span><h1>rc.base.models<a class="headerlink" href="#module-rc.base.models" title="Link to this heading">§</a></h1>
 <p>Abstract and concrete base classes for RomCom Models.</p>
+<p class="rubric">Module Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.base.models.Data.html#rc.base.models.Data" title="rc.base.models.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data</span></code></a></p></td>
+<td><p>Data Types which a DataTable accepts.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -442,6 +451,13 @@ document.write(`
 </tbody>
 </table>
 </div>
+<dl class="py data">
+<dt class="sig sig-object py" id="rc.base.models.Data">
+<span class="sig-name descname"><span class="pre">Data</span></span><a class="headerlink" href="#rc.base.models.Data" title="Link to this definition">§</a></dt>
+<dd><p>Data Types which a DataTable accepts.</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="rc.base.models.Store">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Store</span></span><a class="reference internal" href="../../_modules/rc/base/models.html#Store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.models.Store" title="Link to this definition">§</a></dt>
@@ -478,7 +494,7 @@ Finally, they should store the class in <code class="docutils literal notranslat
 <dd class="field-odd"><p><strong>path</strong> (<em>Path</em><em> | </em><em>None</em>) – The updated <code class="docutils literal notranslate"><span class="pre">Path</span></code> to <code class="docutils literal notranslate"><span class="pre">self</span></code>. A <code class="docutils literal notranslate"><span class="pre">cls.ext</span></code> suffix is appended.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
@@ -513,7 +529,7 @@ Then they should read <code class="docutils literal notranslate"><span class="pr
 <dd class="field-odd"><p><strong>FileExistsError</strong> – If attempting to overwrite a file with a folder.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self | Path</p>
+<dd class="field-even"><p><em>Self</em> | <em>Path</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -532,7 +548,7 @@ and return the copy.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self | Path</p>
+<dd class="field-even"><p><em>Self</em> | <em>Path</em></p>
 </dd>
 </dl>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -550,7 +566,7 @@ and return the copy.</p>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Self | Path</p>
+<dd class="field-odd"><p><em>Self</em> | <em>Path</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -664,7 +680,7 @@ A <code class="docutils literal notranslate"><span class="pre">.json</span></cod
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">Meta</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst.with_suffix('.json')</span></code>.</p>
@@ -705,13 +721,6 @@ A <code class="docutils literal notranslate"><span class="pre">.json</span></cod
 <dd><p>Bases: <a class="reference internal" href="rc.base.models.Store.html#rc.base.models.Store" title="rc.base.models.Store"><code class="xref py py-class docutils literal notranslate"><span class="pre">Store</span></code></a></p>
 <p>Concrete class encapsulating a <code class="docutils literal notranslate"><span class="pre">PD.DataFrame</span></code> backed by a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.models.DataTable.Data">
-<span class="sig-name descname"><span class="pre">Data</span></span><a class="headerlink" href="#rc.base.models.DataTable.Data" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing data Types which a DataTable accepts.</p>
-<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataTable.ext">
 <span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.csv'</span></em><a class="headerlink" href="#rc.base.models.DataTable.ext" title="Link to this definition">§</a></dt>
 <dd><p>Class attribute specifying the file extension of DataTable instances.</p>
@@ -747,7 +756,7 @@ A <code class="docutils literal notranslate"><span class="pre">.json</span></cod
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
@@ -762,7 +771,7 @@ A <code class="docutils literal notranslate"><span class="pre">.json</span></cod
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Self</p>
+<dd class="field-odd"><p><em>Self</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -865,7 +874,7 @@ A <code class="docutils literal notranslate"><span class="pre">.csv</span></code
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">DataTable</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst.with_suffix('.csv')</span></code>.</p>
@@ -957,7 +966,7 @@ A <code class="docutils literal notranslate"><span class="pre">.csv</span></code
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.DataBase.Table">
 <span class="sig-name descname"><span class="pre">Table</span></span><a class="headerlink" href="#rc.base.models.DataBase.Table" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">DataTable.Data</span></code>. Do not override.</p>
+<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">Data</span></code>. Do not override.</p>
 <p>alias of <a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd></dl>
 
@@ -1089,7 +1098,7 @@ in the form <code class="docutils literal notranslate"><span class="pre">table_n
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -1224,7 +1233,7 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.models.Model.DataBase.Table">
 <span class="sig-name descname"><span class="pre">Table</span></span><a class="headerlink" href="#rc.base.models.Model.DataBase.Table" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">DataTable.Data</span></code>. Do not override.</p>
+<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">Data</span></code>. Do not override.</p>
 <p>alias of <a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd></dl>
 
@@ -1278,7 +1287,7 @@ and/or <code class="docutils literal notranslate"><span class="pre">self.path</s
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> now stored at <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -1398,7 +1407,7 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <dd class="field-odd"><p><strong>**options</strong> (<em>Any</em>) – Optimization <code class="docutils literal notranslate"><span class="pre">Options</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code></p>
@@ -1446,13 +1455,13 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>Store.Path</em>) – The folder to store the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in. Need not exist,
 any existing <code class="docutils literal notranslate"><span class="pre">Tables</span></code> will be overwritten if it does.</p></li>
-<li><p><strong>**data_and_meta</strong> (<em>DataBase.Table</em><em> | </em><em>Meta.Data</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>,
+<li><p><strong>**data_and_meta</strong> (<a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><em>DataTable</em></a><em> | </em><em>DataFrame</em><em> | </em><em>ndarray</em><em> | </em><em>Tensor</em><em> | </em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Data to update <code class="docutils literal notranslate"><span class="pre">cls.DataBase.table_defaults</span></code>,
 in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i]</span></code>,
 and optional <code class="docutils literal notranslate"><span class="pre">Meta.Data</span></code> to update <code class="docutils literal notranslate"><span class="pre">cls.defaultMetaData</span></code> in the form <code class="docutils literal notranslate"><span class="pre">meta=Options</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> created.</p>
@@ -1470,7 +1479,7 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><em>Self</em></p>
 </dd>
 </dl>
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> now stored in <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
@@ -1516,11 +1525,11 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
       </div>
     </a>
     <a class="right-next"
-       href="rc.base.models.DataBase.html"
+       href="rc.base.models.Data.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">rc.base.models.DataBase</p>
+        <p class="prev-next-title">rc.base.models.Data</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1542,6 +1551,7 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Store"><code class="docutils literal notranslate"><span class="pre">Store</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Store.Path"><code class="docutils literal notranslate"><span class="pre">Store.Path</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.Store.ext"><code class="docutils literal notranslate"><span class="pre">Store.ext</span></code></a></li>
@@ -1567,7 +1577,6 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable"><code class="docutils literal notranslate"><span class="pre">DataTable</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.Data"><code class="docutils literal notranslate"><span class="pre">DataTable.Data</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.ext"><code class="docutils literal notranslate"><span class="pre">DataTable.ext</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.pd"><code class="docutils literal notranslate"><span class="pre">DataTable.pd</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.models.DataTable.np"><code class="docutils literal notranslate"><span class="pre">DataTable.np</span></code></a></li>

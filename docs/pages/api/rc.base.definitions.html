@@ -480,10 +480,11 @@ without adornment throughout RomCom.</p>
 <dd><p><code class="docutils literal notranslate"><span class="pre">LOGGING_LEVEL</span></code> for TensorFlow.</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py data">
 <dt class="sig sig-object py" id="rc.base.definitions.Options">
 <span class="sig-name descname"><span class="pre">Options</span></span><a class="headerlink" href="#rc.base.definitions.Options" title="Link to this definition">§</a></dt>
 <dd><p>Type for passing options as <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]</p>
 </dd></dl>
 
 <dl class="py data">
@@ -580,30 +581,6 @@ without adornment throughout RomCom.</p>
 <dd><p>Second order <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> shaped (i,j).</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.NP.VectorLike">
-<span class="sig-name descname"><span class="pre">VectorLike</span></span><a class="headerlink" href="#rc.base.definitions.NP.VectorLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">|</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">Sequence[int</span> <span class="pre">|</span> <span class="pre">float]</span> <span class="pre">|</span> <span class="pre">Array</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.NP.MatrixLike">
-<span class="sig-name descname"><span class="pre">MatrixLike</span></span><a class="headerlink" href="#rc.base.definitions.NP.MatrixLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">VectorLike</span> <span class="pre">|</span> <span class="pre">Sequence[VectorLike]</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.NP.ArrayLike">
-<span class="sig-name descname"><span class="pre">ArrayLike</span></span><a class="headerlink" href="#rc.base.definitions.NP.ArrayLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">MatrixLike</span> <span class="pre">|</span> <span class="pre">Sequence[MatrixLike]</span> <span class="pre">|</span> <span class="pre">Sequence[Sequence[MatrixLike]]</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.NP.TensorLike">
-<span class="sig-name descname"><span class="pre">TensorLike</span></span><a class="headerlink" href="#rc.base.definitions.NP.TensorLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">ArrayLike</span></code>.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -642,24 +619,6 @@ without adornment throughout RomCom.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.VectorLike">
-<span class="sig-name descname"><span class="pre">VectorLike</span></span><a class="headerlink" href="#rc.base.definitions.TF.VectorLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">|</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">Sequence[int</span> <span class="pre">|</span> <span class="pre">float]</span> <span class="pre">|</span> <span class="pre">Array</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.MatrixLike">
-<span class="sig-name descname"><span class="pre">MatrixLike</span></span><a class="headerlink" href="#rc.base.definitions.TF.MatrixLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">VectorLike</span> <span class="pre">|</span> <span class="pre">Sequence[VectorLike]</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.TensorLike">
-<span class="sig-name descname"><span class="pre">TensorLike</span></span><a class="headerlink" href="#rc.base.definitions.TF.TensorLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">MatrixLike</span> <span class="pre">|</span> <span class="pre">Sequence[MatrixLike]</span> <span class="pre">|</span> <span class="pre">Sequence[Sequence[MatrixLike]]</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">Slice</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
 <dd><p>A pair of <code class="docutils literal notranslate"><span class="pre">int</span></code> s used for slicing a Tensor rank.</p>
@@ -671,7 +630,7 @@ without adornment throughout RomCom.</p>
 <dd><p><code class="docutils literal notranslate"><span class="pre">tf.constant(np.NaN,</span> <span class="pre">dtype=Float())</span></code> representing Not a Number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensorflow.python.framework.ops.Tensor</p>
+<dd class="field-odd"><p>tensorflow.python.framework.tensor.Tensor</p>
 </dd>
 </dl>
 </dd></dl>
@@ -743,19 +702,12 @@ without adornment throughout RomCom.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Array"><code class="docutils literal notranslate"><span class="pre">NP.Array</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Tensor"><code class="docutils literal notranslate"><span class="pre">NP.Tensor</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Vector"><code class="docutils literal notranslate"><span class="pre">NP.Vector</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.VectorLike"><code class="docutils literal notranslate"><span class="pre">NP.VectorLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.MatrixLike"><code class="docutils literal notranslate"><span class="pre">NP.MatrixLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.ArrayLike"><code class="docutils literal notranslate"><span class="pre">NP.ArrayLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.TensorLike"><code class="docutils literal notranslate"><span class="pre">NP.TensorLike</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF"><code class="docutils literal notranslate"><span class="pre">TF</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.DType"><code class="docutils literal notranslate"><span class="pre">TF.DType</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.Tensor"><code class="docutils literal notranslate"><span class="pre">TF.Tensor</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.Vector"><code class="docutils literal notranslate"><span class="pre">TF.Vector</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.VectorLike"><code class="docutils literal notranslate"><span class="pre">TF.VectorLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.MatrixLike"><code class="docutils literal notranslate"><span class="pre">TF.MatrixLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.TensorLike"><code class="docutils literal notranslate"><span class="pre">TF.TensorLike</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.NaN"><code class="docutils literal notranslate"><span class="pre">TF.NaN</span></code></a></li>
 </ul>
 </li>

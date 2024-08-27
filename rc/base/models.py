@@ -34,6 +34,9 @@ from shutil import copyfile, copytree, rmtree
 from json import load, dump
 
 
+Data = Union[PD.DataFrame, NP.Matrix, TF.Matrix] #: Data Types which a DataTable accepts.
+
+
 class Store(ABC):
     """ Base class for any stored class. Users are not expected to subclass this class directly."""
 
@@ -236,11 +239,7 @@ class Meta(Store):
 class DataTable(Store):
     """ Concrete class encapsulating a ``PD.DataFrame`` backed by a ``.csv`` file."""
 
-    #: Class attribute aliasing data Types which a DataTable accepts.
-    Data = Union[PD.DataFrame, NP.Matrix, TF.Matrix]
-
     ext: str = '.csv'   #: Class attribute specifying the file extension of DataTable instances.
-
 
     read_options: Options
     """ Instance attribute ``Options`` passed to 
@@ -393,8 +392,8 @@ class DataBase(Store):
         NotImplemented: DataBase.Table = pd.DataFrame(data=((f'Attribute type should be DataBase.Table in '
                                                              f'any implementation.',),))  #: :meta private:
 
-    #: Class attribute aliasing ``DataTable | DataTable.Data``. Do not override.
-    Table = DataTable | DataTable.Data
+    #: Class attribute aliasing ``DataTable | Data``. Do not override.
+    Table = DataTable | Data
 
     read_options: dict[str, Options] = {'Default for any DataTable is': {'index_col': 0}}
     """ Class attribute ``dict`` of the form ``{table_names[i]: Options[i], ...}. 

@@ -461,24 +461,6 @@ document.write(`
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.VectorLike">
-<span class="sig-name descname"><span class="pre">VectorLike</span></span><a class="headerlink" href="#rc.base.definitions.TF.VectorLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">|</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">Sequence[int</span> <span class="pre">|</span> <span class="pre">float]</span> <span class="pre">|</span> <span class="pre">Array</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.MatrixLike">
-<span class="sig-name descname"><span class="pre">MatrixLike</span></span><a class="headerlink" href="#rc.base.definitions.TF.MatrixLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">VectorLike</span> <span class="pre">|</span> <span class="pre">Sequence[VectorLike]</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.TensorLike">
-<span class="sig-name descname"><span class="pre">TensorLike</span></span><a class="headerlink" href="#rc.base.definitions.TF.TensorLike" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">MatrixLike</span> <span class="pre">|</span> <span class="pre">Sequence[MatrixLike]</span> <span class="pre">|</span> <span class="pre">Sequence[Sequence[MatrixLike]]</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">Slice</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
 <dd><p>A pair of <code class="docutils literal notranslate"><span class="pre">int</span></code> s used for slicing a Tensor rank.</p>
@@ -490,7 +472,7 @@ document.write(`
 <dd><p><code class="docutils literal notranslate"><span class="pre">tf.constant(np.NaN,</span> <span class="pre">dtype=Float())</span></code> representing Not a Number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensorflow.python.framework.ops.Tensor</p>
+<dd class="field-odd"><p>tensorflow.python.framework.tensor.Tensor</p>
 </dd>
 </dl>
 </dd></dl>
@@ -498,16 +480,7 @@ document.write(`
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.base.definitions.TF.MatrixLike" title="rc.base.definitions.TF.MatrixLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MatrixLike</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.base.definitions.TF.NaN" title="rc.base.definitions.TF.NaN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NaN</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.base.definitions.TF.TensorLike" title="rc.base.definitions.TF.TensorLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorLike</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.base.definitions.TF.VectorLike" title="rc.base.definitions.TF.VectorLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VectorLike</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.base.definitions.TF.NaN" title="rc.base.definitions.TF.NaN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NaN</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -516,8 +489,8 @@ document.write(`
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code>(**kwargs)</p></td>
+<td><p>Call self as a function.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p></p></td>
@@ -579,9 +552,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.DType"><code class="docutils literal notranslate"><span class="pre">TF.DType</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.Tensor"><code class="docutils literal notranslate"><span class="pre">TF.Tensor</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.Vector"><code class="docutils literal notranslate"><span class="pre">TF.Vector</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.VectorLike"><code class="docutils literal notranslate"><span class="pre">TF.VectorLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.MatrixLike"><code class="docutils literal notranslate"><span class="pre">TF.MatrixLike</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.TensorLike"><code class="docutils literal notranslate"><span class="pre">TF.TensorLike</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.NaN"><code class="docutils literal notranslate"><span class="pre">TF.NaN</span></code></a></li>
 </ul>
 </li>

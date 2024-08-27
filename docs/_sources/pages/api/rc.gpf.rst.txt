@@ -33,5 +33,5 @@
    likelihoods
    mean_functions
    models
-   tests
+   test
 

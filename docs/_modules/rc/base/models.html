@@ -447,6 +447,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">load</span><span class="p">,</span> <span class="n">dump</span>
 
 
+<span class="n">Data</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">TF</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]</span> <span class="c1">#: Data Types which a DataTable accepts.</span>
+
+
 <div class="viewcode-block" id="Store">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Store.html#rc.base.models.Store">[docs]</a>
 <span class="k">class</span> <span class="nc">Store</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
@@ -684,11 +687,7 @@ document.write(`
 <span class="k">class</span> <span class="nc">DataTable</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Concrete class encapsulating a ``PD.DataFrame`` backed by a ``.csv`` file.&quot;&quot;&quot;</span>
 
-    <span class="c1">#: Class attribute aliasing data Types which a DataTable accepts.</span>
-    <span class="n">Data</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">TF</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]</span>
-
     <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.csv&#39;</span>   <span class="c1">#: Class attribute specifying the file extension of DataTable instances.</span>
-
 
     <span class="n">read_options</span><span class="p">:</span> <span class="n">Options</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Instance attribute ``Options`` passed to </span>
@@ -862,8 +861,8 @@ document.write(`
                                                              <span class="sa">f</span><span class="s1">&#39;any implementation.&#39;</span><span class="p">,),))</span>  <span class="c1">#: :meta private:</span></div>
 
 
-    <span class="c1">#: Class attribute aliasing ``DataTable | DataTable.Data``. Do not override.</span>
-    <span class="n">Table</span> <span class="o">=</span> <span class="n">DataTable</span> <span class="o">|</span> <span class="n">DataTable</span><span class="o">.</span><span class="n">Data</span>
+    <span class="c1">#: Class attribute aliasing ``DataTable | Data``. Do not override.</span>
+    <span class="n">Table</span> <span class="o">=</span> <span class="n">DataTable</span> <span class="o">|</span> <span class="n">Data</span>
 
     <span class="n">read_options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Options</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Default for any DataTable is&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}}</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Class attribute ``dict`` of the form ``{table_names[i]: Options[i], ...}. </span>

@@ -11,7 +11,6 @@ rc.base.models.DataTable
 
    .. autosummary::
    
-      ~DataTable.Data
       ~DataTable.Path
       ~DataTable.ext
       ~DataTable.np
