@@ -1,7 +1,7 @@
 #  BSD 3-Clause License.
-# 
+#
 #  Copyright (c) 2019-2024 Robert A. Milton. All rights reserved.
-# 
+#
 #  Redistribution and use in source and binary forms, with or without modification, are permitted provided that
 #  the following conditions are met:
 #
@@ -22,7 +22,6 @@
 #  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 #  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 
 """ Abstract and concrete base classes for RomCom Models."""
 
@@ -543,9 +542,8 @@ class Model(Store):
                     table_names[i]: DataBase.Table = pd.DataFrame(table_defaults['table_names[i]'].pd)
                     ...
                 read_options: dict[str, Options] = {table_names[i]: DataTable.read_options[i], ...}
-                write_options: dict[str, Options] = {table_names[i]: DataTable.write_options[i], ...}        
-
-    defaultMetaData: Meta.Data = {'Override': 'Must never be empty'}
+                write_options: dict[str, Options] = {table_names[i]: DataTable.write_options[i], ...}
+            defaultMetaData: Meta.Data = {'Override': 'Must never be empty'}
     """
     
     defaultMetaData: Meta.Data = {} #: Class attribute. Must be overridden.

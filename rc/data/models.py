@@ -2,38 +2,38 @@
 # 
 #  Copyright (c) 2019-2024 Robert A. Milton. All rights reserved.
 # 
-#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-# 
-#  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-# 
-#  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
-# 
-#  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
-#     software without specific prior written permission.
-# 
-#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-#  THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-#  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-#  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that
+#  the following conditions are met:
+#
+#  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the
+#  following disclaimer.
+#
+#  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+#  following disclaimer in the documentation and/or other materials provided with the distribution.
+#
+#  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or
+#  promote products derived from this software without specific prior written permission.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+#  PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+#  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+#  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+#  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-""" Data structures for storage """
+""" Models for data storage. """
 
 from __future__ import annotations
 
-import numpy as np
-import pandas as pd
-
 from rc.base.definitions import *
-from rc.base.models import DataTable, DataBase, Model
+from rc.base.models import Store, Meta, DataTable, DataBase, Model
 from copy import deepcopy
 import itertools
 import random
 import shutil
 import scipy.stats
-import json
 
 
 """
@@ -80,53 +80,39 @@ class DataTable:
             self.df = df
             self.write()
 """
-
 class Repository(Model):
     """ A Repository is a model consisting only of data and metadata.
         This must be further split into Fold(Repositories) contained within the Repository before it can be used.
     """
+    class DataBase(DataBase):
 
-    class _Tables(NamedTuple):
-        """ The DataTables of a Repository.
+        class Tables(NamedTuple):
+            """ The DataTables of a Repository.
 
-        Attributes:
-            data: Training data.
-        """
+            Attributes:
+                train: Training data.
+            """
+            train = pd.DataFrame([[None, None, None]],
+                                columns=pd.MultiIndex.from_tuples((('Category', 'int'), ('Input', 'float'),
+                                                                   ('Output', 'float'))))
 
-        data: NP.Matrix = pd.DataFrame([[None, None, None]],
-                                       columns=pd.MultiIndex.from_tuples((('Category', 'int'), ('Input', 'float'), ('Output', 'float'))))
-
-    @classmethod
-    @property
-    def META(cls) -> Dict[str, Any]:
-        return {'csv_kwargs': {'sep': ',', 'header': [0, 1], 'index_col': 0},
-                'data': {'Index': 'n', 'Categorical Input': 'C', 'Continuous Input': 'X', 'Continuous Output': 'Y'},
-                'K': 0, 'has_improper_fold': False, 'shuffle before folding': False}
+    defaultMetaData: Meta.Data = {'data': {'Index': ['N'], 'Category': ['L'], 'Input': ['X'], 'Output': ['Y']},
+                                  'K': 0, 'has_improper_fold': True, 'shuffle before folding': False}
 
     @property
-    def data(self) -> pd.DataFrame:
-        """ The (N,M+L) design Matrix of input and output with column headings."""
-        return self._database['data'].pd
+    def X(self) -> NP.Matrix:
+        """ The continuous input X, as an (N,M) design Matrix."""
+        return self.data.tables.train.np[:, :-2]
 
     @property
-    def C(self) -> pd.DataFrame:
-        """ The categorical input C, as an (N,I) design Matrix with column headings."""
-        return self.data['C']
+    def L(self) -> NP.Vector:
+        """ The categorical input L."""
+        return self.data.tables.train.np[:, [-2]]
 
     @property
-    def X(self) -> pd.DataFrame:
-        """ The continuous input X, as an (N,M) design Matrix with column headings."""
-        return self.data['X']
-
-    @property
-    def Y(self) -> pd.DataFrame:
-        """ The output Y as an (N,L) Matrix with column headings."""
-        return self.data['Y']
-
-    def _update_meta(self):
-        self._meta['data'].update({'N': self.data.shape[0], 'I': self.C.shape[1], 'M': self.X.shape[1],
-                                   'L': self.Y.shape[1]})
-        self.write_meta()
+    def Y(self) -> NP.Vector:
+        """ The output Y."""
+        return self.data.tables.train.np[:, [-1]]
 
     @property
     def K(self) -> int:
@@ -139,7 +125,7 @@ class Repository(Model):
         if isinstance(self, Fold) or self.K < 1:
             return range(0, 0)
         else:
-            return range(self.K + (1 if self.meta['has_improper_fold'] else 0))
+            return range(self.K + (1 if self._meta['has_improper_fold'] else 0))
 
     def into_K_folds(self, K: int, shuffle_before_folding: bool = False,
                      normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -> Repository:

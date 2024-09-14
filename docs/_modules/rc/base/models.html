@@ -412,9 +412,9 @@ document.write(`
                   
   <h1>Source code for rc.base.models</h1><div class="highlight"><pre>
 <span></span><span class="c1">#  BSD 3-Clause License.</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1">#  Copyright (c) 2019-2024 Robert A. Milton. All rights reserved.</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1">#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that</span>
 <span class="c1">#  the following conditions are met:</span>
 <span class="c1">#</span>
@@ -435,7 +435,6 @@ document.write(`
 <span class="c1">#  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE</span>
 <span class="c1">#  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,</span>
 <span class="c1">#  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
-
 
 <span class="sd">&quot;&quot;&quot; Abstract and concrete base classes for RomCom Models.&quot;&quot;&quot;</span>
 
@@ -1036,9 +1035,8 @@ document.write(`
 <span class="sd">                    table_names[i]: DataBase.Table = pd.DataFrame(table_defaults[&#39;table_names[i]&#39;].pd)</span>
 <span class="sd">                    ...</span>
 <span class="sd">                read_options: dict[str, Options] = {table_names[i]: DataTable.read_options[i], ...}</span>
-<span class="sd">                write_options: dict[str, Options] = {table_names[i]: DataTable.write_options[i], ...}        </span>
-
-<span class="sd">    defaultMetaData: Meta.Data = {&#39;Override&#39;: &#39;Must never be empty&#39;}</span>
+<span class="sd">                write_options: dict[str, Options] = {table_names[i]: DataTable.write_options[i], ...}</span>
+<span class="sd">            defaultMetaData: Meta.Data = {&#39;Override&#39;: &#39;Must never be empty&#39;}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">Meta</span><span class="o">.</span><span class="n">Data</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#: Class attribute. Must be overridden.</span>

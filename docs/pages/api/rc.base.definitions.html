@@ -43,7 +43,7 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/api/rc.base.definitions';</script>
-    <link rel="icon" href="../../_static/favicon.png"/>
+    <link rel="icon" href="../../_static/MattFavicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="rc.base.definitions.LOGGING_LEVEL" href="rc.base.definitions.LOGGING_LEVEL.html" />
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/logo.svg" class="logo__image only-light" alt="RomCom - Home"/>
-    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
+    <img src="../../_static/MattLogo.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <script>document.write(`<img src="../../_static/MattLogo.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
   
   
 </a></div>
@@ -435,7 +435,7 @@ without adornment throughout RomCom.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="rc.base.definitions.Options.html#rc.base.definitions.Options" title="rc.base.definitions.Options"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Options</span></code></a></p></td>
 <td><p>Type for passing options as <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rc.base.definitions.ZERO.html#rc.base.definitions.ZERO" title="rc.base.definitions.ZERO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZERO</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rc.base.definitions.Zero.html#rc.base.definitions.Zero" title="rc.base.definitions.Zero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Zero</span></code></a></p></td>
 <td><p>Tolerance when testing floats for equality.</p></td>
 </tr>
 </tbody>
@@ -462,7 +462,10 @@ without adornment throughout RomCom.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="rc.base.definitions.PD.html#rc.base.definitions.PD" title="rc.base.definitions.PD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PD</span></code></a></p></td>
 <td><p>Extended Pandas types and constants.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="rc.base.definitions.TF.html#rc.base.definitions.TF" title="rc.base.definitions.TF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TF</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.base.definitions.TC.html#rc.base.definitions.TC" title="rc.base.definitions.TC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TC</span></code></a></p></td>
+<td><p>Extended PyTorch types and constants.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rc.base.definitions.TF.html#rc.base.definitions.TF" title="rc.base.definitions.TF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TF</span></code></a></p></td>
 <td><p>Extended TensorFlow types and constants.</p></td>
 </tr>
 </tbody>
@@ -488,8 +491,8 @@ without adornment throughout RomCom.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt class="sig sig-object py" id="rc.base.definitions.ZERO">
-<span class="sig-name descname"><span class="pre">ZERO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-64</span></em><a class="headerlink" href="#rc.base.definitions.ZERO" title="Link to this definition">§</a></dt>
+<dt class="sig sig-object py" id="rc.base.definitions.Zero">
+<span class="sig-name descname"><span class="pre">Zero</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-64</span></em><a class="headerlink" href="#rc.base.definitions.Zero" title="Link to this definition">§</a></dt>
 <dd><p>Tolerance when testing floats for equality.</p>
 </dd></dl>
 
@@ -566,19 +569,91 @@ without adornment throughout RomCom.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.definitions.NP.Vector">
 <span class="sig-name descname"><span class="pre">Vector</span></span><a class="headerlink" href="#rc.base.definitions.NP.Vector" title="Link to this definition">§</a></dt>
-<dd><p>Column vector, first order <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> shaped (i,1).</p>
+<dd><p>Column vector, first order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(i,1)</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Covector</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
-<dd><p>Row vector, first order <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> shaped (1,j).</p>
+<span class="sig-name descname"><span class="pre">CoVector</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
+<dd><p>Row vector, first order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(1,j)</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">Matrix</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
-<dd><p>Second order <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> shaped (i,j).</p>
+<dd><p>Second order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(i,j)</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rc.base.definitions.TC">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TC</span></span><a class="reference internal" href="../../_modules/rc/base/definitions.html#TC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.definitions.TC" title="Link to this definition">§</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Extended PyTorch types and constants. This class should never be instantiated or subclassed.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.base.definitions.TC.DType">
+<span class="sig-name descname"><span class="pre">DType</span></span><a class="headerlink" href="#rc.base.definitions.TC.DType" title="Link to this definition">§</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">tc.dtype</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.base.definitions.TC.Tensor">
+<span class="sig-name descname"><span class="pre">Tensor</span></span><a class="headerlink" href="#rc.base.definitions.TC.Tensor" title="Link to this definition">§</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">tc.Tensor</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.base.definitions.TC.Vector">
+<span class="sig-name descname"><span class="pre">Vector</span></span><a class="headerlink" href="#rc.base.definitions.TC.Vector" title="Link to this definition">§</a></dt>
+<dd><p>Column vector, first order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(i,1)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CoVector</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
+<dd><p>Row vector, first order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(1,j)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Matrix</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
+<dd><p>Second order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(i,j)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">BatchVector</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
+<dd><p>Vector <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(...,i,1)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">BatchCoVector</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
+<dd><p>CoVector <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(...,1,j)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">BatchMatrix</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
+<dd><p>Matrix <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(...,i,j)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Slice</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
+<dd><p>A pair of <code class="docutils literal notranslate"><span class="pre">int</span></code> s used for slicing a Tensor rank.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.base.definitions.TC.NaN">
+<span class="sig-name descname"><span class="pre">NaN</span></span><a class="headerlink" href="#rc.base.definitions.TC.NaN" title="Link to this definition">§</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">tc.constant(np.NaN,</span> <span class="pre">dtype=Float())</span></code> representing Not a Number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -603,19 +678,19 @@ without adornment throughout RomCom.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.base.definitions.TF.Vector">
 <span class="sig-name descname"><span class="pre">Vector</span></span><a class="headerlink" href="#rc.base.definitions.TF.Vector" title="Link to this definition">§</a></dt>
-<dd><p>Column vector, first order <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> shaped (i,1).</p>
+<dd><p>Column vector, first order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(i,1)</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">Covector</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
-<dd><p>Row vector, first order <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> shaped (1,j).</p>
+<dd><p>Row vector, first order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(1,j)</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">Matrix</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
-<dd><p>Second order <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> shaped (i,j).</p>
+<dd><p>Second order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(i,j)</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -688,7 +763,7 @@ without adornment throughout RomCom.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.LOGGING_LEVEL"><code class="docutils literal notranslate"><span class="pre">LOGGING_LEVEL</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF_CPP_MIN_LOG_LEVEL"><code class="docutils literal notranslate"><span class="pre">TF_CPP_MIN_LOG_LEVEL</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.Options"><code class="docutils literal notranslate"><span class="pre">Options</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.ZERO"><code class="docutils literal notranslate"><span class="pre">ZERO</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.Zero"><code class="docutils literal notranslate"><span class="pre">Zero</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.Int"><code class="docutils literal notranslate"><span class="pre">Int()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.Float"><code class="docutils literal notranslate"><span class="pre">Float()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.PD"><code class="docutils literal notranslate"><span class="pre">PD</span></code></a><ul class="nav section-nav flex-column">
@@ -702,6 +777,13 @@ without adornment throughout RomCom.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Array"><code class="docutils literal notranslate"><span class="pre">NP.Array</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Tensor"><code class="docutils literal notranslate"><span class="pre">NP.Tensor</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.NP.Vector"><code class="docutils literal notranslate"><span class="pre">NP.Vector</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TC"><code class="docutils literal notranslate"><span class="pre">TC</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TC.DType"><code class="docutils literal notranslate"><span class="pre">TC.DType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TC.Tensor"><code class="docutils literal notranslate"><span class="pre">TC.Tensor</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TC.Vector"><code class="docutils literal notranslate"><span class="pre">TC.Vector</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TC.NaN"><code class="docutils literal notranslate"><span class="pre">TC.NaN</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF"><code class="docutils literal notranslate"><span class="pre">TF</span></code></a><ul class="nav section-nav flex-column">

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="845"
+   height="320"
+   overflow="hidden"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="MattLogo.svg"
+   viewBox="205 180 845 320"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.0179688"
+     inkscape:cx="639.99998"
+     inkscape:cy="360.01548"
+     inkscape:window-width="3840"
+     inkscape:window-height="2126"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <g
+     id="g4"
+     transform="matrix(0.93418506,0,0,1,13.379791,-0.4955478)">
+    <rect
+       x="0"
+       y="0"
+       width="1280"
+       height="720"
+       fill="#ffffff"
+       id="rect1" />
+    <path
+       d="M 213,338 364,187 515,338 364,489 Z"
+       fill="#7f7f7f"
+       fill-rule="evenodd"
+       id="path1" />
+    <path
+       d="M 363,337.164 364.178,187 515,338.5 364.178,490 Z"
+       fill="#404040"
+       fill-rule="evenodd"
+       id="path2" />
+    <path
+       d="m 364,246 c 34.794,0 63,21.267 63,47.5 0,26.234 -28.206,47.5 -63,47.5 -0.225,0 -0.449,-10e-4 -0.674,-0.003 l 0.342,-24.078 c 21.494,0.111 39.067,-10.285 39.251,-23.219 0.183,-12.934 -17.093,-23.509 -38.587,-23.62 -0.111,0 -0.221,0 -0.332,0 z"
+       fill="#c592de"
+       fill-rule="evenodd"
+       id="path3" />
+    <rect
+       x="331"
+       y="246"
+       width="26"
+       height="161"
+       fill="#ffffff"
+       id="rect3" />
+    <path
+       d="m 363.275,343.333 c 0.374,-0.751 11.466,-0.025 17.761,-1.746 6.961,-1.553 5.622,-1.13 7.34,-1.909 17.383,28.947 20.257,37.459 39.973,66.74 l -29.556,1.005 z"
+       fill="#ffffff"
+       fill-rule="evenodd"
+       id="path4" />
+    <text
+       fill="#61267e"
+       font-family="'Franklin Gothic Demi', 'Franklin Gothic Demi_MSFontService', sans-serif"
+       font-weight="700"
+       font-size="128px"
+       transform="translate(534.73,384)"
+       id="text4">RomCom</text>
+  </g>
+</svg>

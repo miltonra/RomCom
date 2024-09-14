@@ -13,7 +13,7 @@ rc.base.definitions
       LOGGING_LEVEL
       TF_CPP_MIN_LOG_LEVEL
       Options
-      ZERO
+      Zero
    
    
 
@@ -39,6 +39,7 @@ rc.base.definitions
    
       NP
       PD
+      TC
       TF
    
    
