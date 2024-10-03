@@ -1,4 +1,4 @@
-rc.data.models.Fold
+﻿rc.data.models.Fold
 ===================
 
 .. currentmodule:: rc.data.models
@@ -11,10 +11,8 @@ rc.data.models.Fold
 
    .. autosummary::
    
-      ~Fold.C
-      ~Fold.CSV_OPTIONS
       ~Fold.K
-      ~Fold.META
+      ~Fold.L
       ~Fold.Path
       ~Fold.X
       ~Fold.X_rotation
@@ -46,9 +44,7 @@ rc.data.models.Fold
       ~Fold.delete
       ~Fold.fold_folder
       ~Fold.from_csv
-      ~Fold.from_df
       ~Fold.from_dfs
-      ~Fold.into_K_folds
-      ~Fold.rotate_folds
+      ~Fold.from_pd
    
    

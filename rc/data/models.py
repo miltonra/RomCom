@@ -27,6 +27,8 @@
 
 from __future__ import annotations
 
+import pandas as pd
+
 from rc.base.definitions import *
 from rc.base.models import Store, Meta, DataTable, DataBase, Model
 from copy import deepcopy
@@ -80,296 +82,7 @@ class DataTable:
             self.df = df
             self.write()
 """
-class Repository(Model):
-    """ A Repository is a model consisting only of data and metadata.
-        This must be further split into Fold(Repositories) contained within the Repository before it can be used.
-    """
-    class DataBase(DataBase):
-
-        class Tables(NamedTuple):
-            """ The DataTables of a Repository.
-
-            Attributes:
-                train: Training data.
-            """
-            train = pd.DataFrame([[None, None, None]],
-                                columns=pd.MultiIndex.from_tuples((('Category', 'int'), ('Input', 'float'),
-                                                                   ('Output', 'float'))))
-
-    defaultMetaData: Meta.Data = {'data': {'Index': ['N'], 'Category': ['L'], 'Input': ['X'], 'Output': ['Y']},
-                                  'K': 0, 'has_improper_fold': True, 'shuffle before folding': False}
-
-    @property
-    def X(self) -> NP.Matrix:
-        """ The continuous input X, as an (N,M) design Matrix."""
-        return self.data.tables.train.np[:, :-2]
-
-    @property
-    def L(self) -> NP.Vector:
-        """ The categorical input L."""
-        return self.data.tables.train.np[:, [-2]]
-
-    @property
-    def Y(self) -> NP.Vector:
-        """ The output Y."""
-        return self.data.tables.train.np[:, [-1]]
-
-    @property
-    def K(self) -> int:
-        """ The number of folds contained in this Repository."""
-        return self._meta['K']
-
-    @property
-    def folds(self) -> range:
-        """ The indices of the folds contained in this Repository."""
-        if isinstance(self, Fold) or self.K < 1:
-            return range(0, 0)
-        else:
-            return range(self.K + (1 if self._meta['has_improper_fold'] else 0))
-
-    def into_K_folds(self, K: int, shuffle_before_folding: bool = False,
-                     normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -> Repository:
-        """ Fold this repo into K Folds, indexed by range(K).
-
-        Args:
-            K: The number of Folds, of absolute value between 1 and N inclusive.
-                An improper Fold, indexed by K and including all data for both training and testing is included by default.
-                To suppress this give K as a negative integer.
-            shuffle_before_folding: Whether to shuffle the data before sampling.
-            normalization: An optional normalization.csv file to use.
-            is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.
-        Returns: ``self``, for chaining calls.
-        Raises:
-            IndexError: Unless 1 &lt= K &lt= N.
-        """
-        data = self.data.df
-        N = data.shape[0]
-        if not (1 <= abs(K) <= N):
-            raise IndexError(f'K={K:d} does not lie between 1 and N={N:d} inclusive.')
-        for k in range(max(abs(K), self.K) + 1):
-            shutil.rmtree(self.fold_folder(k), ignore_errors=True)
-        index = list(range(N))
-        if shuffle_before_folding:
-            random.shuffle(index)
-        self._meta.update({'K': abs(K), 'has_improper_fold': K > 0, 'shuffle before folding': shuffle_before_folding})
-        self.write_meta()
-        normalization = Normalization(self, self._data.pd).csv if normalization is None else normalization
-        if K > 0:
-            Fold.from_dfs(parent=self, k=K, data=data.iloc[index], test_data=data.iloc[index], normalization=normalization,
-                          is_normalization_applicable=is_normalization_applicable)
-        K = abs(K)
-        K_blocks = [list(range(K)) for dummy in range(int(N / K))]
-        K_blocks.append(list(range(N % K)))
-        for K_range in K_blocks:
-            random.shuffle(K_range)
-        indicator = list(itertools.chain(*K_blocks))
-        for k in range(K):
-            indicated = tuple(zip(index, indicator))
-            data_index = [index for index, indicator in indicated if k != indicator]
-            test_index = [index for index, indicator in indicated if k == indicator]
-            data_index = test_index if data_index == [] else data_index
-            Fold.from_dfs(parent=self, k=k, data=data.iloc[data_index], test_data=data.iloc[test_index], normalization=normalization,
-                          is_normalization_applicable=is_normalization_applicable)
-        return self
-
-    def rotate_folds(self, rotation: NP.Matrix | None) -> Repository:
-        """ Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.
-
-        Args:
-            rotation: The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.
-            If the matrix supplied has the wrong dimensions or is not orthogonal, a random rotation is generated and used instead.
-        Returns: ``self``, for chaining calls.
-        """
-        M = self._meta['data']['M']
-        if rotation is None:
-            rotation = np.eye(M)
-        elif rotation.shape != (M, M) or not np.allclose(np.dot(rotation, rotation.T), np.eye(M)):
-            rotation = scipy.stats.special_ortho_group.rvs(M)
-        for k in self.folds:
-            Fold(self, k).X_rotation = rotation
-        return self
-
-    def fold_folder(self, k: int) -> Path:
-        return self._folder / f'fold.{k:d}'
-
-    def __repr__(self) -> str:
-        return str(self._folder)
-
-    def __str__(self) -> str:
-        return self._folder.name
-
-    def __init__(self, folder: Path | str, **kwargs):
-        self._folder = Path(folder)
-        init_mode = kwargs.get('init_mode', Repository._InitMode.READ)
-        if init_mode <= Repository._InitMode.READ:
-            super().__init__(folder, True, **kwargs)
-            self._meta = self.read_meta()
-            if init_mode is Repository._InitMode.READ:
-                self._data = DataTable(self._csv)
-        else:
-            shutil.rmtree(self._folder, ignore_errors=True)
-            self._folder.mkdir(mode=0o777, parents=True, exist_ok=False)
-
-    @classmethod
-    def from_df(cls, folder: Path | str, df: pd.DataFrame, meta: Dict | None = None) -> Repository:
-        """ Create a Repository from a pd.DataFrame.
-
-        Args:
-            folder: The location (folder) of the Repository.
-            df: The data to record in [Return].csv.
-            meta: The metadata to record in [Return].meta.json.
-        Returns: A new Repository.
-        """
-        repo = Repository(folder, init_mode=Repository._InitMode.CREATE)
-        repo._meta = cls.META | ({} if meta is None else meta)
-        repo._data = DataTable(repo._csv, df)
-        repo._update_meta()
-        return repo
-
-    @classmethod
-    @property
-    def CSV_OPTIONS(cls) -> Dict[str, Any]:
-        return {'skiprows': None, 'index_col': 0}
-
-    @classmethod
-    def from_csv(cls, folder: Path | str, csv: Path | str, PCA: bool = False, meta: Dict = None, **kwargs) -> Repository:
-        """ Create a Repository from a csv file.
-
-        Args:
-            folder: The location (folder) of the target Repository.
-            csv: The file containing the data to record in [Return].csv.
-            PSA: Whether to create a single fold in which Principal Component Analysis (PCA) has been performed on the inputs.
-            meta: The metadata to record in [Return].meta.json.
-            kwargs: Updates Repository.CSV_OPTIONS for reading the csv file, as detailed in
-                https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html.
-        Returns: A new Repository located in folder.
-        """
-        csv = Path(csv)
-        origin_csv_kwargs = cls.CSV_OPTIONS | kwargs
-        data = DataTable(csv, **origin_csv_kwargs)
-        meta = cls.META if meta is None else cls.META | meta
-        meta['origin'] = {'csv': str(csv.absolute()), 'origin_csv_kwargs': origin_csv_kwargs}
-        repo = cls.from_df(folder, data.pd, meta)
-        if PCA:
-            repo = repo.into_K_folds(-1)
-            fold = Repository(repo.fold_folder(0))
-            X = fold.X.values
-            print(f'pre mean = {np.mean(fold.X.values, axis=0)}')  # DEBUG:
-            cov = np.cov(X, rowvar=False)
-            eigenvalues, eigenvectors = np.linalg.eigh(cov)
-            idx = eigenvalues.argsort()[::-1]
-            eigenvalues = eigenvalues[idx]
-            eigenvectors = eigenvectors[:, idx]
-            cov = np.einsum('ij,ij->j', eigenvectors, eigenvectors)
-
-            repo = repo.rotate_folds(eigenvectors.T)
-            # Test Code
-            fold = Fold(repo,0)
-            fold.data.df.iloc[:, :fold.M] /= np.sqrt(eigenvalues)
-            fold.test_data.pd.iloc[:, :fold.M] /= np.sqrt(eigenvalues)
-            print(f'post mean = {np.mean(fold.X.values, axis=0)}')  # DEBUG:
-            print(f'post cov = {np.cov(fold.X.values, rowvar=False)}')  # DEBUG:
-            #end of
-            folder = repo.fold_folder(0)
-            folder.rename(folder.parent / 'PCA')
-        return repo
-
-
-class Fold(Repository):
-    """ A Fold is defined as a folder containing a ``data.csv``, a ``meta.json`` file and a ``test.csv`` file.
-    A Fold is a Repository equipped with a test_data pd.DataFrame backed by ``test.csv``.
-
-    Additionally, a fold can reduce the dimensionality ``M`` of the input ``X``.
-    """
-
-    @property
-    def normalization(self) -> Normalization:
-        return self._normalization
-
-    @property
-    def test_csv(self) -> Path:
-        return self._test_csv
-
-    @property
-    def test_data(self) -> DataTable:
-        return self._test_data
-
-    @property
-    def test_x(self) -> pd.DataFrame:
-        """ The test_data input x, as an (n,M) design Matrix with column headings."""
-        return self._test_data.pd[self._meta['data']['X_heading']]
-
-    @property
-    def test_y(self) -> pd.DataFrame:
-        """ The test_data output y as an (n,L) Matrix with column headings."""
-        return self._test_data.pd[self._meta['data']['Y_heading']]
-
-    def _X_rotate(self, DataTable: DataTable, rotation: NP.Matrix):
-        """ Rotate the input variables in a DataTable.
-
-        Args:
-            DataTable: The DataTable to rotate. Will be written after rotation.
-            rotation: The rotation Matrix.
-        """
-        DataTable.pd.iloc[:, :self.M] = np.einsum('Nm,Mm->NM', DataTable.pd.iloc[:, :self.M], rotation)
-        DataTable.write()
-
-    @property
-    def X_rotation(self) -> NP.Matrix:
-        """ The rotation matrix applied to the input variables self.X, stored in X_rotation.csv. Rotations are applied and stored cumulatively."""
-        return DataTable(self._X_rotation, header=[0]).pd.values if self._X_rotation.exists() else np.eye(self.M)
-
-    @X_rotation.setter
-    def X_rotation(self, value: NP.Matrix):
-        """ The rotation matrix applied to the input variables self.X, stored in X_rotation.csv. Rotations are applied and stored cumulatively."""
-        self._X_rotate(self._data, value)
-        self._X_rotate(self._test_data, value)
-        old_value = self.X_rotation
-        DataTable(self._X_rotation, pd.DataFrame(np.matmul(old_value, value)))
-
-    def __init__(self, parent: Repository, k: int, **kwargs):
-        """ Initialize Fold by reading existing files. Creation is handled by the classmethod Fold.from_dfs.
-
-        Args:
-            parent: The parent Repository.
-            k: The index of the Fold within parent.
-            M: The number of input columns used. If not 0 &lt M &lt self.M, all columns are used.
-        """
-        init_mode = kwargs.get('init_mode', Repository._InitMode.READ)
-        super().__init__(parent.fold_folder(k), init_mode=init_mode)
-        self._X_rotation = self.folder / 'X_rotation.csv'
-        self._test_csv = self.folder / 'test.csv'
-        if init_mode == Repository._InitMode.READ:
-            self._test_data = DataTable(self._test_csv)
-            self._normalization = Normalization(self)
-
-    @classmethod
-    def from_dfs(cls, parent: Repository, k: int, data: pd.DataFrame, test_data: pd.DataFrame,
-                 normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -> Fold:
-        """ Create a Fold from a pd.DataFrame.
-
-        Args:
-            parent: The parent Repository.
-            k: The index of the fold to be created.
-            data: Training data.
-            test_data: Test data.
-            normalization: An optional normalization.csv file to use.
-            is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.
-        Returns: The Fold created.
-        """
-
-        fold = cls(parent, k, init_mode=Repository._InitMode.CREATE)
-        fold._meta = cls.META | parent.meta | {'k': k}
-        fold._normalization = Normalization(fold, data, is_normalization_applicable)
-        if normalization is not None:
-            shutil.copy(Path(normalization), fold._normalization.csv)
-        fold._data = DataTable(fold._csv, fold.normalization.apply_to(data))
-        fold._test_data = DataTable(fold._test_csv, fold.normalization.apply_to(test_data))
-        fold._update_meta()
-        return fold
-
-
-class Normalization:
+class Normalisation:
     """ Encapsulates the normalization of data.
         X data is assumed to follow a Uniform distribution, which is normalized to U[0,1] , then inverse probability transformed to N[0,1].
         Y data is normalized to zero mean and unit variance.
@@ -488,3 +201,332 @@ class Normalization:
             m_max.name = 'max'
             df = pd.concat((mean, std, 2 * semi_range, m_min, m_max), axis=1)
             self._frame = DataTable(self.csv, df.T)
+
+class Normalization(Model):
+    """ A Repository is a model consisting only of data and metadata.
+        This must be further split into Fold(Repositories) contained within the Repository before it can be used.
+    """
+    class DataBase(DataBase):
+
+        class Tables(NamedTuple):
+            """ The DataTables of a Repository.
+
+            Attributes:
+                train: Training data.
+            """
+            train = pd.DataFrame([[None, None, None]], columns=('L','X','Y'))
+
+    defaultMetaData: Meta.Data = {'headers': {'L': {'Category', 'N', 'Index'}, 'X': {'Input'}, 'Y': {'Output'}, 'Z': {}},
+                                  'K': 0, 'has_improper_fold': True, 'shuffle before folding': False}
+
+
+class Repository(Model):
+    """ A Repository is a model consisting only of (training) data and metadata.
+        This must be further split into Fold(Repositories) contained within the Repository before it can be used.
+    """
+    class DataBase(DataBase):
+
+        class Tables(NamedTuple):
+            """ The DataTables of a Repository.
+
+            Attributes:
+                train: Training data.
+            """
+            train = pd.DataFrame([[None, None, None]], columns=('L','X','Y'))
+
+    defaultMetaData: Meta.Data = {'headers': {'L': {'Category'}, 'X': {'Input'}, 'Y': {'Output'}},
+                                  'K': 0, 'has_improper_fold': True, 'shuffle before folding': False}
+
+    @property
+    def L(self) -> NP.Vector:
+        """ The categorical input L."""
+        return self.data.tables.train.np[:, [0]]
+
+    @property
+    def X(self) -> NP.Matrix:
+        """ The continuous input X, as an (N,M) design Matrix."""
+        return self.data.tables.train.np[:, 1:-1]
+
+    @property
+    def Y(self) -> NP.Vector:
+        """ The output Y."""
+        return self.data.tables.train.np[:, [-1]]
+
+    @property
+    def K(self) -> int:
+        """ The number of folds contained in this Repository."""
+        return self._meta['K']
+
+    @property
+    def folds(self) -> range:
+        """ The indices of the folds contained in this Repository."""
+        if isinstance(self, Fold) or self.K < 1:
+            return range(0, 0)
+        else:
+            return range(self.K + (1 if self._meta['has_improper_fold'] else 0))
+
+    def fold_folder(self, k: int) -> Path:
+        return self._path / f'fold.{k:d}'
+
+    # def into_K_folds(self, K: int, shuffle_before_folding: bool = False,
+    #                  normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -> Repository:
+    #     """ Fold this repo into K Folds, indexed by range(K).
+    #
+    #     Args:
+    #         K: The number of Folds, of absolute value between 1 and N inclusive.
+    #             An improper Fold, indexed by K and including all data for both training and testing is included by default.
+    #             To suppress this give K as a negative integer.
+    #         shuffle_before_folding: Whether to shuffle the data before sampling.
+    #         normalization: An optional normalization.csv file to use.
+    #         is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.
+    #     Returns: ``self``, for chaining calls.
+    #     Raises:
+    #         IndexError: Unless 1 &lt= K &lt= N.
+    #     """
+    #     data = self.data.df
+    #     N = data.shape[0]
+    #     if not (1 <= abs(K) <= N):
+    #         raise IndexError(f'K={K:d} does not lie between 1 and N={N:d} inclusive.')
+    #     for k in range(max(abs(K), self.K) + 1):
+    #         shutil.rmtree(self.fold_folder(k), ignore_errors=True)
+    #     index = list(range(N))
+    #     if shuffle_before_folding:
+    #         random.shuffle(index)
+    #     self._meta.update({'K': abs(K), 'has_improper_fold': K > 0, 'shuffle before folding': shuffle_before_folding})
+    #     self.write_meta()
+    #     normalization = Normalization(self, self._data.pd).csv if normalization is None else normalization
+    #     if K > 0:
+    #         Fold.from_dfs(parent=self, k=K, data=data.iloc[index], test_data=data.iloc[index], normalization=normalization,
+    #                       is_normalization_applicable=is_normalization_applicable)
+    #     K = abs(K)
+    #     K_blocks = [list(range(K)) for dummy in range(int(N / K))]
+    #     K_blocks.append(list(range(N % K)))
+    #     for K_range in K_blocks:
+    #         random.shuffle(K_range)
+    #     indicator = list(itertools.chain(*K_blocks))
+    #     for k in range(K):
+    #         indicated = tuple(zip(index, indicator))
+    #         data_index = [index for index, indicator in indicated if k != indicator]
+    #         test_index = [index for index, indicator in indicated if k == indicator]
+    #         data_index = test_index if data_index == [] else data_index
+    #         Fold.from_dfs(parent=self, k=k, data=data.iloc[data_index], test_data=data.iloc[test_index], normalization=normalization,
+    #                       is_normalization_applicable=is_normalization_applicable)
+    #     return self
+    #
+    # def rotate_folds(self, rotation: NP.Matrix | None) -> Repository:
+    #     """ Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.
+    #
+    #     Args:
+    #         rotation: The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.
+    #         If the matrix supplied has the wrong dimensions or is not orthogonal, a random rotation is generated and used instead.
+    #     Returns: ``self``, for chaining calls.
+    #     """
+    #     M = self._meta['data']['M']
+    #     if rotation is None:
+    #         rotation = np.eye(M)
+    #     elif rotation.shape != (M, M) or not np.allclose(np.dot(rotation, rotation.T), np.eye(M)):
+    #         rotation = scipy.stats.special_ortho_group.rvs(M)
+    #     for k in self.folds:
+    #         Fold(self, k).X_rotation = rotation
+    #     return self
+    #
+
+    def __init__(self, path: Store.Path, train: DataBase.Table = None):
+        """ Read or create a Repository in ``path``.
+
+        Args:
+            path: The Path to this Repository.
+            train: The training data to populate this Repository. If ``None``, the Repository in ``path``
+                will be read, otherwise it will be created.
+        """
+        if train is None:
+            super().__init__(path)
+        else:
+            super().__init__(Store.create(path), train = train)
+
+    @classmethod
+    def create(cls, path: Store.Path, train: PD.DataFrame, normalization: Normalization | None = None,
+               **meta: Any) -> Repository:
+        """ Create a Repository from a ``PD.DataFrame``.
+
+        Args:
+            path: The Path to this Repository.
+            train: The data to record in ``train.csv``.
+            normalization: The Normalization to use, will be generated from ``train`` if ``None``.
+            meta: The meta to update ``cls.defaultMetaData`` and record in ``meta.json``.
+
+        Returns: The Repository created.
+        """
+        meta = cls.defaultMetaData | meta
+        train = train.rename(str.capitalize, axis = 'columns', level = 0)
+        data = {'Row': pd.DataFrame(train.index, columns=['Row'])}
+        for header, headers in meta['headers'].items():
+            data[header] = {'headers': {header}.union(headers).intersection(train.columns.levels[0])}
+            data[header] |= {'pd': train[list(data[header]['headers'])]}
+            data[header] |= {'pd': pd.DataFrame(data[header]['pd'].to_numpy(),
+                                                columns = data[header]['pd'].columns.droplevel(0))}
+        meta |=  { 'M': data['X']['pd'].shape[1], 'Lc': data['L']['pd'].shape[1],'Ly': data['Y']['pd'].shape[1]}
+        result = data['Row'].join([data[header]['pd'] for header in meta['headers'].keys()])
+        id_vars = data['Row'].columns.union(data['L']['pd'].columns).columns.union(data['X']['pd'].columns)
+        result = result.melt(id_vars = id_vars, var_name = 'Col', value_name = 'Y').dropna()
+        result['L'] = result[data['L']['pd'].columns.to_list()+['Col']].astype(str).agg('|'.join, axis = 1)
+        Meta.create(cls._meta_in(path), **(cls.defaultMetaData | meta))
+        return Repository(path, train = train)
+
+    @classmethod
+    def from_csv(cls, path: Store.Path, train: Store.Path, normalization: Normalization | None = None,
+                 **meta: Any) -> Repository:
+        """ Create a Repository from a csv file.
+
+        Args:
+            path: The location (folder) of the target Repository.
+            train: The file containing the data to record in [Return].csv.
+            normalization: The Normalization to use, will be generated from ``train`` if ``None``.
+            meta: The meta to record in meta.json, defaulting to
+                ``{'src': {'path': [path], 'read_options': {'header': [0, 1]}}}``.
+                ``'src' : 'read_options'``, which may be amended, is ``Options`` passed directly to
+                `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_.
+
+        Returns: The Repository created.
+        """
+        meta = {'src': {'path': str(train), 'read_options': {'header': [0, 1], 'index_col': 0}}} | meta
+        train = pd.read_csv(train, **meta['src']['read_options'])
+        return cls.create(path, train, normalization, **meta)
+
+# def from_csv(cls, path: Store.Path, train: Store.Path, PCA: bool = False, meta: Dict = None,
+#              **kwargs) -> Repository:
+#     """ Create a Repository from a csv file.
+#
+#     Args:
+#         path: The location (folder) of the target Repository.
+#         train: The file containing the data to record in [Return].csv.
+#         PSA: Whether to create a single fold in which Principal Component Analysis (PCA) has been performed on the inputs.
+#         meta: The metadata to record in [Return].meta.json.
+#         kwargs: Updates Repository.CSV_OPTIONS for reading the csv file, as detailed in
+#             https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html.
+#     Returns: A new Repository located in folder.
+#     """
+#     train = Path(train)
+#     origin_csv_kwargs = cls.CSV_OPTIONS | kwargs
+#     data = DataTable(train, **origin_csv_kwargs)
+#     meta = cls.META if meta is None else cls.META | meta
+#     meta['origin'] = {'csv': str(train.absolute()), 'origin_csv_kwargs': origin_csv_kwargs}
+#     repo = cls.from_df(path, data.pd, meta)
+#     if PCA:
+#         repo = repo.into_K_folds(-1)
+#         fold = Repository(repo.fold_folder(0))
+#         X = fold.X.values
+#         print(f'pre mean = {np.mean(fold.X.values, axis = 0)}')  # DEBUG:
+#         cov = np.cov(X, rowvar = False)
+#         eigenvalues, eigenvectors = np.linalg.eigh(cov)
+#         idx = eigenvalues.argsort()[::-1]
+#         eigenvalues = eigenvalues[idx]
+#         eigenvectors = eigenvectors[:, idx]
+#         cov = np.einsum('ij,ij->j', eigenvectors, eigenvectors)
+#
+#         repo = repo.rotate_folds(eigenvectors.T)
+#         # Test Code
+#         fold = Fold(repo, 0)
+#         fold.data.df.iloc[:, :fold.M] /= np.sqrt(eigenvalues)
+#         fold.test_data.pd.iloc[:, :fold.M] /= np.sqrt(eigenvalues)
+#         print(f'post mean = {np.mean(fold.X.values, axis = 0)}')  # DEBUG:
+#         print(f'post cov = {np.cov(fold.X.values, rowvar = False)}')  # DEBUG:
+#         # end of
+#         path = repo.fold_folder(0)
+#         path.rename(path.parent / 'PCA')
+#     return repo
+
+
+class Fold(Repository):
+    """ A Fold is defined as a folder containing a ``data.csv``, a ``meta.json`` file and a ``test.csv`` file.
+    A Fold is a Repository equipped with a test_data pd.DataFrame backed by ``test.csv``.
+
+    Additionally, a fold can reduce the dimensionality ``M`` of the input ``X``.
+    """
+
+    @property
+    def normalization(self) -> Normalization:
+        return self._normalization
+
+    @property
+    def test_csv(self) -> Path:
+        return self._test_csv
+
+    @property
+    def test_data(self) -> DataTable:
+        return self._test_data
+
+    @property
+    def test_x(self) -> pd.DataFrame:
+        """ The test_data input x, as an (n,M) design Matrix with column headings."""
+        return self._test_data.pd[self._meta['data']['X_heading']]
+
+    @property
+    def test_y(self) -> pd.DataFrame:
+        """ The test_data output y as an (n,L) Matrix with column headings."""
+        return self._test_data.pd[self._meta['data']['Y_heading']]
+
+    def _X_rotate(self, DataTable: DataTable, rotation: NP.Matrix):
+        """ Rotate the input variables in a DataTable.
+
+        Args:
+            DataTable: The DataTable to rotate. Will be written after rotation.
+            rotation: The rotation Matrix.
+        """
+        DataTable.pd.iloc[:, :self.M] = np.einsum('Nm,Mm->NM', DataTable.pd.iloc[:, :self.M], rotation)
+        DataTable.write()
+
+    @property
+    def X_rotation(self) -> NP.Matrix:
+        """ The rotation matrix applied to the input variables self.X, stored in X_rotation.csv. Rotations are applied and stored cumulatively."""
+        return DataTable(self._X_rotation, header=[0]).pd.values if self._X_rotation.exists() else np.eye(self.M)
+
+    @X_rotation.setter
+    def X_rotation(self, value: NP.Matrix):
+        """ The rotation matrix applied to the input variables self.X, stored in X_rotation.csv. Rotations are applied and stored cumulatively."""
+        self._X_rotate(self._data, value)
+        self._X_rotate(self._test_data, value)
+        old_value = self.X_rotation
+        DataTable(self._X_rotation, pd.DataFrame(np.matmul(old_value, value)))
+
+    def __init__(self, parent: Repository, k: int, **kwargs):
+        """ Initialize Fold by reading existing files. Creation is handled by the classmethod Fold.from_dfs.
+
+        Args:
+            parent: The parent Repository.
+            k: The index of the Fold within parent.
+            M: The number of input columns used. If not 0 &lt M &lt self.M, all columns are used.
+        """
+        init_mode = kwargs.get('init_mode', Repository._InitMode.READ)
+        super().__init__(parent.fold_folder(k), init_mode=init_mode)
+        self._X_rotation = self.folder / 'X_rotation.csv'
+        self._test_csv = self.folder / 'test.csv'
+        if init_mode == Repository._InitMode.READ:
+            self._test_data = DataTable(self._test_csv)
+            self._normalization = Normalization(self)
+
+    @classmethod
+    def from_dfs(cls, parent: Repository, k: int, data: pd.DataFrame, test_data: pd.DataFrame,
+                 normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -> Fold:
+        """ Create a Fold from a pd.DataFrame.
+
+        Args:
+            parent: The parent Repository.
+            k: The index of the fold to be created.
+            data: Training data.
+            test_data: Test data.
+            normalization: An optional normalization.csv file to use.
+            is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.
+        Returns: The Fold created.
+        """
+
+        fold = cls(parent, k, init_mode=Repository._InitMode.CREATE)
+        fold._meta = cls.META | parent.meta | {'k': k}
+        fold._normalization = Normalization(fold, data, is_normalization_applicable)
+        if normalization is not None:
+            shutil.copy(Path(normalization), fold._normalization.csv)
+        fold._data = DataTable(fold._csv, fold.normalization.apply_to(data))
+        fold._test_data = DataTable(fold._test_csv, fold.normalization.apply_to(test_data))
+        fold._update_meta()
+        return fold
+

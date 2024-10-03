@@ -42,7 +42,7 @@
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/rc/data/models';</script>
-    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="icon" href="../../../_static/MattLogo2.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -124,8 +124,8 @@
       
     
     
-    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="RomCom - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
+    <img src="../../../_static/MattLogo2.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <script>document.write(`<img src="../../../_static/MattLogo2.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
   
   
 </a></div>
@@ -436,21 +436,17 @@ document.write(`
 <span class="c1">#  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,</span>
 <span class="c1">#  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
 
-<span class="sd">&quot;&quot;&quot; Data structures for storage &quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot; Models for data storage. &quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
 <span class="kn">from</span> <span class="nn">rc.base.definitions</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">rc.base.models</span> <span class="kn">import</span> <span class="n">DataTable</span><span class="p">,</span> <span class="n">DataBase</span><span class="p">,</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">rc.base.models</span> <span class="kn">import</span> <span class="n">Store</span><span class="p">,</span> <span class="n">Meta</span><span class="p">,</span> <span class="n">DataTable</span><span class="p">,</span> <span class="n">DataBase</span><span class="p">,</span> <span class="n">Model</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span>
-<span class="kn">import</span> <span class="nn">json</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -497,55 +493,45 @@ document.write(`
 <span class="sd">            self.df = df</span>
 <span class="sd">            self.write()</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Repository">
 <a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository">[docs]</a>
 <span class="k">class</span> <span class="nc">Repository</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A Repository is a model consisting only of data and metadata.</span>
 <span class="sd">        This must be further split into Fold(Repositories) contained within the Repository before it can be used.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Repository.DataBase">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.DataBase">[docs]</a>
+    <span class="k">class</span> <span class="nc">DataBase</span><span class="p">(</span><span class="n">DataBase</span><span class="p">):</span>
 
-    <span class="k">class</span> <span class="nc">_Tables</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The DataTables of a Repository.</span>
+<div class="viewcode-block" id="Repository.DataBase.Tables">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.DataBase.Tables">[docs]</a>
+        <span class="k">class</span> <span class="nc">Tables</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot; The DataTables of a Repository.</span>
 
-<span class="sd">        Attributes:</span>
-<span class="sd">            data: Training data.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Attributes:</span>
+<span class="sd">                train: Training data.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">))</span></div>
+</div>
 
-        <span class="n">data</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]],</span>
-                                       <span class="n">columns</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(((</span><span class="s1">&#39;Category&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Input&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Output&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">))))</span>
 
-    <span class="nd">@classmethod</span>
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">META</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;csv_kwargs&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;sep&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
-                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;Categorical Input&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;Continuous Input&#39;</span><span class="p">:</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Continuous Output&#39;</span><span class="p">:</span> <span class="s1">&#39;Y&#39;</span><span class="p">},</span>
-                <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;has_improper_fold&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;shuffle before folding&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The (N,M+L) design Matrix of input and output with column headings.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_database</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pd</span>
+    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">Meta</span><span class="o">.</span><span class="n">Data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span> <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">],</span> <span class="s1">&#39;Input&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="s1">&#39;Output&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]},</span>
+                                  <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;has_improper_fold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;shuffle before folding&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">C</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The categorical input C, as an (N,I) design Matrix with column headings.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The categorical input L.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">np</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The continuous input X, as an (N,M) design Matrix with column headings.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The continuous input X, as an (N,M) design Matrix.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">np</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The output Y as an (N,L) Matrix with column headings.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">_update_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                                   <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]})</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">write_meta</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The output Y.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">np</span><span class="p">[:,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">K</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -558,85 +544,73 @@ document.write(`
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fold</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;has_improper_fold&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span><span class="p">))</span>
-
-<div class="viewcode-block" id="Repository.into_K_folds">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.into_K_folds">[docs]</a>
-    <span class="k">def</span> <span class="nf">into_K_folds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shuffle_before_folding</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                     <span class="n">normalization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">is_normalization_applicable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Repository</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Fold this repo into K Folds, indexed by range(K).</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            K: The number of Folds, of absolute value between 1 and N inclusive.</span>
-<span class="sd">                An improper Fold, indexed by K and including all data for both training and testing is included by default.</span>
-<span class="sd">                To suppress this give K as a negative integer.</span>
-<span class="sd">            shuffle_before_folding: Whether to shuffle the data before sampling.</span>
-<span class="sd">            normalization: An optional normalization.csv file to use.</span>
-<span class="sd">            is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.</span>
-<span class="sd">        Returns: ``self``, for chaining calls.</span>
-<span class="sd">        Raises:</span>
-<span class="sd">            IndexError: Unless 1 &amp;lt= K &amp;lt= N.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">df</span>
-        <span class="n">N</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;K=</span><span class="si">{</span><span class="n">K</span><span class="si">:</span><span class="s1">d</span><span class="si">}</span><span class="s1"> does not lie between 1 and N=</span><span class="si">{</span><span class="n">N</span><span class="si">:</span><span class="s1">d</span><span class="si">}</span><span class="s1"> inclusive.&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">K</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fold_folder</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">shuffle_before_folding</span><span class="p">:</span>
-            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">K</span><span class="p">),</span> <span class="s1">&#39;has_improper_fold&#39;</span><span class="p">:</span> <span class="n">K</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;shuffle before folding&#39;</span><span class="p">:</span> <span class="n">shuffle_before_folding</span><span class="p">})</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">write_meta</span><span class="p">()</span>
-        <span class="n">normalization</span> <span class="o">=</span> <span class="n">Normalization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">pd</span><span class="p">)</span><span class="o">.</span><span class="n">csv</span> <span class="k">if</span> <span class="n">normalization</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">normalization</span>
-        <span class="k">if</span> <span class="n">K</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">Fold</span><span class="o">.</span><span class="n">from_dfs</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">test_data</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">normalization</span><span class="o">=</span><span class="n">normalization</span><span class="p">,</span>
-                          <span class="n">is_normalization_applicable</span><span class="o">=</span><span class="n">is_normalization_applicable</span><span class="p">)</span>
-        <span class="n">K</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
-        <span class="n">K_blocks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">))</span> <span class="k">for</span> <span class="n">dummy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="n">K</span><span class="p">))]</span>
-        <span class="n">K_blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">%</span> <span class="n">K</span><span class="p">)))</span>
-        <span class="k">for</span> <span class="n">K_range</span> <span class="ow">in</span> <span class="n">K_blocks</span><span class="p">:</span>
-            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">K_range</span><span class="p">)</span>
-        <span class="n">indicator</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">K_blocks</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
-            <span class="n">indicated</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">indicator</span><span class="p">))</span>
-            <span class="n">data_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">indicator</span> <span class="ow">in</span> <span class="n">indicated</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">indicator</span><span class="p">]</span>
-            <span class="n">test_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">indicator</span> <span class="ow">in</span> <span class="n">indicated</span> <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">indicator</span><span class="p">]</span>
-            <span class="n">data_index</span> <span class="o">=</span> <span class="n">test_index</span> <span class="k">if</span> <span class="n">data_index</span> <span class="o">==</span> <span class="p">[]</span> <span class="k">else</span> <span class="n">data_index</span>
-            <span class="n">Fold</span><span class="o">.</span><span class="n">from_dfs</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">data_index</span><span class="p">],</span> <span class="n">test_data</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_index</span><span class="p">],</span> <span class="n">normalization</span><span class="o">=</span><span class="n">normalization</span><span class="p">,</span>
-                          <span class="n">is_normalization_applicable</span><span class="o">=</span><span class="n">is_normalization_applicable</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-
-<div class="viewcode-block" id="Repository.rotate_folds">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.rotate_folds">[docs]</a>
-    <span class="k">def</span> <span class="nf">rotate_folds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Repository</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            rotation: The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.</span>
-<span class="sd">            If the matrix supplied has the wrong dimensions or is not orthogonal, a random rotation is generated and used instead.</span>
-<span class="sd">        Returns: ``self``, for chaining calls.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;M&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">rotation</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="n">rotation</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">M</span><span class="p">)):</span>
-            <span class="n">rotation</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">special_ortho_group</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">folds</span><span class="p">:</span>
-            <span class="n">Fold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">X_rotation</span> <span class="o">=</span> <span class="n">rotation</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
+            <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;has_improper_fold&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">fold_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_folder</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;fold.</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s1">d</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;fold.</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s1">d</span><span class="si">}</span><span class="s1">&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_folder</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_folder</span><span class="o">.</span><span class="n">name</span>
-
+    <span class="c1"># def into_K_folds(self, K: int, shuffle_before_folding: bool = False,</span>
+    <span class="c1">#                  normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -&gt; Repository:</span>
+    <span class="c1">#     &quot;&quot;&quot; Fold this repo into K Folds, indexed by range(K).</span>
+    <span class="c1">#</span>
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         K: The number of Folds, of absolute value between 1 and N inclusive.</span>
+    <span class="c1">#             An improper Fold, indexed by K and including all data for both training and testing is included by default.</span>
+    <span class="c1">#             To suppress this give K as a negative integer.</span>
+    <span class="c1">#         shuffle_before_folding: Whether to shuffle the data before sampling.</span>
+    <span class="c1">#         normalization: An optional normalization.csv file to use.</span>
+    <span class="c1">#         is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.</span>
+    <span class="c1">#     Returns: ``self``, for chaining calls.</span>
+    <span class="c1">#     Raises:</span>
+    <span class="c1">#         IndexError: Unless 1 &amp;lt= K &amp;lt= N.</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     data = self.data.df</span>
+    <span class="c1">#     N = data.shape[0]</span>
+    <span class="c1">#     if not (1 &lt;= abs(K) &lt;= N):</span>
+    <span class="c1">#         raise IndexError(f&#39;K={K:d} does not lie between 1 and N={N:d} inclusive.&#39;)</span>
+    <span class="c1">#     for k in range(max(abs(K), self.K) + 1):</span>
+    <span class="c1">#         shutil.rmtree(self.fold_folder(k), ignore_errors=True)</span>
+    <span class="c1">#     index = list(range(N))</span>
+    <span class="c1">#     if shuffle_before_folding:</span>
+    <span class="c1">#         random.shuffle(index)</span>
+    <span class="c1">#     self._meta.update({&#39;K&#39;: abs(K), &#39;has_improper_fold&#39;: K &gt; 0, &#39;shuffle before folding&#39;: shuffle_before_folding})</span>
+    <span class="c1">#     self.write_meta()</span>
+    <span class="c1">#     normalization = Normalization(self, self._data.pd).csv if normalization is None else normalization</span>
+    <span class="c1">#     if K &gt; 0:</span>
+    <span class="c1">#         Fold.from_dfs(parent=self, k=K, data=data.iloc[index], test_data=data.iloc[index], normalization=normalization,</span>
+    <span class="c1">#                       is_normalization_applicable=is_normalization_applicable)</span>
+    <span class="c1">#     K = abs(K)</span>
+    <span class="c1">#     K_blocks = [list(range(K)) for dummy in range(int(N / K))]</span>
+    <span class="c1">#     K_blocks.append(list(range(N % K)))</span>
+    <span class="c1">#     for K_range in K_blocks:</span>
+    <span class="c1">#         random.shuffle(K_range)</span>
+    <span class="c1">#     indicator = list(itertools.chain(*K_blocks))</span>
+    <span class="c1">#     for k in range(K):</span>
+    <span class="c1">#         indicated = tuple(zip(index, indicator))</span>
+    <span class="c1">#         data_index = [index for index, indicator in indicated if k != indicator]</span>
+    <span class="c1">#         test_index = [index for index, indicator in indicated if k == indicator]</span>
+    <span class="c1">#         data_index = test_index if data_index == [] else data_index</span>
+    <span class="c1">#         Fold.from_dfs(parent=self, k=k, data=data.iloc[data_index], test_data=data.iloc[test_index], normalization=normalization,</span>
+    <span class="c1">#                       is_normalization_applicable=is_normalization_applicable)</span>
+    <span class="c1">#     return self</span>
+    <span class="c1">#</span>
+    <span class="c1"># def rotate_folds(self, rotation: NP.Matrix | None) -&gt; Repository:</span>
+    <span class="c1">#     &quot;&quot;&quot; Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.</span>
+    <span class="c1">#</span>
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         rotation: The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.</span>
+    <span class="c1">#         If the matrix supplied has the wrong dimensions or is not orthogonal, a random rotation is generated and used instead.</span>
+    <span class="c1">#     Returns: ``self``, for chaining calls.</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     M = self._meta[&#39;data&#39;][&#39;M&#39;]</span>
+    <span class="c1">#     if rotation is None:</span>
+    <span class="c1">#         rotation = np.eye(M)</span>
+    <span class="c1">#     elif rotation.shape != (M, M) or not np.allclose(np.dot(rotation, rotation.T), np.eye(M)):</span>
+    <span class="c1">#         rotation = scipy.stats.special_ortho_group.rvs(M)</span>
+    <span class="c1">#     for k in self.folds:</span>
+    <span class="c1">#         Fold(self, k).X_rotation = rotation</span>
+    <span class="c1">#     return self</span>
+    <span class="c1">#</span>
 <div class="viewcode-block" id="Repository.__init__">
 <a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -652,29 +626,24 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="mo">0o777</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Repository.from_df">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.from_df">[docs]</a>
+<div class="viewcode-block" id="Repository.from_pd">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.from_pd">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_df</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Repository</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a Repository from a pd.DataFrame.</span>
+    <span class="k">def</span> <span class="nf">from_pd</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">train</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Repository</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a Repository from a PD.DataFrame.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            folder: The location (folder) of the Repository.</span>
-<span class="sd">            df: The data to record in [Return].csv.</span>
+<span class="sd">            path: The location (folder) of the Repository.</span>
+<span class="sd">            train: The data to record in [Return].csv.</span>
 <span class="sd">            meta: The metadata to record in [Return].meta.json.</span>
 <span class="sd">        Returns: A new Repository.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">repo</span> <span class="o">=</span> <span class="n">Repository</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">init_mode</span><span class="o">=</span><span class="n">Repository</span><span class="o">.</span><span class="n">_InitMode</span><span class="o">.</span><span class="n">CREATE</span><span class="p">)</span>
+        <span class="n">repo</span> <span class="o">=</span> <span class="n">Repository</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">init_mode</span><span class="o">=</span><span class="n">Repository</span><span class="o">.</span><span class="n">_InitMode</span><span class="o">.</span><span class="n">CREATE</span><span class="p">)</span>
         <span class="n">repo</span><span class="o">.</span><span class="n">_meta</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">META</span> <span class="o">|</span> <span class="p">({}</span> <span class="k">if</span> <span class="n">meta</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">meta</span><span class="p">)</span>
-        <span class="n">repo</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">_csv</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+        <span class="n">repo</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">_csv</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
         <span class="n">repo</span><span class="o">.</span><span class="n">_update_meta</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">repo</span></div>
 
-
-    <span class="nd">@classmethod</span>
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">CSV_OPTIONS</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;skiprows&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 
 <div class="viewcode-block" id="Repository.from_csv">
 <a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.from_csv">[docs]</a>

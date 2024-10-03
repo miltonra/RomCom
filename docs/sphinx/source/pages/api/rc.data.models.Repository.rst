@@ -1,4 +1,4 @@
-rc.data.models.Repository
+﻿rc.data.models.Repository
 =========================
 
 .. currentmodule:: rc.data.models
@@ -11,10 +11,8 @@ rc.data.models.Repository
 
    .. autosummary::
    
-      ~Repository.C
-      ~Repository.CSV_OPTIONS
       ~Repository.K
-      ~Repository.META
+      ~Repository.L
       ~Repository.Path
       ~Repository.X
       ~Repository.Y
@@ -40,8 +38,6 @@ rc.data.models.Repository
       ~Repository.delete
       ~Repository.fold_folder
       ~Repository.from_csv
-      ~Repository.from_df
-      ~Repository.into_K_folds
-      ~Repository.rotate_folds
+      ~Repository.from_pd
    
    

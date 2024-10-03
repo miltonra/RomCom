@@ -33,7 +33,7 @@ from shutil import copyfile, copytree, rmtree
 from json import load, dump
 
 
-Data = Union[PD.DataFrame, NP.Matrix, TF.Matrix] #: Data Types which a DataTable accepts.
+Data = Union[PD.DataFrame, NP.Matrix, TC.Matrix] #: Data Types which a DataTable accepts.
 
 
 class Store(ABC):
@@ -576,6 +576,7 @@ class Model(Store):
         Returns: ``self``
         """
 
+    @abstractmethod
     def __init__(self, path: Store.Path, **data: DataBase.Table):
         """ Read the ``Model`` in ``path``.
 

@@ -34,8 +34,9 @@ import tarfile
 import os
 
 from rc.base.definitions import *
-from rc import user
+# from rc import user
 from rc.base.models import DataBase, Meta, Model
+from rc.data.models import Repository
 
 #: Parameters to generate data from test functions.
 # K: int = 2  #: The number of Folds in a new repository.
@@ -144,6 +145,4 @@ if __name__ == '__main__':
     # Run the code.
     root = Path('test')
     # print(f'Root path is {run(root)}')
-    toydatabase = ToyDataBase(root)
-    toymodel = ToyModel.create(root / 'model')
-    toymodel(data=(1,2,3))
+    Repository.from_csv(root / 'toy', root / 'toy.csv')

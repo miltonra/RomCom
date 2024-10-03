@@ -43,7 +43,7 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/api/rc.data.models.Repository';</script>
-    <link rel="icon" href="../../_static/MattFavicon.png"/>
+    <link rel="icon" href="../../_static/MattLogo2.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="rc.gpf" href="rc.gpf.html" />
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/MattLogo.svg" class="logo__image only-light" alt="RomCom - Home"/>
-    <script>document.write(`<img src="../../_static/MattLogo.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
+    <img src="../../_static/MattLogo2.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <script>document.write(`<img src="../../_static/MattLogo2.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
   
   
 </a></div>
@@ -434,29 +434,23 @@ This must be further split into Fold(Repositories) contained within the Reposito
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Repository.C" title="rc.data.models.Repository.C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">C</span></code></a></p></td>
-<td><p>The categorical input C, as an (N,I) design Matrix with column headings.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSV_OPTIONS</span></code></p></td>
-<td><p></p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Repository.K" title="rc.data.models.Repository.K"><code class="xref py py-obj docutils literal notranslate"><span class="pre">K</span></code></a></p></td>
 <td><p>The number of folds contained in this Repository.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">META</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Repository.L" title="rc.data.models.Repository.L"><code class="xref py py-obj docutils literal notranslate"><span class="pre">L</span></code></a></p></td>
+<td><p>The categorical input L.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Repository.Path" title="rc.data.models.Repository.Path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a></p></td>
 <td><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Repository.X" title="rc.data.models.Repository.X"><code class="xref py py-obj docutils literal notranslate"><span class="pre">X</span></code></a></p></td>
-<td><p>The continuous input X, as an (N,M) design Matrix with column headings.</p></td>
+<td><p>The continuous input X, as an (N,M) design Matrix.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Repository.Y" title="rc.data.models.Repository.Y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
-<td><p>The output Y as an (N,L) Matrix with column headings.</p></td>
+<td><p>The output Y.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Repository.data" title="rc.data.models.Repository.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p>The (N,M+L) design Matrix of input and output with column headings.</p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> currently in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Repository.defaultMetaData" title="rc.data.models.Repository.defaultMetaData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">defaultMetaData</span></code></a></p></td>
 <td><p>Class attribute.</p></td>
@@ -500,189 +494,31 @@ This must be further split into Fold(Repositories) contained within the Reposito
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Repository.from_csv" title="rc.data.models.Repository.from_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_csv</span></code></a>(folder, csv[, PCA, meta])</p></td>
 <td><p>Create a Repository from a csv file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Repository.from_df" title="rc.data.models.Repository.from_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_df</span></code></a>(folder, df[, meta])</p></td>
-<td><p>Create a Repository from a pd.DataFrame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Repository.into_K_folds" title="rc.data.models.Repository.into_K_folds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">into_K_folds</span></code></a>(K[, shuffle_before_folding, ...])</p></td>
-<td><p>Fold this repo into K Folds, indexed by range(K).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Repository.rotate_folds" title="rc.data.models.Repository.rotate_folds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_folds</span></code></a>(rotation)</p></td>
-<td><p>Uniformly rotate the Folds in a Repository.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Repository.from_pd" title="rc.data.models.Repository.from_pd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_pd</span></code></a>(path, train, **meta)</p></td>
+<td><p>Create a Repository from a PD.DataFrame.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.data.models.Repository.data">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Repository.data" title="Link to this definition">§</a></dt>
-<dd><p>The (N,M+L) design Matrix of input and output with column headings.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.data.models.Repository.C">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">C</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Repository.C" title="Link to this definition">§</a></dt>
-<dd><p>The categorical input C, as an (N,I) design Matrix with column headings.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.data.models.Repository.X">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Repository.X" title="Link to this definition">§</a></dt>
-<dd><p>The continuous input X, as an (N,M) design Matrix with column headings.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.data.models.Repository.Y">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Repository.Y" title="Link to this definition">§</a></dt>
-<dd><p>The output Y as an (N,L) Matrix with column headings.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.data.models.Repository.K">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">K</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#rc.data.models.Repository.K" title="Link to this definition">§</a></dt>
-<dd><p>The number of folds contained in this Repository.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.data.models.Repository.folds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">folds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">range</span></em><a class="headerlink" href="#rc.data.models.Repository.folds" title="Link to this definition">§</a></dt>
-<dd><p>The indices of the folds contained in this Repository.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.data.models.Repository.into_K_folds">
-<span class="sig-name descname"><span class="pre">into_K_folds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_before_folding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_normalization_applicable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.into_K_folds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.into_K_folds" title="Link to this definition">§</a></dt>
-<dd><p>Fold this repo into K Folds, indexed by range(K).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>K</strong> (<em>int</em>) – The number of Folds, of absolute value between 1 and N inclusive.
-An improper Fold, indexed by K and including all data for both training and testing is included by default.
-To suppress this give K as a negative integer.</p></li>
-<li><p><strong>shuffle_before_folding</strong> (<em>bool</em>) – Whether to shuffle the data before sampling.</p></li>
-<li><p><strong>normalization</strong> (<em>Path</em><em> | </em><em>str</em><em> | </em><em>None</em>) – An optional normalization.csv file to use.</p></li>
-<li><p><strong>is_normalization_applicable</strong> (<em>bool</em>) – Whether normalization is applicable. <code class="docutils literal notranslate"><span class="pre">False</span></code> means that normalization whatsoever will be applied.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
-</dd>
-</dl>
-<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>, for chaining calls.
-:raises IndexError: Unless 1 &amp;lt= K &amp;lt= N.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.data.models.Repository.rotate_folds">
-<span class="sig-name descname"><span class="pre">rotate_folds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.rotate_folds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.rotate_folds" title="Link to this definition">§</a></dt>
-<dd><p>Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rotation</strong> (<em>ndarray</em><em> | </em><em>None</em>) – The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.</p></li>
-<li><p><strong>orthogonal</strong> (<em>If the matrix supplied has the wrong dimensions</em><em> or </em><em>is not</em>)</p></li>
-<li><p><strong>instead.</strong> (<em>a random rotation is generated and used</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
-</dd>
-</dl>
-<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>, for chaining calls.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.data.models.Repository.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.__init__" title="Link to this definition">§</a></dt>
-<dd><p>Read the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
-<p>Overrides must call <code class="docutils literal notranslate"><span class="pre">super(Model).__init__(path,</span> <span class="pre">**data)</span></code> as a matter of priority.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to read from.</p></li>
-<li><p><strong>**data</strong> – Data to update those read, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i],</span> <span class="pre">...</span></code>.</p></li>
-<li><p><strong>folder</strong> (<em>Path</em><em> | </em><em>str</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks <code class="docutils literal notranslate"><span class="pre">self.meta</span></code> or any member of
-    <code class="docutils literal notranslate"><span class="pre">self.DataBase.table_names</span></code> not mentioned in <code class="docutils literal notranslate"><span class="pre">**data</span></code>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.data.models.Repository.from_df">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.from_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.from_df" title="Link to this definition">§</a></dt>
-<dd><p>Create a Repository from a pd.DataFrame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>folder</strong> (<em>Path</em><em> | </em><em>str</em>) – The location (folder) of the Repository.</p></li>
-<li><p><strong>df</strong> (<em>DataFrame</em>) – The data to record in [Return].csv.</p></li>
-<li><p><strong>meta</strong> (<em>Dict</em><em> | </em><em>None</em>) – The metadata to record in [Return].meta.json.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
-</dd>
-</dl>
-<p>Returns: A new Repository.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.data.models.Repository.from_csv">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PCA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.from_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.from_csv" title="Link to this definition">§</a></dt>
-<dd><p>Create a Repository from a csv file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>folder</strong> (<em>Path</em><em> | </em><em>str</em>) – The location (folder) of the target Repository.</p></li>
-<li><p><strong>csv</strong> (<em>Path</em><em> | </em><em>str</em>) – The file containing the data to record in [Return].csv.</p></li>
-<li><p><strong>PSA</strong> – Whether to create a single fold in which Principal Component Analysis (PCA) has been performed on the inputs.</p></li>
-<li><p><strong>meta</strong> (<em>Dict</em>) – The metadata to record in [Return].meta.json.</p></li>
-<li><p><strong>kwargs</strong> – Updates Repository.CSV_OPTIONS for reading the csv file, as detailed in
-<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html</a>.</p></li>
-<li><p><strong>PCA</strong> (<em>bool</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
-</dd>
-</dl>
-<p>Returns: A new Repository located in folder.</p>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="rc.data.models.Repository.DataBase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DataBase</span></span><a class="headerlink" href="#rc.data.models.Repository.DataBase" title="Link to this definition">§</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DataBase</span></span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.DataBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.DataBase" title="Link to this definition">§</a></dt>
 <dd><p>Bases: <a class="reference internal" href="rc.base.models.DataBase.html#rc.base.models.DataBase" title="rc.base.models.DataBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataBase</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.data.models.Repository.DataBase.Path">
-<span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.data.models.Repository.DataBase.Path" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store. Do not override.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.data.models.Repository.DataBase.Table">
-<span class="sig-name descname"><span class="pre">Table</span></span><a class="headerlink" href="#rc.data.models.Repository.DataBase.Table" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">Data</span></code>. Do not override.</p>
-<p>alias of <a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="rc.data.models.Repository.DataBase.Tables">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Tables</span></span><a class="headerlink" href="#rc.data.models.Repository.DataBase.Tables" title="Link to this definition">§</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Tables</span></span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.DataBase.Tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.DataBase.Tables" title="Link to this definition">§</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
-<p>Tables(NotImplemented,)</p>
+<p>The DataTables of a Repository.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Repository.DataBase.Tables.train">
+<span class="sig-name descname"><span class="pre">train</span></span><a class="headerlink" href="#rc.data.models.Repository.DataBase.Tables.train" title="Link to this definition">§</a></dt>
+<dd><p>Training data.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="rc.data.models.Repository.DataBase.Tables.__new__">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NotImplemented=</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0</span> <span class="pre">0</span>&#160; <span class="pre">Attribute</span> <span class="pre">type</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">DataBase.Table</span> <span class="pre">in</span> <span class="pre">any...</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Repository.DataBase.Tables.__new__" title="Link to this definition">§</a></dt>
-<dd><p>Create new instance of Tables(NotImplemented,)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>NotImplemented</strong> (<em>DataBase.Table</em>)</p>
-</dd>
-</dl>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Repository.DataBase.Tables.__new__" title="Link to this definition">§</a></dt>
+<dd><p>Create new instance of Tables()</p>
 </dd></dl>
 
 <dl class="py method">
@@ -698,6 +534,19 @@ To suppress this give K as a negative integer.</p></li>
 <p>Raises ValueError if the value is not present.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Repository.DataBase.Path">
+<span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.data.models.Repository.DataBase.Path" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store. Do not override.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Repository.DataBase.Table">
+<span class="sig-name descname"><span class="pre">Table</span></span><a class="headerlink" href="#rc.data.models.Repository.DataBase.Table" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute aliasing <code class="docutils literal notranslate"><span class="pre">DataTable</span> <span class="pre">|</span> <span class="pre">Data</span></code>. Do not override.</p>
+<p>alias of <a class="reference internal" href="rc.base.models.DataTable.html#rc.base.models.DataTable" title="rc.base.models.DataTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code> | <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd></dl>
 
 <dl class="py method">
@@ -868,6 +717,104 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Repository.defaultMetaData">
+<span class="sig-name descname"><span class="pre">defaultMetaData</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'K':</span> <span class="pre">0,</span> <span class="pre">'data':</span> <span class="pre">{'Category':</span> <span class="pre">['L'],</span> <span class="pre">'Index':</span> <span class="pre">['N'],</span> <span class="pre">'Input':</span> <span class="pre">['X'],</span> <span class="pre">'Output':</span> <span class="pre">['Y']},</span> <span class="pre">'has_improper_fold':</span> <span class="pre">True,</span> <span class="pre">'shuffle</span> <span class="pre">before</span> <span class="pre">folding':</span> <span class="pre">False}</span></em><a class="headerlink" href="#rc.data.models.Repository.defaultMetaData" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute. Must be overridden.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Repository.L">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">L</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#rc.data.models.Repository.L" title="Link to this definition">§</a></dt>
+<dd><p>The categorical input L.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Repository.X">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#rc.data.models.Repository.X" title="Link to this definition">§</a></dt>
+<dd><p>The continuous input X, as an (N,M) design Matrix.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Repository.Y">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#rc.data.models.Repository.Y" title="Link to this definition">§</a></dt>
+<dd><p>The output Y.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Repository.K">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">K</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#rc.data.models.Repository.K" title="Link to this definition">§</a></dt>
+<dd><p>The number of folds contained in this Repository.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Repository.folds">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">folds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">range</span></em><a class="headerlink" href="#rc.data.models.Repository.folds" title="Link to this definition">§</a></dt>
+<dd><p>The indices of the folds contained in this Repository.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Repository.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.__init__" title="Link to this definition">§</a></dt>
+<dd><p>Read the <code class="docutils literal notranslate"><span class="pre">Model</span></code> in <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<p>Overrides must call <code class="docutils literal notranslate"><span class="pre">super(Model).__init__(path,</span> <span class="pre">**data)</span></code> as a matter of priority.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to read from.</p></li>
+<li><p><strong>**data</strong> – Data to update those read, in the form <code class="docutils literal notranslate"><span class="pre">table_names[i]=data[i],</span> <span class="pre">...</span></code>.</p></li>
+<li><p><strong>folder</strong> (<em>Path</em><em> | </em><em>str</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> lacks <code class="docutils literal notranslate"><span class="pre">self.meta</span></code> or any member of
+    <code class="docutils literal notranslate"><span class="pre">self.DataBase.table_names</span></code> not mentioned in <code class="docutils literal notranslate"><span class="pre">**data</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Repository.from_pd">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">meta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.from_pd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.from_pd" title="Link to this definition">§</a></dt>
+<dd><p>Create a Repository from a PD.DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Path</em><em> | </em><em>str</em>) – The location (folder) of the Repository.</p></li>
+<li><p><strong>train</strong> (<em>DataFrame</em>) – The data to record in [Return].csv.</p></li>
+<li><p><strong>meta</strong> (<em>Any</em>) – The metadata to record in [Return].meta.json.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
+</dd>
+</dl>
+<p>Returns: A new Repository.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.Repository.from_csv">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PCA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#Repository.from_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.Repository.from_csv" title="Link to this definition">§</a></dt>
+<dd><p>Create a Repository from a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder</strong> (<em>Path</em><em> | </em><em>str</em>) – The location (folder) of the target Repository.</p></li>
+<li><p><strong>csv</strong> (<em>Path</em><em> | </em><em>str</em>) – The file containing the data to record in [Return].csv.</p></li>
+<li><p><strong>PSA</strong> – Whether to create a single fold in which Principal Component Analysis (PCA) has been performed on the inputs.</p></li>
+<li><p><strong>meta</strong> (<em>Dict</em>) – The metadata to record in [Return].meta.json.</p></li>
+<li><p><strong>kwargs</strong> – Updates Repository.CSV_OPTIONS for reading the csv file, as detailed in
+<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html</a>.</p></li>
+<li><p><strong>PCA</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
+</dd>
+</dl>
+<p>Returns: A new Repository located in folder.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="rc.data.models.Repository.Path">
 <span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.data.models.Repository.Path" title="Link to this definition">§</a></dt>
 <dd><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store. Do not override.</p>
@@ -927,10 +874,10 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
 <p>Returns: The <code class="docutils literal notranslate"><span class="pre">Model</span></code> created.</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.data.models.Repository.defaultMetaData">
-<span class="sig-name descname"><span class="pre">defaultMetaData</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Meta.Data</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rc.data.models.Repository.defaultMetaData" title="Link to this definition">§</a></dt>
-<dd><p>Class attribute. Must be overridden.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Repository.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="rc.base.models.DataBase.html#rc.base.models.DataBase" title="rc.base.models.DataBase"><span class="pre">DataBase</span></a></em><a class="headerlink" href="#rc.data.models.Repository.data" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> currently in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1020,26 +967,16 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository"><code class="docutils literal notranslate"><span class="pre">Repository</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.data"><code class="docutils literal notranslate"><span class="pre">Repository.data</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.C"><code class="docutils literal notranslate"><span class="pre">Repository.C</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.X"><code class="docutils literal notranslate"><span class="pre">Repository.X</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.Y"><code class="docutils literal notranslate"><span class="pre">Repository.Y</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.K"><code class="docutils literal notranslate"><span class="pre">Repository.K</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.folds"><code class="docutils literal notranslate"><span class="pre">Repository.folds</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.into_K_folds"><code class="docutils literal notranslate"><span class="pre">Repository.into_K_folds()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.rotate_folds"><code class="docutils literal notranslate"><span class="pre">Repository.rotate_folds()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.__init__"><code class="docutils literal notranslate"><span class="pre">Repository.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.from_df"><code class="docutils literal notranslate"><span class="pre">Repository.from_df()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.from_csv"><code class="docutils literal notranslate"><span class="pre">Repository.from_csv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Path"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Path</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Table"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Table</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Tables"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Tables</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Tables.train"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Tables.train</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Tables.__new__"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Tables.__new__()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Tables.count"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Tables.count()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Tables.index"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Tables.index()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Path"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Path</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.Table"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.Table</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.__call__"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.__call__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.__init__"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.copy"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.copy()</span></code></a></li>
@@ -1055,11 +992,20 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.DataBase.write_options"><code class="docutils literal notranslate"><span class="pre">Repository.DataBase.write_options</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.defaultMetaData"><code class="docutils literal notranslate"><span class="pre">Repository.defaultMetaData</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.L"><code class="docutils literal notranslate"><span class="pre">Repository.L</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.X"><code class="docutils literal notranslate"><span class="pre">Repository.X</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.Y"><code class="docutils literal notranslate"><span class="pre">Repository.Y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.K"><code class="docutils literal notranslate"><span class="pre">Repository.K</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.folds"><code class="docutils literal notranslate"><span class="pre">Repository.folds</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.__init__"><code class="docutils literal notranslate"><span class="pre">Repository.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.from_pd"><code class="docutils literal notranslate"><span class="pre">Repository.from_pd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.from_csv"><code class="docutils literal notranslate"><span class="pre">Repository.from_csv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.Path"><code class="docutils literal notranslate"><span class="pre">Repository.Path</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.__call__"><code class="docutils literal notranslate"><span class="pre">Repository.__call__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.copy"><code class="docutils literal notranslate"><span class="pre">Repository.copy()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.create"><code class="docutils literal notranslate"><span class="pre">Repository.create()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.defaultMetaData"><code class="docutils literal notranslate"><span class="pre">Repository.defaultMetaData</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.data"><code class="docutils literal notranslate"><span class="pre">Repository.data</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.delete"><code class="docutils literal notranslate"><span class="pre">Repository.delete()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.ext"><code class="docutils literal notranslate"><span class="pre">Repository.ext</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Repository.meta"><code class="docutils literal notranslate"><span class="pre">Repository.meta</span></code></a></li>

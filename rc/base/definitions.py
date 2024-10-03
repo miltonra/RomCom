@@ -35,8 +35,8 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
 import torch as tc
-import tensorflow as tf
-import gpflow as gf
+# import tensorflow as tf
+# import gpflow as gf
 # import rc.gpf as mf
 
 
@@ -58,14 +58,14 @@ Options = dict[str, Any] #: Type for passing options as ``**kwargs``.
 Zero: float = 1.0E-64  #: Tolerance when testing floats for equality.
 
 
-def Int() -> Type:
-    """ The ``dtype`` of ``int`` in :ref:`rc.run.context.Environment`. """
-    return gf.config.default_int()
-
-
-def Float() -> Type:
-    """ The ``dtype`` of ``float`` in :ref:`rc.run.context.Environment`. """
-    return gf.config.default_float()
+# def Int() -> Type:
+#     """ The ``dtype`` of ``int`` in :ref:`rc.run.context.Environment`. """
+#     return gf.config.default_int()
+#
+#
+# def Float() -> Type:
+#     """ The ``dtype`` of ``float`` in :ref:`rc.run.context.Environment`. """
+#     return gf.config.default_float()
 
 
 class PD:
@@ -151,25 +151,25 @@ class TC:
         raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
 
 
-class TF:
-    """ Extended TensorFlow types and constants. This class should never be instantiated or subclassed.
-
-    Attributes:
-        DType: ``np.dtype``.
-        Tensor: ``tf.Tensor``.
-        Vector: Column vector, first order Tensor ``.shape = (i,1)``.
-        Covector = Tensor: Row vector, first order Tensor ``.shape = (1,j)``.
-        Matrix = Tensor: Second order Tensor ``.shape = (i,j)``.
-        Slice = Tensor: A pair of ``int`` s used for slicing a Tensor rank.
-        NaN: ``tf.constant(np.NaN, dtype=Float())`` representing Not a Number.
-    """
-    DType = np.dtype    #: :meta private:
-    Tensor = tf.Tensor  #: :meta private:
-    Vector = Tensor     #: :meta private:
-    Covector = Tensor   #: :meta private:
-    Matrix = Tensor     #: :meta private:
-    Slice = tf.Tensor  #: :meta private:
-    NaN: Tensor = tf.constant(np.NaN, dtype=Float())  #: :meta private:
+# class TF:
+#     """ Extended TensorFlow types and constants. This class should never be instantiated or subclassed.
+#
+#     Attributes:
+#         DType: ``np.dtype``.
+#         Tensor: ``tf.Tensor``.
+#         Vector: Column vector, first order Tensor ``.shape = (i,1)``.
+#         Covector = Tensor: Row vector, first order Tensor ``.shape = (1,j)``.
+#         Matrix = Tensor: Second order Tensor ``.shape = (i,j)``.
+#         Slice = Tensor: A pair of ``int`` s used for slicing a Tensor rank.
+#         NaN: ``tf.constant(np.NaN, dtype=Float())`` representing Not a Number.
+#     """
+#     DType = np.dtype    #: :meta private:
+#     Tensor = tf.Tensor  #: :meta private:
+#     Vector = Tensor     #: :meta private:
+#     Covector = Tensor   #: :meta private:
+#     Matrix = Tensor     #: :meta private:
+#     Slice = tf.Tensor  #: :meta private:
+#     NaN: Tensor = tf.constant(np.NaN, dtype=Float())  #: :meta private:
 
     def __init__(self):
         """

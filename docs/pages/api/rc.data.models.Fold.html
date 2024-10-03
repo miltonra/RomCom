@@ -43,7 +43,7 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'pages/api/rc.data.models.Fold';</script>
-    <link rel="icon" href="../../_static/MattFavicon.png"/>
+    <link rel="icon" href="../../_static/MattLogo2.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="rc.data.models.Normalization" href="rc.data.models.Normalization.html" />
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/MattLogo.svg" class="logo__image only-light" alt="RomCom - Home"/>
-    <script>document.write(`<img src="../../_static/MattLogo.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
+    <img src="../../_static/MattLogo2.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <script>document.write(`<img src="../../_static/MattLogo2.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
   
   
 </a></div>
@@ -435,32 +435,26 @@ A Fold is a Repository equipped with a test_data pd.DataFrame backed by <code cl
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.C" title="rc.data.models.Fold.C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">C</span></code></a></p></td>
-<td><p>The categorical input C, as an (N,I) design Matrix with column headings.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSV_OPTIONS</span></code></p></td>
-<td><p></p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.K" title="rc.data.models.Fold.K"><code class="xref py py-obj docutils literal notranslate"><span class="pre">K</span></code></a></p></td>
 <td><p>The number of folds contained in this Repository.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">META</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.L" title="rc.data.models.Fold.L"><code class="xref py py-obj docutils literal notranslate"><span class="pre">L</span></code></a></p></td>
+<td><p>The categorical input L.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.Path" title="rc.data.models.Fold.Path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a></p></td>
 <td><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.X" title="rc.data.models.Fold.X"><code class="xref py py-obj docutils literal notranslate"><span class="pre">X</span></code></a></p></td>
-<td><p>The continuous input X, as an (N,M) design Matrix with column headings.</p></td>
+<td><p>The continuous input X, as an (N,M) design Matrix.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.X_rotation" title="rc.data.models.Fold.X_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">X_rotation</span></code></a></p></td>
 <td><p>The rotation matrix applied to the input variables self.X, stored in X_rotation.csv.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.Y" title="rc.data.models.Fold.Y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
-<td><p>The output Y as an (N,L) Matrix with column headings.</p></td>
+<td><p>The output Y.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.data" title="rc.data.models.Fold.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p>The (N,M+L) design Matrix of input and output with column headings.</p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> currently in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.defaultMetaData" title="rc.data.models.Fold.defaultMetaData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">defaultMetaData</span></code></a></p></td>
 <td><p>Class attribute.</p></td>
@@ -519,17 +513,11 @@ A Fold is a Repository equipped with a test_data pd.DataFrame backed by <code cl
 <tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.from_csv" title="rc.data.models.Fold.from_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_csv</span></code></a>(folder, csv[, PCA, meta])</p></td>
 <td><p>Create a Repository from a csv file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.from_df" title="rc.data.models.Fold.from_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_df</span></code></a>(folder, df[, meta])</p></td>
-<td><p>Create a Repository from a pd.DataFrame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.from_dfs" title="rc.data.models.Fold.from_dfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dfs</span></code></a>(parent, k, data, test_data[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.from_dfs" title="rc.data.models.Fold.from_dfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dfs</span></code></a>(parent, k, data, test_data[, ...])</p></td>
 <td><p>Create a Fold from a pd.DataFrame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.Fold.into_K_folds" title="rc.data.models.Fold.into_K_folds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">into_K_folds</span></code></a>(K[, shuffle_before_folding, ...])</p></td>
-<td><p>Fold this repo into K Folds, indexed by range(K).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.rotate_folds" title="rc.data.models.Fold.rotate_folds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_folds</span></code></a>(rotation)</p></td>
-<td><p>Uniformly rotate the Folds in a Repository.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.Fold.from_pd" title="rc.data.models.Fold.from_pd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_pd</span></code></a>(path, train, **meta)</p></td>
+<td><p>Create a Repository from a PD.DataFrame.</p></td>
 </tr>
 </tbody>
 </table>
@@ -589,12 +577,6 @@ A Fold is a Repository equipped with a test_data pd.DataFrame backed by <code cl
 <p>Returns: The Fold created.</p>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="rc.data.models.Fold.C">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">C</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.C" title="Link to this definition">§</a></dt>
-<dd><p>The categorical input C, as an (N,I) design Matrix with column headings.</p>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="rc.data.models.Fold.DataBase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DataBase</span></span><a class="headerlink" href="#rc.data.models.Fold.DataBase" title="Link to this definition">§</a></dt>
@@ -616,16 +598,17 @@ A Fold is a Repository equipped with a test_data pd.DataFrame backed by <code cl
 <dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Tables">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Tables</span></span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Tables" title="Link to this definition">§</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
-<p>Tables(NotImplemented,)</p>
+<p>The DataTables of a Repository.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Tables.train">
+<span class="sig-name descname"><span class="pre">train</span></span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Tables.train" title="Link to this definition">§</a></dt>
+<dd><p>Training data.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="rc.data.models.Fold.DataBase.Tables.__new__">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NotImplemented=</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0</span> <span class="pre">0</span>&#160; <span class="pre">Attribute</span> <span class="pre">type</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">DataBase.Table</span> <span class="pre">in</span> <span class="pre">any...</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Tables.__new__" title="Link to this definition">§</a></dt>
-<dd><p>Create new instance of Tables(NotImplemented,)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>NotImplemented</strong> (<em>DataBase.Table</em>)</p>
-</dd>
-</dl>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.DataBase.Tables.__new__" title="Link to this definition">§</a></dt>
+<dd><p>Create new instance of Tables()</p>
 </dd></dl>
 
 <dl class="py method">
@@ -816,6 +799,12 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 <dd><p>The number of folds contained in this Repository.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.Fold.L">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">L</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#rc.data.models.Fold.L" title="Link to this definition">§</a></dt>
+<dd><p>The categorical input L.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.data.models.Fold.Path">
 <span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.data.models.Fold.Path" title="Link to this definition">§</a></dt>
@@ -824,14 +813,14 @@ Override as necessary for bespoke <code class="docutils literal notranslate"><sp
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rc.data.models.Fold.X">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.X" title="Link to this definition">§</a></dt>
-<dd><p>The continuous input X, as an (N,M) design Matrix with column headings.</p>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#rc.data.models.Fold.X" title="Link to this definition">§</a></dt>
+<dd><p>The continuous input X, as an (N,M) design Matrix.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rc.data.models.Fold.Y">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.Y" title="Link to this definition">§</a></dt>
-<dd><p>The output Y as an (N,L) Matrix with column headings.</p>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#rc.data.models.Fold.Y" title="Link to this definition">§</a></dt>
+<dd><p>The output Y.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -890,13 +879,13 @@ and optional <code class="docutils literal notranslate"><span class="pre">Meta.D
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rc.data.models.Fold.data">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.Fold.data" title="Link to this definition">§</a></dt>
-<dd><p>The (N,M+L) design Matrix of input and output with column headings.</p>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="rc.base.models.DataBase.html#rc.base.models.DataBase" title="rc.base.models.DataBase"><span class="pre">DataBase</span></a></em><a class="headerlink" href="#rc.data.models.Fold.data" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">DataBase</span></code> currently in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.data.models.Fold.defaultMetaData">
-<span class="sig-name descname"><span class="pre">defaultMetaData</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Meta.Data</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rc.data.models.Fold.defaultMetaData" title="Link to this definition">§</a></dt>
+<span class="sig-name descname"><span class="pre">defaultMetaData</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'K':</span> <span class="pre">0,</span> <span class="pre">'data':</span> <span class="pre">{'Category':</span> <span class="pre">['L'],</span> <span class="pre">'Index':</span> <span class="pre">['N'],</span> <span class="pre">'Input':</span> <span class="pre">['X'],</span> <span class="pre">'Output':</span> <span class="pre">['Y']},</span> <span class="pre">'has_improper_fold':</span> <span class="pre">True,</span> <span class="pre">'shuffle</span> <span class="pre">before</span> <span class="pre">folding':</span> <span class="pre">False}</span></em><a class="headerlink" href="#rc.data.models.Fold.defaultMetaData" title="Link to this definition">§</a></dt>
 <dd><p>Class attribute. Must be overridden.</p>
 </dd></dl>
 
@@ -954,15 +943,15 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rc.data.models.Fold.from_df">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.from_df" title="Link to this definition">§</a></dt>
-<dd><p>Create a Repository from a pd.DataFrame.</p>
+<dt class="sig sig-object py" id="rc.data.models.Fold.from_pd">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">meta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.from_pd" title="Link to this definition">§</a></dt>
+<dd><p>Create a Repository from a PD.DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>folder</strong> (<em>Path</em><em> | </em><em>str</em>) – The location (folder) of the Repository.</p></li>
-<li><p><strong>df</strong> (<em>DataFrame</em>) – The data to record in [Return].csv.</p></li>
-<li><p><strong>meta</strong> (<em>Dict</em><em> | </em><em>None</em>) – The metadata to record in [Return].meta.json.</p></li>
+<li><p><strong>path</strong> (<em>Path</em><em> | </em><em>str</em>) – The location (folder) of the Repository.</p></li>
+<li><p><strong>train</strong> (<em>DataFrame</em>) – The data to record in [Return].csv.</p></li>
+<li><p><strong>meta</strong> (<em>Any</em>) – The metadata to record in [Return].meta.json.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -970,29 +959,6 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
 </dd>
 </dl>
 <p>Returns: A new Repository.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.data.models.Fold.into_K_folds">
-<span class="sig-name descname"><span class="pre">into_K_folds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_before_folding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_normalization_applicable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.into_K_folds" title="Link to this definition">§</a></dt>
-<dd><p>Fold this repo into K Folds, indexed by range(K).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>K</strong> (<em>int</em>) – The number of Folds, of absolute value between 1 and N inclusive.
-An improper Fold, indexed by K and including all data for both training and testing is included by default.
-To suppress this give K as a negative integer.</p></li>
-<li><p><strong>shuffle_before_folding</strong> (<em>bool</em>) – Whether to shuffle the data before sampling.</p></li>
-<li><p><strong>normalization</strong> (<em>Path</em><em> | </em><em>str</em><em> | </em><em>None</em>) – An optional normalization.csv file to use.</p></li>
-<li><p><strong>is_normalization_applicable</strong> (<em>bool</em>) – Whether normalization is applicable. <code class="docutils literal notranslate"><span class="pre">False</span></code> means that normalization whatsoever will be applied.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
-</dd>
-</dl>
-<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>, for chaining calls.
-:raises IndexError: Unless 1 &amp;lt= K &amp;lt= N.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1005,25 +971,6 @@ To suppress this give K as a negative integer.</p></li>
 <dt class="sig sig-object py" id="rc.data.models.Fold.path">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Path</span></em><a class="headerlink" href="#rc.data.models.Fold.path" title="Link to this definition">§</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to this <code class="docutils literal notranslate"><span class="pre">Store.</span></code></p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rc.data.models.Fold.rotate_folds">
-<span class="sig-name descname"><span class="pre">rotate_folds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.Fold.rotate_folds" title="Link to this definition">§</a></dt>
-<dd><p>Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rotation</strong> (<em>ndarray</em><em> | </em><em>None</em>) – The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.</p></li>
-<li><p><strong>orthogonal</strong> (<em>If the matrix supplied has the wrong dimensions</em><em> or </em><em>is not</em>)</p></li>
-<li><p><strong>instead.</strong> (<em>a random rotation is generated and used</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="rc.data.models.Repository.html#rc.data.models.Repository" title="rc.data.models.Repository"><em>Repository</em></a></p>
-</dd>
-</dl>
-<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>, for chaining calls.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1082,11 +1029,11 @@ To suppress this give K as a negative integer.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.X_rotation"><code class="docutils literal notranslate"><span class="pre">Fold.X_rotation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.__init__"><code class="docutils literal notranslate"><span class="pre">Fold.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.from_dfs"><code class="docutils literal notranslate"><span class="pre">Fold.from_dfs()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.C"><code class="docutils literal notranslate"><span class="pre">Fold.C</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Path"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Path</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Table"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Table</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables.train"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables.train</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables.__new__"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables.__new__()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables.count"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables.count()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.DataBase.Tables.index"><code class="docutils literal notranslate"><span class="pre">Fold.DataBase.Tables.index()</span></code></a></li>
@@ -1108,6 +1055,7 @@ To suppress this give K as a negative integer.</p></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.K"><code class="docutils literal notranslate"><span class="pre">Fold.K</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.L"><code class="docutils literal notranslate"><span class="pre">Fold.L</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.Path"><code class="docutils literal notranslate"><span class="pre">Fold.Path</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.X"><code class="docutils literal notranslate"><span class="pre">Fold.X</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.Y"><code class="docutils literal notranslate"><span class="pre">Fold.Y</span></code></a></li>
@@ -1120,11 +1068,9 @@ To suppress this give K as a negative integer.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.ext"><code class="docutils literal notranslate"><span class="pre">Fold.ext</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.folds"><code class="docutils literal notranslate"><span class="pre">Fold.folds</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.from_csv"><code class="docutils literal notranslate"><span class="pre">Fold.from_csv()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.from_df"><code class="docutils literal notranslate"><span class="pre">Fold.from_df()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.into_K_folds"><code class="docutils literal notranslate"><span class="pre">Fold.into_K_folds()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.from_pd"><code class="docutils literal notranslate"><span class="pre">Fold.from_pd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.meta"><code class="docutils literal notranslate"><span class="pre">Fold.meta</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.path"><code class="docutils literal notranslate"><span class="pre">Fold.path</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.Fold.rotate_folds"><code class="docutils literal notranslate"><span class="pre">Fold.rotate_folds()</span></code></a></li>
 </ul>
 </li>
 </ul>
