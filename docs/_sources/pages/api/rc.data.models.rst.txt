@@ -20,6 +20,7 @@ rc.data.models
       :template: custom-class-template.rst
    
       Fold
+      Normalisation
       Normalization
       Repository
    

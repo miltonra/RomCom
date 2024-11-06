@@ -1,4 +1,4 @@
-﻿rc.data.models.Fold
+rc.data.models.Fold
 ===================
 
 .. currentmodule:: rc.data.models
@@ -24,6 +24,7 @@
       ~Fold.meta
       ~Fold.normalization
       ~Fold.path
+      ~Fold.tables
       ~Fold.test_csv
       ~Fold.test_data
       ~Fold.test_x
@@ -45,6 +46,5 @@
       ~Fold.fold_folder
       ~Fold.from_csv
       ~Fold.from_dfs
-      ~Fold.from_pd
    
    

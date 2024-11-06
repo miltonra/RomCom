@@ -31,14 +31,14 @@ import numpy as np
 import pandas as pd
 
 from rc.base.definitions import *
-from rc.data.models import Fold, DataTable
-from rc.base.models import DataBase, Model
+from rc.data.models import Fold, Table
+from rc.base.models import Tables, DataBase
 from rc.gpr.kernels import Kernel
 
 
-class Likelihood(Model):
+class Likelihood(DataBase):
 
-    class Data(DataBase):
+    class Data(Tables):
         """ The Data set of a MOGP."""
 
         @classmethod
@@ -70,7 +70,7 @@ class Likelihood(Model):
 
     @property
     def is_covariant(self) -> bool:
-        return self._database.tables.variance.pd.shape[0] > 1
+        return self._tables.data.variance.pd.shape[0] > 1
 
     def calibrate(self, **kwargs) -> Dict[str, Any]:
         """ Merely sets the trainable data."""
@@ -88,10 +88,10 @@ class Likelihood(Model):
         self._parent = parent
 
 
-class GPR(Model):
+class GPR(DataBase):
     """ Interface to a Gaussian Process."""
 
-    class Data(DataBase):
+    class Data(Tables):
         """ The Data set of a MOGP."""
 
         @classmethod
@@ -235,13 +235,13 @@ class GPR(Model):
             else (mean (o, L, M), cov (o, O, L, M)).
         """
 
-    def test(self) -> DataTable:
+    def test(self) -> Table:
         """ Tests the MOGP on the test data in self._fold.test_data. Test results comprise three values for each output at each sample:
         The mean prediction, the std error of prediction and the Z score of prediction (i.e. error of prediction scaled by std error of prediction).
 
         Returns: The test_data results as a DataTable backed by MOGP.test_result_csv.
         """
-        result = DataTable(self.test_csv, self._fold.test_data.pd)
+        result = Table(self.test_csv, self._fold.test_data.pd)
         Y_heading = self._fold.meta['data']['Y_heading']
         prediction = self.predict(self._fold.test_x.values)
         predictive_mean = result.pd.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Mean'}, level=0)
@@ -271,7 +271,7 @@ class GPR(Model):
         outliers = outliers[outliers].count(axis=0)/outliers.count(axis=0)
         outliers = outliers if isinstance(outliers, pd.DataFrame) else pd.DataFrame(outliers).transpose()
         summary = rmse.join([predictive_std, outliers])
-        summary = DataTable(self.test_summary_csv, summary)
+        summary = Table(self.test_summary_csv, summary)
         return result
 
     def broadcast_parameters(self, is_covariant: bool, is_isotropic: bool) -> GPR:
@@ -284,7 +284,7 @@ class GPR(Model):
         Returns: ``self``, for chaining calls.
         """
         target_shape = (self._L, self._L) if is_covariant else (1, self._L)
-        self._likelihood.data.tables.variance.broadcast_to(target_shape=target_shape, is_diagonal=True)
+        self._likelihood.data.data.variance.broadcast_to(target_shape=target_shape, is_diagonal=True)
         self._kernel.broadcast_parameters(variance_shape=target_shape, M=1 if is_isotropic else self._M)
         self._implementation = None
         self._implementation = self.implementation
@@ -312,14 +312,14 @@ class GPR(Model):
         super().__init__(self._fold.folder / name, is_read)
         self._likelihood = Likelihood(self, is_read) if likelihood_variance is None else Likelihood(self, is_read, variance=likelihood_variance)
         if is_read and kernel_parameters is None:
-            KernelType = Kernel.TypeFromIdentifier(self.data.tables.kernel.np[0, 0])
+            KernelType = Kernel.TypeFromIdentifier(self.data.data.kernel.np[0, 0])
             self._kernel = KernelType(self._folder / self.KERNEL_FOLDER_NAME, is_read)
         else:
             if kernel_parameters is None:
                 kernel_parameters = Kernel.Data(self._folder / self.KERNEL_FOLDER_NAME)
             KernelType = Kernel.TypeFromParameters(kernel_parameters)
             self._kernel = KernelType(self._folder / self.KERNEL_FOLDER_NAME, is_read, **kernel_parameters.tables_as_dict())
-            self._database.replace(kernel=np.atleast_2d(KernelType.TYPE_IDENTIFIER))
+            self._tables.replace(kernel=np.atleast_2d(KernelType.TYPE_IDENTIFIER))
         self.broadcast_parameters(is_covariant, is_isotropic)
 
 
@@ -336,11 +336,11 @@ class MOGP(GPR):
         if self._implementation is None:
             if self._likelihood.is_covariant:
                 self._implementation = tuple(mf.models.MOGPR(data=(self._X, self._Y), kernel=kernel, mean_function=None,
-                                                             noise_variance=self._likelihood._database.tables.variance.np)
+                                                             noise_variance=self._likelihood._tables.data.variance.np)
                                              for kernel in self._kernel.implementation)
             else:
                 self._implementation = tuple(gf.models.GPR(data=(self._X, self._Y[:, [l]]), kernel=kernel, mean_function=None,
-                                                           noise_variance=max(self._likelihood._database.tables.variance.np[0, l], self._likelihood.VARIANCE_FLOOR))
+                                                           noise_variance=max(self._likelihood._tables.data.variance.np[0, l], self._likelihood.VARIANCE_FLOOR))
                                              for l, kernel in enumerate(self._kernel.implementation))
         return self._implementation
 
@@ -350,8 +350,8 @@ class MOGP(GPR):
         Args:
             method: The optimization algorithm (see https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html).
             kwargs: A Dict of implementation-dependent optimizer meta, following the format of GPR.META.
-                Options for the kernel should be passed as kernel={see kernel.META for format}.
-                Options for the likelihood should be passed as likelihood={see likelihood.META for format}.
+                MetaData for the kernel should be passed as kernel={see kernel.META for format}.
+                MetaData for the likelihood should be passed as likelihood={see likelihood.META for format}.
         """
         meta = (self.read_meta() if self._meta_json.exists() else self.META)
         kernel_options = self._kernel.calibrate(**(meta.pop('kernel', {}) | kwargs.pop('kernel', {})))
@@ -387,7 +387,7 @@ class MOGP(GPR):
 
     def predict_gradient(self, x: NP.Matrix, y_instead_of_f: bool = True) -> Tuple[TF.Tensor, TF.Tensor]:
         x = tf.Variable(x.astype(dtype=Float()))
-        Lambda = tf.broadcast_to(1.0 / tf.constant(self.kernel.data.tables.lengthscales.np, dtype=Float()), [x.shape[0], self.L, self.M])
+        Lambda = tf.broadcast_to(1.0 / tf.constant(self.kernel.data.data.lengthscales.np, dtype=Float()), [x.shape[0], self.L, self.M])
         with tf.GradientTape() as tape:
             @tf.function
             def _KXx(x: tf.Variable) -> TF.Tensor:

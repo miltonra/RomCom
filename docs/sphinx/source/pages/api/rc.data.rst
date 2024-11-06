@@ -28,5 +28,7 @@
    :template: custom-module-template.rst
    :recursive:
 
+   functions
    models
+   samples
 

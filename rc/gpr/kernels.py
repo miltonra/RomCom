@@ -28,13 +28,13 @@
 from __future__ import annotations
 
 from rc.base.definitions import *
-from rc.base.models import DataBase, Model
+from rc.base.models import Tables, DataBase
 
 
-class Kernel(Model):
+class Kernel(DataBase):
     """ Abstract interface to a Kernel. Essentially this is the code contract with the MOGP interface."""
 
-    class Data(DataBase):
+    class Data(Tables):
         """ The Data set of a Kernel."""
 
         @classmethod
@@ -120,7 +120,7 @@ class Kernel(Model):
     @property
     def is_covariant(self) -> bool:
         """ Whether the kernel is covariant between outputs. """
-        return self._database.tables.variance.pd.shape[0] > 1
+        return self._tables.data.variance.pd.shape[0] > 1
 
     def broadcast_parameters(self, variance_shape: Tuple[int, int], M) -> Kernel:
         """ Broadcast this kernel to higher dimensions. Shrinkage raises errors, unchanged dimensions silently nop.
@@ -132,11 +132,11 @@ class Kernel(Model):
         Raises:
             IndexError: If an attempt is made to shrink a parameter.
         """
-        if variance_shape != self._database.tables.variance.pd.shape:
-            self._database.tables.variance.broadcast_to(target_shape=variance_shape, is_diagonal=True)
+        if variance_shape != self._tables.data.variance.pd.shape:
+            self._tables.data.variance.broadcast_to(target_shape=variance_shape, is_diagonal=True)
             self._L = variance_shape[1]
-        if (self._L, M) != self._database.tables.lengthscales.pd.shape:
-            self._database.tables.lengthscales.broadcast_to(target_shape=(self._L, M), is_diagonal=False)
+        if (self._L, M) != self._tables.data.lengthscales.pd.shape:
+            self._tables.data.lengthscales.broadcast_to(target_shape=(self._L, M), is_diagonal=False)
             self._M = M
         self._implementation = None
         self._implementation = self.implementation
@@ -159,8 +159,8 @@ class Kernel(Model):
             **kwargs: The model.data fields=values to replace after reading from file/defaults.
         """
         super().__init__(folder, read_data, **kwargs)
-        variance_shape = self._database.tables.variance.pd.shape
-        self._L, self._M = variance_shape[1], self._database.tables.lengthscales.pd.shape[1]
+        variance_shape = self._tables.data.variance.pd.shape
+        self._L, self._M = variance_shape[1], self._tables.data.lengthscales.pd.shape[1]
         self.broadcast_parameters(variance_shape, self._M)
 
 
@@ -173,8 +173,8 @@ class RBF(Kernel):
             If ``self.variance.shape == (1,L)`` an L-tuple of kernels is returned.
             If ``self.variance.shape == (L,L)`` a 1-tuple of multi-output kernels is returned.
         """
-        variance = self._database.tables.variance.np
-        lengthscales = self._database.tables.lengthscales.np
+        variance = self._tables.data.variance.np
+        lengthscales = self._tables.data.lengthscales.np
         if self._implementation is None:
             if variance.shape[0] == 1:
                 self._implementation = tuple(gf.kernels.RBF(variance=max(variance[0, l], 1.0005E-6), lengthscales=lengthscales[l])

@@ -125,7 +125,7 @@ class ClosedSobol(gf.Module, Calibrator):
         # Unwrap data
         self.L, self.M, self.N = self.gp.L, self.gp.M, self.gp.N
         self.Ms = tf.constant([0, self.M], dtype=Int())
-        self.F = tf.constant(self.gp.kernel.data.tables.variance.tf, dtype=Float())
+        self.F = tf.constant(self.gp.kernel.data.data.variance.tf, dtype=Float())
         # Cache the training data kernel
         self.K_cho = tf.constant(self.gp.K_cho, dtype=Float())
         self.K_inv_Y = tf.constant(self.gp.K_inv_Y, dtype=Float())
@@ -141,7 +141,7 @@ class ClosedSobol(gf.Module, Calibrator):
         else:
             self.K_inv_Y = tf.transpose(self.K_inv_Y, [1, 0, 2])
         # Set Lambdas
-        self.Lambda = tf.broadcast_to(tf.constant(self.gp.kernel.data.tables.lengthscales.np, dtype=Float()), [self.L, self.M])
+        self.Lambda = tf.broadcast_to(tf.constant(self.gp.kernel.data.data.lengthscales.np, dtype=Float()), [self.L, self.M])
         self.Lambda2 = self._Lambda2()
         # Calculate and store values for m=0 and m=M
         self._calibrate()

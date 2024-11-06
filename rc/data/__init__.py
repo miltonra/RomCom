@@ -25,4 +25,6 @@
 
 """ Data storage classes. """
 
+from . import functions
 from . import models
+from . import samples

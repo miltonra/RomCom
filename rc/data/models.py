@@ -27,10 +27,7 @@
 
 from __future__ import annotations
 
-import pandas as pd
-
-from rc.base.definitions import *
-from rc.base.models import Store, Meta, DataTable, DataBase, Model
+from rc.base import *
 from copy import deepcopy
 import itertools
 import random
@@ -98,8 +95,8 @@ class Normalisation:
         return self._fold.folder / 'normalization.csv'
 
     @property
-    def DataTable(self) -> DataTable:
-        self._frame = DataTable(self.csv) if self._frame is None else self._frame
+    def DataTable(self) -> Table:
+        self._frame = Table(self.csv) if self._frame is None else self._frame
         return self._frame
 
     @property
@@ -185,7 +182,7 @@ class Normalisation:
         self._fold = fold
         self._is_applicable = is_applicable
         if self.csv.exists():
-            self._frame = DataTable(self.csv)
+            self._frame = Table(self.csv)
         elif data is None:
             self._frame = None
         else:
@@ -200,13 +197,13 @@ class Normalisation:
             m_max = mean + semi_range
             m_max.name = 'max'
             df = pd.concat((mean, std, 2 * semi_range, m_min, m_max), axis=1)
-            self._frame = DataTable(self.csv, df.T)
+            self._frame = Table(self.csv, df.T)
 
-class Normalization(Model):
+class Normalization(DataBase):
     """ A Repository is a model consisting only of data and metadata.
         This must be further split into Fold(Repositories) contained within the Repository before it can be used.
     """
-    class DataBase(DataBase):
+    class Tables(Tables):
 
         class Tables(NamedTuple):
             """ The DataTables of a Repository.
@@ -220,11 +217,12 @@ class Normalization(Model):
                                   'K': 0, 'has_improper_fold': True, 'shuffle before folding': False}
 
 
-class Repository(Model):
+class Repository(DataBase):
     """ A Repository is a model consisting only of (training) data and metadata.
         This must be further split into Fold(Repositories) contained within the Repository before it can be used.
     """
-    class DataBase(DataBase):
+
+    class Tables(Tables):
 
         class Tables(NamedTuple):
             """ The DataTables of a Repository.
@@ -232,25 +230,25 @@ class Repository(Model):
             Attributes:
                 train: Training data.
             """
-            train = pd.DataFrame([[None, None, None]], columns=('L','X','Y'))
+            train = pd.DataFrame([[None, None, None]], columns=('l','x','y'))
 
-    defaultMetaData: Meta.Data = {'headers': {'L': {'Category'}, 'X': {'Input'}, 'Y': {'Output'}},
-                                  'K': 0, 'has_improper_fold': True, 'shuffle before folding': False}
+    defaultMetaData: MetaData = {'headers': {'l': {'L','Category'}, 'x': {'X','Input'}, 'y': {'Y','Output'}},
+                                  'K': 0, 'has_improper_fold': False, 'shuffle before folding': False}
 
     @property
     def L(self) -> NP.Vector:
         """ The categorical input L."""
-        return self.data.tables.train.np[:, [0]]
+        return self.data.data.train.np[:, [0]]
 
     @property
     def X(self) -> NP.Matrix:
         """ The continuous input X, as an (N,M) design Matrix."""
-        return self.data.tables.train.np[:, 1:-1]
+        return self.data.data.train.np[:, 1:-1]
 
     @property
     def Y(self) -> NP.Vector:
         """ The output Y."""
-        return self.data.tables.train.np[:, [-1]]
+        return self.data.data.train.np[:, [-1]]
 
     @property
     def K(self) -> int:
@@ -331,7 +329,10 @@ class Repository(Model):
     #     return self
     #
 
-    def __init__(self, path: Store.Path, train: DataBase.Table = None):
+    def __call__(self, K: int, **metadata: Any) -> Self:
+        pass
+
+    def __init__(self, path: Store.Path, train: Table | PD.DataFrame = None):
         """ Read or create a Repository in ``path``.
 
         Args:
@@ -345,8 +346,7 @@ class Repository(Model):
             super().__init__(Store.create(path), train = train)
 
     @classmethod
-    def create(cls, path: Store.Path, train: PD.DataFrame, normalization: Normalization | None = None,
-               **meta: Any) -> Repository:
+    def create(cls, path: Store.Path, train: PD.DataFrame, normalization: Normalization | None = None, **meta: Any) -> Self:
         """ Create a Repository from a ``PD.DataFrame``.
 
         Args:
@@ -359,17 +359,17 @@ class Repository(Model):
         """
         meta = cls.defaultMetaData | meta
         train = train.rename(str.capitalize, axis = 'columns', level = 0)
-        data = {'Row': pd.DataFrame(train.index, columns=['Row'])}
+        data = {'row': pd.DataFrame(train.index, columns=['row'])}
         for header, headers in meta['headers'].items():
             data[header] = {'headers': {header}.union(headers).intersection(train.columns.levels[0])}
             data[header] |= {'pd': train[list(data[header]['headers'])]}
             data[header] |= {'pd': pd.DataFrame(data[header]['pd'].to_numpy(),
                                                 columns = data[header]['pd'].columns.droplevel(0))}
-        meta |=  { 'M': data['X']['pd'].shape[1], 'Lc': data['L']['pd'].shape[1],'Ly': data['Y']['pd'].shape[1]}
-        result = data['Row'].join([data[header]['pd'] for header in meta['headers'].keys()])
-        id_vars = data['Row'].columns.union(data['L']['pd'].columns).columns.union(data['X']['pd'].columns)
-        result = result.melt(id_vars = id_vars, var_name = 'Col', value_name = 'Y').dropna()
-        result['L'] = result[data['L']['pd'].columns.to_list()+['Col']].astype(str).agg('|'.join, axis = 1)
+        meta |=  { 'M': data['x']['pd'].shape[1], 'Lc': data['l']['pd'].shape[1],'Ly': data['y']['pd'].shape[1]}
+        result = data['row'].join([data[header]['pd'] for header in meta['headers'].keys()])
+        id_vars = data['row'].columns.union(data['l']['pd'].columns).columns.union(data['x']['pd'].columns)
+        result = result.melt(id_vars = id_vars, var_name = 'col', value_name = 'y').dropna()
+        result['l'] = result[data['l']['pd'].columns.to_list()+['col']].astype(str).agg('|'.join, axis = 1)
         Meta.create(cls._meta_in(path), **(cls.defaultMetaData | meta))
         return Repository(path, train = train)
 
@@ -384,7 +384,7 @@ class Repository(Model):
             normalization: The Normalization to use, will be generated from ``train`` if ``None``.
             meta: The meta to record in meta.json, defaulting to
                 ``{'src': {'path': [path], 'read_options': {'header': [0, 1]}}}``.
-                ``'src' : 'read_options'``, which may be amended, is ``Options`` passed directly to
+                ``'src' : 'read_options'``, which may be amended, is ``MetaData`` passed directly to
                 `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_.
 
         Returns: The Repository created.
@@ -453,7 +453,7 @@ class Fold(Repository):
         return self._test_csv
 
     @property
-    def test_data(self) -> DataTable:
+    def test_data(self) -> Table:
         return self._test_data
 
     @property
@@ -466,7 +466,7 @@ class Fold(Repository):
         """ The test_data output y as an (n,L) Matrix with column headings."""
         return self._test_data.pd[self._meta['data']['Y_heading']]
 
-    def _X_rotate(self, DataTable: DataTable, rotation: NP.Matrix):
+    def _X_rotate(self, DataTable: Table, rotation: NP.Matrix):
         """ Rotate the input variables in a DataTable.
 
         Args:
@@ -479,7 +479,7 @@ class Fold(Repository):
     @property
     def X_rotation(self) -> NP.Matrix:
         """ The rotation matrix applied to the input variables self.X, stored in X_rotation.csv. Rotations are applied and stored cumulatively."""
-        return DataTable(self._X_rotation, header=[0]).pd.values if self._X_rotation.exists() else np.eye(self.M)
+        return Table(self._X_rotation, header=[0]).pd.values if self._X_rotation.exists() else np.eye(self.M)
 
     @X_rotation.setter
     def X_rotation(self, value: NP.Matrix):
@@ -487,7 +487,7 @@ class Fold(Repository):
         self._X_rotate(self._data, value)
         self._X_rotate(self._test_data, value)
         old_value = self.X_rotation
-        DataTable(self._X_rotation, pd.DataFrame(np.matmul(old_value, value)))
+        Table(self._X_rotation, pd.DataFrame(np.matmul(old_value, value)))
 
     def __init__(self, parent: Repository, k: int, **kwargs):
         """ Initialize Fold by reading existing files. Creation is handled by the classmethod Fold.from_dfs.
@@ -502,7 +502,7 @@ class Fold(Repository):
         self._X_rotation = self.folder / 'X_rotation.csv'
         self._test_csv = self.folder / 'test.csv'
         if init_mode == Repository._InitMode.READ:
-            self._test_data = DataTable(self._test_csv)
+            self._test_data = Table(self._test_csv)
             self._normalization = Normalization(self)
 
     @classmethod
@@ -525,8 +525,8 @@ class Fold(Repository):
         fold._normalization = Normalization(fold, data, is_normalization_applicable)
         if normalization is not None:
             shutil.copy(Path(normalization), fold._normalization.csv)
-        fold._data = DataTable(fold._csv, fold.normalization.apply_to(data))
-        fold._test_data = DataTable(fold._test_csv, fold.normalization.apply_to(test_data))
+        fold._data = Table(fold._csv, fold.normalization.apply_to(data))
+        fold._test_data = Table(fold._test_csv, fold.normalization.apply_to(test_data))
         fold._update_meta()
         return fold
 

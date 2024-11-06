@@ -1,4 +1,4 @@
-﻿rc.data.models.Repository
+rc.data.models.Repository
 =========================
 
 .. currentmodule:: rc.data.models
@@ -22,6 +22,7 @@
       ~Repository.folds
       ~Repository.meta
       ~Repository.path
+      ~Repository.tables
    
    
 
@@ -38,6 +39,5 @@
       ~Repository.delete
       ~Repository.fold_folder
       ~Repository.from_csv
-      ~Repository.from_pd
    
    

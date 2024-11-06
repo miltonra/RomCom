@@ -46,7 +46,7 @@
     <link rel="icon" href="../../_static/MattLogo2.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="rc.base.definitions.LOGGING_LEVEL" href="rc.base.definitions.LOGGING_LEVEL.html" />
+    <link rel="next" title="rc.base.definitions.Zero" href="rc.base.definitions.Zero.html" />
     <link rel="prev" title="rc.base" href="rc.base.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -426,29 +426,8 @@ without adornment throughout RomCom.</p>
 <p class="rubric">Module Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="rc.base.definitions.LOGGING_LEVEL.html#rc.base.definitions.LOGGING_LEVEL" title="rc.base.definitions.LOGGING_LEVEL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LOGGING_LEVEL</span></code></a></p></td>
-<td><p>Admissible logging verbosity levels.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rc.base.definitions.TF_CPP_MIN_LOG_LEVEL.html#rc.base.definitions.TF_CPP_MIN_LOG_LEVEL" title="rc.base.definitions.TF_CPP_MIN_LOG_LEVEL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TF_CPP_MIN_LOG_LEVEL</span></code></a></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">LOGGING_LEVEL</span></code> for TensorFlow.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="rc.base.definitions.Options.html#rc.base.definitions.Options" title="rc.base.definitions.Options"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Options</span></code></a></p></td>
-<td><p>Type for passing options as <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rc.base.definitions.Zero.html#rc.base.definitions.Zero" title="rc.base.definitions.Zero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Zero</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.base.definitions.Zero.html#rc.base.definitions.Zero" title="rc.base.definitions.Zero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Zero</span></code></a></p></td>
 <td><p>Tolerance when testing floats for equality.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p class="rubric">Functions</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="rc.base.definitions.Float.html#rc.base.definitions.Float" title="rc.base.definitions.Float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Float</span></code></a>()</p></td>
-<td><p>The <code class="docutils literal notranslate"><span class="pre">dtype</span></code> of <code class="docutils literal notranslate"><span class="pre">float</span></code> in <span class="xref std std-ref">rc.run.context.Environment</span>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rc.base.definitions.Int.html#rc.base.definitions.Int" title="rc.base.definitions.Int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int</span></code></a>()</p></td>
-<td><p>The <code class="docutils literal notranslate"><span class="pre">dtype</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code> in <span class="xref std std-ref">rc.run.context.Environment</span>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -465,57 +444,13 @@ without adornment throughout RomCom.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="rc.base.definitions.TC.html#rc.base.definitions.TC" title="rc.base.definitions.TC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TC</span></code></a></p></td>
 <td><p>Extended PyTorch types and constants.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rc.base.definitions.TF.html#rc.base.definitions.TF" title="rc.base.definitions.TF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TF</span></code></a></p></td>
-<td><p>Extended TensorFlow types and constants.</p></td>
-</tr>
 </tbody>
 </table>
 </div>
 <dl class="py data">
-<dt class="sig sig-object py" id="rc.base.definitions.LOGGING_LEVEL">
-<span class="sig-name descname"><span class="pre">LOGGING_LEVEL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ERROR':</span> <span class="pre">'2',</span> <span class="pre">'ERROR+WARN':</span> <span class="pre">'1',</span> <span class="pre">'ERROR+WARN+INFO':</span> <span class="pre">'0',</span> <span class="pre">'NOTHING</span> <span class="pre">LOGGED':</span> <span class="pre">'3'}</span></em><a class="headerlink" href="#rc.base.definitions.LOGGING_LEVEL" title="Link to this definition">§</a></dt>
-<dd><p>Admissible logging verbosity levels.</p>
-</dd></dl>
-
-<dl class="py data">
-<dt class="sig sig-object py" id="rc.base.definitions.TF_CPP_MIN_LOG_LEVEL">
-<span class="sig-name descname"><span class="pre">TF_CPP_MIN_LOG_LEVEL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'2'</span></em><a class="headerlink" href="#rc.base.definitions.TF_CPP_MIN_LOG_LEVEL" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">LOGGING_LEVEL</span></code> for TensorFlow.</p>
-</dd></dl>
-
-<dl class="py data">
-<dt class="sig sig-object py" id="rc.base.definitions.Options">
-<span class="sig-name descname"><span class="pre">Options</span></span><a class="headerlink" href="#rc.base.definitions.Options" title="Link to this definition">§</a></dt>
-<dd><p>Type for passing options as <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.</p>
-<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]</p>
-</dd></dl>
-
-<dl class="py data">
 <dt class="sig sig-object py" id="rc.base.definitions.Zero">
 <span class="sig-name descname"><span class="pre">Zero</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-64</span></em><a class="headerlink" href="#rc.base.definitions.Zero" title="Link to this definition">§</a></dt>
 <dd><p>Tolerance when testing floats for equality.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rc.base.definitions.Int">
-<span class="sig-name descname"><span class="pre">Int</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/definitions.html#Int"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.definitions.Int" title="Link to this definition">§</a></dt>
-<dd><p>The <code class="docutils literal notranslate"><span class="pre">dtype</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code> in <span class="xref std std-ref">rc.run.context.Environment</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Type</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rc.base.definitions.Float">
-<span class="sig-name descname"><span class="pre">Float</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/base/definitions.html#Float"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.definitions.Float" title="Link to this definition">§</a></dt>
-<dd><p>The <code class="docutils literal notranslate"><span class="pre">dtype</span></code> of <code class="docutils literal notranslate"><span class="pre">float</span></code> in <span class="xref std std-ref">rc.run.context.Environment</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Type</em></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -658,60 +593,6 @@ without adornment throughout RomCom.</p>
 
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="rc.base.definitions.TF">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TF</span></span><a class="reference internal" href="../../_modules/rc/base/definitions.html#TF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.base.definitions.TF" title="Link to this definition">§</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Extended TensorFlow types and constants. This class should never be instantiated or subclassed.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.DType">
-<span class="sig-name descname"><span class="pre">DType</span></span><a class="headerlink" href="#rc.base.definitions.TF.DType" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">np.dtype</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.Tensor">
-<span class="sig-name descname"><span class="pre">Tensor</span></span><a class="headerlink" href="#rc.base.definitions.TF.Tensor" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">tf.Tensor</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.Vector">
-<span class="sig-name descname"><span class="pre">Vector</span></span><a class="headerlink" href="#rc.base.definitions.TF.Vector" title="Link to this definition">§</a></dt>
-<dd><p>Column vector, first order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(i,1)</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Covector</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
-<dd><p>Row vector, first order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(1,j)</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Matrix</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
-<dd><p>Second order Tensor <code class="docutils literal notranslate"><span class="pre">.shape</span> <span class="pre">=</span> <span class="pre">(i,j)</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">Slice</span> <span class="pre">=</span> <span class="pre">Tensor</span></span></dt>
-<dd><p>A pair of <code class="docutils literal notranslate"><span class="pre">int</span></code> s used for slicing a Tensor rank.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rc.base.definitions.TF.NaN">
-<span class="sig-name descname"><span class="pre">NaN</span></span><a class="headerlink" href="#rc.base.definitions.TF.NaN" title="Link to this definition">§</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">tf.constant(np.NaN,</span> <span class="pre">dtype=Float())</span></code> representing Not a Number.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensorflow.python.framework.tensor.Tensor</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
 
@@ -734,11 +615,11 @@ without adornment throughout RomCom.</p>
       </div>
     </a>
     <a class="right-next"
-       href="rc.base.definitions.LOGGING_LEVEL.html"
+       href="rc.base.definitions.Zero.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">rc.base.definitions.LOGGING_LEVEL</p>
+        <p class="prev-next-title">rc.base.definitions.Zero</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -760,12 +641,7 @@ without adornment throughout RomCom.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.LOGGING_LEVEL"><code class="docutils literal notranslate"><span class="pre">LOGGING_LEVEL</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF_CPP_MIN_LOG_LEVEL"><code class="docutils literal notranslate"><span class="pre">TF_CPP_MIN_LOG_LEVEL</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.Options"><code class="docutils literal notranslate"><span class="pre">Options</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.Zero"><code class="docutils literal notranslate"><span class="pre">Zero</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.Int"><code class="docutils literal notranslate"><span class="pre">Int()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.Float"><code class="docutils literal notranslate"><span class="pre">Float()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.PD"><code class="docutils literal notranslate"><span class="pre">PD</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.PD.DataFrame"><code class="docutils literal notranslate"><span class="pre">PD.DataFrame</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.PD.Index"><code class="docutils literal notranslate"><span class="pre">PD.Index</span></code></a></li>
@@ -784,13 +660,6 @@ without adornment throughout RomCom.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TC.Tensor"><code class="docutils literal notranslate"><span class="pre">TC.Tensor</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TC.Vector"><code class="docutils literal notranslate"><span class="pre">TC.Vector</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TC.NaN"><code class="docutils literal notranslate"><span class="pre">TC.NaN</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF"><code class="docutils literal notranslate"><span class="pre">TF</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.DType"><code class="docutils literal notranslate"><span class="pre">TF.DType</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.Tensor"><code class="docutils literal notranslate"><span class="pre">TF.Tensor</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.Vector"><code class="docutils literal notranslate"><span class="pre">TF.Vector</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.base.definitions.TF.NaN"><code class="docutils literal notranslate"><span class="pre">TF.NaN</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -17,7 +17,7 @@ API
     gpr
     gsa
     rom
-    user
+    run
 
 .. rubric:: Glossary
 

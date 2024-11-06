@@ -42,7 +42,7 @@
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/rc/base/definitions';</script>
-    <link rel="icon" href="../../../_static/favicon.png"/>
+    <link rel="icon" href="../../../_static/MattLogo2.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -124,8 +124,8 @@
       
     
     
-    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="RomCom - Home"/>
-    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
+    <img src="../../../_static/MattLogo2.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <script>document.write(`<img src="../../../_static/MattLogo2.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
   
   
 </a></div>
@@ -443,48 +443,22 @@ document.write(`
 
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span> <span class="k">as</span> <span class="nn">tc</span>
-<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
-<span class="kn">import</span> <span class="nn">gpflow</span> <span class="k">as</span> <span class="nn">gf</span>
-<span class="c1"># import rc.gpf as mf</span>
-
-
-<span class="c1">#: Admissible logging verbosity levels.</span>
-<span class="n">LOGGING_LEVEL</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;NOTHING LOGGED&#39;</span><span class="p">:</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR+WARN&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR+WARN+INFO&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">}</span>
-
-
-<span class="c1">#: ``LOGGING_LEVEL`` for TensorFlow.</span>
-<span class="n">TF_CPP_MIN_LOG_LEVEL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">LOGGING_LEVEL</span><span class="p">[</span><span class="s1">&#39;ERROR&#39;</span><span class="p">]</span>
-
-
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
-<span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">TF_CPP_MIN_LOG_LEVEL</span><span class="p">)</span>
-
-
-<span class="n">Options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="c1">#: Type for passing options as ``**kwargs``.</span>
 
 
 <span class="n">Zero</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0E-64</span>  <span class="c1">#: Tolerance when testing floats for equality.</span>
 
 
-<div class="viewcode-block" id="Int">
-<a class="viewcode-back" href="../../../pages/api/rc.base.definitions.Int.html#rc.base.definitions.Int">[docs]</a>
-<span class="k">def</span> <span class="nf">Int</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; The ``dtype`` of ``int`` in :ref:`rc.run.context.Environment`. &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">default_int</span><span class="p">()</span></div>
-
-
-
-<div class="viewcode-block" id="Float">
-<a class="viewcode-back" href="../../../pages/api/rc.base.definitions.Float.html#rc.base.definitions.Float">[docs]</a>
-<span class="k">def</span> <span class="nf">Float</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; The ``dtype`` of ``float`` in :ref:`rc.run.context.Environment`. &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">default_float</span><span class="p">()</span></div>
-
+<span class="c1"># def Int() -&gt; Type:</span>
+<span class="c1">#     &quot;&quot;&quot; The ``dtype`` of ``int`` in :ref:`rc.run.context.Environment`. &quot;&quot;&quot;</span>
+<span class="c1">#     return gf.config.default_int()</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># def Float() -&gt; Type:</span>
+<span class="c1">#     &quot;&quot;&quot; The ``dtype`` of ``float`` in :ref:`rc.run.context.Environment`. &quot;&quot;&quot;</span>
+<span class="c1">#     return gf.config.default_float()</span>
 
 
 <div class="viewcode-block" id="PD">
@@ -498,7 +472,7 @@ document.write(`
 <span class="sd">        MultiIndex: pd.MultiIndex.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>    <span class="c1">#: :meta private:</span>
-    <span class="n">Index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span>    <span class="c1">#: :meta private:</span>
+    <span class="n">Index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span>            <span class="c1">#: :meta private:</span>
     <span class="n">MultiIndex</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span>  <span class="c1">#: :meta private:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -526,9 +500,9 @@ document.write(`
     <span class="n">DType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span>    <span class="c1">#: :meta private:</span>
     <span class="n">Array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>  <span class="c1">#: :meta private:</span>
     <span class="n">Tensor</span> <span class="o">=</span> <span class="n">Array</span>      <span class="c1">#: :meta private:</span>
-    <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1">#: :meta private:</span>
-    <span class="n">CoVector</span> <span class="o">=</span> <span class="n">Tensor</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor</span>    <span class="c1">#: :meta private:</span>
+    <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor</span>     <span class="c1">#: :meta private:</span>
+    <span class="n">CoVector</span> <span class="o">=</span> <span class="n">Tensor</span>   <span class="c1">#: :meta private:</span>
+    <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor</span>     <span class="c1">#: :meta private:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -567,7 +541,7 @@ document.write(`
     <span class="n">Int</span><span class="p">:</span> <span class="n">DType</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">int32</span>
     <span class="n">Float</span><span class="p">:</span> <span class="n">DType</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">float64</span>
     <span class="n">Slice</span> <span class="o">=</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">NaN</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">nan</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">NaN</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">nan</span>    <span class="c1">#: :meta private:</span>
     <span class="n">Zero</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">Zero</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">Float</span><span class="p">)</span>  <span class="c1">#: :meta private:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -576,39 +550,6 @@ document.write(`
 <span class="sd">        :meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;This class is not intended to be instantiated or subclassed.&#39;</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="TF">
-<a class="viewcode-back" href="../../../pages/api/rc.base.definitions.TF.html#rc.base.definitions.TF">[docs]</a>
-<span class="k">class</span> <span class="nc">TF</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Extended TensorFlow types and constants. This class should never be instantiated or subclassed.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        DType: ``np.dtype``.</span>
-<span class="sd">        Tensor: ``tf.Tensor``.</span>
-<span class="sd">        Vector: Column vector, first order Tensor ``.shape = (i,1)``.</span>
-<span class="sd">        Covector = Tensor: Row vector, first order Tensor ``.shape = (1,j)``.</span>
-<span class="sd">        Matrix = Tensor: Second order Tensor ``.shape = (i,j)``.</span>
-<span class="sd">        Slice = Tensor: A pair of ``int`` s used for slicing a Tensor rank.</span>
-<span class="sd">        NaN: ``tf.constant(np.NaN, dtype=Float())`` representing Not a Number.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">DType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span>    <span class="c1">#: :meta private:</span>
-    <span class="n">Tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">Vector</span> <span class="o">=</span> <span class="n">Tensor</span>     <span class="c1">#: :meta private:</span>
-    <span class="n">Covector</span> <span class="o">=</span> <span class="n">Tensor</span>   <span class="c1">#: :meta private:</span>
-    <span class="n">Matrix</span> <span class="o">=</span> <span class="n">Tensor</span>     <span class="c1">#: :meta private:</span>
-    <span class="n">Slice</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">NaN</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Float</span><span class="p">())</span>  <span class="c1">#: :meta private:</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">        :meta private:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;This class is not intended to be instantiated or subclassed.&#39;</span><span class="p">)</span></div>
-
-
 
 </pre></div>
 

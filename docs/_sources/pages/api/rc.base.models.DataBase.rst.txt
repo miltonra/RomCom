@@ -12,13 +12,12 @@ rc.base.models.DataBase
    .. autosummary::
    
       ~DataBase.Path
-      ~DataBase.Table
+      ~DataBase.data
+      ~DataBase.defaultMetaData
       ~DataBase.ext
+      ~DataBase.meta
       ~DataBase.path
-      ~DataBase.read_options
       ~DataBase.tables
-      ~DataBase.tables_as_dict
-      ~DataBase.write_options
    
    
 
@@ -33,7 +32,5 @@ rc.base.models.DataBase
       ~DataBase.copy
       ~DataBase.create
       ~DataBase.delete
-      ~DataBase.table_defaults
-      ~DataBase.table_names
    
    

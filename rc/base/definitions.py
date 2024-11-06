@@ -30,29 +30,9 @@ without adornment throughout RomCom."""
 
 
 from typing import *
-from pathlib import Path
-from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
 import torch as tc
-# import tensorflow as tf
-# import gpflow as gf
-# import rc.gpf as mf
-
-
-#: Admissible logging verbosity levels.
-LOGGING_LEVEL: dict[str,str] = {'NOTHING LOGGED': '3', 'ERROR': '2', 'ERROR+WARN': '1', 'ERROR+WARN+INFO': '0'}
-
-
-#: ``LOGGING_LEVEL`` for TensorFlow.
-TF_CPP_MIN_LOG_LEVEL: str = LOGGING_LEVEL['ERROR']
-
-
-from os import environ
-environ['TF_CPP_MIN_LOG_LEVEL'] = str(TF_CPP_MIN_LOG_LEVEL)
-
-
-Options = dict[str, Any] #: Type for passing options as ``**kwargs``.
 
 
 Zero: float = 1.0E-64  #: Tolerance when testing floats for equality.
@@ -77,7 +57,7 @@ class PD:
         MultiIndex: pd.MultiIndex.
     """
     DataFrame = pd.DataFrame    #: :meta private:
-    Index = pd.Index    #: :meta private:
+    Index = pd.Index            #: :meta private:
     MultiIndex = pd.MultiIndex  #: :meta private:
 
     def __init__(self):
@@ -102,9 +82,9 @@ class NP:
     DType = np.dtype    #: :meta private:
     Array = np.ndarray  #: :meta private:
     Tensor = Array      #: :meta private:
-    Vector = Tensor    #: :meta private:
-    CoVector = Tensor  #: :meta private:
-    Matrix = Tensor    #: :meta private:
+    Vector = Tensor     #: :meta private:
+    CoVector = Tensor   #: :meta private:
+    Matrix = Tensor     #: :meta private:
 
     def __init__(self):
         """
@@ -140,7 +120,7 @@ class TC:
     Int: DType = tc.int32
     Float: DType = tc.float64
     Slice = list[int, int]  #: :meta private:
-    NaN: Tensor = tc.nan  #: :meta private:
+    NaN: Tensor = tc.nan    #: :meta private:
     Zero: Tensor = tc.tensor(Zero, dtype = Float)  #: :meta private:
 
     def __init__(self):
@@ -149,33 +129,3 @@ class TC:
         :meta private:
         """
         raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
-
-
-# class TF:
-#     """ Extended TensorFlow types and constants. This class should never be instantiated or subclassed.
-#
-#     Attributes:
-#         DType: ``np.dtype``.
-#         Tensor: ``tf.Tensor``.
-#         Vector: Column vector, first order Tensor ``.shape = (i,1)``.
-#         Covector = Tensor: Row vector, first order Tensor ``.shape = (1,j)``.
-#         Matrix = Tensor: Second order Tensor ``.shape = (i,j)``.
-#         Slice = Tensor: A pair of ``int`` s used for slicing a Tensor rank.
-#         NaN: ``tf.constant(np.NaN, dtype=Float())`` representing Not a Number.
-#     """
-#     DType = np.dtype    #: :meta private:
-#     Tensor = tf.Tensor  #: :meta private:
-#     Vector = Tensor     #: :meta private:
-#     Covector = Tensor   #: :meta private:
-#     Matrix = Tensor     #: :meta private:
-#     Slice = tf.Tensor  #: :meta private:
-#     NaN: Tensor = tf.constant(np.NaN, dtype=Float())  #: :meta private:
-
-    def __init__(self):
-        """
-
-        :meta private:
-        """
-        raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
-
-

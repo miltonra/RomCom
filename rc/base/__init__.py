@@ -25,5 +25,4 @@
 
 """ Basic definitions and classes underpinning the entire RomCom library."""
 
-from . import definitions
-from . import models
+from .models import *

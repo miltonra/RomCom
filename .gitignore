@@ -22,10 +22,10 @@
 # Ignore default outputs folder
 outputs/
 
-# Ignore all installation user data
+# Ignore all installation run data
 installation_test/
 
-# Ignore all test user data
+# Ignore all test run data
 test/
 
 # Byte-compiled / optimized / DLL files

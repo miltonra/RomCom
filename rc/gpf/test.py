@@ -31,7 +31,7 @@ import numpy as np
 import gpflow as gf
 from gpflow.ci_utils import reduce_in_tests
 # import tensorflow as tf
-from rc.user import contexts
+from rc.run import contexts
 
 use_gpu = True
 

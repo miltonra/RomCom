@@ -28,7 +28,7 @@
 from __future__ import annotations
 
 from rc.base.definitions import *
-from rc.base.models import Model, DataBase, DataTable
+from rc.base.models import DataBase, Tables, Table
 from rc.gpr.models import GPR
 from rc.gsa.base import Calibrator
 from rc.gsa.calibrators import ClosedSobol, ClosedSobolWithError
@@ -36,7 +36,7 @@ from enum import IntEnum, auto
 from abc import abstractmethod
 
 
-class GSA(Model):
+class GSA(DataBase):
     """ Class encapsulating a generic Sobol calculation."""
 
     class Kind(IntEnum):
@@ -116,7 +116,7 @@ class GSA(Model):
             if result is not None:
                 shape = result.shape.as_list()
                 result = pd.DataFrame(tf.reshape(result, [-1, shape[-1]]).numpy(), columns=GSA._columns(M, shape[-1], m_list), index=GSA._index(shape))
-                DataTable(value.csv, result, float_format='%.6f')
+                Table(value.csv, result, float_format= '%.6f')
 
     def calibrate(self, method: str = None, **kwargs) -> Dict[str, Any]:
         """ Perform a generic GSA calculation. This method should be overriden by specific subclasses, and called via ``super()`` as a matter of priority.
@@ -167,7 +167,7 @@ class GSA(Model):
 class Sobol(GSA):
     """ Class encapsulating a generic Sobol calculation."""
 
-    class Data(DataBase):
+    class Data(Tables):
         """ The Data set of a GSA."""
 
         @classmethod
@@ -203,7 +203,7 @@ class Sobol(GSA):
         Args:
             gp: The GPR underpinning the GSA.
             is_error_calculated: Whether to calculate the standard error of the GSA
-            **kwargs: Options passed straight to the Calibrator.
+            **kwargs: MetaData passed straight to the Calibrator.
         Returns: The Calibrator.
         """
         return ClosedSobolWithError(self.gp, **self.meta) if self.is_error_calculated else ClosedSobol(self.gp, **self.meta)

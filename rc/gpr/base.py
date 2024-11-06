@@ -50,7 +50,7 @@ class Variance(tc.nn.Module):
     corr: TC.BatchVector | None
 
     def forward(self, is_cho: bool = True) -> TC.BatchMatrix | TC.BatchVector:
-        """ Aliases ``self.__call__()``. Do not call.
+        """ Alias for ``self.__call__()``. Do not call.
 
         Args:
             is_cho: False to return the variance, True to return its Cholesky lower triangle.

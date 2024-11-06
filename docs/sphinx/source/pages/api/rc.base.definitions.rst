@@ -10,22 +10,11 @@ rc.base.definitions
    .. autosummary::
       :toctree:
    
-      LOGGING_LEVEL
-      TF_CPP_MIN_LOG_LEVEL
-      Options
       Zero
    
    
 
    
-   
-   .. rubric:: Functions
-
-   .. autosummary::
-      :toctree:
-   
-      Float
-      Int
    
    
 
@@ -40,7 +29,6 @@ rc.base.definitions
       NP
       PD
       TC
-      TF
    
    
 

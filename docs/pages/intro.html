@@ -419,34 +419,41 @@ The building blocks constitute Python package <a class="reference internal" href
 <section id="conventions">
 <h2>Conventions<a class="headerlink" href="#conventions" title="Link to this heading">§</a></h2>
 <p>Throughout this User Guide, classes will be Capitalized, and <em>Italicized</em> when abstract (not instantiable).
-Pandas, NumPy and TensorFlow will be abbreviated as <code class="docutils literal notranslate"><span class="pre">PD</span> <span class="pre">|</span> <span class="pre">pd</span></code>, <code class="docutils literal notranslate"><span class="pre">NP</span> <span class="pre">|</span> <span class="pre">np</span></code>, and <code class="docutils literal notranslate"><span class="pre">TF</span> <span class="pre">|</span> <span class="pre">tf</span></code> respectively.
+Pandas, NumPy and PyTorch will be abbreviated as <code class="docutils literal notranslate"><span class="pre">PD</span> <span class="pre">|</span> <span class="pre">pd</span></code>, <code class="docutils literal notranslate"><span class="pre">NP</span> <span class="pre">|</span> <span class="pre">np</span></code>, and <code class="docutils literal notranslate"><span class="pre">TC</span> <span class="pre">|</span> <span class="pre">tc</span></code> respectively.
 The RomCom library itself is contained in the <code class="docutils literal notranslate"><span class="pre">rc</span></code> package, and will be abbreviated as such.</p>
 </section>
 <section id="store">
 <h2><em>Store</em><a class="headerlink" href="#store" title="Link to this heading">§</a></h2>
 <p>An abstract base class whose objects are endowed with (filesystem) storage at <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.</p>
 </section>
+<section id="metadata">
+<h2>MetaData<a class="headerlink" href="#metadata" title="Link to this heading">§</a></h2>
+<p>Alias for <code class="docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">Any]</span></code>.</p>
+</section>
 <section id="meta">
 <h2>Meta<a class="headerlink" href="#meta" title="Link to this heading">§</a></h2>
-<p>A concrete <em>Store</em>, consisting of a Python <code class="docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">Any]</span></code> stored in a <cite>.json</cite> file.
+<p>A concrete <a class="reference internal" href="#store">Store</a>, consisting of <a class="reference internal" href="#metadata">MetaData</a> stored in a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file.
 The metadata <code class="docutils literal notranslate"><span class="pre">dict</span></code> held in any Meta <code class="docutils literal notranslate"><span class="pre">object</span></code> is accessed as the property <code class="docutils literal notranslate"><span class="pre">object.data</span></code>.</p>
 </section>
-<section id="datatable">
-<h2>DataTable<a class="headerlink" href="#datatable" title="Link to this heading">§</a></h2>
-<p>A concrete <em>Store</em>, consisting of a <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> stored in a <cite>.csv</cite> file.
-The data held in any DataTable <code class="docutils literal notranslate"><span class="pre">object</span></code> is accessed in the desired format as the property <code class="docutils literal notranslate"><span class="pre">object.pd</span></code>, <code class="docutils literal notranslate"><span class="pre">object.np</span></code> , or <code class="docutils literal notranslate"><span class="pre">object.tf</span></code>.</p>
+<section id="matrix">
+<h2>Matrix<a class="headerlink" href="#matrix" title="Link to this heading">§</a></h2>
+<p>Alias for <code class="docutils literal notranslate"><span class="pre">PD.DataFrame</span> <span class="pre">|</span> <span class="pre">NP.Matrix</span> <span class="pre">|</span> <span class="pre">TC.Matrix</span></code>.</p>
+</section>
+<section id="table">
+<h2>Table<a class="headerlink" href="#table" title="Link to this heading">§</a></h2>
+<p>A concrete <a class="reference internal" href="#store">Store</a>, consisting of a <code class="docutils literal notranslate"><span class="pre">PD.DataFrame</span></code> stored in a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.
+The <a class="reference internal" href="#matrix">Matrix</a> held in any Table <code class="docutils literal notranslate"><span class="pre">object</span></code> is accessed in the desired format as the property <code class="docutils literal notranslate"><span class="pre">object.pd</span></code>, <code class="docutils literal notranslate"><span class="pre">object.np</span></code> , or <code class="docutils literal notranslate"><span class="pre">object.tc</span></code>.</p>
+</section>
+<section id="tables">
+<h2><em>Tables</em><a class="headerlink" href="#tables" title="Link to this heading">§</a></h2>
+<p>An abstract <a class="reference internal" href="#store">Store</a>, consisting of a <code class="docutils literal notranslate"><span class="pre">NamedTuple</span></code> of <a class="reference internal" href="#table">Table</a>’s stored in a folder.
+Any concrete subclass such as <code class="docutils literal notranslate"><span class="pre">MyTables</span></code> must define <code class="docutils literal notranslate"><span class="pre">MyTables.NT(NamedTuple)</span></code> listing <code class="docutils literal notranslate"><span class="pre">MyTables.defaults</span></code> by <code class="docutils literal notranslate"><span class="pre">MyTables.names</span></code>.</p>
 </section>
 <section id="database">
 <h2><em>DataBase</em><a class="headerlink" href="#database" title="Link to this heading">§</a></h2>
-<p>An abstract <em>Store</em>, consisting of a <code class="docutils literal notranslate"><span class="pre">NamedTuple</span></code> of DataTables stored in a folder.
-Any concrete subclass such as <code class="docutils literal notranslate"><span class="pre">MyDataBase</span></code> must define <code class="docutils literal notranslate"><span class="pre">MyDataBase.Tables(NamedTuple)</span></code> listing the <code class="docutils literal notranslate"><span class="pre">DataBase.table_names</span></code> and
-<code class="docutils literal notranslate"><span class="pre">DataBase.table_defaults</span></code> for <code class="docutils literal notranslate"><span class="pre">MyDataBase</span></code>.</p>
-</section>
-<section id="model">
-<h2><em>Model</em><a class="headerlink" href="#model" title="Link to this heading">§</a></h2>
-<p>An abstract <em>Store</em>, consisting of a <em>DataBase</em> plus Meta, all stored in the <em>DataBase</em> folder. Any concrete subclass such
-as <code class="docutils literal notranslate"><span class="pre">MyModel</span></code> must define <code class="docutils literal notranslate"><span class="pre">MyModel.DataBase(DataBase)</span></code>, as a concrete <em>DataBase</em>.
-The majority of RomCom’s work is performed by concrete <em>Models</em>.</p>
+<p>An abstract <a class="reference internal" href="#store">Store</a>, consisting of <a class="reference internal" href="#tables">Tables</a> plus <a class="reference internal" href="#meta">Meta</a>, all stored in the <a class="reference internal" href="#tables">Tables</a> folder. Any concrete subclass such
+as <code class="docutils literal notranslate"><span class="pre">MyDataBase</span></code> must define <code class="docutils literal notranslate"><span class="pre">MyDataBase.Tables(Tables)</span></code>, as a concrete <a class="reference internal" href="#tables">Tables</a> class.
+The majority of RomCom’s work is performed by concrete <em>Database</em>’s.</p>
 </section>
 <section id="creating-copying-and-deleting-store-objects">
 <h2>Creating, Copying and Deleting <em>Store</em> Objects<a class="headerlink" href="#creating-copying-and-deleting-store-objects" title="Link to this heading">§</a></h2>
@@ -456,14 +463,15 @@ So any <em>DataBase</em> or <em>Model</em> may safely reside alongside other fil
 </section>
 <section id="reading-store-objects">
 <h2>Reading <em>Store</em> Objects<a class="headerlink" href="#reading-store-objects" title="Link to this heading">§</a></h2>
-<p>Every <code class="docutils literal notranslate"><span class="pre">object</span></code> of class <code class="docutils literal notranslate"><span class="pre">Object</span></code> derived from <em>Store</em> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code> by the constructor <code class="docutils literal notranslate"><span class="pre">object</span> <span class="pre">=</span> <span class="pre">Object(path)</span></code>
+<p>Every <code class="docutils literal notranslate"><span class="pre">object</span></code> of class <code class="docutils literal notranslate"><span class="pre">Object</span></code> derived from <a class="reference internal" href="#store">Store</a> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code> by the constructor <code class="docutils literal notranslate"><span class="pre">object</span> <span class="pre">=</span> <span class="pre">Object(path)</span></code>
 defined in <code class="docutils literal notranslate"><span class="pre">Object.__init__(path)</span></code>.</p>
 </section>
 <section id="updating-store-objects">
 <h2>Updating <em>Store</em> Objects<a class="headerlink" href="#updating-store-objects" title="Link to this heading">§</a></h2>
-<p>Every <code class="docutils literal notranslate"><span class="pre">object</span></code> of class <code class="docutils literal notranslate"><span class="pre">Object</span></code> derived from <em>Store</em> is updated in place and stored in <code class="docutils literal notranslate"><span class="pre">object.path</span></code> by the function <code class="docutils literal notranslate"><span class="pre">object(**kwargs)</span></code> defined in
+<p>Every <code class="docutils literal notranslate"><span class="pre">object</span></code> of class <code class="docutils literal notranslate"><span class="pre">Object</span></code> derived from <a class="reference internal" href="#store">Store</a> is updated in place and stored in <code class="docutils literal notranslate"><span class="pre">object.path</span></code> by the function <code class="docutils literal notranslate"><span class="pre">object(**kwargs)</span></code> defined in
 <code class="docutils literal notranslate"><span class="pre">Object.__call__(**kwargs)</span></code>.
-This function usually embodies some optimization (or calibration), so that optimizing a <code class="docutils literal notranslate"><span class="pre">Model</span></code> object amounts to evaluating (calling) it as a function.</p>
+This function usually embodies some optimization (or calibration), so that optimizing a concrete <a class="reference internal" href="#database">DataBase</a> object amounts to
+evaluating (calling) it as a function.</p>
 </section>
 </section>
 
@@ -515,10 +523,12 @@ This function usually embodies some optimization (or calibration), so that optim
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions">Conventions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#store"><em>Store</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metadata">MetaData</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meta">Meta</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datatable">DataTable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix">Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table">Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tables"><em>Tables</em></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#database"><em>DataBase</em></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model"><em>Model</em></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-copying-and-deleting-store-objects">Creating, Copying and Deleting <em>Store</em> Objects</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-store-objects">Reading <em>Store</em> Objects</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-store-objects">Updating <em>Store</em> Objects</a></li>

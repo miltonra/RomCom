@@ -10,7 +10,8 @@ rc.base.models
    .. autosummary::
       :toctree:
    
-      Data
+      MetaData
+      Matrix
    
    
 
@@ -27,10 +28,10 @@ rc.base.models
       :template: custom-class-template.rst
    
       DataBase
-      DataTable
       Meta
-      Model
       Store
+      Table
+      Tables
    
    
 
