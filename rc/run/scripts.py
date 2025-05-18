@@ -28,7 +28,7 @@
 from __future__ import annotations
 
 from rc.base.definitions import *
-from rc.data.models import Repository, Fold
+from rc.data.models import Repo, Fold
 from rc.gpr.kernels import Kernel
 from rc.gpr.models import GPR, MOGP
 from rc.gsa.models import GSA, Sobol
@@ -36,14 +36,14 @@ from rc.run import contexts, result
 import shutil
 
 
-def gpr(name: str, repo: Repository, is_read: bool | None, is_covariant: bool | None, is_isotropic: bool | None, ignore_exceptions: bool = False,
+def gpr(name: str, repo: Repo, is_read: bool | None, is_covariant: bool | None, is_isotropic: bool | None, ignore_exceptions: bool = False,
         kernel_parameters: Kernel.Data | None = None, likelihood_variance: NP.Matrix | None = None,
         is_calibrated: bool = True, is_tested: bool = True, **kwargs) -> List[str]:
-    """ Undertake GPR on a Fold, or recursively across the Folds in a Repository.
+    """ Undertake GPR on a Fold, or recursively across the Folds in a Repo.
 
     Args:
         name: The MOGP name.
-        repo: A Fold to house the MOGP, or a Repository containing Folds to house the GPs.
+        repo: A Fold to house the MOGP, or a Repo containing Folds to house the GPs.
         is_read: If True, MOGP kernel data and likelihood_variance are read from ``fold.folder/name``, otherwise defaults are used.
             If None, the nearest ancestor MOGP in the independence/isotropy hierarchy is recursively constructed from its nearest ancestor MOGP if necessary,
             then read and broadcast available.
@@ -106,15 +106,15 @@ def gpr(name: str, repo: Repository, is_read: bool | None, is_covariant: bool | 
         return [full_name]
 
 
-def gsa(name: str, repo: Repository, is_covariant: Optional[bool], is_isotropic: Optional[bool],
+def gsa(name: str, repo: Repo, is_covariant: Optional[bool], is_isotropic: Optional[bool],
 
         kinds: GSA.Kind | Sequence[GSA.Kind] = GSA.ALL_KINDS, m: int = -1,
         ignore_exceptions: bool = False, is_error_calculated: bool = False, **kwargs) -> List[Path]:
-    """ Undertake GSA on a Fold, or recursively across the Folds in a Repository.
+    """ Undertake GSA on a Fold, or recursively across the Folds in a Repo.
 
     Args:
         name: The GSA name.
-        repo: A Fold to house the GSA, or a Repository containing Folds to house the GSAs.
+        repo: A Fold to house the GSA, or a Repo containing Folds to house the GSAs.
         is_covariant: Whether each output is independent of the other outputs. None results in variant (independent) followed by covariant (dependent).
         is_isotropic: Whether the kernel is isotropic. If None, isotropic is run, then broadcast to run anisotropic.
         kinds: Kind of index to calculate - first_order, closed or total. A Sequence of Kinds will be run consecutively.
@@ -138,7 +138,7 @@ def gsa(name: str, repo: Repository, is_covariant: Optional[bool], is_isotropic:
         results.Collect({'S': {}, 'V': {}} | ({'T': {}, 'W': {}} if is_error_calculated else {}),
                         {name: {} for name in names}, ignore_exceptions).from_folds(repo, True)
         for name in names:
-            shutil.copyfile(repo.fold_folder(repo.folds.start) / 'meta.json', repo.folder / name / 'meta.json')
+            shutil.copyfile(repo.fold_path(repo.folds.start) / 'meta.json', repo.folder / name / 'meta.json')
     else:
         if is_covariant is None:
             names = gsa(name, repo, False, is_isotropic, kinds, m, ignore_exceptions, is_error_calculated, **kwargs)

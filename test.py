@@ -34,7 +34,7 @@ import tarfile
 import os
 
 from rc.base import *
-from rc.data.models import Repository
+from rc.data.models import Repo
 
 #: Parameters to generate data from test functions.
 # K: int = 2  #: The number of Folds in a new repository.
@@ -133,5 +133,5 @@ class Toy(DataBase):
 if __name__ == '__main__':
     # Run the code.
     root = Path('test')
-    blimey = Toy.create(root / 'base')
-    # Repository.from_csv(root / 'toy', root / 'toy.csv')
+    # blimey = Toy.create(root / 'base')
+    Repo.from_csv(root / 'toy', root / 'toy.csv')

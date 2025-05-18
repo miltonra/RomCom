@@ -29,7 +29,7 @@ from __future__ import annotations
 
 from rc.base.definitions import *
 from rc.base.models import Store
-from rc.data.models import Repository, Fold
+from rc.data.models import Repo, Fold
 from shutil import rmtree
 
 
@@ -41,15 +41,15 @@ class Collect:
     ignore_missing: bool = False    #: Whether to raise an exception when a csv is missing from a folder.
     write_options: Dict[str, Any] = {'index': False, 'float_format': '%.6f'}    #: kwargs passed straight to ``pd.to_csv``.
 
-    def __call__(self, dst: Union[Repository, Path, str], is_existing_deleted=False, **kwargs: Any):
-        """ Collect ``self.csvs`` into ``dst``. If and only if ``dst`` is a Repository, ``self.over_folds`` is called instead of ``self.over_folders``.
+    def __call__(self, dst: Union[Repo, Path, str], is_existing_deleted=False, **kwargs: Any):
+        """ Collect ``self.csvs`` into ``dst``. If and only if ``dst`` is a Repo, ``self.over_folds`` is called instead of ``self.over_folders``.
 
         Args:
             dst: The destination folder, to house ``self.csvs`` or ``self.folders``.
             is_existing_deleted: Whether to delete and recreate an existing ``dst``.
             **kwargs:  Write options passed straight to ``pd.to_csv``.
         """
-        if isinstance(dst, Repository):
+        if isinstance(dst, Repo):
             return self.from_folds(dst, is_existing_deleted, **kwargs)
         else:
             return self.from_folders(dst, is_existing_deleted, **kwargs)
@@ -86,7 +86,7 @@ class Collect:
                 results.to_csv(dst / f'{csv}.csv', **(self.write_options | kwargs))
         return self
 
-    def from_folds(self, dst: Repository, is_existing_deleted=False, **kwargs: Any) -> Collect:
+    def from_folds(self, dst: Repo, is_existing_deleted=False, **kwargs: Any) -> Collect:
         """ Collect ``dst/[self.folders]`` from ``Fold(dst, [k])/[self.folders]`` for ``k in self.Folds``.
 
         Args:

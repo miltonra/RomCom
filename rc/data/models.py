@@ -27,12 +27,16 @@
 
 from __future__ import annotations
 
+import numpy as np
+import pandas as pd
+
 from rc.base import *
 from copy import deepcopy
 import itertools
 import random
 import shutil
 import scipy.stats
+from enum import IntEnum
 
 
 """
@@ -171,7 +175,7 @@ class Normalisation:
     def __str__(self) -> str:
         return self.csv.name
 
-    def __init__(self, fold: Repository, data: Optional[pd.DataFrame] = None, is_applicable: bool = True):
+    def __init__(self, fold: Repo, data: Optional[pd.DataFrame] = None, is_applicable: bool = True):
         """ Initialize this Normalization. If the fold has already been Normalized, that Normalization is returned.
 
         Args:
@@ -199,212 +203,257 @@ class Normalisation:
             df = pd.concat((mean, std, 2 * semi_range, m_min, m_max), axis=1)
             self._frame = Table(self.csv, df.T)
 
+#: Slice for ``n`` (row) in a Repo Table.
+n: Tuple[slice, slice] = (slice(None, None, None), slice(None, 1, None))
+
+#: Slice for ``l`` (categorical state) in a Repo Table.
+l: Tuple[slice, slice] = (slice(None, None, None), slice(1, 2, None))
+
+#: Slice for ``x`` (inputs) in a Repo Table.
+x: Tuple[slice, slice] = (slice(None, None, None), slice(2, -1, None))
+
+#: Slice for ``y`` (output) in a Repo Table.
+y: Tuple[slice, slice] = (slice(None, None, None), slice(-1, None, None))
+
+#: Delimiter for concatenating categorical variable values into a categorical state ``l``.
+split: str = '; '
+
 class Normalization(DataBase):
-    """ A Repository is a model consisting only of data and metadata.
-        This must be further split into Fold(Repositories) contained within the Repository before it can be used.
+    class Tables(Tables):
+        class NT(NamedTuple):
+            names[i]: Table | Matrix = pd.DataFrame(defaults[names[i]].pd)
+            ...
+        readMetaData: dict[str, MetaData] = {names[i]: data[i].readMetaData, ...}
+        writeMetaData: dict[str, MetaData] = {names[i]: data[i].writeMetaData, ...}
+    defaultMetaData: MetaData = {'Override': 'Should not be empty'}
+
+
+    def __call__(self, **metadata: Any) -> Self:
+        return self
+
+    def __init__(self, path: Store.Path, **data: Table | PD.DataFrame):
+        super().__init__(path, **data)
+
+    @classmethod
+    def create(cls, path: Store.Path, train: PD.DataFrame, **meta: MetaData) -> Self:
+        """ Create a Normalization from a ``PD.DataFrame``.
+
+        Args:
+            path: The Path to this Repo.
+            train: The training data to normalize, as an indexed DataFrame with
+                ``columns = [l, n, ...x.[m]..., y]``.
+            meta: The meta to update ``cls.defaultMetaData`` and record in ``meta.json``.
+
+        Returns: The Normalization created.
+        """
+        if not 'n' in train.columns:
+            # Insert column 'n'.
+            cols = train.columns.tolist()
+            train['n'] = train.index
+            train = train['n', *cols]
+        # Sorted, unique l strings.
+        train = train.sort_values(['l', 'n'])
+        ll = pd.Series(train.loc[:, 'l'].unique())
+        # Table of split l strings.
+        data = {'l_columns': np.atleast_2d(ll.apply(lambda l: str(l).split(split), result_type = 'expand'))}
+        columns = meta.pop('headers', {}).pop('l', None)
+        columns = [f'l.{l}' for l in range(data['l_columns'].shape[1] - 1)] if columns is None else columns
+        columns += ['output']
+        data['l_columns'] = pd.DataFrame(data['l_columns'], columns)
+        # Table for mapping l.
+        ll = pd.Series(data = ll.index.values, index = ll)
+        l_map = train.loc[:, 'l']
+        l_map = l_map[l_map.ne(l_map.shift())]
+        data['l'] = pd.concat([ll, pd.Series(data = l_map.index.values, index = l_map)], axis = 1)
+        data['l'].columns = ['l', 'n']
+        # Stats for x and y.
+        xx = train[x]
+        Meta.create(cls._meta_in(path), **meta)
+        return cls(path, **data)
+
+class Repo(DataBase):
+    """ A Repo is a model consisting only of (training) data and metadata.
+        This must be further split into Fold(Repositories) contained within the Repo before it can be used.
     """
+
     class Tables(Tables):
 
         class Tables(NamedTuple):
-            """ The DataTables of a Repository.
-
-            Attributes:
-                train: Training data.
-            """
-            train = pd.DataFrame([[None, None, None]], columns=('L','X','Y'))
-
-    defaultMetaData: Meta.Data = {'headers': {'L': {'Category', 'N', 'Index'}, 'X': {'Input'}, 'Y': {'Output'}, 'Z': {}},
-                                  'K': 0, 'has_improper_fold': True, 'shuffle before folding': False}
-
-
-class Repository(DataBase):
-    """ A Repository is a model consisting only of (training) data and metadata.
-        This must be further split into Fold(Repositories) contained within the Repository before it can be used.
-    """
-
-    class Tables(Tables):
-
-        class Tables(NamedTuple):
-            """ The DataTables of a Repository.
+            """ The DataTables of a Repo.
 
             Attributes:
                 train: Training data.
             """
             train = pd.DataFrame([[None, None, None]], columns=('l','x','y'))
 
-    defaultMetaData: MetaData = {'headers': {'l': {'L','Category'}, 'x': {'X','Input'}, 'y': {'Y','Output'}},
-                                  'K': 0, 'has_improper_fold': False, 'shuffle before folding': False}
-
-    @property
-    def L(self) -> NP.Vector:
-        """ The categorical input L."""
-        return self.data.data.train.np[:, [0]]
-
-    @property
-    def X(self) -> NP.Matrix:
-        """ The continuous input X, as an (N,M) design Matrix."""
-        return self.data.data.train.np[:, 1:-1]
-
-    @property
-    def Y(self) -> NP.Vector:
-        """ The output Y."""
-        return self.data.data.train.np[:, [-1]]
-
-    @property
-    def K(self) -> int:
-        """ The number of folds contained in this Repository."""
-        return self._meta['K']
+    defaultMetaData: MetaData = {'headers': {'l': {'category'}, 'x': {'input'}, 'y': {'output'}},
+                                 'shuffle before folding': False, 'K': 0}
 
     @property
     def folds(self) -> range:
-        """ The indices of the folds contained in this Repository."""
-        if isinstance(self, Fold) or self.K < 1:
-            return range(0, 0)
-        else:
-            return range(self.K + (1 if self._meta['has_improper_fold'] else 0))
+        """ The indices of the folds contained in this Repo."""
+        return range(abs(self._meta['K']) if self._meta['K'] <= 0 else self._meta['K'] + 1)
 
-    def fold_folder(self, k: int) -> Path:
+    def fold_path(self, k: int) -> Path:
         return self._path / f'fold.{k:d}'
 
-    # def into_K_folds(self, K: int, shuffle_before_folding: bool = False,
-    #                  normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -> Repository:
-    #     """ Fold this repo into K Folds, indexed by range(K).
-    #
-    #     Args:
-    #         K: The number of Folds, of absolute value between 1 and N inclusive.
-    #             An improper Fold, indexed by K and including all data for both training and testing is included by default.
-    #             To suppress this give K as a negative integer.
-    #         shuffle_before_folding: Whether to shuffle the data before sampling.
-    #         normalization: An optional normalization.csv file to use.
-    #         is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.
-    #     Returns: ``self``, for chaining calls.
-    #     Raises:
-    #         IndexError: Unless 1 &lt= K &lt= N.
-    #     """
-    #     data = self.data.df
-    #     N = data.shape[0]
-    #     if not (1 <= abs(K) <= N):
-    #         raise IndexError(f'K={K:d} does not lie between 1 and N={N:d} inclusive.')
-    #     for k in range(max(abs(K), self.K) + 1):
-    #         shutil.rmtree(self.fold_folder(k), ignore_errors=True)
-    #     index = list(range(N))
-    #     if shuffle_before_folding:
-    #         random.shuffle(index)
-    #     self._meta.update({'K': abs(K), 'has_improper_fold': K > 0, 'shuffle before folding': shuffle_before_folding})
-    #     self.write_meta()
-    #     normalization = Normalization(self, self._data.pd).csv if normalization is None else normalization
-    #     if K > 0:
-    #         Fold.from_dfs(parent=self, k=K, data=data.iloc[index], test_data=data.iloc[index], normalization=normalization,
-    #                       is_normalization_applicable=is_normalization_applicable)
-    #     K = abs(K)
-    #     K_blocks = [list(range(K)) for dummy in range(int(N / K))]
-    #     K_blocks.append(list(range(N % K)))
-    #     for K_range in K_blocks:
-    #         random.shuffle(K_range)
-    #     indicator = list(itertools.chain(*K_blocks))
-    #     for k in range(K):
-    #         indicated = tuple(zip(index, indicator))
-    #         data_index = [index for index, indicator in indicated if k != indicator]
-    #         test_index = [index for index, indicator in indicated if k == indicator]
-    #         data_index = test_index if data_index == [] else data_index
-    #         Fold.from_dfs(parent=self, k=k, data=data.iloc[data_index], test_data=data.iloc[test_index], normalization=normalization,
-    #                       is_normalization_applicable=is_normalization_applicable)
-    #     return self
-    #
-    # def rotate_folds(self, rotation: NP.Matrix | None) -> Repository:
-    #     """ Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.
-    #
-    #     Args:
-    #         rotation: The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.
-    #         If the matrix supplied has the wrong dimensions or is not orthogonal, a random rotation is generated and used instead.
-    #     Returns: ``self``, for chaining calls.
-    #     """
-    #     M = self._meta['data']['M']
-    #     if rotation is None:
-    #         rotation = np.eye(M)
-    #     elif rotation.shape != (M, M) or not np.allclose(np.dot(rotation, rotation.T), np.eye(M)):
-    #         rotation = scipy.stats.special_ortho_group.rvs(M)
-    #     for k in self.folds:
-    #         Fold(self, k).X_rotation = rotation
-    #     return self
-    #
+    def rotate(self, rotation: NP.Matrix | None) -> Repo:
+        """ Uniformly rotate the Folds in a Repo. The rotation (like normalization) applies to each fold, not the repo itself.
+
+        Args:
+            rotation: The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.
+            If the matrix supplied has the wrong dimensions or is not orthogonal, a random rotation is generated and used instead.
+        Returns: ``self``, for chaining calls.
+        """
+        M = self._meta['M']
+        if rotation is None:
+            rotation = np.eye(M)
+        elif rotation.shape != (M, M) or not np.allclose(np.dot(rotation, rotation.T), np.eye(M)):
+            rotation = scipy.stats.special_ortho_group.rvs(M)
+        for k in self.folds:
+            Fold(self, k).X_rotation = rotation
+        return self
 
     def __call__(self, K: int, **metadata: Any) -> Self:
-        pass
+        """ Fold this repo into K Folds, indexed by range(K).
+
+        Args:
+            K: The number of Folds, of absolute value between 1 and N inclusive.
+                An improper Fold, indexed by K and including all data for both training and testing is included by default.
+                To suppress this give K as a negative integer.
+            shuffle_before_folding: Whether to shuffle the data before sampling.
+            normalization: An optional normalization.csv file to use.
+            is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.
+        Returns: ``self``, for chaining calls.
+        Raises:
+            IndexError: Unless 1 &lt= K &lt= N.
+        """
+        data = self.data.df
+        N = data.shape[0]
+        if not (1 <= abs(K) <= N):
+            raise IndexError(f'K={K:d} does not lie between 1 and N={N:d} inclusive.')
+        for k in range(max(abs(K), self.K) + 1):
+            shutil.rmtree(self.fold_path(k), ignore_errors=True)
+        index = list(range(N))
+        if shuffle_before_folding:
+            random.shuffle(index)
+        self._meta.update({'K': abs(K), 'has_improper_fold': K > 0, 'shuffle before folding': shuffle_before_folding})
+        self.write_meta()
+        normalization = Normalization(self, self._data.pd).csv if normalization is None else normalization
+        if K > 0:
+            Fold.from_dfs(parent=self, k=K, data=data.iloc[index], test_data=data.iloc[index], normalization=normalization,
+                          is_normalization_applicable=is_normalization_applicable)
+        K = abs(K)
+        K_blocks = [list(range(K)) for dummy in range(int(N / K))]
+        K_blocks.append(list(range(N % K)))
+        for K_range in K_blocks:
+            random.shuffle(K_range)
+        indicator = list(itertools.chain(*K_blocks))
+        for k in range(K):
+            indicated = tuple(zip(index, indicator))
+            data_index = [index for index, indicator in indicated if k != indicator]
+            test_index = [index for index, indicator in indicated if k == indicator]
+            data_index = test_index if data_index == [] else data_index
+            Fold.from_dfs(parent=self, k=k, data=data.iloc[data_index], test_data=data.iloc[test_index], normalization=normalization,
+                          is_normalization_applicable=is_normalization_applicable)
+        return self
 
     def __init__(self, path: Store.Path, train: Table | PD.DataFrame = None):
-        """ Read or create a Repository in ``path``.
+        """ Read the Repo in ``path``.
 
         Args:
-            path: The Path to this Repository.
-            train: The training data to populate this Repository. If ``None``, the Repository in ``path``
+            path: The Path to this Repo.
+            train: The training data to populate this Repo. If ``None``, the Repo in ``path``
                 will be read, otherwise it will be created.
         """
-        if train is None:
-            super().__init__(path)
-        else:
-            super().__init__(Store.create(path), train = train)
+        super().__init__(path, train = train)
+        self._normalization = Normalization(self._normalization_in(path))
 
     @classmethod
-    def create(cls, path: Store.Path, train: PD.DataFrame, normalization: Normalization | None = None, **meta: Any) -> Self:
-        """ Create a Repository from a ``PD.DataFrame``.
+    def create(cls, path: Store.Path, train: PD.DataFrame, **meta: Any) -> Self:
+        """ Create a Repo from a ``PD.DataFrame``.
 
         Args:
-            path: The Path to this Repository.
+            path: The Path to this Repo.
             train: The data to record in ``train.csv``.
-            normalization: The Normalization to use, will be generated from ``train`` if ``None``.
             meta: The meta to update ``cls.defaultMetaData`` and record in ``meta.json``.
 
-        Returns: The Repository created.
+        Returns: The Repo created.
         """
-        meta = cls.defaultMetaData | meta
-        train = train.rename(str.capitalize, axis = 'columns', level = 0)
-        data = {'row': pd.DataFrame(train.index, columns=['row'])}
-        for header, headers in meta['headers'].items():
-            data[header] = {'headers': {header}.union(headers).intersection(train.columns.levels[0])}
-            data[header] |= {'pd': train[list(data[header]['headers'])]}
-            data[header] |= {'pd': pd.DataFrame(data[header]['pd'].to_numpy(),
-                                                columns = data[header]['pd'].columns.droplevel(0))}
-        meta |=  { 'M': data['x']['pd'].shape[1], 'Lc': data['l']['pd'].shape[1],'Ly': data['y']['pd'].shape[1]}
-        result = data['row'].join([data[header]['pd'] for header in meta['headers'].keys()])
-        id_vars = data['row'].columns.union(data['l']['pd'].columns).columns.union(data['x']['pd'].columns)
-        result = result.melt(id_vars = id_vars, var_name = 'col', value_name = 'y').dropna()
-        result['l'] = result[data['l']['pd'].columns.to_list()+['col']].astype(str).agg('|'.join, axis = 1)
         Meta.create(cls._meta_in(path), **(cls.defaultMetaData | meta))
-        return Repository(path, train = train)
+        return Repo(path, train = train)
 
     @classmethod
-    def from_csv(cls, path: Store.Path, train: Store.Path, normalization: Normalization | None = None,
-                 **meta: Any) -> Repository:
-        """ Create a Repository from a csv file.
+    def from_pd(cls, path: Store.Path, train: PD.DataFrame, **meta: Any) -> Self:
+        """ Create a Repo from a ``PD.DataFrame``.
 
         Args:
-            path: The location (folder) of the target Repository.
+            path: The Path to this Repo.
+            train: The data to record in ``train.csv``.
+            meta: The meta to update ``cls.defaultMetaData`` and record in ``meta.json``.
+
+        Returns: The Repo created.
+        """
+        meta = cls.defaultMetaData | meta
+        train = train.rename(str.lower, axis = 'columns', level = 0)
+        dd = {'n': pd.DataFrame(train.index, columns=['n'])}
+        for header, headers in meta['headers'].items():
+            dd[header] = {'headers': {header}.union(headers).intersection(train.columns.levels[0])}
+            dd[header] |= {'pd': train[list(dd[header]['headers'])]}
+            dd[header] |= {'pd': pd.DataFrame(dd[header]['pd'].to_numpy(),
+                                              columns = dd[header]['pd'].columns.droplevel(0))}
+        meta['normalization'] |= {'Li': dd['l']['pd'].shape[1], 'Lo': dd['y']['pd'].shape[1]}
+        result = dd['n'].join([dd[header]['pd'] for header in meta['headers'].keys()])
+        id_vars = dd['n'].columns.union(dd['l']['pd'].columns).union(dd['x']['pd'].columns)
+        result = result.melt(id_vars = id_vars, var_name = 'col', value_name = 'y').dropna()
+        meta['normalization'] |= {'headers': {header: dd[header]['pd'].columns.to_list()
+                                             for header in meta['headers']}}
+        result['l'] = result[dd['l']['pd'].columns.to_list()+['col']].astype(str).agg(split.join, axis = 1)
+        train = result['n', 'l', *(dd['x']['pd'].columns.to_list()), 'y']
+        meta |=  { 'M': dd['x']['pd'].shape[1]}
+        normalization = Normalization.create(cls._normalization_in(path), train, **meta['normalization'])
+        return cls.create(path, train, **meta)
+
+    @classmethod
+    def from_csv(cls, path: Store.Path, train: Store.Path, **meta: Any) -> Repo:
+        """ Create a Repo from a csv file.
+
+        Args:
+            path: The location (folder) of the target Repo.
             train: The file containing the data to record in [Return].csv.
-            normalization: The Normalization to use, will be generated from ``train`` if ``None``.
             meta: The meta to record in meta.json, defaulting to
                 ``{'src': {'path': [path], 'read_options': {'header': [0, 1]}}}``.
                 ``'src' : 'read_options'``, which may be amended, is ``MetaData`` passed directly to
                 `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_.
 
-        Returns: The Repository created.
+        Raises:
+            FileNotFoundError: If ``train`` is not a file.
+
+        Returns: The Repo created.
         """
-        meta = {'src': {'path': str(train), 'read_options': {'header': [0, 1], 'index_col': 0}}} | meta
-        train = pd.read_csv(train, **meta['src']['read_options'])
-        return cls.create(path, train, normalization, **meta)
+        meta = {'src': {'path': str(train.absolute()), 'read_options': {'header': [0, 1], 'index_col': 0}}
+                } | meta
+        train = Path(train)
+        if not train.is_file():
+            raise FileNotFoundError(f'Training data {train} does not exist.')
+        return cls.from_pd(path = path, train = pd.read_csv(train, **meta['src']['read_options']), **meta)
+
+    @staticmethod
+    def _normalization_in(path: Store.Path) -> Path:
+        return Path(path) / 'normalization'
 
 # def from_csv(cls, path: Store.Path, train: Store.Path, PCA: bool = False, meta: Dict = None,
-#              **kwargs) -> Repository:
-#     """ Create a Repository from a csv file.
+#              **kwargs) -> Repo:
+#     """ Create a Repo from a csv file.
 #
 #     Args:
-#         path: The location (folder) of the target Repository.
+#         path: The location (folder) of the target Repo.
 #         train: The file containing the data to record in [Return].csv.
 #         PSA: Whether to create a single fold in which Principal Component Analysis (PCA) has been performed on the inputs.
 #         meta: The metadata to record in [Return].meta.json.
-#         kwargs: Updates Repository.CSV_OPTIONS for reading the csv file, as detailed in
+#         kwargs: Updates Repo.CSV_OPTIONS for reading the csv file, as detailed in
 #             https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html.
-#     Returns: A new Repository located in folder.
+#     Returns: A new Repo located in folder.
 #     """
 #     train = Path(train)
 #     origin_csv_kwargs = cls.CSV_OPTIONS | kwargs
@@ -414,7 +463,7 @@ class Repository(DataBase):
 #     repo = cls.from_df(path, data.pd, meta)
 #     if PCA:
 #         repo = repo.into_K_folds(-1)
-#         fold = Repository(repo.fold_folder(0))
+#         fold = Repo(repo.fold_folder(0))
 #         X = fold.X.values
 #         print(f'pre mean = {np.mean(fold.X.values, axis = 0)}')  # DEBUG:
 #         cov = np.cov(X, rowvar = False)
@@ -437,9 +486,9 @@ class Repository(DataBase):
 #     return repo
 
 
-class Fold(Repository):
+class Fold(Repo):
     """ A Fold is defined as a folder containing a ``data.csv``, a ``meta.json`` file and a ``test.csv`` file.
-    A Fold is a Repository equipped with a test_data pd.DataFrame backed by ``test.csv``.
+    A Fold is a Repo equipped with a test_data pd.DataFrame backed by ``test.csv``.
 
     Additionally, a fold can reduce the dimensionality ``M`` of the input ``X``.
     """
@@ -489,29 +538,29 @@ class Fold(Repository):
         old_value = self.X_rotation
         Table(self._X_rotation, pd.DataFrame(np.matmul(old_value, value)))
 
-    def __init__(self, parent: Repository, k: int, **kwargs):
+    def __init__(self, parent: Repo, k: int, **kwargs):
         """ Initialize Fold by reading existing files. Creation is handled by the classmethod Fold.from_dfs.
 
         Args:
-            parent: The parent Repository.
+            parent: The parent Repo.
             k: The index of the Fold within parent.
             M: The number of input columns used. If not 0 &lt M &lt self.M, all columns are used.
         """
-        init_mode = kwargs.get('init_mode', Repository._InitMode.READ)
-        super().__init__(parent.fold_folder(k), init_mode=init_mode)
+        init_mode = kwargs.get('init_mode', Repo._InitMode.READ)
+        super().__init__(parent.fold_path(k), init_mode=init_mode)
         self._X_rotation = self.folder / 'X_rotation.csv'
         self._test_csv = self.folder / 'test.csv'
-        if init_mode == Repository._InitMode.READ:
+        if init_mode == Repo._InitMode.READ:
             self._test_data = Table(self._test_csv)
             self._normalization = Normalization(self)
 
     @classmethod
-    def from_dfs(cls, parent: Repository, k: int, data: pd.DataFrame, test_data: pd.DataFrame,
+    def from_dfs(cls, parent: Repo, k: int, data: pd.DataFrame, test_data: pd.DataFrame,
                  normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -> Fold:
         """ Create a Fold from a pd.DataFrame.
 
         Args:
-            parent: The parent Repository.
+            parent: The parent Repo.
             k: The index of the fold to be created.
             data: Training data.
             test_data: Test data.
@@ -520,7 +569,7 @@ class Fold(Repository):
         Returns: The Fold created.
         """
 
-        fold = cls(parent, k, init_mode=Repository._InitMode.CREATE)
+        fold = cls(parent, k, init_mode=Repo._InitMode.CREATE)
         fold._meta = cls.META | parent.meta | {'k': k}
         fold._normalization = Normalization(fold, data, is_normalization_applicable)
         if normalization is not None:

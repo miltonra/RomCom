@@ -88,7 +88,7 @@ def run(root: str | Path, csv: str | Path, gpr: bool = False, gsa: bool = False,
             with run.contexts.Timer(f'ext={ext}', is_inline=False):
                 if gpr:
                     # Get data from csv then run GPR.
-                    repo = (data.storage.Repository.from_csv(repo_folder, csv)
+                    repo = (data.storage.Repo.from_csv(repo_folder, csv)
                             .into_K_folds(k, normalization=normalization, is_normalization_applicable=not unnormalized)
                             .rotate_folds(rc.data.sample.permute_axes(permutation)))
                     models = run.run.gpr(name= 'gpr', repo=repo, is_read=IS_GPR_READ, is_covariant=IS_GPR_COVARIANT,
@@ -97,7 +97,7 @@ def run(root: str | Path, csv: str | Path, gpr: bool = False, gsa: bool = False,
                 else:
                     # Collect stored GPR models.
                     try:
-                        repo = data.storage.Repository(repo_folder)
+                        repo = data.storage.Repo(repo_folder)
                     except FileNotFoundError as fnfe:
                         raise FileNotFoundError(f'You have never run GPR on {repo_folder}, so there is no GSA or results collection to be done.')
                     models = [path.name for path in repo.folder.glob('gpr.*')]

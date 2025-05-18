@@ -147,13 +147,13 @@ class GaussianNoise:
     def variance(self) -> NP.Matrix:
         return self._variance
 
-    def __call__(self, repo: Repository | None = None) -> NP.Matrix:
+    def __call__(self, repo: Repo | None = None) -> NP.Matrix:
         """ Generate N samples of L-dimensional Gaussian noise, sampled from :math:`N[0,self.variance]`.
         The constructor generates the sample,
         so repeated calls to any method always refer to the same GaussianNoise.
 
         Args:
-            repo: An optional Repository which will have GaussianNoise added to Y in data.csv.
+            repo: An optional Repo which will have GaussianNoise added to Y in data.csv.
         Returns: An (N,L) noise matrix, where (L,L) is the shape of `self._variance`.
         """
 
@@ -182,8 +182,8 @@ class Function:
     """ Sample a ``run.function.Vector``."""
 
     @property
-    def repo(self) -> Repository:
-        """ The Repository containing the Function sample."""
+    def repo(self) -> Repo:
+        """ The Repo containing the Function sample."""
         return self._repo
 
     def collection(self, sub_folder: Union[Path, str]) -> Dict[str, Any]:
@@ -196,8 +196,8 @@ class Function:
         return {'folder': self._repo.folder / sub_folder, 'N': self._N, 'noise': self._noise_variance.magnitude}
 
     def un_rotate_folds(self) -> Function:
-        """ Create an un-rotated Fold in the Repository, with index ``K+1``."""
-        shutil.copytree(self._repo.fold_folder(self._repo.K), self._repo.fold_folder(self._repo.K + 1))
+        """ Create an un-rotated Fold in the Repo, with index ``K+1``."""
+        shutil.copytree(self._repo.fold_path(self._repo.K), self._repo.fold_path(self._repo.K + 1))
         fold = Fold(self._repo, self._repo.K + 1)
         fold.X_rotation = np.transpose(fold.X_rotation)
         Table(fold.test_csv, fold.normalization.undo_from(fold.test_data.pd))
@@ -205,43 +205,43 @@ class Function:
         Table(self._repo.folder / 'undo_from.csv', fold.normalization.undo_from(fold.test_data.pd))
         return self
 
-    def _construct(self, folder: Path | str, X: NP.Matrix, function_vector: functions.Vector, noise: NP.Matrix, origin_meta: Dict[str, Any]) -> Repository:
-        """ Construct Repository housing the sample design matrix ``(X, f(X) + noise)``.
+    def _construct(self, folder: Path | str, X: NP.Matrix, function_vector: functions.Vector, noise: NP.Matrix, origin_meta: Dict[str, Any]) -> Repo:
+        """ Construct Repo housing the sample design matrix ``(X, f(X) + noise)``.
 
         Args:
-            folder: The Repository folder.
+            folder: The Repo folder.
             X: An (N,M) design matrix of inputs.
             function_vector: An (L,) function.Vector.
             noise: An (N,L) design matrix of noise.
             origin_meta: A Dict of meta specifying the origin of the sample.
-        Returns: The ``(X, f(X) + noise)`` sample design matrix Repository, before folding or rotating.
+        Returns: The ``(X, f(X) + noise)`` sample design matrix Repo, before folding or rotating.
         """
         Y = function_vector(X)
         std = np.reshape(np.std(Y, axis=0), (1, -1))
         Y += std * noise
         columns = [('X', f'X.{i:d}') for i in range(X.shape[1])] + [('Y', f'Y.{i:d}') for i in range(Y.shape[1])]
         df = pd.DataFrame(np.concatenate((X, Y), axis=1), columns=pd.MultiIndex.from_tuples(columns), dtype=float)
-        return Repository.from_df(folder=folder, df=df, meta={'origin': origin_meta})
+        return Repo.from_df(folder=folder, df=df, meta={'origin': origin_meta})
 
     def __init__(self, root: Path | str, doe: DOE.Method, function_vector: functions.Vector, N: int, M: int, noise_variance: GaussianNoise.Variance,
                  ext: str | None = None, overwrite_existing: bool = False, **kwargs: Any):
-        """ Construct a Repository by sampling a function over a DOE.
+        """ Construct a Repo by sampling a function over a DOE.
 
         Args:
-            root: The folder under which the Repository will sit.
+            root: The folder under which the Repo will sit.
             doe: An experimental design for the sample inputs.
             function_vector: A vector function.
             N: The number of samples (rows) in the sample.
             M: The input dimensionality (columns).
             noise_magnitude: The (L,L) homoskedastic ``GaussianNoise.Variance``.
             ext: Unless None, the repo name is suffixed by ``.[ext]``.
-            overwrite_existing: Whether to overwrite an existing Repository.
+            overwrite_existing: Whether to overwrite an existing Repo.
             **kwargs: MetaData passed straight to doe.
         """
         self._N, self._noise_variance = N, noise_variance
         folder = Path(root) / f'{function_vector.name}.M.{M:d}.{self._noise_variance}.N.{N:d}{"" if ext is None else "." + ext}'
         if folder.is_dir() and not overwrite_existing:
-            self._repo = Repository(folder)
+            self._repo = Repo(folder)
         else:
             self._repo = self._construct(folder=folder, X=doe(N, M, **kwargs), function_vector=function_vector,
                                          noise=GaussianNoise(N, self._noise_variance())(repo=None),
@@ -261,7 +261,7 @@ def permute_axes(new_order: Sequence | None) -> NP.Matrix | None:
 
 
 def PCA(root: str | Path, csv: str | Path) -> Path:
-    """ Perform Principal Component Analysis on a Repository.
+    """ Perform Principal Component Analysis on a Repo.
 
     Args:
         root: The root folder.
@@ -270,7 +270,7 @@ def PCA(root: str | Path, csv: str | Path) -> Path:
     Returns: The folder written to, namely root``/PCA``
     """
     root, csv = Path(root), Path(csv)
-    repo = Repository.from_csv(root, csv, PCA=True)
+    repo = Repo.from_csv(root, csv, PCA=True)
     return root / 'PCA'
 
 

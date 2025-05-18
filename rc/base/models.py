@@ -68,21 +68,15 @@ class Store(ABC):
         return self._path.stem if self._path.is_file() else self._path.name
 
     @abstractmethod
-    def __call__(self, path: Path | None, **data) -> Self:
+    def __call__(self, **data) -> Self:
         """ Update and store ``self``.
 
-        Overrides should call ``super(Store).__call__(path)`` as a matter of priority.
-        Finally, they should store the class in ``self._path``.
-
         Args:
-            path: The updated ``Path`` to ``self``. A ``cls.ext`` suffix is appended.
             **data: Data to update.
 
         Returns: ``self``.
         """
-        if path is not None:
-            self._path = self._create(path)
-        return self
+        raise NotImplementedError()
 
     @abstractmethod
     def __init__(self, path: Path):
@@ -97,7 +91,7 @@ class Store(ABC):
         self._path = self._create(path)
 
     @classmethod
-    def _create(cls, path: Path) -> Self | Path:
+    def _create(cls, path: Path) -> Path:
         path = Path(path).with_suffix(cls.ext)
         if cls.ext == '':
             path.mkdir(mode=0o777, parents=True, exist_ok=True)
@@ -177,17 +171,14 @@ class Meta(Store):
         """ The ``MetaData`` stored in ``self``."""
         return self._data
 
-    def __call__(self, path: Store.Path | None = None, **data: Any) -> Self:
+    def __call__(self, **data: Any) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
-            path: Optionally, an update to ``self.path``, overwritten if existing.
-                A ``.json`` extension is automatically appended.
             **data: Data to update ``self.data``.
 
         Returns: ``self``.
         """
-        super().__call__(path)
         self._data |= data
         with open(self._path, mode='w') as file:
             dump(self._data, file, indent=4)
@@ -207,7 +198,7 @@ class Meta(Store):
                 self._data = load(file)
         else:
             self._data = data
-            self(path)
+            self()
 
     @classmethod
     def create(cls, path: Store.Path, **data: Any):
@@ -220,7 +211,7 @@ class Meta(Store):
 
         Returns: The ``Meta`` created.
         """
-        return cls(path, **({'NotImplemented': 'in call to Meta.create()'} if data == {} else data) )
+        return cls(path, **({'NotImplemented': 'in call to Meta.create()'} if data == {} else data))
 
     @classmethod
     def copy(cls, src: Meta, dst: Store.Path) -> Self:
@@ -287,7 +278,7 @@ class Table(Store):
             data = np.diag(np.diagonal(data))
         return self(data)
 
-    def __call__(self, data: Self | Matrix | None, path: Store.Path | None = None, **metadata: Any) -> Self:
+    def __call__(self, data: Self | Matrix | None, **metadata: Any) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
@@ -298,7 +289,6 @@ class Table(Store):
             
         Returns: ``self``.
         """
-        super().__call__(path)
         if isinstance(data, Table):
             self._pd = data.pd.copy()
         elif isinstance(data, pd.DataFrame):
@@ -419,7 +409,7 @@ class Tables(Store):
         assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
         return self._data._asdict()
 
-    def __call__(self, path: Store.Path = None, **data: Table | Matrix) -> Self:
+    def __call__(self, **data: Table | Matrix) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
@@ -430,13 +420,8 @@ class Tables(Store):
         """
         assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
         dd = self.asDict
-        if path is not None:
-            super().__call__(path)
-            dd = {name: Table.create(self._path / name, data.get(name, table), **self.writeMetaData.get(name, {}))
-                  for name, table in dd.items()}
-        else:
-            for name, table in data.items():
-                dd[name](table, **self.writeMetaData.get(name, {}))
+        for name, table in data.items():
+            dd[name](table, **self.writeMetaData.get(name, {}))
         self._data = self.NT(**dd)
         return self
 
@@ -450,15 +435,14 @@ class Tables(Store):
             **data: Updates to ``self.data``, in the form ``names[i]=Table[i], ...``.
             
         Raises:
-            FileNotFoundError: If ``path`` lacks any member of ``cls.names()``
-                not mentioned in ``**data``.
+            FileNotFoundError: If ``path`` lacks any member of ``cls.names()`` not mentioned in ``**data``.
         """
         assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
         super().__init__(path)
         try:
             self._data = self.NT(**{name:
                                         Table(path / name, data[name], **self.writeMetaData.get(name, {}))
-                                        if name in data else
+                                        if name in data and data[name] is not None else
                                         Table(path / name, **self.readMetaData.get(name, {}))
                                         for name in self.names()})
         except FileNotFoundError as error:
@@ -542,7 +526,7 @@ class DataBase(Store):
     """
 
     #: Class attribute. Should be overridden.
-    defaultMetaData: MetaData = {'DataBase.defaultMetaData': 'Should not be empty'}
+    defaultMetaData: MetaData = {'meta': 'Should not be empty'}
 
     class Tables(Tables):
         class NT(NamedTuple):
@@ -608,8 +592,7 @@ class DataBase(Store):
         Args:
             path: The folder to store the ``DataBase`` in. Need not exist,
                 any existing ``Tables`` will be overwritten if it does.
-            **data_and_meta: Data to update ``cls.Tables.table_defaults``,
-                in the form ``names[i]=data[i]``,
+            **data_and_meta: Data to update ``cls.Tables.table_defaults``, in the form ``names[i]=data[i]``,
                 and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.
             
         Returns: The ``DataBase`` created.
