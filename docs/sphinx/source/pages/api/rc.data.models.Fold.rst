@@ -11,24 +11,11 @@ rc.data.models.Fold
 
    .. autosummary::
    
-      ~Fold.K
-      ~Fold.L
       ~Fold.Path
-      ~Fold.X
-      ~Fold.X_rotation
-      ~Fold.Y
-      ~Fold.data
       ~Fold.defaultMetaData
       ~Fold.ext
-      ~Fold.folds
       ~Fold.meta
-      ~Fold.normalization
       ~Fold.path
-      ~Fold.tables
-      ~Fold.test_csv
-      ~Fold.test_data
-      ~Fold.test_x
-      ~Fold.test_y
    
    
 
@@ -43,8 +30,5 @@ rc.data.models.Fold
       ~Fold.copy
       ~Fold.create
       ~Fold.delete
-      ~Fold.fold_folder
-      ~Fold.from_csv
-      ~Fold.from_dfs
    
    

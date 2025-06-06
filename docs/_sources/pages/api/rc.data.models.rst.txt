@@ -1,9 +1,19 @@
-rc.data.models
+﻿rc.data.models
 ==============
 
 .. automodule:: rc.data.models
 
    
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+      :toctree:
+   
+      n
+      x
+      l
+      y
    
    
 
@@ -19,10 +29,9 @@ rc.data.models
       :toctree:
       :template: custom-class-template.rst
    
+      DesignMatrix
       Fold
-      Normalisation
-      Normalization
-      Repository
+      Repo
    
    
 

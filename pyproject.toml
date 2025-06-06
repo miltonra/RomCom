@@ -24,7 +24,7 @@ name = "RomCom"
 version = "1.0.0"
 description = "Reduced Order Modelling software, implementing Global Sensitivity Analysis using Gaussian Processes."
 authors = [
-    {name = "Robert Milton", email="r.a.milton@sheffield.ac.uk"}
+    {name = "Robert A. Milton", email="r.a.milton@sheffield.ac.uk"}
 ]
 license = { text = "BSD 3-Clause" }
 readme = "README.md"
@@ -33,13 +33,7 @@ classifiers = ["Topic :: Scientific/Engineering :: Artificial Intelligence",
                 "Intended Audience :: Science/Research", "Development Status :: 4 - Beta"]
 
 dependencies = [
-    "tensorflow == 2.17 ; python_version >= '3.11'",
-    "tensorflow == 2.10 ; python_version < '3.11'",
-    "keras == 2.15 ; python_version >= '3.11'",
-    "keras == 2.10 ; python_version < '3.11'",
-    "tensorflow-probability == 0.24 ; python_version >= '3.11'",
-    "tensorflow-probability == 0.18 ; python_version < '3.11'",
-    "gpflow >= 2.9",
+    "torch >= 2.7",
     "pandas >= 2.2",
     "SALib >= 1.5",
 ]
@@ -51,7 +45,7 @@ namespaces = false
 
 [project.optional-dependencies ]
 dev = [
-    "Sphinx >= 8.0",
+    "Sphinx >= 8.3.0",
     "sphinx-argparse >= 0.5",
     "sphinx-copybutton >= 0.5",
     "pydata-sphinx-theme >= 0.15",
@@ -59,8 +53,8 @@ dev = [
 
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools>=68.2", "wheel"]
-python = ">= 3.10 <= 3.11"
+requires = ["setuptools>=70.2", "wheel"]
+python = ">= 3.12"
 
 [project.urls]
 homepage = "https://github.com/miltonra/RomCom"

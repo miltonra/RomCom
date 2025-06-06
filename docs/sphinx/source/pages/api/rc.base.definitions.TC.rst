@@ -14,7 +14,6 @@ rc.base.definitions.TC
       ~TC.Float
       ~TC.Int
       ~TC.NaN
-      ~TC.Slice
       ~TC.Zero
    
    

@@ -15,29 +15,32 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/pydata-custom.css" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
@@ -47,6 +50,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.0" />
   </head>
   
   
@@ -62,19 +66,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -82,7 +75,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -90,8 +82,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -125,7 +117,7 @@
     
     
     <img src="../../../_static/MattLogo2.svg" class="logo__image only-light" alt="RomCom - Home"/>
-    <script>document.write(`<img src="../../../_static/MattLogo2.svg" class="logo__image only-dark" alt="RomCom - Home"/>`);</script>
+    <img src="../../../_static/MattLogo2.svg" class="logo__image only-dark pst-js-only" alt="RomCom - Home"/>
   
   
 </a></div>
@@ -206,29 +198,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
     </div>
     
@@ -237,15 +221,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -262,7 +242,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -344,15 +325,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
       </div>
     
@@ -360,9 +337,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -380,8 +362,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -393,7 +373,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">rc.data.models</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">rc.data.models</span></li>
   </ul>
 </nav>
 </div>
@@ -413,7 +393,7 @@ document.write(`
   <h1>Source code for rc.data.models</h1><div class="highlight"><pre>
 <span></span><span class="c1">#  BSD 3-Clause License.</span>
 <span class="c1"># </span>
-<span class="c1">#  Copyright (c) 2019-2024 Robert A. Milton. All rights reserved.</span>
+<span class="c1">#  Copyright (c) 2019-2025 Robert A. Milton. All rights reserved.</span>
 <span class="c1"># </span>
 <span class="c1">#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that</span>
 <span class="c1">#  the following conditions are met:</span>
@@ -438,565 +418,173 @@ document.write(`
 
 <span class="sd">&quot;&quot;&quot; Models for data storage. &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.transforms.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normalize</span>
 
-<span class="kn">from</span> <span class="nn">rc.base.definitions</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">rc.base.models</span> <span class="kn">import</span> <span class="n">Store</span><span class="p">,</span> <span class="n">Meta</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Tables</span><span class="p">,</span> <span class="n">DataBase</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span>
-
-
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">class DataTable:</span>
-
-<span class="sd">    @classmethod</span>
-<span class="sd">    @property</span>
-<span class="sd">    def CSV_OPTIONS(cls) -&gt; Dict[str, Any]:</span>
-<span class="sd">        return {&#39;sep&#39;: &#39;,&#39;, &#39;header&#39;: [0, 1], &#39;index_col&#39;: 0, }</span>
-
-<span class="sd">    @property</span>
-<span class="sd">    def csv(self) -&gt; Path:</span>
-<span class="sd">        return self._csv</span>
-
-<span class="sd">    @property</span>
-<span class="sd">    def is_empty(self) -&gt; bool:</span>
-<span class="sd">        return 0 == len(self._csv.parts)</span>
-
-<span class="sd">    def write(self):</span>
-<span class="sd">        assert not self.is_empty, &#39;Cannot write when DataTable.is_empty.&#39;</span>
-<span class="sd">        self.df.to_csv(path_or_buf=self._csv, sep=DataTable.CSV_OPTIONS[&#39;sep&#39;], index=True)</span>
-
-<span class="sd">    def __repr__(self) -&gt; str:</span>
-<span class="sd">        return str(self._csv)</span>
-
-<span class="sd">    def __str__(self) -&gt; str:</span>
-<span class="sd">        return self._csv.name</span>
-
-<span class="sd">    def __init__(self, csv: Path | str = Path(), df: pd.DataFrame = pd.DataFrame(), **kwargs):</span>
-<span class="sd">        Args:</span>
-<span class="sd">            csv: The csv file.</span>
-<span class="sd">            df: The initial data. If this is empty, it is read from csv, otherwise it overwrites (or creates) csv.</span>
-<span class="sd">        Keyword Args:</span>
-<span class="sd">            kwargs: Updates DataTable.CSV_OPTIONS for csv reading as detailed in</span>
-<span class="sd">                https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html.</span>
-<span class="sd">                This is not relevant to writing, which just uses DataTable.CSV_OPTIONS.</span>
-<span class="sd">        self._csv = Path(csv)</span>
-<span class="sd">        if self.is_empty:</span>
-<span class="sd">            assert df.empty, &#39;csv is an empty path, but df is not an empty pd.DataFrame.&#39;</span>
-<span class="sd">            self.df = df</span>
-<span class="sd">        elif df.empty:</span>
-<span class="sd">            self.df = pd.read_csv(self._csv, **{**DataTable.CSV_OPTIONS, **kwargs})</span>
-<span class="sd">        else:</span>
-<span class="sd">            self.df = df</span>
-<span class="sd">            self.write()</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Normalisation">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalisation.html#rc.data.models.Normalisation">[docs]</a>
-<span class="k">class</span> <span class="nc">Normalisation</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Encapsulates the normalization of data.</span>
-<span class="sd">        X data is assumed to follow a Uniform distribution, which is normalized to U[0,1] , then inverse probability transformed to N[0,1].</span>
-<span class="sd">        Y data is normalized to zero mean and unit variance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">UNIFORM_MARGIN</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">1.0E-12</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">csv</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="s1">&#39;normalization.csv&#39;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">DataTable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">csv</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">_relevant_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">),</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">M</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s1">&#39;rng&#39;</span><span class="p">),</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">M</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">M</span><span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s1">&#39;std&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">M</span><span class="p">:])</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_applicable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_applicable</span>
-
-<div class="viewcode-block" id="Normalisation.apply_to">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalisation.html#rc.data.models.Normalisation.apply_to">[docs]</a>
-    <span class="k">def</span> <span class="nf">apply_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Apply this normalization.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            df: The pd.DataFrame to Normalize.</span>
-<span class="sd">        Returns: df, Normalized.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_applicable</span><span class="p">:</span>
-            <span class="n">X_min</span><span class="p">,</span> <span class="n">X_rng</span><span class="p">,</span> <span class="n">Y_mean</span><span class="p">,</span> <span class="n">Y_std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relevant_stats</span>
-            <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">M</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">M</span><span class="p">:]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">X_min</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">X_min</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">X_rng</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">X_rng</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">UNIFORM_MARGIN</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">UNIFORM_MARGIN</span><span class="p">)</span>
-            <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">Y_mean</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">Y_std</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">df</span></div>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rc.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntEnum</span>
 
 
-<div class="viewcode-block" id="Normalisation.undo_from">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalisation.html#rc.data.models.Normalisation.undo_from">[docs]</a>
-    <span class="k">def</span> <span class="nf">undo_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Undo this normalization.</span>
+<span class="c1">#: Slice for ``n`` (row) in a Repo Table.</span>
+<span class="n">n</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            df: The (Normalized) pd.DataFrame to UnNormalize.</span>
-<span class="sd">        Returns: df, UnNormalized.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_applicable</span><span class="p">:</span>
-            <span class="n">X_min</span><span class="p">,</span> <span class="n">X_rng</span><span class="p">,</span> <span class="n">Y_mean</span><span class="p">,</span> <span class="n">Y_std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relevant_stats</span>
-            <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">M</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fold</span><span class="o">.</span><span class="n">M</span><span class="p">:]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">X_rng</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">X_rng</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">X_min</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">X_min</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-            <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">Y_std</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">Y_std</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Y_mean</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">Y_mean</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">df</span></div>
+<span class="c1">#: Slice for ``x`` (inputs) in a Repo Table.</span>
+<span class="n">x</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+<span class="c1">#: Slice for ``l`` (categorical state) in a Repo Table.</span>
+<span class="n">l</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+<span class="c1">#: Slice for ``y`` (output) in a Repo Table.</span>
+<span class="n">y</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="Normalisation.unscale_Y">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalisation.html#rc.data.models.Normalisation.unscale_Y">[docs]</a>
-    <span class="k">def</span> <span class="nf">unscale_Y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dfY</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Undo the Y-scaling of this normalization, without adding the Y-Mean. Suitable treatment for unNormalizing SD, for example.</span>
+<div class="viewcode-block" id="DesignMatrix">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DesignMatrix</span><span class="p">(</span><span class="n">Table</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Template for a design matrix. &quot;&quot;&quot;</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            dfY: The (Normalized) pd.DataFrame to UnNormalize.</span>
-<span class="sd">        Returns: dfY, UnNormalized.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">X_min</span><span class="p">,</span> <span class="n">X_rng</span><span class="p">,</span> <span class="n">Y_mean</span><span class="p">,</span> <span class="n">Y_std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relevant_stats</span>
-        <span class="k">return</span> <span class="n">dfY</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">Y_std</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">Y_std</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_applicable</span> <span class="k">else</span> <span class="n">dfY</span></div>
+<div class="viewcode-block" id="DesignMatrix.Options">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix.Options">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Options</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 
+        <span class="n">read</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span>  <span class="p">{</span><span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>  <span class="c1"># Read options passed to ``pd.read_csv``.</span>
+        <span class="n">write</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span>  <span class="p">{}</span>   <span class="c1"># Write options passed to ``pd.DataFrame.to_csv``.</span>
 
-<div class="viewcode-block" id="Normalisation.X_gradient">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalisation.html#rc.data.models.Normalisation.X_gradient">[docs]</a>
-    <span class="k">def</span> <span class="nf">X_gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Computes the gradient of the unormalized inputs ``X[m]`` with respect to the normalized inputs ``Z[m]``.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            X: An (N,M) matrix of unormalized inputs ``X[M]``</span>
-<span class="sd">            m: A list of input axes to differentiate.</span>
-<span class="sd">        Returns: An (N,len(m)) matrix of derivatives</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">X_rng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relevant_stats</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">X_rng</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">m</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_applicable</span> <span class="k">else</span> <span class="n">m</span> <span class="o">/</span> <span class="n">m</span></div>
-
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">csv</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">csv</span><span class="o">.</span><span class="n">name</span>
-
-<div class="viewcode-block" id="Normalisation.__init__">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalisation.html#rc.data.models.Normalisation.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fold</span><span class="p">:</span> <span class="n">Repository</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">is_applicable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Initialize this Normalization. If the fold has already been Normalized, that Normalization is returned.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fold: The fold to Normalize.</span>
-<span class="sd">            data: The data from which to calculate Normalization.</span>
-<span class="sd">            is_applicable: Whether this Normalization should be applied to the data or not.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fold</span> <span class="o">=</span> <span class="n">fold</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_is_applicable</span> <span class="o">=</span> <span class="n">is_applicable</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">csv</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">csv</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">mean</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">mean</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span>
-            <span class="n">std</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-            <span class="n">std</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;std&#39;</span>
-            <span class="n">semi_range</span> <span class="o">=</span> <span class="n">std</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-            <span class="n">semi_range</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;rng&#39;</span>
-            <span class="n">m_min</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">-</span> <span class="n">semi_range</span>
-            <span class="n">m_min</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;min&#39;</span>
-            <span class="n">m_max</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">semi_range</span>
-            <span class="n">m_max</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;max&#39;</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">semi_range</span><span class="p">,</span> <span class="n">m_min</span><span class="p">,</span> <span class="n">m_max</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">csv</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DesignMatrix.Options.__call__">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix.Options.__call__">[docs]</a>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot; Returns the Table named ``name``.&quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 </div>
 
 
-<div class="viewcode-block" id="Normalization">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization">[docs]</a>
-<span class="k">class</span> <span class="nc">Normalization</span><span class="p">(</span><span class="n">DataBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; A Repository is a model consisting only of data and metadata.</span>
-<span class="sd">        This must be further split into Fold(Repositories) contained within the Repository before it can be used.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Normalization.Tables">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization.Tables">[docs]</a>
-    <span class="k">class</span> <span class="nc">Tables</span><span class="p">(</span><span class="n">Tables</span><span class="p">):</span>
+    <span class="n">skeleton</span><span class="p">:</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span>
+                                    <span class="p">((</span><span class="s1">&#39;Input&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">),(</span><span class="s1">&#39;Category&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Output&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">))))</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; DataFrame of the minimal, skeleton ``DesignMatrix``.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Normalization.Tables.Tables">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization.Tables.Tables">[docs]</a>
-        <span class="k">class</span> <span class="nc">Tables</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot; The DataTables of a Repository.</span>
+    <span class="n">defaultOptions</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="n">Options</span><span class="p">()</span><span class="o">.</span><span class="n">read</span> <span class="o">|</span> <span class="n">Options</span><span class="p">()</span><span class="o">.</span><span class="n">write</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Default file handling ``DesignMatrix.Options()``.&quot;&quot;&quot;</span></div>
 
-<span class="sd">            Attributes:</span>
-<span class="sd">                train: Training data.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Y&#39;</span><span class="p">))</span></div>
-</div>
-
-
-    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">Meta</span><span class="o">.</span><span class="n">Data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Category&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;Index&#39;</span><span class="p">},</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Input&#39;</span><span class="p">},</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Output&#39;</span><span class="p">},</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="p">{}},</span>
-                                  <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;has_improper_fold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;shuffle before folding&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
-
-
-
-<div class="viewcode-block" id="Repository">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository">[docs]</a>
-<span class="k">class</span> <span class="nc">Repository</span><span class="p">(</span><span class="n">DataBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; A Repository is a model consisting only of (training) data and metadata.</span>
-<span class="sd">        This must be further split into Fold(Repositories) contained within the Repository before it can be used.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Repository.Tables">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.Tables">[docs]</a>
-    <span class="k">class</span> <span class="nc">Tables</span><span class="p">(</span><span class="n">Tables</span><span class="p">):</span>
-
-<div class="viewcode-block" id="Repository.Tables.Tables">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.Tables.Tables">[docs]</a>
-        <span class="k">class</span> <span class="nc">Tables</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot; The DataTables of a Repository.</span>
-
-<span class="sd">            Attributes:</span>
-<span class="sd">                train: Training data.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">))</span></div>
-</div>
-
-
-    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">Meta</span><span class="o">.</span><span class="n">Data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;L&#39;</span><span class="p">,</span><span class="s1">&#39;Category&#39;</span><span class="p">},</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;Input&#39;</span><span class="p">},</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span><span class="s1">&#39;Output&#39;</span><span class="p">}},</span>
-                                  <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;has_improper_fold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;shuffle before folding&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The categorical input L.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">np</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The continuous input X, as an (N,M) design Matrix.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">np</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The output Y.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">np</span><span class="p">[:,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">K</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The number of folds contained in this Repository.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">folds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">range</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The indices of the folds contained in this Repository.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Fold</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;has_improper_fold&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">fold_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;fold.</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s1">d</span><span class="si">}</span><span class="s1">&#39;</span>
-
-    <span class="c1"># def into_K_folds(self, K: int, shuffle_before_folding: bool = False,</span>
-    <span class="c1">#                  normalization: Optional[Path | str] = None, is_normalization_applicable: bool = True) -&gt; Repository:</span>
-    <span class="c1">#     &quot;&quot;&quot; Fold this repo into K Folds, indexed by range(K).</span>
-    <span class="c1">#</span>
-    <span class="c1">#     Args:</span>
-    <span class="c1">#         K: The number of Folds, of absolute value between 1 and N inclusive.</span>
-    <span class="c1">#             An improper Fold, indexed by K and including all data for both training and testing is included by default.</span>
-    <span class="c1">#             To suppress this give K as a negative integer.</span>
-    <span class="c1">#         shuffle_before_folding: Whether to shuffle the data before sampling.</span>
-    <span class="c1">#         normalization: An optional normalization.csv file to use.</span>
-    <span class="c1">#         is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.</span>
-    <span class="c1">#     Returns: ``self``, for chaining calls.</span>
-    <span class="c1">#     Raises:</span>
-    <span class="c1">#         IndexError: Unless 1 &amp;lt= K &amp;lt= N.</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     data = self.data.df</span>
-    <span class="c1">#     N = data.shape[0]</span>
-    <span class="c1">#     if not (1 &lt;= abs(K) &lt;= N):</span>
-    <span class="c1">#         raise IndexError(f&#39;K={K:d} does not lie between 1 and N={N:d} inclusive.&#39;)</span>
-    <span class="c1">#     for k in range(max(abs(K), self.K) + 1):</span>
-    <span class="c1">#         shutil.rmtree(self.fold_folder(k), ignore_errors=True)</span>
-    <span class="c1">#     index = list(range(N))</span>
-    <span class="c1">#     if shuffle_before_folding:</span>
-    <span class="c1">#         random.shuffle(index)</span>
-    <span class="c1">#     self._meta.update({&#39;K&#39;: abs(K), &#39;has_improper_fold&#39;: K &gt; 0, &#39;shuffle before folding&#39;: shuffle_before_folding})</span>
-    <span class="c1">#     self.write_meta()</span>
-    <span class="c1">#     normalization = Normalization(self, self._data.pd).csv if normalization is None else normalization</span>
-    <span class="c1">#     if K &gt; 0:</span>
-    <span class="c1">#         Fold.from_dfs(parent=self, k=K, data=data.iloc[index], test_data=data.iloc[index], normalization=normalization,</span>
-    <span class="c1">#                       is_normalization_applicable=is_normalization_applicable)</span>
-    <span class="c1">#     K = abs(K)</span>
-    <span class="c1">#     K_blocks = [list(range(K)) for dummy in range(int(N / K))]</span>
-    <span class="c1">#     K_blocks.append(list(range(N % K)))</span>
-    <span class="c1">#     for K_range in K_blocks:</span>
-    <span class="c1">#         random.shuffle(K_range)</span>
-    <span class="c1">#     indicator = list(itertools.chain(*K_blocks))</span>
-    <span class="c1">#     for k in range(K):</span>
-    <span class="c1">#         indicated = tuple(zip(index, indicator))</span>
-    <span class="c1">#         data_index = [index for index, indicator in indicated if k != indicator]</span>
-    <span class="c1">#         test_index = [index for index, indicator in indicated if k == indicator]</span>
-    <span class="c1">#         data_index = test_index if data_index == [] else data_index</span>
-    <span class="c1">#         Fold.from_dfs(parent=self, k=k, data=data.iloc[data_index], test_data=data.iloc[test_index], normalization=normalization,</span>
-    <span class="c1">#                       is_normalization_applicable=is_normalization_applicable)</span>
-    <span class="c1">#     return self</span>
-    <span class="c1">#</span>
-    <span class="c1"># def rotate_folds(self, rotation: NP.Matrix | None) -&gt; Repository:</span>
-    <span class="c1">#     &quot;&quot;&quot; Uniformly rotate the Folds in a Repository. The rotation (like normalization) applies to each fold, not the repo itself.</span>
-    <span class="c1">#</span>
-    <span class="c1">#     Args:</span>
-    <span class="c1">#         rotation: The (M,M) rotation matrix to apply to the inputs. If None, the identity matrix is used.</span>
-    <span class="c1">#         If the matrix supplied has the wrong dimensions or is not orthogonal, a random rotation is generated and used instead.</span>
-    <span class="c1">#     Returns: ``self``, for chaining calls.</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     M = self._meta[&#39;data&#39;][&#39;M&#39;]</span>
-    <span class="c1">#     if rotation is None:</span>
-    <span class="c1">#         rotation = np.eye(M)</span>
-    <span class="c1">#     elif rotation.shape != (M, M) or not np.allclose(np.dot(rotation, rotation.T), np.eye(M)):</span>
-    <span class="c1">#         rotation = scipy.stats.special_ortho_group.rvs(M)</span>
-    <span class="c1">#     for k in self.folds:</span>
-    <span class="c1">#         Fold(self, k).X_rotation = rotation</span>
-    <span class="c1">#     return self</span>
-    <span class="c1">#</span>
-
-<div class="viewcode-block" id="Repository.__init__">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">train</span><span class="p">:</span> <span class="n">Tables</span><span class="o">.</span><span class="n">Table</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Read or create a Repository in ``path``.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            path: The Path to this Repository.</span>
-<span class="sd">            train: The training data to populate this Repository. If ``None``, the Repository in ``path``</span>
-<span class="sd">                will be read, otherwise it will be created.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Store</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Repository.create">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.create">[docs]</a>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">train</span><span class="p">:</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">normalization</span><span class="p">:</span> <span class="n">Normalization</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-               <span class="o">**</span><span class="n">meta</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Repository</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a Repository from a ``PD.DataFrame``.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            path: The Path to this Repository.</span>
-<span class="sd">            train: The data to record in ``train.csv``.</span>
-<span class="sd">            normalization: The Normalization to use, will be generated from ``train`` if ``None``.</span>
-<span class="sd">            meta: The meta to update ``cls.defaultMetaData`` and record in ``meta.json``.</span>
-
-<span class="sd">        Returns: The Repository created.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">meta</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">defaultMetaData</span> <span class="o">|</span> <span class="n">meta</span>
-        <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">capitalize</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="s1">&#39;columns&#39;</span><span class="p">,</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;row&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;row&#39;</span><span class="p">])}</span>
-        <span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">headers</span> <span class="ow">in</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">data</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">header</span><span class="p">}</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">])}</span>
-            <span class="n">data</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">|=</span> <span class="p">{</span><span class="s1">&#39;pd&#39;</span><span class="p">:</span> <span class="n">train</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">header</span><span class="p">][</span><span class="s1">&#39;headers&#39;</span><span class="p">])]}</span>
-            <span class="n">data</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">|=</span> <span class="p">{</span><span class="s1">&#39;pd&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">header</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-                                                <span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">header</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">droplevel</span><span class="p">(</span><span class="mi">0</span><span class="p">))}</span>
-        <span class="n">meta</span> <span class="o">|=</span>  <span class="p">{</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;Lc&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;l&#39;</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s1">&#39;Ly&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;row&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="n">header</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
-        <span class="n">id_vars</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;row&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l&#39;</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span> <span class="o">=</span> <span class="n">id_vars</span><span class="p">,</span> <span class="n">var_name</span> <span class="o">=</span> <span class="s1">&#39;col&#39;</span><span class="p">,</span> <span class="n">value_name</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;l&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l&#39;</span><span class="p">][</span><span class="s1">&#39;pd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">Meta</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_meta_in</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="o">**</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">defaultMetaData</span> <span class="o">|</span> <span class="n">meta</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">Repository</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Repository.from_csv">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repository.html#rc.data.models.Repository.from_csv">[docs]</a>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">train</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">normalization</span><span class="p">:</span> <span class="n">Normalization</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="o">**</span><span class="n">meta</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Repository</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a Repository from a csv file.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            path: The location (folder) of the target Repository.</span>
-<span class="sd">            train: The file containing the data to record in [Return].csv.</span>
-<span class="sd">            normalization: The Normalization to use, will be generated from ``train`` if ``None``.</span>
-<span class="sd">            meta: The meta to record in meta.json, defaulting to</span>
-<span class="sd">                ``{&#39;src&#39;: {&#39;path&#39;: [path], &#39;read_options&#39;: {&#39;header&#39;: [0, 1]}}}``.</span>
-<span class="sd">                ``&#39;src&#39; : &#39;read_options&#39;``, which may be amended, is ``MetaData`` passed directly to</span>
-<span class="sd">                `pd.read_csv &lt;https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html&gt;`_.</span>
-
-<span class="sd">        Returns: The Repository created.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">meta</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;src&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="s1">&#39;read_options&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}}}</span> <span class="o">|</span> <span class="n">meta</span>
-        <span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">][</span><span class="s1">&#39;read_options&#39;</span><span class="p">])</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">normalization</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span></div>
-</div>
-
-
-<span class="c1"># def from_csv(cls, path: Store.Path, train: Store.Path, PCA: bool = False, meta: Dict = None,</span>
-<span class="c1">#              **kwargs) -&gt; Repository:</span>
-<span class="c1">#     &quot;&quot;&quot; Create a Repository from a csv file.</span>
-<span class="c1">#</span>
-<span class="c1">#     Args:</span>
-<span class="c1">#         path: The location (folder) of the target Repository.</span>
-<span class="c1">#         train: The file containing the data to record in [Return].csv.</span>
-<span class="c1">#         PSA: Whether to create a single fold in which Principal Component Analysis (PCA) has been performed on the inputs.</span>
-<span class="c1">#         meta: The metadata to record in [Return].meta.json.</span>
-<span class="c1">#         kwargs: Updates Repository.CSV_OPTIONS for reading the csv file, as detailed in</span>
-<span class="c1">#             https://pandas.pydata.org/pandas-docs/stable/generated/pandas.pd.read_csv.html.</span>
-<span class="c1">#     Returns: A new Repository located in folder.</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
-<span class="c1">#     train = Path(train)</span>
-<span class="c1">#     origin_csv_kwargs = cls.CSV_OPTIONS | kwargs</span>
-<span class="c1">#     data = DataTable(train, **origin_csv_kwargs)</span>
-<span class="c1">#     meta = cls.META if meta is None else cls.META | meta</span>
-<span class="c1">#     meta[&#39;origin&#39;] = {&#39;csv&#39;: str(train.absolute()), &#39;origin_csv_kwargs&#39;: origin_csv_kwargs}</span>
-<span class="c1">#     repo = cls.from_df(path, data.pd, meta)</span>
-<span class="c1">#     if PCA:</span>
-<span class="c1">#         repo = repo.into_K_folds(-1)</span>
-<span class="c1">#         fold = Repository(repo.fold_folder(0))</span>
-<span class="c1">#         X = fold.X.values</span>
-<span class="c1">#         print(f&#39;pre mean = {np.mean(fold.X.values, axis = 0)}&#39;)  # DEBUG:</span>
-<span class="c1">#         cov = np.cov(X, rowvar = False)</span>
-<span class="c1">#         eigenvalues, eigenvectors = np.linalg.eigh(cov)</span>
-<span class="c1">#         idx = eigenvalues.argsort()[::-1]</span>
-<span class="c1">#         eigenvalues = eigenvalues[idx]</span>
-<span class="c1">#         eigenvectors = eigenvectors[:, idx]</span>
-<span class="c1">#         cov = np.einsum(&#39;ij,ij-&gt;j&#39;, eigenvectors, eigenvectors)</span>
-<span class="c1">#</span>
-<span class="c1">#         repo = repo.rotate_folds(eigenvectors.T)</span>
-<span class="c1">#         # Test Code</span>
-<span class="c1">#         fold = Fold(repo, 0)</span>
-<span class="c1">#         fold.data.df.iloc[:, :fold.M] /= np.sqrt(eigenvalues)</span>
-<span class="c1">#         fold.test_data.pd.iloc[:, :fold.M] /= np.sqrt(eigenvalues)</span>
-<span class="c1">#         print(f&#39;post mean = {np.mean(fold.X.values, axis = 0)}&#39;)  # DEBUG:</span>
-<span class="c1">#         print(f&#39;post cov = {np.cov(fold.X.values, rowvar = False)}&#39;)  # DEBUG:</span>
-<span class="c1">#         # end of</span>
-<span class="c1">#         path = repo.fold_folder(0)</span>
-<span class="c1">#         path.rename(path.parent / &#39;PCA&#39;)</span>
-<span class="c1">#     return repo</span>
 
 
 <div class="viewcode-block" id="Fold">
 <a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold">[docs]</a>
-<span class="k">class</span> <span class="nc">Fold</span><span class="p">(</span><span class="n">Repository</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; A Fold is defined as a folder containing a ``data.csv``, a ``meta.json`` file and a ``test.csv`` file.</span>
-<span class="sd">    A Fold is a Repository equipped with a test_data pd.DataFrame backed by ``test.csv``.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Fold</span><span class="p">(</span><span class="n">DataBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; A fold of training and test data. &quot;&quot;&quot;</span>
 
-<span class="sd">    Additionally, a fold can reduce the dimensionality ``M`` of the input ``X``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Fold.Tables">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.Tables">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Tables</span><span class="p">(</span><span class="n">Tables</span><span class="p">):</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">normalization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Normalization</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalization</span>
+<div class="viewcode-block" id="Fold.Tables.NT">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.Tables.NT">[docs]</a>
+        <span class="k">class</span><span class="w"> </span><span class="nc">NT</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">test_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_csv</span>
+            <span class="n">train</span><span class="p">:</span> <span class="n">DesignMatrix</span> <span class="o">|</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="n">DesignMatrix</span><span class="o">.</span><span class="n">skeleton</span>
+            <span class="n">test</span><span class="p">:</span> <span class="n">DesignMatrix</span> <span class="o">|</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="n">DesignMatrix</span><span class="o">.</span><span class="n">skeleton</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">test_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_data</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">test_x</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The test_data input x, as an (n,M) design Matrix with column headings.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_data</span><span class="o">.</span><span class="n">pd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;X_heading&#39;</span><span class="p">]]</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">test_y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The test_data output y as an (n,L) Matrix with column headings.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_data</span><span class="o">.</span><span class="n">pd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;Y_heading&#39;</span><span class="p">]]</span>
-
-    <span class="k">def</span> <span class="nf">_X_rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DataTable</span><span class="p">:</span> <span class="n">Table</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Rotate the input variables in a DataTable.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            DataTable: The DataTable to rotate. Will be written after rotation.</span>
-<span class="sd">            rotation: The rotation Matrix.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;Nm,Mm-&gt;NM&#39;</span><span class="p">,</span> <span class="n">DataTable</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">],</span> <span class="n">rotation</span><span class="p">)</span>
-        <span class="n">DataTable</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">X_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The rotation matrix applied to the input variables self.X, stored in X_rotation.csv. Rotations are applied and stored cumulatively.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_rotation</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">values</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_rotation</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
-
-    <span class="nd">@X_rotation</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">X_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The rotation matrix applied to the input variables self.X, stored in X_rotation.csv. Rotations are applied and stored cumulatively.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_X_rotate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_X_rotate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_data</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="n">old_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_rotation</span>
-        <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_rotation</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">old_value</span><span class="p">,</span> <span class="n">value</span><span class="p">)))</span>
-
-<div class="viewcode-block" id="Fold.__init__">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Repository</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Initialize Fold by reading existing files. Creation is handled by the classmethod Fold.from_dfs.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            parent: The parent Repository.</span>
-<span class="sd">            k: The index of the Fold within parent.</span>
-<span class="sd">            M: The number of input columns used. If not 0 &amp;lt M &amp;lt self.M, all columns are used.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">init_mode</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;init_mode&#39;</span><span class="p">,</span> <span class="n">Repository</span><span class="o">.</span><span class="n">_InitMode</span><span class="o">.</span><span class="n">READ</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">fold_folder</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">init_mode</span><span class="o">=</span><span class="n">init_mode</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_X_rotation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="s1">&#39;X_rotation.csv&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_test_csv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">folder</span> <span class="o">/</span> <span class="s1">&#39;test.csv&#39;</span>
-        <span class="k">if</span> <span class="n">init_mode</span> <span class="o">==</span> <span class="n">Repository</span><span class="o">.</span><span class="n">_InitMode</span><span class="o">.</span><span class="n">READ</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_test_data</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_csv</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_normalization</span> <span class="o">=</span> <span class="n">Normalization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Fold.from_dfs">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.from_dfs">[docs]</a>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_dfs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Repository</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">test_data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-                 <span class="n">normalization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">is_normalization_applicable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fold</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a Fold from a pd.DataFrame.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            parent: The parent Repository.</span>
-<span class="sd">            k: The index of the fold to be created.</span>
-<span class="sd">            data: Training data.</span>
-<span class="sd">            test_data: Test data.</span>
-<span class="sd">            normalization: An optional normalization.csv file to use.</span>
-<span class="sd">            is_normalization_applicable: Whether normalization is applicable. ``False`` means that normalization whatsoever will be applied.</span>
-<span class="sd">        Returns: The Fold created.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">fold</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">init_mode</span><span class="o">=</span><span class="n">Repository</span><span class="o">.</span><span class="n">_InitMode</span><span class="o">.</span><span class="n">CREATE</span><span class="p">)</span>
-        <span class="n">fold</span><span class="o">.</span><span class="n">_meta</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">META</span> <span class="o">|</span> <span class="n">parent</span><span class="o">.</span><span class="n">meta</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="n">k</span><span class="p">}</span>
-        <span class="n">fold</span><span class="o">.</span><span class="n">_normalization</span> <span class="o">=</span> <span class="n">Normalization</span><span class="p">(</span><span class="n">fold</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">is_normalization_applicable</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">normalization</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">normalization</span><span class="p">),</span> <span class="n">fold</span><span class="o">.</span><span class="n">_normalization</span><span class="o">.</span><span class="n">csv</span><span class="p">)</span>
-        <span class="n">fold</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">fold</span><span class="o">.</span><span class="n">_csv</span><span class="p">,</span> <span class="n">fold</span><span class="o">.</span><span class="n">normalization</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-        <span class="n">fold</span><span class="o">.</span><span class="n">_test_data</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">fold</span><span class="o">.</span><span class="n">_test_csv</span><span class="p">,</span> <span class="n">fold</span><span class="o">.</span><span class="n">normalization</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">test_data</span><span class="p">))</span>
-        <span class="n">fold</span><span class="o">.</span><span class="n">_update_meta</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">fold</span></div>
+<div class="viewcode-block" id="Fold.Tables.NT.__call__">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.Tables.NT.__call__">[docs]</a>
+            <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">:</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot; Returns the Table named ``name``.&quot;&quot;&quot;</span>
+                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 </div>
 
 
+        <span class="n">options</span><span class="p">:</span> <span class="n">NT</span><span class="p">[</span><span class="n">MetaData</span><span class="p">]</span> <span class="o">=</span> <span class="n">NT</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="n">DesignMatrix</span><span class="o">.</span><span class="n">defaultOptions</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">DesignMatrix</span><span class="o">.</span><span class="n">defaultOptions</span><span class="p">)</span></div>
+
+
+    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+
+<div class="viewcode-block" id="Fold.create">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.create">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">train</span><span class="p">:</span> <span class="n">DesignMatrix</span><span class="p">,</span> <span class="n">test</span><span class="p">:</span> <span class="n">DesignMatrix</span> <span class="o">=</span> <span class="n">DesignMatrix</span><span class="o">.</span><span class="n">skeleton</span><span class="p">,</span>
+               <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">MetaData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path: The folder to store the ``Fold`` in. Need not exist, any existing ``train.csv`` or ``test.csv``</span>
+<span class="sd">                will be overwritten if it does.</span>
+<span class="sd">            train:</span>
+<span class="sd">            test:</span>
+<span class="sd">            **metadata:</span>
+
+<span class="sd">        Returns: ``self``.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+
+
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a ``DataBase`` in ``path``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **tables_and_meta: Data to update ``cls.Tables.table_defaults``, in the form ``names[i]=tables[i]``,</span>
+<span class="sd">                and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.</span>
+
+<span class="sd">        Returns: The ``DataBase`` created.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">test</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">defaultMetaData</span> <span class="o">|</span> <span class="n">metadata</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Repo">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repo.html#rc.data.models.Repo">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Repo</span><span class="p">(</span><span class="n">Fold</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; A Repository housing a ``Normalization``. and ``K`` ``Fold`` (s). &quot;&quot;&quot;</span>
+
+    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="n">Tables</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="s1">&#39;Normalization&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Counts the ``Fold`` s in ``self``. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fold</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Indexer returns the ``Fold`` (s) named or sliced by ``name``. &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fold</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Fold</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">fold</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]))[</span><span class="n">fold</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span> <span class="p">,</span> <span class="n">tables</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Indexer creates the ``Fold`` (s) named or sliced by ``name``.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tables</span>
+
+<div class="viewcode-block" id="Repo.__call__">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repo.html#rc.data.models.Repo.__call__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Optimize and update ``self``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **metadata: Optimization ``MetaData``.</span>
+
+<span class="sd">        Returns: ``self``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span><span class="p">(</span><span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</div>
+
+
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    defaultMetaData: MetaData = {&#39;options&#39;: Tables.options._asdict(),</span>
+<span class="sd">                                 &#39;split&#39;:&#39;|&#39;, &#39;Method&#39;: &#39;Mean and SD&#39;, &#39;Bounds&#39;: (0.0, 0.0)}</span>
+
+<span class="sd">    class Method(IntEnum):</span>
+<span class="sd">        Explicit = 0</span>
+<span class="sd">        Range = 1</span>
+<span class="sd">        Moments = 2</span>
+<span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 
                 </article>
@@ -1026,8 +614,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1047,7 +635,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.3.0.
     <br/>
   </p>
 </div>
@@ -1060,7 +648,8 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

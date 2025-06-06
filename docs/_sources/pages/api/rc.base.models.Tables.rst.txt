@@ -1,4 +1,4 @@
-rc.base.models.Tables
+﻿rc.base.models.Tables
 =====================
 
 .. currentmodule:: rc.base.models
@@ -12,12 +12,10 @@ rc.base.models.Tables
    .. autosummary::
    
       ~Tables.Path
-      ~Tables.as_dict
-      ~Tables.data
+      ~Tables.asDict
       ~Tables.ext
+      ~Tables.options
       ~Tables.path
-      ~Tables.readMetaData
-      ~Tables.writeMetaData
    
    
 

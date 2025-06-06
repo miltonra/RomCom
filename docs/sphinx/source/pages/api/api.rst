@@ -13,11 +13,6 @@ API
 
     base
     data
-    gpf
-    gpr
-    gsa
-    rom
-    run
 
 .. rubric:: Glossary
 

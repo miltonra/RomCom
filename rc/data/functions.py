@@ -27,7 +27,7 @@
 
 from __future__ import annotations
 
-from rc.base.definitions import *
+from rc.base import *
 import SALib.test_functions.Ishigami, SALib.test_functions.Sobol_G, SALib.test_functions.oakley2004
 
 

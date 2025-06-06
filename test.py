@@ -33,8 +33,8 @@ import argparse
 import tarfile
 import os
 
-from rc.base import *
-from rc.data.models import Repo
+from rc.data.models import *
+#from rc.data.models import Repo
 
 #: Parameters to generate data from test functions.
 # K: int = 2  #: The number of Folds in a new repository.
@@ -100,38 +100,22 @@ from rc.data.models import Repo
 
 
 class Toy(DataBase):
-    """ A DataBase with Meta. Base class for any model.
-
-    Attributes:
-        defaultMetaData: Class attribute. Must be overridden.
-    """
-
-    defaultMetaData: MetaData = {}
-
     class Tables(Tables):
-        """ Must be overridden by a subclass of DataBase."""
         class NT(NamedTuple):
-            """ Must be overridden by a subclass of NamedTuple.
-
-            Attributes:
-                NotImplemented: A DataBase.Table of
-            """
-            data: Table | Matrix = pd.DataFrame(data=[[0, 0, 0]],
-                                                columns=pd.MultiIndex.from_tuples((('Category', 'int'), ('Input', 'float'), ('Output', 'float'))))
-
-        read_options: dict[str, MetaData] = {'data': {'header': [0, 1]}}
-        write_options: dict[str, MetaData] = {'data': {}}
-
-    def __call__(self, **metadata: Any) -> Self:
-        self._tables(**metadata)
-        return self
-
-    def __init__(self, path: Store.Path, **data: Table | PD.DataFrame):
-        super().__init__(path, **data)
+            data: Table | Matrix | MetaData = pd.DataFrame(data=[[0, 0, 0]],
+                                                columns=pd.MultiIndex.from_tuples((('Input', 'float'), ('Category', 'int'), ('Output', 'float'))))
+            def __call__(self, field: str) -> Table | Matrix | MetaData:
+                return getattr(self, field)
+        options: NT[MetaData] = NT(data =  {'header': [0, 1]})
+    defaultMetaData: MetaData = {'options': Tables.options._asdict()}
 
 
 if __name__ == '__main__':
     # Run the code.
     root = Path('test')
-    # blimey = Toy.create(root / 'base')
-    Repo.from_csv(root / 'toy', root / 'toy.csv')
+    src = DesignMatrix(root / 'base' / 'data')
+    blimey = Fold.create(root / 'data', src)
+    print(blimey)
+    blimey = Fold(root / 'data')
+    print(blimey)
+    # Repo.from_csv(root / 'toy', root / 'toy.csv')

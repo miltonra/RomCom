@@ -100,7 +100,7 @@ class Collect:
             raise NotADirectoryError('dst is a Fold, which cannot contain other Folds, so cannot be Collected from.')
         folds = tuple((Fold(dst, k) for k in dst.folds))
         for sub_folder, extra_columns in self.folders.items():
-            folders = {fold.folder / sub_folder: {'fold': fold.meta['k'], 'N': fold.N} | extra_columns for fold in folds}
+            folders = {fold.folder / sub_folder: {'fold': fold.options['k'], 'N': fold.N} | extra_columns for fold in folds}
             Collect(self.csvs, folders, self.ignore_missing).from_folders(dst.folder / sub_folder, is_existing_deleted, **kwargs)
         return self
 

@@ -211,7 +211,7 @@ class GPR(DataBase):
             is_normalized: Whether the results are normalized or not.
         Returns: The distribution of y or f, as a dataframe with M+L+L columns of the form (X, Mean, Predictive Std).
         """
-        X_heading, Y_heading = self._fold.meta['data']['X_heading'], self._fold.meta['data']['Y_heading']
+        X_heading, Y_heading = self._fold.options['data']['X_heading'], self._fold.options['data']['Y_heading']
         prediction = self.predict(x, y_instead_of_f)
         result = pd.DataFrame(np.concatenate([x, prediction[0]], axis=1), columns=self._fold.test_data.pd.columns)
         predictive_std = result.loc[:, [Y_heading]].copy()
@@ -242,7 +242,7 @@ class GPR(DataBase):
         Returns: The test_data results as a DataTable backed by MOGP.test_result_csv.
         """
         result = Table(self.test_csv, self._fold.test_data.pd)
-        Y_heading = self._fold.meta['data']['Y_heading']
+        Y_heading = self._fold.options['data']['Y_heading']
         prediction = self.predict(self._fold.test_x.values)
         predictive_mean = result.pd.loc[:, [Y_heading]].copy().rename(columns={Y_heading: 'Mean'}, level=0)
         predictive_mean.iloc[:] = prediction[0]

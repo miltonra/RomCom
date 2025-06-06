@@ -14,11 +14,11 @@ rc.base.models.Table
       ~Table.Path
       ~Table.ext
       ~Table.np
+      ~Table.options
       ~Table.path
       ~Table.pd
       ~Table.tc
-      ~Table.readMetaData
-      ~Table.writeMetaData
+      ~Table.writeOptions
    
    
 

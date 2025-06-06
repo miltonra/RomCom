@@ -90,7 +90,7 @@ def gpr(name: str, repo: Repo, is_read: bool | None, is_covariant: bool | None, 
                                    is_calibrated, is_tested, **kwargs)
                 GPR.Data.copy(src_folder=repo.folder / nearest_name, dst_folder=repo.folder / full_name)
             return gpr(name, repo, True, is_covariant, is_isotropic, ignore_exceptions, kernel_parameters, likelihood_variance, is_calibrated, is_tested, **kwargs)
-        with contexts.Timer(f'fold.{repo.meta["k"]} {full_name} GPR'):
+        with contexts.Timer(f'fold.{repo.options["k"]} {full_name} GPR'):
             try:
                 if is_read:
                     gp = MOGP(full_name, repo, is_read, is_covariant, is_isotropic)
@@ -149,7 +149,7 @@ def gsa(name: str, repo: Repo, is_covariant: Optional[bool], is_isotropic: Optio
             names = gsa(name, repo, is_covariant, True, kinds, m, ignore_exceptions, is_error_calculated, **kwargs)
             return names + gsa(name, repo, is_covariant, False, kinds, m, ignore_exceptions, is_error_calculated, **kwargs)
         full_name = full_name + ('.i' if is_isotropic else '.a')
-        with contexts.Timer(f'fold.{repo.meta["k"]} {full_name} GSA'):
+        with contexts.Timer(f'fold.{repo.options["k"]} {full_name} GSA'):
             names = []
             try:
                 gp = MOGP(full_name, repo, is_read=True, is_covariant=is_covariant, is_isotropic=is_isotropic)

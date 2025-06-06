@@ -1,4 +1,4 @@
-rc.base.models.DataBase
+﻿rc.base.models.DataBase
 =======================
 
 .. currentmodule:: rc.base.models
@@ -12,12 +12,10 @@ rc.base.models.DataBase
    .. autosummary::
    
       ~DataBase.Path
-      ~DataBase.data
       ~DataBase.defaultMetaData
       ~DataBase.ext
       ~DataBase.meta
       ~DataBase.path
-      ~DataBase.tables
    
    
 

@@ -30,22 +30,12 @@ without adornment throughout RomCom."""
 
 
 from typing import *
-import pandas as pd
 import numpy as np
+import pandas as pd
 import torch as tc
 
 
 Zero: float = 1.0E-64  #: Tolerance when testing floats for equality.
-
-
-# def Int() -> Type:
-#     """ The ``dtype`` of ``int`` in :ref:`rc.run.context.Environment`. """
-#     return gf.config.default_int()
-#
-#
-# def Float() -> Type:
-#     """ The ``dtype`` of ``float`` in :ref:`rc.run.context.Environment`. """
-#     return gf.config.default_float()
 
 
 class PD:
@@ -106,7 +96,6 @@ class TC:
         BatchVector = Tensor: Vector ``.shape = (...,i,1)``.
         BatchCoVector = Tensor: CoVector ``.shape = (...,1,j)``.
         BatchMatrix = Tensor: Matrix ``.shape = (...,i,j)``.
-        Slice = Tensor: A pair of ``int`` s used for slicing a Tensor rank.
         NaN: ``tc.constant(np.NaN, dtype=Float())`` representing Not a Number.
     """
     DType = tc.dtype    #: :meta private:
@@ -119,7 +108,6 @@ class TC:
     BatchMatrix = Tensor     #: :meta private:
     Int: DType = tc.int32
     Float: DType = tc.float64
-    Slice = list[int, int]  #: :meta private:
     NaN: Tensor = tc.nan    #: :meta private:
     Zero: Tensor = tc.tensor(Zero, dtype = Float)  #: :meta private:
 
