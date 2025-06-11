@@ -49,8 +49,6 @@
     <link rel="icon" href="../../_static/MattLogo2.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="rc.data.models.n" href="rc.data.models.n.html" />
-    <link rel="prev" title="rc.data.functions.Vector" href="rc.data.functions.Vector.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.0" />
@@ -177,9 +175,9 @@
 </li>
 
 
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="api.html">
-    Modules
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
   </a>
 </li>
 
@@ -305,9 +303,9 @@
 </li>
 
 
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="api.html">
-    Modules
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
   </a>
 </li>
 
@@ -375,12 +373,6 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    
-    <li class="breadcrumb-item"><a href="api.html" class="nav-link">Modules</a></li>
-    
-    
-    <li class="breadcrumb-item"><a href="rc.data.html" class="nav-link">rc.data</a></li>
-    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">rc.data.models</span></li>
   </ul>
 </nav>
@@ -520,13 +512,13 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.data.models.DesignMatrix.skeleton">
-<span class="sig-name descname"><span class="pre">skeleton</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PD.DataFrame</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Empty</span> <span class="pre">DataFrame</span> <span class="pre">Columns:</span> <span class="pre">[(Input,</span> <span class="pre">float),</span> <span class="pre">(Category,</span> <span class="pre">int),</span> <span class="pre">(Column,</span> <span class="pre">str),</span> <span class="pre">(Output,</span> <span class="pre">func)]</span> <span class="pre">Index:</span> <span class="pre">[]</span></em><a class="headerlink" href="#rc.data.models.DesignMatrix.skeleton" title="Link to this definition">§</a></dt>
+<span class="sig-name descname"><span class="pre">skeleton</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Empty</span> <span class="pre">DataFrame</span> <span class="pre">Columns:</span> <span class="pre">[(Input,</span> <span class="pre">float),</span> <span class="pre">(Category,</span> <span class="pre">int),</span> <span class="pre">(Column,</span> <span class="pre">str),</span> <span class="pre">(Output,</span> <span class="pre">func)]</span> <span class="pre">Index:</span> <span class="pre">[]</span></em><a class="headerlink" href="#rc.data.models.DesignMatrix.skeleton" title="Link to this definition">§</a></dt>
 <dd><p>DataFrame of the minimal, skeleton <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.data.models.DesignMatrix.defaultOptions">
-<span class="sig-name descname"><span class="pre">defaultOptions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">MetaData</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'header':</span> <span class="pre">[0,</span> <span class="pre">1],</span> <span class="pre">'index_col':</span> <span class="pre">0}</span></em><a class="headerlink" href="#rc.data.models.DesignMatrix.defaultOptions" title="Link to this definition">§</a></dt>
+<span class="sig-name descname"><span class="pre">defaultOptions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'header':</span> <span class="pre">[0,</span> <span class="pre">1],</span> <span class="pre">'index_col':</span> <span class="pre">0}</span></em><a class="headerlink" href="#rc.data.models.DesignMatrix.defaultOptions" title="Link to this definition">§</a></dt>
 <dd><p>Default file handling <code class="docutils literal notranslate"><span class="pre">DesignMatrix.Options()</span></code>.</p>
 </dd></dl>
 
@@ -875,7 +867,7 @@ otherwise <code class="docutils literal notranslate"><span class="pre">data</spa
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.defaultOptions">
-<span class="sig-name descname"><span class="pre">defaultOptions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">MetaData</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'header':</span> <span class="pre">[0,</span> <span class="pre">1],</span> <span class="pre">'index_col':</span> <span class="pre">0}</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.defaultOptions" title="Link to this definition">§</a></dt>
+<span class="sig-name descname"><span class="pre">defaultOptions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'header':</span> <span class="pre">[0,</span> <span class="pre">1],</span> <span class="pre">'index_col':</span> <span class="pre">0}</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.defaultOptions" title="Link to this definition">§</a></dt>
 <dd><p>Default file handling <code class="docutils literal notranslate"><span class="pre">DesignMatrix.Options()</span></code>.</p>
 </dd></dl>
 
@@ -930,7 +922,7 @@ The setter updates via logical or <code class="docutils literal notranslate"><sp
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.skeleton">
-<span class="sig-name descname"><span class="pre">skeleton</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PD.DataFrame</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Empty</span> <span class="pre">DataFrame</span> <span class="pre">Columns:</span> <span class="pre">[(Input,</span> <span class="pre">float),</span> <span class="pre">(Category,</span> <span class="pre">int),</span> <span class="pre">(Column,</span> <span class="pre">str),</span> <span class="pre">(Output,</span> <span class="pre">func)]</span> <span class="pre">Index:</span> <span class="pre">[]</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.skeleton" title="Link to this definition">§</a></dt>
+<span class="sig-name descname"><span class="pre">skeleton</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Empty</span> <span class="pre">DataFrame</span> <span class="pre">Columns:</span> <span class="pre">[(Input,</span> <span class="pre">float),</span> <span class="pre">(Category,</span> <span class="pre">int),</span> <span class="pre">(Column,</span> <span class="pre">str),</span> <span class="pre">(Output,</span> <span class="pre">func)]</span> <span class="pre">Index:</span> <span class="pre">[]</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.skeleton" title="Link to this definition">§</a></dt>
 <dd><p>DataFrame of the minimal, skeleton <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code>.</p>
 </dd></dl>
 
@@ -1637,24 +1629,6 @@ Otherwise, <code class="docutils literal notranslate"><span class="pre">cls.ext<
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="rc.data.functions.Vector.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">rc.data.functions.Vector</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="rc.data.models.n.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">rc.data.models.n</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               

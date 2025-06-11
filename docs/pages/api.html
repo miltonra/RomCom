@@ -411,7 +411,24 @@
 </section>
 <section id="code-conventions">
 <h2>Code Conventions<a class="headerlink" href="#code-conventions" title="Link to this heading">§</a></h2>
+<p>When ordered alphabetically, the API hierarchy is best understood top-down, and used bottom-up.
+So the <code class="docutils literal notranslate"><span class="pre">base</span></code> module is fundamental to everything, but the <code class="docutils literal notranslate"><span class="pre">user</span></code> module is the best interface
+to achieve most tasks.
+The code dependency structure is naturally top-down alphabetically.</p>
+<p>These observations apply within submodules too, so the <code class="docutils literal notranslate"><span class="pre">data</span></code> module depends only on <code class="docutils literal notranslate"><span class="pre">base</span></code>,
+and consists of three submodules:
+<code class="docutils literal notranslate"><span class="pre">data.functions</span></code> which is independent of <code class="docutils literal notranslate"><span class="pre">data.models</span></code> which is independent of <code class="docutils literal notranslate"><span class="pre">data.samples</span></code>.</p>
 <dl class="simple glossary">
+<dt id="term-ClassNames-TypeNames">ClassNames/TypeNames<a class="headerlink" href="#term-ClassNames-TypeNames" title="Link to this term">§</a></dt><dd><p>Class and type names are UpperCamelCase.</p>
+</dd>
+<dt id="term-Constants-constants">Constants/constants<a class="headerlink" href="#term-Constants-constants" title="Link to this term">§</a></dt><dd><p>Constancy is determined by scope, not name. Any Class or module attribute is a constant,
+which must not be modified.
+An UpperCamelCase constant refers to a Class/Type, a lowerCamelCase constant does not.</p>
+</dd>
+<dt id="term-functionNames-variableNames">functionNames/variableNames<a class="headerlink" href="#term-functionNames-variableNames" title="Link to this term">§</a></dt><dd><p>Function and variable names are lowerCamelCase.</p>
+</dd>
+<dt id="term-packages-modules">packages/modules<a class="headerlink" href="#term-packages-modules" title="Link to this term">§</a></dt><dd><p>Package and module names are lowercase words or abbreviations.</p>
+</dd>
 </dl>
 </section>
 </section>

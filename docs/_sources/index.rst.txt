@@ -68,11 +68,16 @@ Initially, it is recommended to read :doc:`pages/intro`, then :doc:`pages/usage`
 Glossary
 ----------------
 
+Following Python convention, Logical OR is written as |
+This should not be confused with the probablistic conditioning operator │,
+which is used to delimit categories in a semantically coherent and instructive way. Furthermore, these semantics
+dictate function in RomCom file generation, so a character mimicking mathematical convention which is
+UTF-8 but non-ASCII is used. User data may contain ``|`` or any other character, except ``│``.
+
 .. glossary::
-    :sorted:
 
     folder
-      directory
+      directory.
 
     RMSE
       Root Mean Square Error.
@@ -80,17 +85,12 @@ Glossary
     SD
       Standard Deviation.
 
-    `` | ``
-      Logical or.
+    ``pd`` | ``Pd``
+      The pandas package ``pandas``.
 
-    ``PD | pd``
-      ``pandas``.
+    ``np`` | ``Np``
+      The NumPy package ``numpy``.
 
-    ``NP | np``
-      ``numpy``.
+    ``tc`` | ``Tc``
+      The PyTorch package ``torch``.
 
-    ``TF | tf``
-      ``tensorflow``.
-
-    ``GP | gf``
-      ``gpflow``.

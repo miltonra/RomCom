@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath('../'))
 from rc.base import *
 
 here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/source/
-scope = Path('C:/Users/rober/Documents/Research/RomCom/docs')
+scope = Path('C:/Users/rober/Documents/Research/RomCom/bin/docs')
 
 
 def empty(path: Path, preserve: List[str]):
@@ -25,7 +25,7 @@ def empty(path: Path, preserve: List[str]):
             if filename in here.parents:
                 raise UserError(f'Cannot delete {filename} as it contains the clean.py script.')
             if not input(f'Press return to delete {filename}'):
-                Store.remove(filename)
+                Store.delete(filename)
             else:
                 raise UserError('User aborted cleanup.')
 

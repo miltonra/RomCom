@@ -62,7 +62,7 @@ class DesignMatrix(Table):
         read: MetaData =  {'index_col': 0, 'header': [0, 1]}  # Read options passed to ``pd.read_csv``.
         write: MetaData =  {}   # Write options passed to ``pd.DataFrame.to_csv``.
 
-    skeleton: PD.DataFrame = pd.DataFrame(columns=pd.MultiIndex.from_tuples(
+    skeleton: Pd.DataFrame = pd.DataFrame(columns=pd.MultiIndex.from_tuples(
                                     (('Input', 'float'),('Category', 'int'),
                                      ('Column', 'str'), ('Output', 'func'))))
     """ DataFrame of the minimal, skeleton ``DesignMatrix``."""
