@@ -175,7 +175,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../pages/api/api.html">
+  <a class="nav-link nav-internal" href="../../../pages/api.html">
     API
   </a>
 </li>
@@ -301,7 +301,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../pages/api/api.html">
+  <a class="nav-link nav-internal" href="../../../pages/api.html">
     API
   </a>
 </li>
@@ -432,7 +432,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">DOE</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Sampling methods for inputs.&quot;&quot;&quot;</span>
 
-    <span class="n">Method</span><span class="p">:</span> <span class="n">Type</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]</span>     <span class="c1">#: Function signature of a DOE method.</span>
+    <span class="n">Method</span><span class="p">:</span> <span class="n">Type</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]</span>     <span class="c1">#: Function signature of a DOE method.</span>
 
 <div class="viewcode-block" id="DOE.latin_hypercube">
 <a class="viewcode-back" href="../../../pages/api/rc.data.samples.DOE.html#rc.data.samples.DOE.latin_hypercube">[docs]</a>
@@ -472,7 +472,7 @@
 <div class="viewcode-block" id="DOE.space_filling_test">
 <a class="viewcode-back" href="../../../pages/api/rc.data.samples.DOE.html#rc.data.samples.DOE.space_filling_test">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">space_filling_test</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">space_filling_test</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Test whether ``X`` is a space-filling design matrix,</span>
 <span class="sd">        by finding the distance to the nearest point in ``X`` for ``o`` test points.</span>
 
@@ -507,7 +507,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; An artificially generated (co)variance matrix for GaussianNoise, with a useful labelling scheme.&quot;&quot;&quot;</span>
 
         <span class="nd">@property</span>
-        <span class="k">def</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot; Variance as an (L,L) covariance matrix, suitable for constructing GaussianNoise.&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span>
 
@@ -520,7 +520,7 @@
 
 <div class="viewcode-block" id="GaussianNoise.Variance.__call__">
 <a class="viewcode-back" href="../../../pages/api/rc.data.samples.GaussianNoise.html#rc.data.samples.GaussianNoise.Variance.__call__">[docs]</a>
-        <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot; Variance as an (L,L) covariance matrix, suitable for constructing GaussianNoise.</span>
 <span class="sd">            The constructor generates the matrix (perhaps stochastically),</span>
 <span class="sd">            so repeated calls to any methods produce identical Variance.&quot;&quot;&quot;</span>
@@ -560,12 +560,12 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variance</span>
 
 <div class="viewcode-block" id="GaussianNoise.__call__">
 <a class="viewcode-back" href="../../../pages/api/rc.data.samples.GaussianNoise.html#rc.data.samples.GaussianNoise.__call__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo</span><span class="p">:</span> <span class="n">Repo</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo</span><span class="p">:</span> <span class="n">Repo</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generate N samples of L-dimensional Gaussian noise, sampled from :math:`N[0,self.variance]`.</span>
 <span class="sd">        The constructor generates the sample,</span>
 <span class="sd">        so repeated calls to any method always refer to the same GaussianNoise.</span>
@@ -583,7 +583,7 @@
 
 <div class="viewcode-block" id="GaussianNoise.__init__">
 <a class="viewcode-back" href="../../../pages/api/rc.data.samples.GaussianNoise.html#rc.data.samples.GaussianNoise.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">variance</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">MatrixLike</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">variance</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">MatrixLike</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Generate N samples of L-dimensional Gaussian noise, sampled from :math:`\\mathsf{N}[0,variance]`.</span>
 
 <span class="sd">        Args:</span>
@@ -636,7 +636,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">function_vector</span><span class="p">:</span> <span class="n">functions</span><span class="o">.</span><span class="n">Vector</span><span class="p">,</span> <span class="n">noise</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">origin_meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Repo</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">function_vector</span><span class="p">:</span> <span class="n">functions</span><span class="o">.</span><span class="n">Vector</span><span class="p">,</span> <span class="n">noise</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">origin_meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Repo</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Construct Repo housing the sample design matrix ``(X, f(X) + noise)``.</span>
 
 <span class="sd">        Args:</span>
@@ -686,7 +686,7 @@
 
 <div class="viewcode-block" id="permute_axes">
 <a class="viewcode-back" href="../../../pages/api/rc.data.samples.permute_axes.html#rc.data.samples.permute_axes">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">permute_axes</span><span class="p">(</span><span class="n">new_order</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">permute_axes</span><span class="p">(</span><span class="n">new_order</span><span class="p">:</span> <span class="n">Sequence</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Provide a rotation matrix which reorders axes. Most use cases are to re-order input axes according to GSA.</span>
 
 <span class="sd">    Args:</span>

@@ -7,12 +7,14 @@ RomCom User Guide
 
 .. danger:: This documentation is currently under construction
 
+
 Welcome
 ---------------
 
 The RomCom Python package performs Reduction of Order by Marginalization (:term:`ROM`) Computations via Global Sensitivity Analysis (:term:`GSA`)
 using Gaussian Process Regression (:term:`GPR`). The mathematics behind this software is covered in some detail in a
 `paper currently under peer review for publication <https://github.com/miltonra/RomDoc/blob/dev/Sobol%20Matrices/Sobol%20Matrices.pdf>`_.
+
 
 .. glossary::
 
@@ -35,6 +37,7 @@ using Gaussian Process Regression (:term:`GPR`). The mathematics behind this sof
         the input basis is rotated to align with the eigenvectors of the squared Jacobian vector.
         In ROM, the input basis is rotated to maximise the Sobol' index of the first :math:`m` inputs.
 
+
 Installation
 ---------------
 
@@ -56,8 +59,38 @@ Initially, it is recommended to read :doc:`pages/intro`, then :doc:`pages/usage`
     pages/gpr
     pages/gsa
     pages/rom
-    pages/api/api
+    pages/api
     genindex
 
     :ref: `genindex`
 
+
+Glossary
+----------------
+
+.. glossary::
+    :sorted:
+
+    folder
+      directory
+
+    RMSE
+      Root Mean Square Error.
+
+    SD
+      Standard Deviation.
+
+    `` | ``
+      Logical or.
+
+    ``PD | pd``
+      ``pandas``.
+
+    ``NP | np``
+      ``numpy``.
+
+    ``TF | tf``
+      ``tensorflow``.
+
+    ``GP | gf``
+      ``gpflow``.

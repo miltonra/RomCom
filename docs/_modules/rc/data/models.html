@@ -175,7 +175,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../pages/api/api.html">
+  <a class="nav-link nav-internal" href="../../../pages/api.html">
     API
   </a>
 </li>
@@ -301,7 +301,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../pages/api/api.html">
+  <a class="nav-link nav-internal" href="../../../pages/api.html">
     API
   </a>
 </li>
@@ -447,144 +447,234 @@
 <div class="viewcode-block" id="DesignMatrix">
 <a class="viewcode-back" href="../../../pages/api/rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DesignMatrix</span><span class="p">(</span><span class="n">Table</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Template for a design matrix. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; The familiar user format of ``DesignMatrix`` which is fat (has many columns). &quot;&quot;&quot;</span>
+
+    <span class="n">Label</span> <span class="o">=</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Class attribute aliasing acceptable Types for column (or index) labels. &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DesignMatrix.Options">
 <a class="viewcode-back" href="../../../pages/api/rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix.Options">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Options</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 
         <span class="n">read</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span>  <span class="p">{</span><span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>  <span class="c1"># Read options passed to ``pd.read_csv``.</span>
-        <span class="n">write</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span>  <span class="p">{}</span>   <span class="c1"># Write options passed to ``pd.DataFrame.to_csv``.</span>
-
-<div class="viewcode-block" id="DesignMatrix.Options.__call__">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix.Options.__call__">[docs]</a>
-        <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot; Returns the Table named ``name``.&quot;&quot;&quot;</span>
-            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
-</div>
+        <span class="n">write</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span>  <span class="p">{}</span>   <span class="c1"># Write options passed to ``pd.DataFrame.to_csv``.</span></div>
 
 
     <span class="n">skeleton</span><span class="p">:</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span>
-                                    <span class="p">((</span><span class="s1">&#39;Input&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">),(</span><span class="s1">&#39;Category&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Output&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">))))</span>
+                                    <span class="p">((</span><span class="s1">&#39;Input&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">),(</span><span class="s1">&#39;Category&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">),</span>
+                                     <span class="p">(</span><span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="s1">&#39;str&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Output&#39;</span><span class="p">,</span> <span class="s1">&#39;func&#39;</span><span class="p">))))</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; DataFrame of the minimal, skeleton ``DesignMatrix``.&quot;&quot;&quot;</span>
 
     <span class="n">defaultOptions</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="n">Options</span><span class="p">()</span><span class="o">.</span><span class="n">read</span> <span class="o">|</span> <span class="n">Options</span><span class="p">()</span><span class="o">.</span><span class="n">write</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Default file handling ``DesignMatrix.Options()``.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Default file handling ``DesignMatrix.Options()``.&quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">headers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">match</span> <span class="n">label</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">case</span> <span class="s1">&#39;x&#39;</span> <span class="o">|</span> <span class="s1">&#39;input&#39;</span> <span class="o">|</span> <span class="s1">&#39;continuous&#39;</span> <span class="o">|</span> <span class="s1">&#39;float&#39;</span> <span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;x&#39;</span>
+            <span class="k">case</span> <span class="s1">&#39;i&#39;</span> <span class="o">|</span> <span class="s1">&#39;category&#39;</span> <span class="o">|</span> <span class="s1">&#39;discrete&#39;</span> <span class="o">|</span> <span class="s1">&#39;int&#39;</span> <span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;i&#39;</span>
+            <span class="k">case</span> <span class="s1">&#39;l&#39;</span> <span class="o">|</span> <span class="s1">&#39;column&#39;</span> <span class="o">|</span> <span class="s1">&#39;label&#39;</span> <span class="o">|</span> <span class="s1">&#39;str&#39;</span> <span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;l&#39;</span>
+            <span class="k">case</span> <span class="s1">&#39;y&#39;</span> <span class="o">|</span> <span class="s1">&#39;output&#39;</span> <span class="o">|</span> <span class="s1">&#39;map&#39;</span> <span class="o">|</span> <span class="s1">&#39;func&#39;</span> <span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;y&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;~&#39;</span>
+
+<div class="viewcode-block" id="DesignMatrix.create">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix.create">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">NormalDesignMatrix</span><span class="p">,</span> <span class="n">columns_in_l</span><span class="p">:</span> <span class="n">Label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Reformat the ``NormalDesignMatrix`` in ``src`` as a ``Self(DesignMatrix)``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path: The ``Path`` to store the ``DesignMatrix`` created, overwritten if existing.</span>
+<span class="sd">            src: The ``NormalDesignMatrix`` to reformat.</span>
+
+<span class="sd">        Returns: The ``NormalDesignMatrix`` created at ``dst``.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="DesignMatrix.copy">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix.copy">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NormalDesignMatrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Reformat this ``DesignMatrix`` to a ``NormalDesignMatrix``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            src: The ``DesignMatrix`` to reformat.</span>
+<span class="sd">            dst: Optional ``Path`` to the ``NormalDesignMatrix``.</span>
+<span class="sd">                Defaults to ``&#39;&#39;``, which overwrites ``src``.</span>
+
+<span class="sd">        Returns: The ``NormalDesignMatrix`` created at ``dst``.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+</div>
 
 
 
-<div class="viewcode-block" id="Fold">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Fold</span><span class="p">(</span><span class="n">DataBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; A fold of training and test data. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NormalDesignMatrix">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.NormalDesignMatrix.html#rc.data.models.NormalDesignMatrix">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NormalDesignMatrix</span><span class="p">(</span><span class="n">DesignMatrix</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; The internal format of ``DesignMatrix``, which is thin (has few columns). &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Fold.Tables">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.Tables">[docs]</a>
+<div class="viewcode-block" id="NormalDesignMatrix.Options">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.NormalDesignMatrix.html#rc.data.models.NormalDesignMatrix.Options">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Options</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+
+        <span class="n">read</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span>  <span class="p">{</span><span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>  <span class="c1"># Read options passed to ``pd.read_csv``.</span>
+        <span class="n">write</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span>  <span class="p">{}</span>   <span class="c1"># Write options passed to ``pd.DataFrame.to_csv``.</span></div>
+
+
+<div class="viewcode-block" id="NormalDesignMatrix.create">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.NormalDesignMatrix.html#rc.data.models.NormalDesignMatrix.create">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">NormalDesignMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">src</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NormalDesignMatrix.copy">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.NormalDesignMatrix.html#rc.data.models.NormalDesignMatrix.copy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NormalDesignMatrix</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">src</span><span class="p">)</span> <span class="k">if</span> <span class="n">dst</span> <span class="k">else</span> <span class="n">src</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Normalization">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Normalization</span><span class="p">(</span><span class="n">DataBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Normalization of a Repo. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Normalization.Tables">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization.Tables">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Tables</span><span class="p">(</span><span class="n">Tables</span><span class="p">):</span>
 
-<div class="viewcode-block" id="Fold.Tables.NT">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.Tables.NT">[docs]</a>
+<div class="viewcode-block" id="Normalization.Tables.NT">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization.Tables.NT">[docs]</a>
         <span class="k">class</span><span class="w"> </span><span class="nc">NT</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 
-            <span class="n">train</span><span class="p">:</span> <span class="n">DesignMatrix</span> <span class="o">|</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="n">DesignMatrix</span><span class="o">.</span><span class="n">skeleton</span>
-            <span class="n">test</span><span class="p">:</span> <span class="n">DesignMatrix</span> <span class="o">|</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="n">DesignMatrix</span><span class="o">.</span><span class="n">skeleton</span>
+            <span class="n">data</span><span class="p">:</span> <span class="n">DesignMatrix</span> <span class="o">|</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="n">DesignMatrix</span><span class="o">.</span><span class="n">skeleton</span>
 
-<div class="viewcode-block" id="Fold.Tables.NT.__call__">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.Tables.NT.__call__">[docs]</a>
+<div class="viewcode-block" id="Normalization.Tables.NT.__call__">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization.Tables.NT.__call__">[docs]</a>
             <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">:</span>
 <span class="w">                </span><span class="sd">&quot;&quot;&quot; Returns the Table named ``name``.&quot;&quot;&quot;</span>
                 <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 </div>
 
 
-        <span class="n">options</span><span class="p">:</span> <span class="n">NT</span><span class="p">[</span><span class="n">MetaData</span><span class="p">]</span> <span class="o">=</span> <span class="n">NT</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="n">DesignMatrix</span><span class="o">.</span><span class="n">defaultOptions</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">DesignMatrix</span><span class="o">.</span><span class="n">defaultOptions</span><span class="p">)</span></div>
+        <span class="n">options</span><span class="p">:</span> <span class="n">NT</span><span class="p">[</span><span class="n">MetaData</span><span class="p">]</span> <span class="o">=</span> <span class="n">NT</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">DesignMatrix</span><span class="o">.</span><span class="n">defaultOptions</span><span class="p">)</span></div>
 
 
-    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;category delimiter&#39;</span> <span class="p">:</span> <span class="s1">&#39;│&#39;</span><span class="p">}</span>
 
-<div class="viewcode-block" id="Fold.create">
-<a class="viewcode-back" href="../../../pages/api/rc.data.models.Fold.html#rc.data.models.Fold.create">[docs]</a>
+<div class="viewcode-block" id="Normalization.__call__">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization.__call__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Optimize and update ``self``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **meta: Optimization ``MetaData``.</span>
+
+<span class="sd">        Returns: ``self``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span><span class="p">(</span><span class="o">**</span><span class="n">meta</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="Normalization.__init__">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="o">**</span><span class="n">tables</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">tables</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Normalization.create">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Normalization.html#rc.data.models.Normalization.create">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">train</span><span class="p">:</span> <span class="n">DesignMatrix</span><span class="p">,</span> <span class="n">test</span><span class="p">:</span> <span class="n">DesignMatrix</span> <span class="o">=</span> <span class="n">DesignMatrix</span><span class="o">.</span><span class="n">skeleton</span><span class="p">,</span>
-               <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">MetaData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DesignMatrix</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a ``Normalization`` in ``path``.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            path: The folder to store the ``Fold`` in. Need not exist, any existing ``train.csv`` or ``test.csv``</span>
-<span class="sd">                will be overwritten if it does.</span>
-<span class="sd">            train:</span>
-<span class="sd">            test:</span>
-<span class="sd">            **metadata:</span>
+<span class="sd">            path: The folder to store the ``Normalization`` in. Need not exist,</span>
+<span class="sd">                any existing ``Tables`` will be overwritten if it does.</span>
+<span class="sd">            **meta: Optimization ``MetaData``.</span>
 
-<span class="sd">        Returns: ``self``.</span>
-
+<span class="sd">        Returns: The ``Normalization`` created.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-
-
-
-
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a ``DataBase`` in ``path``.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            **tables_and_meta: Data to update ``cls.Tables.table_defaults``, in the form ``names[i]=tables[i]``,</span>
-<span class="sd">                and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.</span>
-
-<span class="sd">        Returns: The ``DataBase`` created.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">test</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">defaultMetaData</span> <span class="o">|</span> <span class="n">metadata</span><span class="p">)</span></div>
+        <span class="n">Meta</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_meta_in</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="o">**</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">defaultMetaData</span> <span class="o">|</span> <span class="n">meta</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">)</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="Repo">
 <a class="viewcode-back" href="../../../pages/api/rc.data.models.Repo.html#rc.data.models.Repo">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Repo</span><span class="p">(</span><span class="n">Fold</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; A Repository housing a ``Normalization``. and ``K`` ``Fold`` (s). &quot;&quot;&quot;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Repo</span><span class="p">(</span><span class="n">DataBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; A Repository of data and models. Informally a dataset and all the things we&#39;d like to do to it. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Repo.Tables">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repo.html#rc.data.models.Repo.Tables">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Tables</span><span class="p">(</span><span class="n">Tables</span><span class="p">):</span>
 
-    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="n">Tables</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="s1">&#39;Normalization&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<div class="viewcode-block" id="Repo.Tables.NT">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repo.html#rc.data.models.Repo.Tables.NT">[docs]</a>
+        <span class="k">class</span><span class="w"> </span><span class="nc">NT</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+
+            <span class="n">data</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Repo.Tables.NT.__call__">
+<a class="viewcode-back" href="../../../pages/api/rc.data.models.Repo.html#rc.data.models.Repo.Tables.NT.__call__">[docs]</a>
+            <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">:</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot; Returns the Table named ``name``.&quot;&quot;&quot;</span>
+                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+</div>
+
+
+        <span class="n">options</span><span class="p">:</span> <span class="n">NT</span><span class="p">[</span><span class="n">MetaData</span><span class="p">]</span> <span class="o">=</span> <span class="n">NT</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">option</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">default</span> <span class="ow">in</span> <span class="n">Table</span><span class="o">.</span><span class="n">Options</span><span class="o">.</span><span class="n">_field_defaults</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                                           <span class="k">for</span> <span class="n">option</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span></div>
+
+
+    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The current fold. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fold</span>
+
+    <span class="nd">@fold</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The current fold. A negative value refers test data in the fold numbered ``abs(value)``.</span>
+<span class="sd">            In case ``abs(value)`` is 0 or greater ``len(self)-1`` the current fold is ``self``. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fold</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Counts the ``Fold`` s in ``self``. &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; 1 + K proper folds in ``self``. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fold</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Indexer returns the ``Fold`` (s) named or sliced by ``name``. &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Indexer returns the ``Path`` (s) to the Folds indexed or sliced by ``fold``. &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fold</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Fold</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">fold</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>  <span class="k">if</span> <span class="n">fold</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">fold</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]))[</span><span class="n">fold</span><span class="p">]</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">((</span><span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))))[</span><span class="n">fold</span><span class="p">]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span> <span class="p">,</span> <span class="n">tables</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">slice</span> <span class="p">,</span> <span class="n">tables</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Indexer creates the ``Fold`` (s) named or sliced by ``name``.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tables</span>
 
 <div class="viewcode-block" id="Repo.__call__">
 <a class="viewcode-back" href="../../../pages/api/rc.data.models.Repo.html#rc.data.models.Repo.__call__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Optimize and update ``self``.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            **metadata: Optimization ``MetaData``.</span>
+<span class="sd">            **meta: Optimization ``MetaData``.</span>
 
 <span class="sd">        Returns: ``self``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span><span class="p">(</span><span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span><span class="p">(</span><span class="o">**</span><span class="n">meta</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 </div>
 
 
-
-
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    defaultMetaData: MetaData = {&#39;options&#39;: Tables.options._asdict(),</span>
-<span class="sd">                                 &#39;split&#39;:&#39;|&#39;, &#39;Method&#39;: &#39;Mean and SD&#39;, &#39;Bounds&#39;: (0.0, 0.0)}</span>
-
-<span class="sd">    class Method(IntEnum):</span>
-<span class="sd">        Explicit = 0</span>
-<span class="sd">        Range = 1</span>
-<span class="sd">        Moments = 2</span>
-<span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 
                 </article>

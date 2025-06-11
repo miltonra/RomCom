@@ -51,7 +51,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="rc.data.samples.PCA" href="rc.data.samples.PCA.html" />
-    <link rel="prev" title="rc.data.models.Fold" href="rc.data.models.Fold.html" />
+    <link rel="prev" title="rc.data.models.Repo" href="rc.data.models.Repo.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.0" />
@@ -180,7 +180,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
-    API
+    Modules
   </a>
 </li>
 
@@ -308,7 +308,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="api.html">
-    API
+    Modules
   </a>
 </li>
 
@@ -377,7 +377,7 @@
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="api.html" class="nav-link">API</a></li>
+    <li class="breadcrumb-item"><a href="api.html" class="nav-link">Modules</a></li>
     
     
     <li class="breadcrumb-item"><a href="rc.data.html" class="nav-link">rc.data</a></li>
@@ -405,10 +405,10 @@
 <p class="rubric">Functions</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.samples.PCA" title="rc.data.samples.PCA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCA</span></code></a>(root, csv)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.data.samples.PCA.html#rc.data.samples.PCA" title="rc.data.samples.PCA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCA</span></code></a>(root, csv)</p></td>
 <td><p>Perform Principal Component Analysis on a Repo.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.samples.permute_axes" title="rc.data.samples.permute_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">permute_axes</span></code></a>(new_order)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rc.data.samples.permute_axes.html#rc.data.samples.permute_axes" title="rc.data.samples.permute_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">permute_axes</span></code></a>(new_order)</p></td>
 <td><p>Provide a rotation matrix which reorders axes.</p></td>
 </tr>
 </tbody>
@@ -417,13 +417,13 @@
 <p class="rubric">Classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.samples.DOE" title="rc.data.samples.DOE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DOE</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.data.samples.DOE.html#rc.data.samples.DOE" title="rc.data.samples.DOE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DOE</span></code></a></p></td>
 <td><p>Sampling methods for inputs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.samples.Function" title="rc.data.samples.Function"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Function</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="rc.data.samples.Function.html#rc.data.samples.Function" title="rc.data.samples.Function"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Function</span></code></a></p></td>
 <td><p>Sample a <code class="docutils literal notranslate"><span class="pre">run.function.Vector</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.samples.GaussianNoise" title="rc.data.samples.GaussianNoise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianNoise</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rc.data.samples.GaussianNoise.html#rc.data.samples.GaussianNoise" title="rc.data.samples.GaussianNoise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianNoise</span></code></a></p></td>
 <td><p>Sample multivariate, zero-mean Gaussian noise.</p></td>
 </tr>
 </tbody>
@@ -561,10 +561,10 @@ The constructor generates the sample,
 so repeated calls to any method always refer to the same GaussianNoise.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>repo</strong> (<em>Repo</em><em> | </em><em>None</em>) – An optional Repo which will have GaussianNoise added to Y in data.csv.</p>
+<dd class="field-odd"><p><strong>repo</strong> (<a class="reference internal" href="rc.data.models.Repo.html#rc.data.models.Repo" title="rc.data.models.Repo"><em>Repo</em></a><em> | </em><em>None</em>) – An optional Repo which will have GaussianNoise added to Y in data.csv.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p>Np.Matrix</p>
 </dd>
 </dl>
 <p>Returns: An (N,L) noise matrix, where (L,L) is the shape of <cite>self._variance</cite>.</p>
@@ -578,7 +578,7 @@ so repeated calls to any method always refer to the same GaussianNoise.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>N</strong> (<em>int</em>) – Number of samples (rows).</p></li>
-<li><p><strong>variance</strong> (<em>NP.MatrixLike</em>) – (L,L) covariance matrix for homoskedastic noise.</p></li>
+<li><p><strong>variance</strong> (<em>Np.MatrixLike</em>) – (L,L) covariance matrix for homoskedastic noise.</p></li>
 </ul>
 </dd>
 </dl>
@@ -593,7 +593,7 @@ so repeated calls to any method always refer to the same GaussianNoise.</p>
 <p>Sample a <code class="docutils literal notranslate"><span class="pre">run.function.Vector</span></code>.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="rc.data.samples.Function.repo">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Repo</span></em><a class="headerlink" href="#rc.data.samples.Function.repo" title="Link to this definition">§</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="rc.data.models.Repo.html#rc.data.models.Repo" title="rc.data.models.Repo"><span class="pre">Repo</span></a></em><a class="headerlink" href="#rc.data.samples.Function.repo" title="Link to this definition">§</a></dt>
 <dd><p>The Repo containing the Function sample.</p>
 </dd></dl>
 
@@ -621,7 +621,7 @@ so repeated calls to any method always refer to the same GaussianNoise.</p>
 <dd><p>Create an un-rotated Fold in the Repo, with index <code class="docutils literal notranslate"><span class="pre">K+1</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#rc.data.samples.Function" title="rc.data.samples.Function"><em>Function</em></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="rc.data.samples.Function.html#rc.data.samples.Function" title="rc.data.samples.Function"><em>Function</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -635,14 +635,14 @@ so repeated calls to any method always refer to the same GaussianNoise.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>root</strong> (<em>Path</em><em> | </em><em>str</em>) – The folder under which the Repo will sit.</p></li>
 <li><p><strong>doe</strong> (<em>Callable</em><em>[</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>ndarray</em><em>]</em>) – An experimental design for the sample inputs.</p></li>
-<li><p><strong>function_vector</strong> (<a class="reference internal" href="rc.data.functions.html#rc.data.functions.Vector" title="rc.data.functions.Vector"><em>Vector</em></a>) – A vector function.</p></li>
+<li><p><strong>function_vector</strong> (<a class="reference internal" href="rc.data.functions.Vector.html#rc.data.functions.Vector" title="rc.data.functions.Vector"><em>Vector</em></a>) – A vector function.</p></li>
 <li><p><strong>N</strong> (<em>int</em>) – The number of samples (rows) in the sample.</p></li>
 <li><p><strong>M</strong> (<em>int</em>) – The input dimensionality (columns).</p></li>
 <li><p><strong>noise_magnitude</strong> – The (L,L) homoskedastic <code class="docutils literal notranslate"><span class="pre">GaussianNoise.Variance</span></code>.</p></li>
 <li><p><strong>ext</strong> (<em>str</em><em> | </em><em>None</em>) – Unless None, the repo name is suffixed by <code class="docutils literal notranslate"><span class="pre">.[ext]</span></code>.</p></li>
 <li><p><strong>overwrite_existing</strong> (<em>bool</em>) – Whether to overwrite an existing Repo.</p></li>
 <li><p><strong>**kwargs</strong> (<em>Any</em>) – MetaData passed straight to doe.</p></li>
-<li><p><strong>noise_variance</strong> (<a class="reference internal" href="#rc.data.samples.GaussianNoise.Variance" title="rc.data.samples.GaussianNoise.Variance"><em>Variance</em></a>)</p></li>
+<li><p><strong>noise_variance</strong> (<a class="reference internal" href="rc.data.samples.GaussianNoise.html#rc.data.samples.GaussianNoise.Variance" title="rc.data.samples.GaussianNoise.Variance"><em>Variance</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -697,12 +697,12 @@ so repeated calls to any method always refer to the same GaussianNoise.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="rc.data.models.Fold.html"
+       href="rc.data.models.Repo.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">rc.data.models.Fold</p>
+        <p class="prev-next-title">rc.data.models.Repo</p>
       </div>
     </a>
     <a class="right-next"
@@ -789,7 +789,7 @@ so repeated calls to any method always refer to the same GaussianNoise.</p>
 
   <p class="copyright">
     
-      © Copyright 2024, Robert A. Milton.
+      © Copyright 2025, Robert A. Milton.
       <br/>
     
   </p>

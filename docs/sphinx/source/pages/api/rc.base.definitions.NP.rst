@@ -1,9 +1,9 @@
-rc.base.definitions.NP
+rc.base.definitions.Np
 ======================
 
 .. currentmodule:: rc.base.definitions
 
-.. autoclass:: NP
+.. autoclass:: Np
 
    
    
@@ -14,8 +14,8 @@ rc.base.definitions.NP
    .. rubric:: Methods
 
    .. autosummary::
-      ~NP.__call__
+      ~Np.__call__
    
-      ~NP.__init__
+      ~Np.__init__
    
    

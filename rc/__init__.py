@@ -23,7 +23,7 @@
 #  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-""" The RomCom library """
+""" **The RomCom library exists in Python code as the** ``rc`` **package.** """
 
 from . import base
 from . import data

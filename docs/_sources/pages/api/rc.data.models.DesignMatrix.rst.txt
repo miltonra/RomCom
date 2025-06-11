@@ -11,6 +11,7 @@ rc.data.models.DesignMatrix
 
    .. autosummary::
    
+      ~DesignMatrix.Label
       ~DesignMatrix.Path
       ~DesignMatrix.defaultOptions
       ~DesignMatrix.ext
@@ -36,5 +37,7 @@ rc.data.models.DesignMatrix
       ~DesignMatrix.copy
       ~DesignMatrix.create
       ~DesignMatrix.delete
+      ~DesignMatrix.headers
+      ~DesignMatrix.mkdir
    
    

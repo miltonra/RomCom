@@ -37,7 +37,7 @@ import argparse
 class DOE:
     """ Sampling methods for inputs."""
 
-    Method: Type = Callable[[int, int, Any], NP.Matrix]     #: Function signature of a DOE method.
+    Method: Type = Callable[[int, int, Any], Np.Matrix]     #: Function signature of a DOE method.
 
     @staticmethod
     def latin_hypercube(N: int, M: int, is_centered: bool = True, **kwargs):
@@ -69,7 +69,7 @@ class DOE:
                               (M-1) * [1/(2 * NM) + np.linspace(0, 1, NM, False), ], axis=1)
 
     @staticmethod
-    def space_filling_test(X: NP.Matrix, o: int) -> Dict[str, float]:
+    def space_filling_test(X: Np.Matrix, o: int) -> Dict[str, float]:
         """ Test whether ``X`` is a space-filling design matrix,
         by finding the distance to the nearest point in ``X`` for ``o`` test points.
 
@@ -98,7 +98,7 @@ class GaussianNoise:
         """ An artificially generated (co)variance matrix for GaussianNoise, with a useful labelling scheme."""
 
         @property
-        def matrix(self) -> NP.Matrix:
+        def matrix(self) -> Np.Matrix:
             """ Variance as an (L,L) covariance matrix, suitable for constructing GaussianNoise."""
             return self._matrix
 
@@ -109,7 +109,7 @@ class GaussianNoise:
                     'is_covariant': 'covariance' if self.is_covariant else 'variance',
                     'magnitude': self.magnitude}
 
-        def __call__(self) -> NP.Matrix:
+        def __call__(self) -> Np.Matrix:
             """ Variance as an (L,L) covariance matrix, suitable for constructing GaussianNoise.
             The constructor generates the matrix (perhaps stochastically),
             so repeated calls to any methods produce identical Variance."""
@@ -144,10 +144,10 @@ class GaussianNoise:
             self._matrix *= self.magnitude ** 2
 
     @property
-    def variance(self) -> NP.Matrix:
+    def variance(self) -> Np.Matrix:
         return self._variance
 
-    def __call__(self, repo: Repo | None = None) -> NP.Matrix:
+    def __call__(self, repo: Repo | None = None) -> Np.Matrix:
         """ Generate N samples of L-dimensional Gaussian noise, sampled from :math:`N[0,self.variance]`.
         The constructor generates the sample,
         so repeated calls to any method always refer to the same GaussianNoise.
@@ -162,7 +162,7 @@ class GaussianNoise:
             repo.data.write()
         return self._rvs
 
-    def __init__(self, N: int, variance: NP.MatrixLike):
+    def __init__(self, N: int, variance: Np.MatrixLike):
         """ Generate N samples of L-dimensional Gaussian noise, sampled from :math:`\\mathsf{N}[0,variance]`.
 
         Args:
@@ -205,7 +205,7 @@ class Function:
         Table(self._repo.folder / 'undo_from.csv', fold.normalization.undo_from(fold.test_data.pd))
         return self
 
-    def _construct(self, folder: Path | str, X: NP.Matrix, function_vector: functions.Vector, noise: NP.Matrix, origin_meta: Dict[str, Any]) -> Repo:
+    def _construct(self, folder: Path | str, X: Np.Matrix, function_vector: functions.Vector, noise: Np.Matrix, origin_meta: Dict[str, Any]) -> Repo:
         """ Construct Repo housing the sample design matrix ``(X, f(X) + noise)``.
 
         Args:
@@ -249,7 +249,7 @@ class Function:
             Table(folder / 'likelihood.variance.csv', pd.DataFrame(self._noise_variance()))
 
 
-def permute_axes(new_order: Sequence | None) -> NP.Matrix | None:
+def permute_axes(new_order: Sequence | None) -> Np.Matrix | None:
     """ Provide a rotation matrix which reorders axes. Most use cases are to re-order input axes according to GSA.
 
     Args:

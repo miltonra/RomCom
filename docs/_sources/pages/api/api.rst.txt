@@ -1,10 +1,8 @@
 ﻿
-API
-==================
-
 .. automodule:: rc
 
-.. rubric:: Modules
+Modules
+-----------------
 
 .. autosummary::
     :toctree:
@@ -13,31 +11,5 @@ API
 
     base
     data
-
-.. rubric:: Glossary
-
-.. glossary::
-    :sorted:
-
-    folder
-      directory
-
-    RMSE
-      Root Mean Square Error.
-
-    SD
-      Standard Deviation.
-
-    ``PD | pd``
-      ``pandas``.
-
-    ``NP | np``
-      ``numpy``.
-
-    ``TF | tf``
-      ``tensorflow``.
-
-    ``GP | gf``
-      ``gpflow``.
 
 

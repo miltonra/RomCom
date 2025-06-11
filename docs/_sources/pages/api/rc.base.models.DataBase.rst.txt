@@ -30,5 +30,6 @@
       ~DataBase.copy
       ~DataBase.create
       ~DataBase.delete
+      ~DataBase.mkdir
    
    

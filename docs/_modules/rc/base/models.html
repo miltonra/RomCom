@@ -175,7 +175,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../pages/api/api.html">
+  <a class="nav-link nav-internal" href="../../../pages/api.html">
     API
   </a>
 </li>
@@ -301,7 +301,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../pages/api/api.html">
+  <a class="nav-link nav-internal" href="../../../pages/api.html">
     API
   </a>
 </li>
@@ -428,7 +428,7 @@
 
 
 <span class="n">MetaData</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1">#: Type for passing metadata as ``**kwargs``.</span>
-<span class="n">Matrix</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">TC</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]</span> <span class="c1">#: Types which a DataBase Table accepts.</span>
+<span class="n">Matrix</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Tc</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]</span> <span class="c1">#: Types which a DataBase Table accepts.</span>
 
 
 <div class="viewcode-block" id="Store">
@@ -488,11 +488,11 @@
 <span class="sd">        Args:</span>
 <span class="sd">            path: The ``Path`` to ``self``. A ``cls.ext`` suffix is automatically appended.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mkdir</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">ext</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ext</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="n">path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="mo">0o777</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -518,7 +518,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            FileExistsError: If attempting to overwrite a file with a folder.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_create</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Store.copy">
@@ -573,16 +573,10 @@
 
 <div class="viewcode-block" id="Meta">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Meta.html#rc.base.models.Meta">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">(</span><span class="n">Store</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Concrete class encapsulating metadata stored in a ``.json`` file.&quot;&quot;&quot;</span>
 
     <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.json&#39;</span>  <span class="c1">#: ext: Class attribute specifying the file extension of Meta instances.</span>
-
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MetaData</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The ``MetaData`` stored in ``self``.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
 
 <div class="viewcode-block" id="Meta.__call__">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Meta.html#rc.base.models.Meta.__call__">[docs]</a>
@@ -594,9 +588,9 @@
 
 <span class="sd">        Returns: ``self``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">|=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-            <span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+            <span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 
@@ -610,13 +604,12 @@
 <span class="sd">            **data: The ``MetaData`` to store. If absent, ``self.data`` is read from ``path``,</span>
 <span class="sd">                otherwise ``self.data=data`` is stored in ``path`` (which is overwritten if existing).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Meta</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="p">{}:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
-            <span class="bp">self</span><span class="p">()</span></div>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Store</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="Meta.create">
@@ -632,7 +625,7 @@
 
 <span class="sd">        Returns: The ``Meta`` created.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="p">({</span><span class="s1">&#39;NotImplemented&#39;</span><span class="p">:</span> <span class="s1">&#39;in call to Meta.create()&#39;</span><span class="p">}</span> <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="p">{}</span> <span class="k">else</span> <span class="n">data</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Meta.copy">
@@ -648,7 +641,7 @@
 
 <span class="sd">        Returns: The ``Meta`` now stored at ``dst.with_suffix(&#39;.json&#39;)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="o">**</span><span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="o">**</span><span class="n">src</span><span class="p">)</span></div>
 </div>
 
 
@@ -656,7 +649,7 @@
 <div class="viewcode-block" id="Table">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Table.html#rc.base.models.Table">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Table</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Concrete class encapsulating a ``PD.DataFrame`` backed by a ``.csv`` file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Concrete class encapsulating a ``Pd.DataFrame`` backed by a ``.csv`` file.&quot;&quot;&quot;</span>
 
     <span class="n">writeOptions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sep&#39;</span><span class="p">,</span> <span class="s1">&#39;na_rep&#39;</span><span class="p">,</span> <span class="s1">&#39;float_format&#39;</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Class attribute listing kwargs which will be interpreted as write options. </span>
@@ -688,17 +681,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">read</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">read</span> <span class="o">|</span> <span class="n">update</span><span class="p">,</span> <span class="n">write</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">write</span> <span class="o">|</span> <span class="n">write</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pd</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The ``PD.DataFrame`` stored in ``self``.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pd</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The ``Pd.DataFrame`` stored in ``self``.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pd</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">np</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The ``NP.Matrix`` stored in ``self``.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">np</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; The ``Np.Matrix`` stored in ``self``.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">tc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TC</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tc</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; The ``TF.Matrix`` stored in ``self``.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">tc</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">np</span><span class="p">)</span>
 
@@ -741,9 +734,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_pd</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_pd</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_pd</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">TC</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Tc</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_pd</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pd</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">write</span><span class="p">)</span>
@@ -752,8 +745,8 @@
 
 <div class="viewcode-block" id="Table.__init__">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Table.html#rc.base.models.Table.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Self</span> <span class="o">|</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Construct ``self`` from a ``.csv`` file or ``PD.DataFrame``.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Self</span> <span class="o">|</span> <span class="n">Pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Construct ``self`` from a ``.csv`` file or ``Pd.DataFrame``.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            path: The ``Path`` (file) to store ``self``. A ``.csv`` extension is automatically appended.</span>
@@ -774,14 +767,14 @@
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Table.html#rc.base.models.Table.create">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Self</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-               <span class="n">index</span><span class="p">:</span> <span class="n">PD</span><span class="o">.</span><span class="n">Index</span> <span class="o">|</span> <span class="n">NP</span><span class="o">.</span><span class="n">Array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="n">PD</span><span class="o">.</span><span class="n">Index</span> <span class="o">|</span> <span class="n">NP</span><span class="o">.</span><span class="n">Array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-               <span class="n">dtype</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">DType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+               <span class="n">index</span><span class="p">:</span> <span class="n">Pd</span><span class="o">.</span><span class="n">Index</span> <span class="o">|</span> <span class="n">Np</span><span class="o">.</span><span class="n">Array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="n">Pd</span><span class="o">.</span><span class="n">Index</span> <span class="o">|</span> <span class="n">Np</span><span class="o">.</span><span class="n">Array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="n">dtype</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">DType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a ``Table`` at ``path``, overwriting.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            path: The ``Path`` to store this DataTable, overwritten if existing.</span>
 <span class="sd">                A ``.csv`` extension is automatically appended.</span>
-<span class="sd">            data: The data to store. If ``None``, a ``PD.DataFrame`` is read from ``.csv``.</span>
+<span class="sd">            data: The data to store. If ``None``, a ``Pd.DataFrame`` is read from ``.csv``.</span>
 <span class="sd">                See `pd.DataFrame &lt;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html&gt;`_.</span>
 <span class="sd">            index: See `pd.DataFrame &lt;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html&gt;`_.</span>
 <span class="sd">            columns: See `pd.DataFrame &lt;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html&gt;`_.</span>
@@ -819,8 +812,7 @@
 <div class="viewcode-block" id="Tables">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Tables.html#rc.base.models.Tables">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Tables</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; A ``NamedTuple`` of ``Table`` s in a folder. Base class for any ``DataBase.Tables``.</span>
-<span class="sd">        *This class is abstract and must be subclassed. Usage will raise AssertionErrors*.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; A ``NamedTuple`` of ``Table`` s in a folder. Abstract base class for any ``DataBase.Tables``.</span>
 
 <span class="sd">    ``Tables`` subclasses must be implemented according to the template (copy and paste it)::</span>
 
@@ -836,17 +828,14 @@
 <span class="sd">                    return getattr(self, name)</span>
 
 <span class="sd">            options: NT[MetaData] = NT(names[i] = data[i].options[i], ...)</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        AssertionError: Whenever used in a ``__debug__`` environment (i.e. whenever ``python`` is invoked</span>
-<span class="sd">            without the ``-O`` or ``--O`` flags). This class is abstract, and must be subclassed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Tables.NT">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Tables.html#rc.base.models.Tables.NT">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">NT</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Must be overridden. &quot;&quot;&quot;</span>
         <span class="bp">NotImplemented</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(((</span><span class="sa">f</span><span class="s1">&#39;Attribute type should be Table in &#39;</span>
                                                         <span class="sa">f</span><span class="s1">&#39;any implementation.&#39;</span><span class="p">,),))</span>  <span class="c1">#: :meta private:</span>
+
 <div class="viewcode-block" id="Tables.NT.__call__">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Tables.html#rc.base.models.Tables.NT.__call__">[docs]</a>
         <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">:</span>
@@ -858,21 +847,14 @@
     <span class="n">options</span><span class="p">:</span> <span class="n">NT</span><span class="p">[</span><span class="n">MetaData</span><span class="p">]</span> <span class="o">=</span> <span class="n">NT</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">NT</span><span class="o">.</span><span class="n">_fields</span><span class="p">})</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Class attribute of the form ``NT(**{names[i]: options[i], ...})``. </span>
 <span class="sd">    Override as necessary for bespoke ``Table.options``.</span>
-<span class="sd">    Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``table[i].options.write``,</span>
-<span class="sd">    the remainder populate ``table[i].options.read``.&quot;&quot;&quot;</span>
+<span class="sd">    Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,</span>
+<span class="sd">    the remainder populate ``self[i].options.read``.&quot;&quot;&quot;</span>
 
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_DataNotImplementedError</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;You must implement </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s1">.NT as a subclass of NamedTuple. &#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;Your code (minus docstrings) should read as follows.</span><span class="se">\n</span><span class="s1">&#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(Tables):</span><span class="se">\n</span><span class="s1">    class NT(NamedTuple):</span><span class="se">\n</span><span class="s1">&#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;        names[i]: Table | Matrix = pd.DataFrame(defaults[i].pd) ...&#39;</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">asDict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Table</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; The ``self.NT(NamedTuple)`` of ``self`` as a ``dict``.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nt</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+    <span class="c1"># TODO: Delete if unmissed</span>
+    <span class="c1"># @property</span>
+    <span class="c1"># def asDict(self) -&gt; Dict[str, Table]:</span>
+    <span class="c1">#     &quot;&quot;&quot; The ``self.NT(NamedTuple)`` of ``self`` as a ``dict``.&quot;&quot;&quot;</span>
+    <span class="c1">#     return self._nt._asdict()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Counts the ``Table`` s in ``self``. &quot;&quot;&quot;</span>
@@ -881,16 +863,14 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Table</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Indexer returns the ``Table`` (s) named or sliced by ``name``.</span>
 <span class="sd">            The NamedTuple constituting ``self`` is ``self.NT(*self[:]``.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nt</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nt</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">slice</span> <span class="p">,</span> <span class="n">tables</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Indexer sets the ``Table`` (s) named or sliced by ``name``.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">tables</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">tables</span><span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">tables</span> <span class="o">=</span> <span class="p">{</span><span class="n">named</span><span class="p">:</span> <span class="n">tables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">named</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">name</span><span class="p">])}</span>
+            <span class="n">tables</span> <span class="o">=</span> <span class="p">{</span><span class="n">named</span><span class="p">:</span> <span class="n">tables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">named</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">()[</span><span class="n">name</span><span class="p">])}</span>
         <span class="bp">self</span><span class="p">(</span><span class="o">**</span><span class="n">tables</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Tables.__call__">
@@ -904,7 +884,6 @@
 
 <span class="sd">        Returns: ``self``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_nt</span><span class="p">(</span><span class="n">name</span><span class="p">)(</span><span class="n">table</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -924,13 +903,12 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            FileNotFoundError: If ``path`` lacks any member of ``cls.names()`` not mentioned in ``**data``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_nt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NT</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">name</span><span class="p">:</span>
                                         <span class="n">Table</span><span class="p">(</span><span class="n">path</span> <span class="o">/</span> <span class="n">name</span><span class="p">,</span> <span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-                                        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">tables</span> <span class="ow">and</span> <span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span>
-                                        <span class="n">Table</span><span class="p">(</span><span class="n">path</span> <span class="o">/</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+                                        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">tables</span> <span class="ow">and</span> <span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                                        <span class="k">else</span> <span class="n">Table</span><span class="p">(</span><span class="n">path</span> <span class="o">/</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
                                   <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">()})</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tables &quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1">&quot; is trying to read a non-existent Table. Did your script mean to call &#39;</span>
@@ -944,16 +922,14 @@
     <span class="nd">@classmethod</span>    <span class="c1"># Class Property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; ``(names[i], ...)`` of table names for this ``Tables`` class.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NT</span><span class="o">.</span><span class="n">_fields</span></div>
 
 
 <div class="viewcode-block" id="Tables.defaults">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.Tables.html#rc.base.models.Tables.defaults">[docs]</a>
     <span class="nd">@classmethod</span>    <span class="c1"># Class Property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">defaults</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; ``{names[i]: PD.DataFrame[i], ...}`` of default tables for this ``Tables`` class.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">defaults</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; ``{names[i]: Pd.DataFrame[i], ...}`` of default tables for this ``Tables`` class.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NT</span><span class="o">.</span><span class="n">_field_defaults</span></div>
 
 
@@ -971,7 +947,6 @@
 
 <span class="sd">        Returns: The ``Tables`` created.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span> <span class="o">|</span> <span class="n">tables</span><span class="p">))</span></div>
 
 
@@ -987,7 +962,6 @@
 
 <span class="sd">        Returns: The ``Tables`` now stored at ``dst``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="o">**</span><span class="n">src</span><span class="o">.</span><span class="n">tables_as_dict</span><span class="p">())</span></div>
 
 
@@ -1005,7 +979,6 @@
 
 <span class="sd">        Returns: ``path``, which still exists.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">table_name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">names</span><span class="p">():</span>
             <span class="n">Table</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">path</span> <span class="o">/</span> <span class="n">table_name</span><span class="p">)</span>
@@ -1017,10 +990,9 @@
 <div class="viewcode-block" id="DataBase">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.DataBase.html#rc.base.models.DataBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DataBase</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
-
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; ``Tables`` with ``Meta``. Abstract base class for any model.</span>
 
-<span class="sd">    ``Tables`` subclasses must be implemented according to the template (copy and paste it)::</span>
+<span class="sd">    ``DataBase`` subclasses must be implemented according to the template (copy and paste it)::</span>
 
 <span class="sd">        class MyDataBase(DataBase):</span>
 
@@ -1037,18 +1009,20 @@
 
 <span class="sd">                options: NT[MetaData] = NT(names[i] = data[i].options[i], ...)</span>
 
-<span class="sd">            defaultMetaData: MetaData = {&#39;options&#39;: Tables.options._asdict()}</span>
+<span class="sd">            defaultMetaData: MetaData = {&#39;Tables&#39;: Tables.options._asdict()}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DataBase.Tables">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.DataBase.html#rc.base.models.DataBase.Tables">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Tables</span><span class="p">(</span><span class="n">Tables</span><span class="p">):</span>
-
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Must be overridden.&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="DataBase.Tables.NT">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.DataBase.html#rc.base.models.DataBase.Tables.NT">[docs]</a>
         <span class="k">class</span><span class="w"> </span><span class="nc">NT</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot; Must be overridden.&quot;&quot;&quot;</span>
             <span class="bp">NotImplemented</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(((</span><span class="sa">f</span><span class="s1">&#39;Attribute type should be Table in &#39;</span>
                                                             <span class="sa">f</span><span class="s1">&#39;any implementation.&#39;</span><span class="p">,),))</span>  <span class="c1">#: :meta private:</span>
+
 <div class="viewcode-block" id="DataBase.Tables.NT.__call__">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.DataBase.html#rc.base.models.DataBase.Tables.NT.__call__">[docs]</a>
             <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">:</span>
@@ -1065,7 +1039,7 @@
 
 
     <span class="c1">#: Class attribute. Should be overridden.</span>
-    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="n">Tables</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()}</span>
+    <span class="n">defaultMetaData</span><span class="p">:</span> <span class="n">MetaData</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Tables&#39;</span><span class="p">:</span> <span class="n">Tables</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()}</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Meta</span><span class="p">:</span>
@@ -1079,7 +1053,6 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Indexer returns the ``Table`` (s) named or sliced by ``name``.</span>
 <span class="sd">            The NamedTuple constituting ``self`` is ``self.NT(*self[:]``.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">NT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Tables</span><span class="o">.</span><span class="n">NT</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_DataNotImplementedError</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">slice</span> <span class="p">,</span> <span class="n">tables</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span> <span class="o">|</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Table</span> <span class="o">|</span> <span class="n">Matrix</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
@@ -1102,7 +1075,7 @@
 
 <div class="viewcode-block" id="DataBase.__init__">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.DataBase.html#rc.base.models.DataBase.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="o">**</span><span class="n">tables</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="o">**</span><span class="n">tables</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Read the ``DataBase`` in ``path``.</span>
 
 <span class="sd">        Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.</span>
@@ -1129,7 +1102,7 @@
 <div class="viewcode-block" id="DataBase.create">
 <a class="viewcode-back" href="../../../pages/api/rc.base.models.DataBase.html#rc.base.models.DataBase.create">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="o">**</span><span class="n">tables_and_meta</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">PD</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Store</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="o">**</span><span class="n">tables_and_meta</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">Pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">|</span> <span class="n">MetaData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a ``DataBase`` in ``path``.</span>
 
 <span class="sd">        Args:</span>

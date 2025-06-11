@@ -14,6 +14,7 @@ rc.data.models.Repo
       ~Repo.Path
       ~Repo.defaultMetaData
       ~Repo.ext
+      ~Repo.fold
       ~Repo.meta
       ~Repo.path
    
@@ -30,5 +31,6 @@ rc.data.models.Repo
       ~Repo.copy
       ~Repo.create
       ~Repo.delete
+      ~Repo.mkdir
    
    

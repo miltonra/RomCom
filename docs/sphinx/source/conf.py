@@ -8,7 +8,7 @@ from contextlib import suppress
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'RomCom'
-copyright = '2024, Robert A. Milton'
+copyright = '2025, Robert A. Milton'
 author = 'Robert A. Milton'
 version = '1.0'
 release = version
@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../'))
 
 
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-needs_sphinx = '8.0'
+needs_sphinx = '8.3'
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.autosummary', 'sphinx.ext.viewcode',
               "sphinx.ext.mathjax", 'sphinx_copybutton', 'sphinxarg.ext']
 

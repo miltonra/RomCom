@@ -1,4 +1,4 @@
-rc.base.definitions
+﻿rc.base.definitions
 ===================
 
 .. automodule:: rc.base.definitions
@@ -10,7 +10,7 @@ rc.base.definitions
    .. autosummary::
       :toctree:
    
-      Zero
+      zero
    
    
 
@@ -26,9 +26,9 @@ rc.base.definitions
       :toctree:
       :template: custom-class-template.rst
    
-      NP
-      PD
-      TC
+      Np
+      Pd
+      Tc
    
    
 

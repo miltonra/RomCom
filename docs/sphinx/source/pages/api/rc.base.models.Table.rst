@@ -1,4 +1,4 @@
-rc.base.models.Table
+﻿rc.base.models.Table
 ====================
 
 .. currentmodule:: rc.base.models
@@ -34,5 +34,6 @@ rc.base.models.Table
       ~Table.copy
       ~Table.create
       ~Table.delete
+      ~Table.mkdir
    
    

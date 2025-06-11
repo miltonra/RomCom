@@ -1,4 +1,4 @@
-rc.base.models.Store
+﻿rc.base.models.Store
 ====================
 
 .. currentmodule:: rc.base.models
@@ -28,5 +28,6 @@ rc.base.models.Store
       ~Store.copy
       ~Store.create
       ~Store.delete
+      ~Store.mkdir
    
    

@@ -30,7 +30,8 @@
       :template: custom-class-template.rst
    
       DesignMatrix
-      Fold
+      NormalDesignMatrix
+      Normalization
       Repo
    
    

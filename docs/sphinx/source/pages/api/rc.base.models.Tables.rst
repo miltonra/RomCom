@@ -12,7 +12,6 @@
    .. autosummary::
    
       ~Tables.Path
-      ~Tables.asDict
       ~Tables.ext
       ~Tables.options
       ~Tables.path
@@ -31,6 +30,7 @@
       ~Tables.create
       ~Tables.defaults
       ~Tables.delete
+      ~Tables.mkdir
       ~Tables.names
    
    

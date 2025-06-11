@@ -1,9 +1,9 @@
-rc.base.definitions.PD
+rc.base.definitions.Pd
 ======================
 
 .. currentmodule:: rc.base.definitions
 
-.. autoclass:: PD
+.. autoclass:: Pd
 
    
    
@@ -14,8 +14,8 @@ rc.base.definitions.PD
    .. rubric:: Methods
 
    .. autosummary::
-      ~PD.__call__
+      ~Pd.__call__
    
-      ~PD.__init__
+      ~Pd.__init__
    
    

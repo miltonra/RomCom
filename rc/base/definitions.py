@@ -35,10 +35,10 @@ import pandas as pd
 import torch as tc
 
 
-Zero: float = 1.0E-64  #: Tolerance when testing floats for equality.
+zero: float = 1.0E-64  #: Tolerance when testing floats for equality.
 
 
-class PD:
+class Pd:
     """ Extended Pandas types and constants.
 
     Attributes:
@@ -58,8 +58,8 @@ class PD:
         raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
 
 
-class NP:
-    """ Extended TensorFlow types and constants. This class should never be instantiated or subclassed.
+class Np:
+    """ Extended NumPy types and constants. This class should never be instantiated or subclassed.
 
     Attributes:
         DType: ``np.dtype``.
@@ -84,7 +84,7 @@ class NP:
         raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
 
 
-class TC:
+class Tc:
     """ Extended PyTorch types and constants. This class should never be instantiated or subclassed.
 
     Attributes:
@@ -96,7 +96,6 @@ class TC:
         BatchVector = Tensor: Vector ``.shape = (...,i,1)``.
         BatchCoVector = Tensor: CoVector ``.shape = (...,1,j)``.
         BatchMatrix = Tensor: Matrix ``.shape = (...,i,j)``.
-        NaN: ``tc.constant(np.NaN, dtype=Float())`` representing Not a Number.
     """
     DType = tc.dtype    #: :meta private:
     Tensor = tc.Tensor  #: :meta private:
@@ -108,8 +107,7 @@ class TC:
     BatchMatrix = Tensor     #: :meta private:
     Int: DType = tc.int32
     Float: DType = tc.float64
-    NaN: Tensor = tc.nan    #: :meta private:
-    Zero: Tensor = tc.tensor(Zero, dtype = Float)  #: :meta private:
+    zero: Tensor = tc.tensor(zero, dtype = Float)  #: :meta private:
 
     def __init__(self):
         """

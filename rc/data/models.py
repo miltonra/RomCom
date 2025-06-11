@@ -52,113 +52,173 @@ y: Tuple[slice, slice] = (slice(None, None, None), slice(-1, None, None))
 
 
 class DesignMatrix(Table):
-    """ Template for a design matrix. """
+    """ The familiar user format of ``DesignMatrix`` which is fat (has many columns). """
+
+    Label = Path | str
+    """ Class attribute aliasing acceptable Types for column (or index) labels. """
 
     class Options(NamedTuple):
 
         read: MetaData =  {'index_col': 0, 'header': [0, 1]}  # Read options passed to ``pd.read_csv``.
         write: MetaData =  {}   # Write options passed to ``pd.DataFrame.to_csv``.
 
-        def __call__(self, name: str) -> Table | Matrix | MetaData:
-            """ Returns the Table named ``name``."""
-            return getattr(self, name)
-
     skeleton: PD.DataFrame = pd.DataFrame(columns=pd.MultiIndex.from_tuples(
-                                    (('Input', 'float'),('Category', 'int'), ('Output', 'float'))))
+                                    (('Input', 'float'),('Category', 'int'),
+                                     ('Column', 'str'), ('Output', 'func'))))
     """ DataFrame of the minimal, skeleton ``DesignMatrix``."""
 
     defaultOptions: MetaData = Options().read | Options().write
     """ Default file handling ``DesignMatrix.Options()``."""
 
+    @classmethod
+    def headers(cls, label: str) -> str:
+        match label.lower():
+            case 'x' | 'input' | 'continuous' | 'float' :
+                return 'x'
+            case 'i' | 'category' | 'discrete' | 'int' :
+                return 'i'
+            case 'l' | 'column' | 'label' | 'str' :
+                return 'l'
+            case 'y' | 'output' | 'map' | 'func' :
+                return 'y'
+        return '~'
 
-class Fold(DataBase):
-    """ A fold of training and test data. """
+    @classmethod
+    def create(cls, path: Store.Path, src: NormalDesignMatrix, columns_in_l: Label = '') -> Self:
+        """ Reformat the ``NormalDesignMatrix`` in ``src`` as a ``Self(DesignMatrix)``.
 
+        Args:
+            path: The ``Path`` to store the ``DesignMatrix`` created, overwritten if existing.
+            src: The ``NormalDesignMatrix`` to reformat.
+
+        Returns: The ``NormalDesignMatrix`` created at ``dst``.
+        """
+
+    @classmethod
+    def copy(cls, src: Self, dst: Store.Path = '') -> NormalDesignMatrix:
+        """ Reformat this ``DesignMatrix`` to a ``NormalDesignMatrix``.
+
+        Args:
+            src: The ``DesignMatrix`` to reformat.
+            dst: Optional ``Path`` to the ``NormalDesignMatrix``.
+                Defaults to ``''``, which overwrites ``src``.
+
+        Returns: The ``NormalDesignMatrix`` created at ``dst``.
+        """
+
+
+class NormalDesignMatrix(DesignMatrix):
+    """ The internal format of ``DesignMatrix``, which is thin (has few columns). """
+
+    class Options(NamedTuple):
+
+        read: MetaData =  {'index_col': 0, 'header': 0}  # Read options passed to ``pd.read_csv``.
+        write: MetaData =  {}   # Write options passed to ``pd.DataFrame.to_csv``.
+
+    def create(cls, path: Store.Path, src: NormalDesignMatrix) -> Self:
+        return cls(path, data = src)
+
+    def copy(cls, src: Self, dst: Store.Path = '') -> NormalDesignMatrix:
+        return cls(dst, data = src) if dst else src
+
+
+class Normalization(DataBase):
+    """ Normalization of a Repo. """
     class Tables(Tables):
 
         class NT(NamedTuple):
 
-            train: DesignMatrix | MetaData = DesignMatrix.skeleton
-            test: DesignMatrix | MetaData = DesignMatrix.skeleton
+            data: DesignMatrix | MetaData = DesignMatrix.skeleton
 
             def __call__(self, name: str) -> Table | Matrix | MetaData:
                 """ Returns the Table named ``name``."""
                 return getattr(self, name)
 
-        options: NT[MetaData] = NT(train=DesignMatrix.defaultOptions, test=DesignMatrix.defaultOptions)
+        options: NT[MetaData] = NT(data = DesignMatrix.defaultOptions)
 
-    defaultMetaData: MetaData = {'M': 1}
+    defaultMetaData: MetaData = {'category delimiter' : '│'}
 
-    @classmethod
-    def create(cls, path: Store.Path, train: DesignMatrix, test: DesignMatrix = DesignMatrix.skeleton,
-               **metadata: MetaData) -> Self:
-        """
-
-        Args:
-            path: The folder to store the ``Fold`` in. Need not exist, any existing ``train.csv`` or ``test.csv``
-                will be overwritten if it does.
-            train:
-            test:
-            **metadata:
-
-        Returns: ``self``.
-
-        """
-
-
-
-
-
-        """ Create a ``DataBase`` in ``path``.
-
-        Args:
-            **tables_and_meta: Data to update ``cls.Tables.table_defaults``, in the form ``names[i]=tables[i]``,
-                and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.
-
-        Returns: The ``DataBase`` created.
-        """
-        return super().create(path, train = train, test = test, meta = cls.defaultMetaData | metadata)
-
-
-class Repo(Fold):
-    """ A Repository housing a ``Normalization``. and ``K`` ``Fold`` (s). """
-
-    defaultMetaData: MetaData = {'options': Tables.options._asdict(), 'Normalization': None, 'K': 0}
-
-    def __len__(self) -> int:
-        """ Counts the ``Fold`` s in ``self``. """
-        return self._meta['K']
-
-    def __getitem__(self, fold: int | slice) -> Fold | Tuple[int, ...]:
-        """ Indexer returns the ``Fold`` (s) named or sliced by ``name``. """
-        if isinstance(fold, int):
-            return Fold(self.path / f'{fold}')
-        else:
-            return tuple(range(self._meta['K']))[fold]
-
-    def __setitem__(self, name: int | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
-        """ Indexer creates the ``Fold`` (s) named or sliced by ``name``."""
-        self._tables[name] = tables
-
-    def __call__(self, **metadata: Any) -> Self:
+    def __call__(self, **meta: Any) -> Self:
         """ Optimize and update ``self``.
 
         Args:
-            **metadata: Optimization ``MetaData``.
+            **meta: Optimization ``MetaData``.
 
         Returns: ``self``
         """
-        self._tables(**metadata)
+        self._tables(**meta)
         return self
 
+    def __init__(self, path: Store.Path, **tables: Table | PD.DataFrame):
+        super().__init__(path, **tables)
 
 
-"""
-    defaultMetaData: MetaData = {'options': Tables.options._asdict(),
-                                 'split':'|', 'Method': 'Mean and SD', 'Bounds': (0.0, 0.0)}
+    @classmethod
+    def create(cls, path: Store.Path, data: DesignMatrix, **meta: Any) -> Self:
+        """ Create a ``Normalization`` in ``path``.
 
-    class Method(IntEnum):
-        Explicit = 0
-        Range = 1
-        Moments = 2
-"""
+        Args:
+            path: The folder to store the ``Normalization`` in. Need not exist,
+                any existing ``Tables`` will be overwritten if it does.
+            **meta: Optimization ``MetaData``.
+
+        Returns: The ``Normalization`` created.
+        """
+        Meta.create(cls._meta_in(path), **(cls.defaultMetaData | meta))
+        return cls(path, data = data)
+
+
+class Repo(DataBase):
+    """ A Repository of data and models. Informally a dataset and all the things we'd like to do to it. """
+    class Tables(Tables):
+
+        class NT(NamedTuple):
+
+            data: Table | Matrix | MetaData = pd.DataFrame(columns=('x', 'l', 'y'))
+
+            def __call__(self, name: str) -> Table | Matrix | MetaData:
+                """ Returns the Table named ``name``."""
+                return getattr(self, name)
+
+        options: NT[MetaData] = NT(data = {option: value for default in Table.Options._field_defaults.values()
+                                           for option, value in default.items()})
+
+    defaultMetaData: MetaData = {'K': 0}
+
+    @property
+    def fold(self):
+        """ The current fold. """
+        return self._fold
+
+    @fold.setter
+    def fold(self, value: int):
+        """ The current fold. A negative value refers test data in the fold numbered ``abs(value)``.
+            In case ``abs(value)`` is 0 or greater ``len(self)-1`` the current fold is ``self``. """
+        self._fold = value
+
+    def __len__(self) -> int:
+        """ 1 + K proper folds in ``self``. """
+        return self._meta['K'] + 1
+
+    def __getitem__(self, fold: int | slice) -> Path | Tuple[Path, ...]:
+        """ Indexer returns the ``Path`` (s) to the Folds indexed or sliced by ``fold``. """
+        if isinstance(fold, int):
+            return self.path  if fold == 0 else self.path / f'{abs(fold)}'
+        else:
+            return tuple((self[i] for i in range(len(self))))[fold]
+
+    def __setitem__(self, fold: int | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
+        """ Indexer creates the ``Fold`` (s) named or sliced by ``name``."""
+        self._tables[name] = tables
+
+    def __call__(self, **meta: Any) -> Self:
+        """ Optimize and update ``self``.
+
+        Args:
+            **meta: Optimization ``MetaData``.
+
+        Returns: ``self``
+        """
+        self._tables(**meta)
+        return self
+

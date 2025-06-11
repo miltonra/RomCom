@@ -1,0 +1,856 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>rc.data.models.NormalDesignMatrix &#8212; RomCom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pydata-custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/api/rc.data.models.NormalDesignMatrix';</script>
+    <link rel="icon" href="../../_static/MattLogo2.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="rc.data.models.Normalization" href="rc.data.models.Normalization.html" />
+    <link rel="prev" title="rc.data.models.DesignMatrix" href="rc.data.models.DesignMatrix.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/MattLogo2.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <img src="../../_static/MattLogo2.svg" class="logo__image only-dark pst-js-only" alt="RomCom - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../intro.html">
+    Intro
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="api.html">
+    Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../intro.html">
+    Intro
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../usage.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../data.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rom.html">
+    ROM
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="api.html">
+    Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../genindex.html">
+    Index
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="api.html" class="nav-link">Modules</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="rc.data.html" class="nav-link">rc.data</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="rc.data.models.html" class="nav-link">rc.data.models</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">rc.data.models.NormalDesignMatrix</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="rc-data-models-normaldesignmatrix">
+<h1>rc.data.models.NormalDesignMatrix<a class="headerlink" href="#rc-data-models-normaldesignmatrix" title="Link to this heading">§</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NormalDesignMatrix</span></span><a class="reference internal" href="../../_modules/rc/data/models.html#NormalDesignMatrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.NormalDesignMatrix" title="Link to this definition">§</a></dt>
+<dd><p>Bases: <a class="reference internal" href="rc.data.models.DesignMatrix.html#rc.data.models.DesignMatrix" title="rc.data.models.DesignMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">DesignMatrix</span></code></a></p>
+<p>The internal format of <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code>, which is thin (has few columns).</p>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.Label" title="rc.data.models.NormalDesignMatrix.Label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Label</span></code></a></p></td>
+<td><p>Class attribute aliasing acceptable Types for column (or index) labels.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.Path" title="rc.data.models.NormalDesignMatrix.Path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a></p></td>
+<td><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.defaultOptions" title="rc.data.models.NormalDesignMatrix.defaultOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">defaultOptions</span></code></a></p></td>
+<td><p>Default file handling <code class="docutils literal notranslate"><span class="pre">DesignMatrix.Options()</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.ext" title="rc.data.models.NormalDesignMatrix.ext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ext</span></code></a></p></td>
+<td><p>Class attribute specifying the file extension of DataTable instances.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.np" title="rc.data.models.NormalDesignMatrix.np"><code class="xref py py-obj docutils literal notranslate"><span class="pre">np</span></code></a></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">Np.Matrix</span></code> stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.options" title="rc.data.models.NormalDesignMatrix.options"><code class="xref py py-obj docutils literal notranslate"><span class="pre">options</span></code></a></p></td>
+<td><p>A <code class="docutils literal notranslate"><span class="pre">dict</span> <span class="pre">of</span> <span class="pre">options</span> <span class="pre">for</span> <span class="pre">file</span> <span class="pre">operations</span> <span class="pre">involving</span> <span class="pre">``self</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.path" title="rc.data.models.NormalDesignMatrix.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to this <code class="docutils literal notranslate"><span class="pre">Store</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.pd" title="rc.data.models.NormalDesignMatrix.pd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pd</span></code></a></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">Pd.DataFrame</span></code> stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.skeleton" title="rc.data.models.NormalDesignMatrix.skeleton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skeleton</span></code></a></p></td>
+<td><p>DataFrame of the minimal, skeleton <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.tc" title="rc.data.models.NormalDesignMatrix.tc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tc</span></code></a></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">TF.Matrix</span></code> stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.writeOptions" title="rc.data.models.NormalDesignMatrix.writeOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeOptions</span></code></a></p></td>
+<td><p>Class attribute listing kwargs which will be interpreted as write options.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.__call__" title="rc.data.models.NormalDesignMatrix.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(data, **options)</p></td>
+<td><p>Update and store <code class="docutils literal notranslate"><span class="pre">self</span></code>, overwriting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.__init__" title="rc.data.models.NormalDesignMatrix.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(path[, data])</p></td>
+<td><p>Construct <code class="docutils literal notranslate"><span class="pre">self</span></code> from a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file or <code class="docutils literal notranslate"><span class="pre">Pd.DataFrame</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.broadcast_to" title="rc.data.models.NormalDesignMatrix.broadcast_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">broadcast_to</span></code></a>(target_shape[, is_diagonal])</p></td>
+<td><p>Broadcast <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.copy" title="rc.data.models.NormalDesignMatrix.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>(src[, dst])</p></td>
+<td><p>Reformat this <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code> to a <code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.create" title="rc.data.models.NormalDesignMatrix.create"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create</span></code></a>(path, src)</p></td>
+<td><p>Reformat the <code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code> in <code class="docutils literal notranslate"><span class="pre">src</span></code> as a <code class="docutils literal notranslate"><span class="pre">Self(DesignMatrix)</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix.delete" title="rc.data.models.NormalDesignMatrix.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>(path)</p></td>
+<td><p>Delete any file or folder at <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">headers</span></code>(label)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mkdir</span></code>(path)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.Options">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Options</span></span><a class="reference internal" href="../../_modules/rc/data/models.html#NormalDesignMatrix.Options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.Options" title="Link to this definition">§</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Options(read, write)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.Options.read">
+<span class="sig-name descname"><span class="pre">read</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.Options.read" title="Link to this definition">§</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.Options.write">
+<span class="sig-name descname"><span class="pre">write</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.Options.write" title="Link to this definition">§</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.Options.__new__">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'header':</span> <span class="pre">0,</span> <span class="pre">'index_col':</span> <span class="pre">0}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.Options.__new__" title="Link to this definition">§</a></dt>
+<dd><p>Create new instance of Options(read, write)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>read</strong> (<em>MetaData</em>)</p></li>
+<li><p><strong>write</strong> (<em>MetaData</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.Options.count">
+<span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.Options.count" title="Link to this definition">§</a></dt>
+<dd><p>Return number of occurrences of value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.Options.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9223372036854775807</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.Options.index" title="Link to this definition">§</a></dt>
+<dd><p>Return first index of value.</p>
+<p>Raises ValueError if the value is not present.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#NormalDesignMatrix.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.create" title="Link to this definition">§</a></dt>
+<dd><p>Reformat the <code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code> in <code class="docutils literal notranslate"><span class="pre">src</span></code> as a <code class="docutils literal notranslate"><span class="pre">Self(DesignMatrix)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to store the <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code> created, overwritten if existing.</p></li>
+<li><p><strong>src</strong> (<a class="reference internal" href="#rc.data.models.NormalDesignMatrix" title="rc.data.models.NormalDesignMatrix"><em>NormalDesignMatrix</em></a>) – The <code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code> to reformat.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Self</em></p>
+</dd>
+</dl>
+<p>Returns: The <code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code> created at <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rc/data/models.html#NormalDesignMatrix.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.copy" title="Link to this definition">§</a></dt>
+<dd><p>Reformat this <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code> to a <code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> (<em>Self</em>) – The <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code> to reformat.</p></li>
+<li><p><strong>dst</strong> (<em>Store.Path</em>) – Optional <code class="docutils literal notranslate"><span class="pre">Path</span></code> to the <code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code>.
+Defaults to <code class="docutils literal notranslate"><span class="pre">''</span></code>, which overwrites <code class="docutils literal notranslate"><span class="pre">src</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#rc.data.models.NormalDesignMatrix" title="rc.data.models.NormalDesignMatrix"><em>NormalDesignMatrix</em></a></p>
+</dd>
+</dl>
+<p>Returns: The <code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code> created at <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.Label">
+<span class="sig-name descname"><span class="pre">Label</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.Label" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute aliasing acceptable Types for column (or index) labels.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.Path">
+<span class="sig-name descname"><span class="pre">Path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">pathlib.Path</span> <span class="pre">|</span> <span class="pre">str</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.Path" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute aliasing Types used to specify the <code class="docutils literal notranslate"><span class="pre">path</span></code> to a Store. Do not override.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.__call__" title="Link to this definition">§</a></dt>
+<dd><p>Update and store <code class="docutils literal notranslate"><span class="pre">self</span></code>, overwriting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Self</em><em> | </em><em>DataFrame</em><em> | </em><em>ndarray</em><em> | </em><em>Tensor</em><em> | </em><em>None</em>) – The data updates.</p></li>
+<li><p><strong>**options</strong> (<em>Any</em>) – Updates <code class="docutils literal notranslate"><span class="pre">self.options</span></code>, before storing <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Self</em></p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.__init__" title="Link to this definition">§</a></dt>
+<dd><p>Construct <code class="docutils literal notranslate"><span class="pre">self</span></code> from a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file or <code class="docutils literal notranslate"><span class="pre">Pd.DataFrame</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Store.Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> (file) to store <code class="docutils literal notranslate"><span class="pre">self</span></code>. A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension is automatically appended.</p></li>
+<li><p><strong>data</strong> (<em>Self</em><em> | </em><em>DataFrame</em><em> | </em><em>None</em>) – The data to store. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span></code> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code>,
+otherwise <code class="docutils literal notranslate"><span class="pre">data</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">path</span></code> (which is overwritten if existing).</p></li>
+<li><p><strong>**metadata</strong> – Updates <code class="docutils literal notranslate"><span class="pre">self.readMetaData</span></code> if <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">is</span> <span class="pre">None</span></code>, otherwise updates <code class="docutils literal notranslate"><span class="pre">self.writeMetaData</span></code>.</p></li>
+<li><p><strong>options</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.broadcast_to">
+<span class="sig-name descname"><span class="pre">broadcast_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_diagonal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.broadcast_to" title="Link to this definition">§</a></dt>
+<dd><p>Broadcast <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_shape</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – The shape to broadcast to.</p></li>
+<li><p><strong>is_diagonal</strong> (<em>bool</em>) – Whether to zero the off-diagonal elements of a square matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Self</em></p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IndexError</strong> – If broadcasting is impossible.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>target_shape</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>)</p></li>
+<li><p><strong>is_diagonal</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Self</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.defaultOptions">
+<span class="sig-name descname"><span class="pre">defaultOptions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">MetaData</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'header':</span> <span class="pre">[0,</span> <span class="pre">1],</span> <span class="pre">'index_col':</span> <span class="pre">0}</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.defaultOptions" title="Link to this definition">§</a></dt>
+<dd><p>Default file handling <code class="docutils literal notranslate"><span class="pre">DesignMatrix.Options()</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.delete">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.delete" title="Link to this definition">§</a></dt>
+<dd><p>Delete any file or folder at <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Path</em>) – The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to delete.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Path</em></p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">path</span></code>, which no longer exists.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.ext">
+<span class="sig-name descname"><span class="pre">ext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.csv'</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.ext" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute specifying the file extension of DataTable instances.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.np">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">np</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.np" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Np.Matrix</span></code> stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.options">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.options" title="Link to this definition">§</a></dt>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">dict</span> <span class="pre">of</span> <span class="pre">options</span> <span class="pre">for</span> <span class="pre">file</span> <span class="pre">operations</span> <span class="pre">involving</span> <span class="pre">``self</span></code>.
+Any option not in <code class="docutils literal notranslate"><span class="pre">Table.writeOptions</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">self.options.read</span></code> and passed to <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>.
+Any option in <code class="docutils literal notranslate"><span class="pre">Table.writeOptions</span></code> is stored in <code class="docutils literal notranslate"><span class="pre">self.options.write</span></code>
+and passed to <code class="docutils literal notranslate"><span class="pre">pd.DataFrame.to_csv</span></code>.
+The setter updates via logical or <code class="docutils literal notranslate"><span class="pre">|=</span></code>, so existing values are retained unless explicitly updated.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.path">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Path</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.path" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Path</span></code> to this <code class="docutils literal notranslate"><span class="pre">Store</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.pd">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pd</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.pd" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">Pd.DataFrame</span></code> stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.skeleton">
+<span class="sig-name descname"><span class="pre">skeleton</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PD.DataFrame</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Empty</span> <span class="pre">DataFrame</span> <span class="pre">Columns:</span> <span class="pre">[(Input,</span> <span class="pre">float),</span> <span class="pre">(Category,</span> <span class="pre">int),</span> <span class="pre">(Column,</span> <span class="pre">str),</span> <span class="pre">(Output,</span> <span class="pre">func)]</span> <span class="pre">Index:</span> <span class="pre">[]</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.skeleton" title="Link to this definition">§</a></dt>
+<dd><p>DataFrame of the minimal, skeleton <code class="docutils literal notranslate"><span class="pre">DesignMatrix</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.tc">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tensor</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.tc" title="Link to this definition">§</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">TF.Matrix</span></code> stored in <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rc.data.models.NormalDesignMatrix.writeOptions">
+<span class="sig-name descname"><span class="pre">writeOptions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['sep',</span> <span class="pre">'na_rep',</span> <span class="pre">'float_format']</span></em><a class="headerlink" href="#rc.data.models.NormalDesignMatrix.writeOptions" title="Link to this definition">§</a></dt>
+<dd><p>Class attribute listing kwargs which will be interpreted as write options.
+All other kwargs are interpreted as read options.
+To specify a separator, use <code class="docutils literal notranslate"><span class="pre">delimiter</span></code> as read option and <code class="docutils literal notranslate"><span class="pre">sep</span></code> as write option.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="rc.data.models.DesignMatrix.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">rc.data.models.DesignMatrix</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="rc.data.models.Normalization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">rc.data.models.Normalization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.Options"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.Options</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.Options.read"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.Options.read</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.Options.write"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.Options.write</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.Options.__new__"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.Options.__new__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.Options.count"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.Options.count()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.Options.index"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.Options.index()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.create"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.create()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.copy"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.copy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.Label"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.Label</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.Path"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.Path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.__call__"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.__call__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.__init__"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.broadcast_to"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.broadcast_to()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.defaultOptions"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.defaultOptions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.delete"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.delete()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.ext"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.ext</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.np"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.np</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.options"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.options</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.path"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.pd"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.pd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.skeleton"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.skeleton</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.tc"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.tc</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.models.NormalDesignMatrix.writeOptions"><code class="docutils literal notranslate"><span class="pre">NormalDesignMatrix.writeOptions</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Robert A. Milton.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -35,7 +35,7 @@ from shutil import copyfile, copytree, rmtree
 
 
 MetaData = dict[str, Any]  #: Type for passing metadata as ``**kwargs``.
-Matrix = Union[PD.DataFrame, NP.Matrix, TC.Matrix] #: Types which a DataBase Table accepts.
+Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix] #: Types which a DataBase Table accepts.
 
 
 class Store(ABC):
@@ -88,10 +88,10 @@ class Store(ABC):
         Args:
             path: The ``Path`` to ``self``. A ``cls.ext`` suffix is automatically appended.
         """
-        self._path = self._create(path)
+        self._path = self.mkdir(path)
 
     @classmethod
-    def _create(cls, path: Path) -> Path:
+    def mkdir(cls, path: Path) -> Path:
         path = Path(path).with_suffix(cls.ext)
         if cls.ext == '':
             path.mkdir(mode=0o777, parents=True, exist_ok=True)
@@ -115,7 +115,7 @@ class Store(ABC):
         Raises:
             FileExistsError: If attempting to overwrite a file with a folder.
         """
-        return cls._create(path)
+        return cls.mkdir(path)
 
     @classmethod
     @abstractmethod
@@ -160,16 +160,10 @@ class Store(ABC):
         return path
 
 
-class Meta(Store):
+class Meta(Store, dict):
     """ Concrete class encapsulating metadata stored in a ``.json`` file."""
 
     ext: str = '.json'  #: ext: Class attribute specifying the file extension of Meta instances.
-
-
-    @property
-    def data(self) -> MetaData:
-        """ The ``MetaData`` stored in ``self``."""
-        return self._data
 
     def __call__(self, **data: Any) -> Self:
         """ Update and store ``self``, overwriting.
@@ -179,9 +173,9 @@ class Meta(Store):
 
         Returns: ``self``.
         """
-        self._data |= data
+        self.update(data)
         with open(self._path, mode='w') as file:
-            dump(self._data, file, indent=4)
+            dump(self, file, indent=4)
         return self
 
     def __init__(self, path: Store.Path, **data: Any):
@@ -192,13 +186,12 @@ class Meta(Store):
             **data: The ``MetaData`` to store. If absent, ``self.data`` is read from ``path``,
                 otherwise ``self.data=data`` is stored in ``path`` (which is overwritten if existing).
         """
-        super().__init__(path)
+        super(Meta, self).__init__(path)
         if data == {}:
             with open(self._path, mode='r') as file:
-                self._data = load(file)
-        else:
-            self._data = data
-            self()
+                data = load(file)
+        super(Store, self).__init__(**data)
+        self()
 
     @classmethod
     def create(cls, path: Store.Path, **data: Any):
@@ -211,7 +204,7 @@ class Meta(Store):
 
         Returns: The ``Meta`` created.
         """
-        return cls(path, **({'NotImplemented': 'in call to Meta.create()'} if data == {} else data))
+        return cls(path, **data)
 
     @classmethod
     def copy(cls, src: Meta, dst: Store.Path) -> Self:
@@ -224,11 +217,11 @@ class Meta(Store):
 
         Returns: The ``Meta`` now stored at ``dst.with_suffix('.json')``.
         """
-        return cls(dst, **src.data)
+        return cls(dst, **src)
 
 
 class Table(Store):
-    """ Concrete class encapsulating a ``PD.DataFrame`` backed by a ``.csv`` file."""
+    """ Concrete class encapsulating a ``Pd.DataFrame`` backed by a ``.csv`` file."""
 
     writeOptions: list[str] = ['sep', 'na_rep', 'float_format']
     """ Class attribute listing kwargs which will be interpreted as write options. 
@@ -257,17 +250,17 @@ class Table(Store):
         self._options._replace(read =self._options.read | update, write =self._options.write | write)
 
     @property
-    def pd(self) -> PD.DataFrame:
-        """ The ``PD.DataFrame`` stored in ``self``."""
+    def pd(self) -> Pd.DataFrame:
+        """ The ``Pd.DataFrame`` stored in ``self``."""
         return self._pd
 
     @property
-    def np(self) -> NP.Matrix:
-        """ The ``NP.Matrix`` stored in ``self``."""
+    def np(self) -> Np.Matrix:
+        """ The ``Np.Matrix`` stored in ``self``."""
         return self.pd.to_numpy()
 
     @property
-    def tc(self) -> TC.Matrix:
+    def tc(self) -> Tc.Matrix:
         """ The ``TF.Matrix`` stored in ``self``."""
         return tc.from_numpy(self.np)
 
@@ -305,16 +298,16 @@ class Table(Store):
             self._pd = data.pd.copy()
         elif isinstance(data, pd.DataFrame):
             self._pd = data.copy()
-        elif isinstance(data, NP.Matrix):
+        elif isinstance(data, Np.Matrix):
             self._pd.iloc[:, :] = data
-        elif isinstance(data, TC.Matrix):
+        elif isinstance(data, Tc.Matrix):
             self._pd.iloc[:, :] = data.numpy()
         self.options = options
         self._pd.to_csv(self._path, **self._options.write)
         return self
 
-    def __init__(self, path: Store.Path, data: Self | PD.DataFrame | None = None, **options: Any):
-        """ Construct ``self`` from a ``.csv`` file or ``PD.DataFrame``.
+    def __init__(self, path: Store.Path, data: Self | Pd.DataFrame | None = None, **options: Any):
+        """ Construct ``self`` from a ``.csv`` file or ``Pd.DataFrame``.
 
         Args:
             path: The ``Path`` (file) to store ``self``. A ``.csv`` extension is automatically appended.
@@ -332,14 +325,14 @@ class Table(Store):
 
     @classmethod
     def create(cls, path: Store.Path, data: Self | Matrix | None = None,
-               index: PD.Index | NP.Array = None, columns: PD.Index | NP.Array = None,
-               dtype: NP.DType | None = None, copy: bool | None = None, **metadata) -> Self:
+               index: Pd.Index | Np.Array = None, columns: Pd.Index | Np.Array = None,
+               dtype: Np.DType | None = None, copy: bool | None = None, **metadata) -> Self:
         """ Create a ``Table`` at ``path``, overwriting.
 
         Args:
             path: The ``Path`` to store this DataTable, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
-            data: The data to store. If ``None``, a ``PD.DataFrame`` is read from ``.csv``.
+            data: The data to store. If ``None``, a ``Pd.DataFrame`` is read from ``.csv``.
                 See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
             index: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
             columns: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
@@ -370,8 +363,7 @@ class Table(Store):
 
 
 class Tables(Store):
-    """ A ``NamedTuple`` of ``Table`` s in a folder. Base class for any ``DataBase.Tables``.
-        *This class is abstract and must be subclassed. Usage will raise AssertionErrors*.
+    """ A ``NamedTuple`` of ``Table`` s in a folder. Abstract base class for any ``DataBase.Tables``.
 
     ``Tables`` subclasses must be implemented according to the template (copy and paste it)::
 
@@ -387,15 +379,12 @@ class Tables(Store):
                     return getattr(self, name)
 
             options: NT[MetaData] = NT(names[i] = data[i].options[i], ...)
-
-    Raises:
-        AssertionError: Whenever used in a ``__debug__`` environment (i.e. whenever ``python`` is invoked
-            without the ``-O`` or ``--O`` flags). This class is abstract, and must be subclassed.
     """
-
     class NT(NamedTuple):
+        """ Must be overridden. """
         NotImplemented: Table | Matrix = pd.DataFrame(((f'Attribute type should be Table in '
                                                         f'any implementation.',),))  #: :meta private:
+
         def __call__(self, name: str) -> Table | Matrix | MetaData:
             """ Returns the Table named ``name``."""
             return getattr(self, name)
@@ -403,21 +392,14 @@ class Tables(Store):
     options: NT[MetaData] = NT(**{name: {} for name in NT._fields})
     """ Class attribute of the form ``NT(**{names[i]: options[i], ...})``. 
     Override as necessary for bespoke ``Table.options``.
-    Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``table[i].options.write``,
-    the remainder populate ``table[i].options.read``."""
+    Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,
+    the remainder populate ``self[i].options.read``."""
 
-    @classmethod
-    def _DataNotImplementedError(cls) -> str:
-        return (f'You must implement {cls.__qualname__}.NT as a subclass of NamedTuple. '
-                f'Your code (minus docstrings) should read as follows.\n'
-                f'class {cls.__name__}(Tables):\n    class NT(NamedTuple):\n'
-                f'        names[i]: Table | Matrix = pd.DataFrame(defaults[i].pd) ...')
-
-    @property
-    def asDict(self) -> Dict[str, Table]:
-        """ The ``self.NT(NamedTuple)`` of ``self`` as a ``dict``."""
-        assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
-        return self._nt._asdict()
+    # TODO: Delete if unmissed
+    # @property
+    # def asDict(self) -> Dict[str, Table]:
+    #     """ The ``self.NT(NamedTuple)`` of ``self`` as a ``dict``."""
+    #     return self._nt._asdict()
 
     def __len__(self) -> int:
         """ Counts the ``Table`` s in ``self``. """
@@ -426,16 +408,14 @@ class Tables(Store):
     def __getitem__(self, name: str | slice) -> Table | Tuple[Table, ...]:
         """ Indexer returns the ``Table`` (s) named or sliced by ``name``.
             The NamedTuple constituting ``self`` is ``self.NT(*self[:]``."""
-        assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
         return self._nt(name) if isinstance(name, str) else self._nt[name]
 
     def __setitem__(self, name: str | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
         """ Indexer sets the ``Table`` (s) named or sliced by ``name``."""
-        assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
         if isinstance(name, str):
             tables = {name: tables}
         else:
-            tables = {named: tables[i] for i, named in enumerate(self.names[name])}
+            tables = {named: tables[i] for i, named in enumerate(self.names()[name])}
         self(**tables)
 
     def __call__(self, **tables: Table | Matrix) -> Self:
@@ -447,7 +427,6 @@ class Tables(Store):
 
         Returns: ``self``.
         """
-        assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
         for name, table in tables.items():
             self._nt(name)(table, **self.options(name))
         return self
@@ -464,13 +443,12 @@ class Tables(Store):
         Raises:
             FileNotFoundError: If ``path`` lacks any member of ``cls.names()`` not mentioned in ``**data``.
         """
-        assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
         super().__init__(path)
         try:
             self._nt = self.NT(**{name:
                                         Table(path / name, tables[name], **self.options(name))
-                                        if name in tables and tables[name] is not None else
-                                        Table(path / name, **self.options(name))
+                                        if name in tables and tables[name] is not None
+                                        else Table(path / name, **self.options(name))
                                   for name in self.names()})
         except FileNotFoundError as error:
             print(f'Tables "{self}" is trying to read a non-existent Table. Did your script mean to call '
@@ -481,13 +459,11 @@ class Tables(Store):
     @classmethod    # Class Property
     def names(cls) -> Tuple[str, ...]:
         """ ``(names[i], ...)`` of table names for this ``Tables`` class."""
-        assert cls.NT is not Tables.NT, cls._DataNotImplementedError()
         return cls.NT._fields
 
     @classmethod    # Class Property
-    def defaults(cls) -> Dict[str, PD.DataFrame]:
-        """ ``{names[i]: PD.DataFrame[i], ...}`` of default tables for this ``Tables`` class."""
-        assert cls.NT is not Tables.NT, cls._DataNotImplementedError()
+    def defaults(cls) -> Dict[str, Pd.DataFrame]:
+        """ ``{names[i]: Pd.DataFrame[i], ...}`` of default tables for this ``Tables`` class."""
         return cls.NT._field_defaults
 
     @classmethod
@@ -502,7 +478,6 @@ class Tables(Store):
 
         Returns: The ``Tables`` created.
         """
-        assert cls.NT is not Tables.NT, cls._DataNotImplementedError()
         return cls(path, **(cls.defaults() | tables))
 
     @classmethod
@@ -515,7 +490,6 @@ class Tables(Store):
 
         Returns: The ``Tables`` now stored at ``dst``.
         """
-        assert cls.NT is not Tables.NT, cls._DataNotImplementedError()
         return cls(dst, **src.tables_as_dict())
 
     @classmethod
@@ -530,7 +504,6 @@ class Tables(Store):
 
         Returns: ``path``, which still exists.
         """
-        assert cls.NT is not Tables.NT, cls._DataNotImplementedError()
         path = Path(path)
         for table_name in cls.names():
             Table.delete(path / table_name)
@@ -538,10 +511,9 @@ class Tables(Store):
 
 
 class DataBase(Store):
-
     """ ``Tables`` with ``Meta``. Abstract base class for any model.
 
-    ``Tables`` subclasses must be implemented according to the template (copy and paste it)::
+    ``DataBase`` subclasses must be implemented according to the template (copy and paste it)::
 
         class MyDataBase(DataBase):
 
@@ -558,14 +530,16 @@ class DataBase(Store):
 
                 options: NT[MetaData] = NT(names[i] = data[i].options[i], ...)
 
-            defaultMetaData: MetaData = {'options': Tables.options._asdict()}
+            defaultMetaData: MetaData = {'Tables': Tables.options._asdict()}
     """
 
     class Tables(Tables):
-
+        """ Must be overridden."""
         class NT(NamedTuple):
+            """ Must be overridden."""
             NotImplemented: Table | Matrix = pd.DataFrame(((f'Attribute type should be Table in '
                                                             f'any implementation.',),))  #: :meta private:
+
             def __call__(self, name: str) -> Table | Matrix | MetaData:
                 """ Returns the Table named ``name``."""
                 return getattr(self, name)
@@ -577,7 +551,7 @@ class DataBase(Store):
         the remainder populate ``table[i].options.read``."""
 
     #: Class attribute. Should be overridden.
-    defaultMetaData: MetaData = {'options': Tables.options._asdict()}
+    defaultMetaData: MetaData = {'Tables': Tables.options._asdict()}
 
     @property
     def meta(self) -> Meta:
@@ -591,7 +565,6 @@ class DataBase(Store):
     def __getitem__(self, name: str | slice) -> Table:
         """ Indexer returns the ``Table`` (s) named or sliced by ``name``.
             The NamedTuple constituting ``self`` is ``self.NT(*self[:]``."""
-        assert self.NT is not Tables.NT, type(self)._DataNotImplementedError()
         return self._tables[name]
 
     def __setitem__(self, name: str | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
@@ -609,7 +582,7 @@ class DataBase(Store):
         self._tables(**metadata)
         return self
 
-    def __init__(self, path: Store.Path, **tables: Table | PD.DataFrame):
+    def __init__(self, path: Store.Path, **tables: Table | Pd.DataFrame):
         """ Read the ``DataBase`` in ``path``.
 
         Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.
@@ -633,7 +606,7 @@ class DataBase(Store):
             raise error
 
     @classmethod
-    def create(cls, path: Store.Path, **tables_and_meta: Table | PD.DataFrame | MetaData) -> Self:
+    def create(cls, path: Store.Path, **tables_and_meta: Table | Pd.DataFrame | MetaData) -> Self:
         """ Create a ``DataBase`` in ``path``.
 
         Args:
