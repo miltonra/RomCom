@@ -23,7 +23,7 @@
 #  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-""" Test functions, taken from `SALib <https://salib.readthedocs.io/en/latest/api/SALib.test_functions.html>`_"""
+""" Test functions, taken from `SALib <https://salib.readthedocs.io/en/latest/api/SALib.test_functions.html>`_."""
 
 from __future__ import annotations
 
@@ -36,15 +36,15 @@ class Scalar:
         ``self.call(self.loc + self.scale * x[:, :self.m], **(self.kwargs | kwargs)``."""
 
     @property
-    def call(self) -> Callable[NP.Matrix, float]:
+    def call(self) -> Callable[Np.Matrix, float]:
         return self._call
 
     @property
-    def loc(self) -> NP.Vector:
+    def loc(self) -> Np.Vector:
         return self._loc
 
     @property
-    def scale(self) -> NP.Vector:
+    def scale(self) -> Np.Vector:
         return self._scale
 
     @property
@@ -52,15 +52,15 @@ class Scalar:
         return self._m
 
     @property
-    def kwargs(self) -> dict[str, NP.Array]:
+    def kwargs(self) -> dict[str, Np.Array]:
         return self._kwargs
 
-    def __call__(self, x: NP.Matrix, **kwargs: NP.Matrix) -> NP.Matrix:
+    def __call__(self, x: Np.Matrix, **kwargs: Np.Matrix) -> Np.Matrix:
         return np.reshape(self._call(self._loc + self._scale * x[:, :self._m], **(self._kwargs | kwargs)),
                           (x.shape[0], 1))
 
-    def __init__(self, call: Callable[NP.Matrix, float], loc: NP.Vector, scale: NP.Vector, m: int,
-                 **kwargs: NP.Array):
+    def __init__(self, call: Callable[Np.Matrix, float], loc: Np.Vector, scale: Np.Vector, m: int,
+                 **kwargs: Np.Array):
         """ A scalar function, which calls ``call(loc + scale * x[:, :m], **kwargs)``.
 
         Args:
@@ -117,7 +117,7 @@ class Vector(dict):
         """
         return Vector(name, **{scalar: self[scalar] for scalar in scalars})
 
-    def __call__(self, x: NP.Matrix, **kwargs) -> NP.Matrix:
+    def __call__(self, x: Np.Matrix, **kwargs) -> Np.Matrix:
         return np.concatenate([scalar(x, **kwargs) for scalar in self.values()], axis = 1)
 
     def __init__(self, name: str, **kwargs: Scalar):
@@ -141,7 +141,7 @@ _SOBOL_G = {'call': SALib.test_functions.Sobol_G.evaluate, 'loc': 0, 'scale': 1}
 _OAKLEY2004 = {'call': SALib.test_functions.oakley2004.evaluate, 'loc': -1, 'scale': 2}
 
 
-def linspace(start: float, stop: float, shape: Sequence[int]) -> NP.Matrix:
+def linspace(start: float, stop: float, shape: Sequence[int]) -> Np.Matrix:
     """ A multi-dimensional version of ``np.linspace``, distributing values throughout ``shape``.
 
     Args:

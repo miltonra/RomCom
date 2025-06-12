@@ -27,11 +27,10 @@
 
 from __future__ import annotations
 
-from .definitions import *
-from abc import ABC, abstractmethod
-from json import load, dump
-from pathlib import Path
 from shutil import copyfile, copytree, rmtree
+from json import load, dump
+
+from .definitions import *
 
 
 MetaData = dict[str, Any]  #: Type for passing metadata as ``**kwargs``.

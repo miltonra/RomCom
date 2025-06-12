@@ -392,9 +392,15 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-rc">
-<span id="api"></span><h1>API<a class="headerlink" href="#module-rc" title="Link to this heading">§</a></h1>
-<p><strong>The RomCom library exists in Python code as the</strong> <code class="docutils literal notranslate"><span class="pre">rc</span></code> <strong>package.</strong></p>
+  <section id="api">
+<h1>API<a class="headerlink" href="#api" title="Link to this heading">§</a></h1>
+<p>When ordered alphabetically, the module hierarchy is understood top-down, and used bottom-up.
+For example, the <code class="docutils literal notranslate"><span class="pre">base</span></code> module is fundamental to everything, but the <code class="docutils literal notranslate"><span class="pre">user</span></code> module is the best interface
+to achieve most tasks.
+Naturally, code dependency is bottom-up alphabetically.</p>
+<p>Alphabetical ordering applies to submodules too.
+For example, the <code class="docutils literal notranslate"><span class="pre">data</span></code> module depends only on <code class="docutils literal notranslate"><span class="pre">base</span></code> and consists of three submodules: <code class="docutils literal notranslate"><span class="pre">data.samples</span></code> depends on <code class="docutils literal notranslate"><span class="pre">data.models</span></code> which depends on <code class="docutils literal notranslate"><span class="pre">data.functions</span></code>.</p>
+<p id="module-rc"><strong>The RomCom library exists in Python code as the</strong> <code class="docutils literal notranslate"><span class="pre">rc</span></code> <strong>package.</strong></p>
 <section id="modules">
 <h2>Modules<a class="headerlink" href="#modules" title="Link to this heading">§</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
@@ -409,27 +415,42 @@
 </table>
 </div>
 </section>
-<section id="code-conventions">
-<h2>Code Conventions<a class="headerlink" href="#code-conventions" title="Link to this heading">§</a></h2>
-<p>When ordered alphabetically, the API hierarchy is best understood top-down, and used bottom-up.
-So the <code class="docutils literal notranslate"><span class="pre">base</span></code> module is fundamental to everything, but the <code class="docutils literal notranslate"><span class="pre">user</span></code> module is the best interface
-to achieve most tasks.
-The code dependency structure is naturally top-down alphabetically.</p>
-<p>These observations apply within submodules too, so the <code class="docutils literal notranslate"><span class="pre">data</span></code> module depends only on <code class="docutils literal notranslate"><span class="pre">base</span></code>,
-and consists of three submodules:
-<code class="docutils literal notranslate"><span class="pre">data.functions</span></code> which is independent of <code class="docutils literal notranslate"><span class="pre">data.models</span></code> which is independent of <code class="docutils literal notranslate"><span class="pre">data.samples</span></code>.</p>
+<section id="conventions">
+<h2>Conventions<a class="headerlink" href="#conventions" title="Link to this heading">§</a></h2>
+<p>RomCom views Python entities as falling into one of three categories, each with its own naming convention.</p>
 <dl class="simple glossary">
-<dt id="term-ClassNames-TypeNames">ClassNames/TypeNames<a class="headerlink" href="#term-ClassNames-TypeNames" title="Link to this term">§</a></dt><dd><p>Class and type names are UpperCamelCase.</p>
+<dt id="term-namespace">namespace<a class="headerlink" href="#term-namespace" title="Link to this term">§</a></dt><dd><p>Packages and modules are referred to in lowercase (abbreviations or single words).</p>
 </dd>
-<dt id="term-Constants-constants">Constants/constants<a class="headerlink" href="#term-Constants-constants" title="Link to this term">§</a></dt><dd><p>Constancy is determined by scope, not name. Any Class or module attribute is a constant,
-which must not be modified.
-An UpperCamelCase constant refers to a Class/Type, a lowerCamelCase constant does not.</p>
+<dt id="term-Class">Class<a class="headerlink" href="#term-Class" title="Link to this term">§</a></dt><dd><p>Classes and Types are referred to in UpperCamelCase. The User Guide italicizes <em>AbstractClasses</em> –
+i.e those not instantiable as objects.</p>
 </dd>
-<dt id="term-functionNames-variableNames">functionNames/variableNames<a class="headerlink" href="#term-functionNames-variableNames" title="Link to this term">§</a></dt><dd><p>Function and variable names are lowerCamelCase.</p>
-</dd>
-<dt id="term-packages-modules">packages/modules<a class="headerlink" href="#term-packages-modules" title="Link to this term">§</a></dt><dd><p>Package and module names are lowercase words or abbreviations.</p>
+<dt id="term-object">object<a class="headerlink" href="#term-object" title="Link to this term">§</a></dt><dd><p>Anything which is neither <a class="reference internal" href="#term-namespace"><span class="xref std std-term">namespace</span></a> nor <a class="reference internal" href="#term-Class"><span class="xref std std-term">Class</span></a> is referred to in lowerCamelCase.
+This includes classInstances, classAttributes and instanceAttributes.</p>
 </dd>
 </dl>
+<section id="constants">
+<h3>Constants<a class="headerlink" href="#constants" title="Link to this heading">§</a></h3>
+<p>Constancy in RomCom is determined by scope, not name.
+Every namespace or Class attribute in RomCom is a constant which must not be modified.
+Bespoke constants should be implemented by subclassing, leaving the RomCom parent unmodified.
+An UpperCamelCase constant refers to a Class, a lowerCamelCase constant does not.</p>
+</section>
+<section id="annotations">
+<h3>Annotations<a class="headerlink" href="#annotations" title="Link to this heading">§</a></h3>
+<p>RomCom is copiously annotated, in the spirit of a statically typed library.
+Type annotation is the subject of <code class="docutils literal notranslate"><span class="pre">rc.base.definitions</span></code>, which simply extends
+<a class="reference external" href="https://docs.python.org/3/library/typing.html">Python Standard Library typing</a>.
+For aliasing and naming conflict resolution, <code class="docutils literal notranslate"><span class="pre">rc.base.definitions</span></code> imports the core libraries <code class="docutils literal notranslate"><span class="pre">pandas</span></code>,
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">torch</span></code>, and wraps them in aliasing classes <code class="docutils literal notranslate"><span class="pre">Pd</span></code>, <code class="docutils literal notranslate"><span class="pre">Np</span></code>, <code class="docutils literal notranslate"><span class="pre">Tc</span></code>. This provides the namespace/Class duals
+<a class="reference internal" href="../index.html#term-pd-Pd"><span class="xref std std-term">pd | Pd</span></a>, <a class="reference internal" href="../index.html#term-np-Np"><span class="xref std std-term">np | Np</span></a>, and <a class="reference internal" href="../index.html#term-tc-Tc"><span class="xref std std-term">tc | Tc</span></a>.</p>
+</section>
+<section id="flexibility-and-pep-8">
+<h3>Flexibility and PEP 8<a class="headerlink" href="#flexibility-and-pep-8" title="Link to this heading">§</a></h3>
+<p>As the previous paragraph demonstrates, RomCom conventions may be flexed when needs must.
+This aligns with the spirit of <a class="reference external" href="https://peps.python.org/pep-0008/">PEP 8</a>,
+to which RomCom abides, except for source code line wraps at 114 characters and
+a neurotic aversion to ugly under_scores and BLOCK_CAPS.</p>
+</section>
 </section>
 </section>
 
@@ -481,7 +502,12 @@ An UpperCamelCase constant refers to a Class/Type, a lowerCamelCase constant doe
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modules">Modules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-conventions">Code Conventions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions">Conventions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constants">Constants</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annotations">Annotations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#flexibility-and-pep-8">Flexibility and PEP 8</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

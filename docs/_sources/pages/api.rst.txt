@@ -2,33 +2,19 @@
 API
 ==================
 
+When ordered alphabetically, the module hierarchy is understood top-down, and used bottom-up.
+For example, the ``base`` module is fundamental to everything, but the ``user`` module is the best interface
+to achieve most tasks.
+Naturally, code dependency is bottom-up alphabetically.
+
+Alphabetical ordering applies to submodules too.
+For example, the ``data`` module depends only on ``base`` and consists of three submodules: ``data.samples`` depends on ``data.models`` which depends on ``data.functions``.
+
 .. include:: api/api.rst
 
-Code Conventions
------------------
 
-When ordered alphabetically, the API hierarchy is best understood top-down, and used bottom-up.
-So the ``base`` module is fundamental to everything, but the ``user`` module is the best interface
-to achieve most tasks.
-The code dependency structure is naturally top-down alphabetically.
+Conventions
+------------------
 
-These observations apply within submodules too, so the ``data`` module depends only on ``base``,
-and consists of three submodules:
-``data.functions`` which is independent of ``data.models`` which is independent of ``data.samples``.
+.. include:: ../conventions.rst
 
-.. glossary::
-    :sorted:
-
-    packages/modules
-        Package and module names are lowercase words or abbreviations.
-
-    ClassNames/TypeNames
-        Class and type names are UpperCamelCase.
-
-    functionNames/variableNames
-        Function and variable names are lowerCamelCase.
-
-    Constants/constants
-        Constancy is determined by scope, not name. Any Class or module attribute is a constant,
-        which must not be modified.
-        An UpperCamelCase constant refers to a Class/Type, a lowerCamelCase constant does not.

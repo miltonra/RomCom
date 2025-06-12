@@ -3,19 +3,17 @@
 **Reduced Order Modelling via GSA/GPR, by Robert A. Milton of The University of Sheffield**
 
 ## CUDA Prerequisites for GPU usage
-GPU usage requires a ``CUDA`` setup appropriate to the version of TensorFlow installed. 
-Please consult you system administrator or the [TensorFlow Installation Guide](https://www.tensorflow.org/install) for further details.
+GPU usage requires a ``CUDA`` setup appropriate to the version of PyTorch installed.
+Please consult you system administrator or [PyTorch Get Started](https://pytorch.org/get-started/locally/) for further details.
 
-Under ``Windows 11``, GPU usage was abandoned after ``TensorFlow 2.10`` (which requires ``Python 3.10``). 
-If you wish to use GPU acceleration under ``Windows 11`` it is recommended that you follow the first 5 Sections of 
-[Install TensorFlow GPU on Windows](https://www.lavivienpost.com/install-tensorflow-gpu-on-windows-complete-guide/)
-to install ``CUDA Toolkit 11.8`` and ``cuDNN 8.6``.
-After this, simply install dependencies according to [pyproject.toml](https://github.com/miltonra/RomCom/blob/main/pyproject.toml) 
-for ``Python 3.10``.
+## Python Version
+Python 3.12 is currently supported. 
+Other Python versions may work, but are untested. 
+Any issues are most likely raised by PyTorch and its dependencies NumPy and pandas.
 
 ## Installation
 Once your CUDA prerequisites are satisfied, it is recommended that you create and activate a (``virtualenv`` or ``conda``) environment 
-with the desired ``Python 3.10|3.11`` then
+with the desired ``python`` then
 ```
 git clone https://github.com/miltonra/RomCom.git
 cd RomCom

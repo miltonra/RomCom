@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>rc.data.functions.OAKLEY2004_5 &#8212; RomCom</title>
+    <title>Code Conventions &#8212; RomCom</title>
   
   
   
@@ -45,7 +45,7 @@
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/api/rc.data.functions.OAKLEY2004_5';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/intro/conventions';</script>
     <link rel="icon" href="../../_static/MattLogo2.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -231,10 +231,6 @@
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
-      <span class="fa-solid fa-outdent"></span>
-    </button>
-  
 </div>
 
     </header>
@@ -244,6 +240,8 @@
     <div class="bd-container__inner bd-page-width">
       
       
+      
+        
       
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
@@ -373,7 +371,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">rc.data.functions.OAKLEY2004_5</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Code Conventions</span></li>
   </ul>
 </nav>
 </div>
@@ -390,22 +388,28 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="rc-data-functions-oakley2004-5">
-<h1>rc.data.functions.OAKLEY2004_5<a class="headerlink" href="#rc-data-functions-oakley2004-5" title="Link to this heading">§</a></h1>
-<dl class="py data">
-<dt class="sig sig-object py" id="rc.data.functions.OAKLEY2004_5">
-<span class="sig-name descname"><span class="pre">OAKLEY2004_5</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'lin':</span> <span class="pre">&lt;rc.data.functions.Scalar</span> <span class="pre">object&gt;,</span> <span class="pre">'quad':</span> <span class="pre">&lt;rc.data.functions.Scalar</span> <span class="pre">object&gt;,</span> <span class="pre">'rev':</span> <span class="pre">&lt;rc.data.functions.Scalar</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#rc.data.functions.OAKLEY2004_5" title="Link to this definition">§</a></dt>
-<dd><p>Three example modified Oakley &amp; O’Hagan (2004) functions, requiring <code class="docutils literal notranslate"><span class="pre">M</span> <span class="pre">&gt;=</span> <span class="pre">5</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>Np.Matrix</em>)</p>
+  <section id="code-conventions">
+<h1>Code Conventions<a class="headerlink" href="#code-conventions" title="Link to this heading">§</a></h1>
+<p>When ordered alphabetically, the API hierarchy is best understood top-down, and used bottom-up.
+So the <code class="docutils literal notranslate"><span class="pre">base</span></code> module is fundamental to everything, but the <code class="docutils literal notranslate"><span class="pre">user</span></code> module is the best interface
+to achieve most tasks.
+The code dependency structure is naturally top-down alphabetically.</p>
+<p>These observations apply within submodules too, so the <code class="docutils literal notranslate"><span class="pre">data</span></code> module depends only on <code class="docutils literal notranslate"><span class="pre">base</span></code>,
+and consists of three submodules:
+<code class="docutils literal notranslate"><span class="pre">data.functions</span></code> which is independent of <code class="docutils literal notranslate"><span class="pre">data.models</span></code> which is independent of <code class="docutils literal notranslate"><span class="pre">data.samples</span></code>.</p>
+<dl class="simple glossary">
+<dt id="term-packages-modules">packages/modules<a class="headerlink" href="#term-packages-modules" title="Link to this term">§</a></dt><dd><p>Package and module names are lowercase words or abbreviations.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Np.Matrix</p>
+<dt id="term-ClassNames-TypeNames">ClassNames/TypeNames<a class="headerlink" href="#term-ClassNames-TypeNames" title="Link to this term">§</a></dt><dd><p>Class and type names are UpperCamelCase.</p>
+</dd>
+<dt id="term-functionNames-variableNames">functionNames/variableNames<a class="headerlink" href="#term-functionNames-variableNames" title="Link to this term">§</a></dt><dd><p>Function and variable names are lowerCamelCase.</p>
+</dd>
+<dt id="term-Constants-constants">Constants/constants<a class="headerlink" href="#term-Constants-constants" title="Link to this term">§</a></dt><dd><p>Constancy in RomCom is determined by scope, not name.
+Every Class or module attribute in RomCom is a constant which must not be modified.
+Bespoke constants should be implemented by subclassing, leaving the RomCom parent unmodified.
+An UpperCamelCase constant refers to a Class/Type, a lowerCamelCase constant does not.</p>
 </dd>
 </dl>
-</dd></dl>
-
 </section>
 
 
@@ -424,24 +428,6 @@
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rc.data.functions.OAKLEY2004_5"><code class="docutils literal notranslate"><span class="pre">OAKLEY2004_5</span></code></a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

@@ -392,7 +392,7 @@
                   
   <section id="module-rc.data.functions">
 <span id="rc-data-functions"></span><h1>rc.data.functions<a class="headerlink" href="#module-rc.data.functions" title="Link to this heading">§</a></h1>
-<p>Test functions, taken from <a class="reference external" href="https://salib.readthedocs.io/en/latest/api/SALib.test_functions.html">SALib</a></p>
+<p>Test functions, taken from <a class="reference external" href="https://salib.readthedocs.io/en/latest/api/SALib.test_functions.html">SALib</a>.</p>
 <p class="rubric">Module Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
@@ -448,12 +448,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>NP.Matrix</em>)</p></li>
-<li><p><strong>kwargs</strong> (<em>NP.Matrix</em>)</p></li>
+<li><p><strong>x</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>ndarray</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p><em>ndarray</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -465,11 +465,11 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>call</strong> (<em>Callable</em><em>[</em><em>NP.Matrix</em><em>, </em><em>float</em><em>]</em>) – The SALib function called.</p></li>
-<li><p><strong>loc</strong> (<em>NP.Vector</em>) – Input offset.</p></li>
-<li><p><strong>scale</strong> (<em>NP.Vector</em>) – Input scale.</p></li>
+<li><p><strong>call</strong> (<em>Callable</em><em>[</em><em>[</em><em>ndarray</em><em>]</em><em>, </em><em>float</em><em>]</em>) – The SALib function called.</p></li>
+<li><p><strong>loc</strong> (<em>ndarray</em>) – Input offset.</p></li>
+<li><p><strong>scale</strong> (<em>ndarray</em>) – Input scale.</p></li>
 <li><p><strong>m</strong> (<em>int</em>) – The number of input dimensions.</p></li>
-<li><p><strong>**kwargs</strong> (<em>NP.Array</em>) – Function data applied to call.</p></li>
+<li><p><strong>**kwargs</strong> (<em>ndarray</em>) – Function data applied to call.</p></li>
 </ul>
 </dd>
 </dl>
@@ -535,10 +535,10 @@ for each dictionary item <code class="docutils literal notranslate"><span class=
 <dd><p>Call self as a function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>NP.Matrix</em>)</p>
+<dd class="field-odd"><p><strong>x</strong> (<em>ndarray</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p><em>ndarray</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -644,7 +644,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p><em>ndarray</em></p>
 </dd>
 </dl>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">np.reshape(np.linspace(start,</span> <span class="pre">stop,</span> <span class="pre">int(np.prod(shape)),</span> <span class="pre">endpoint=True),</span> <span class="pre">newshape=shape)</span></code>.</p>
@@ -656,10 +656,10 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 <dd><p>Three example Ishigami functions, requiring <code class="docutils literal notranslate"><span class="pre">M</span> <span class="pre">&gt;=</span> <span class="pre">3</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>NP.Matrix</em>)</p>
+<dd class="field-odd"><p><strong>x</strong> (<em>Np.Matrix</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p>Np.Matrix</p>
 </dd>
 </dl>
 </dd></dl>
@@ -670,10 +670,10 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 <dd><p>Three example modified Sobol G-functions, requiring <code class="docutils literal notranslate"><span class="pre">M</span> <span class="pre">&gt;=</span> <span class="pre">5</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>NP.Matrix</em>)</p>
+<dd class="field-odd"><p><strong>x</strong> (<em>Np.Matrix</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p>Np.Matrix</p>
 </dd>
 </dl>
 </dd></dl>
@@ -684,10 +684,10 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 <dd><p>Three example modified Oakley &amp; O’Hagan (2004) functions, requiring <code class="docutils literal notranslate"><span class="pre">M</span> <span class="pre">&gt;=</span> <span class="pre">5</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>NP.Matrix</em>)</p>
+<dd class="field-odd"><p><strong>x</strong> (<em>Np.Matrix</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p>Np.Matrix</p>
 </dd>
 </dl>
 </dd></dl>
@@ -698,10 +698,10 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 <dd><p>3 example modified Oakley &amp; O’Hagan (2004) functions, requiring <code class="docutils literal notranslate"><span class="pre">M</span> <span class="pre">&gt;=</span> <span class="pre">7</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>NP.Matrix</em>)</p>
+<dd class="field-odd"><p><strong>x</strong> (<em>Np.Matrix</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p>Np.Matrix</p>
 </dd>
 </dl>
 </dd></dl>
@@ -712,10 +712,10 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 <dd><p>The concatenation of ISHIGAMI, SOBOL_G, OAKLEY2004.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>NP.Matrix</em>)</p>
+<dd class="field-odd"><p><strong>x</strong> (<em>Np.Matrix</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>NP.Matrix</p>
+<dd class="field-even"><p>Np.Matrix</p>
 </dd>
 </dl>
 </dd></dl>

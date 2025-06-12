@@ -416,7 +416,7 @@
 <span class="c1">#  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,</span>
 <span class="c1">#  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
 
-<span class="sd">&quot;&quot;&quot; Test functions, taken from `SALib &lt;https://salib.readthedocs.io/en/latest/api/SALib.test_functions.html&gt;`_&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot; Test functions, taken from `SALib &lt;https://salib.readthedocs.io/en/latest/api/SALib.test_functions.html&gt;`_.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -431,15 +431,15 @@
 <span class="sd">        ``self.call(self.loc + self.scale * x[:, :self.m], **(self.kwargs | kwargs)``.&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">loc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loc</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span>
 
     <span class="nd">@property</span>
@@ -447,20 +447,20 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NP</span><span class="o">.</span><span class="n">Array</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Np</span><span class="o">.</span><span class="n">Array</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span>
 
 <div class="viewcode-block" id="Scalar.__call__">
 <a class="viewcode-back" href="../../../pages/api/rc.data.functions.Scalar.html#rc.data.functions.Scalar.__call__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_loc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">*</span> <span class="n">x</span><span class="p">[:,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">],</span> <span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">|</span> <span class="n">kwargs</span><span class="p">)),</span>
                           <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="Scalar.__init__">
 <a class="viewcode-back" href="../../../pages/api/rc.data.functions.Scalar.html#rc.data.functions.Scalar.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">loc</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Vector</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Vector</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">loc</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Vector</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Vector</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; A scalar function, which calls ``call(loc + scale * x[:, :m], **kwargs)``.</span>
 
 <span class="sd">        Args:</span>
@@ -529,7 +529,7 @@
 
 <div class="viewcode-block" id="Vector.__call__">
 <a class="viewcode-back" href="../../../pages/api/rc.data.functions.Vector.html#rc.data.functions.Vector.__call__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">scalar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
@@ -560,7 +560,7 @@
 
 <div class="viewcode-block" id="linspace">
 <a class="viewcode-back" href="../../../pages/api/rc.data.functions.linspace.html#rc.data.functions.linspace">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NP</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Np</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A multi-dimensional version of ``np.linspace``, distributing values throughout ``shape``.</span>
 
 <span class="sd">    Args:</span>

@@ -380,8 +380,8 @@
 <section id="welcome">
 <h2>Welcome<a class="headerlink" href="#welcome" title="Link to this heading">§</a></h2>
 <p>The RomCom Python package performs Reduction of Order by Marginalization (<a class="reference internal" href="#term-ROM"><span class="xref std std-term">ROM</span></a>) Computations via Global Sensitivity Analysis (<a class="reference internal" href="#term-GSA"><span class="xref std std-term">GSA</span></a>)
-using Gaussian Process Regression (<a class="reference internal" href="#term-GPR"><span class="xref std std-term">GPR</span></a>). The mathematics behind this software is covered in some detail in a
-<a class="reference external" href="https://github.com/miltonra/RomDoc/blob/dev/Sobol%20Matrices/Sobol%20Matrices.pdf">paper currently under peer review for publication</a>.</p>
+using Gaussian Process Regression (<a class="reference internal" href="#term-GPR"><span class="xref std std-term">GPR</span></a>). The mathematics behind this software is covered in some detail in the following preprint
+<a class="reference external" href="https://arxiv.org/abs/2501.04602">Milton and Brown 2025</a>.</p>
 <dl class="simple glossary">
 <dt id="term-GPR">GPR<a class="headerlink" href="#term-GPR" title="Link to this term">§</a></dt><dd><p>Gaussian Process Regression.
 A quite general technique for representing a functional dataset as a (Gaussian) stochastic process described thoroughly in
@@ -391,8 +391,7 @@ A quite general technique for representing a functional dataset as a (Gaussian) 
 This Assesses and ranks the relevance of a system’s inputs to its outputs by a variety of methods covered broadly in
 [<a class="reference external" href="https://onlinelibrary.wiley.com/doi/book/10.1002/9780470725184">Saltelli et al. 2007</a>] and
 [<a class="reference external" href="https://doi.org/10.1016/j.envsoft.2020.104954">Razavi et al. 2021</a>].
-RomCom deals exclusively with the variance based method of Ilya M. Sobol, extended to novel
-[<a class="reference external" href="https://github.com/C-O-M-M-A/rom-papers/blob/main/Sobol%20Matrices/Sobol%20Matrices.pdf">Sobol’ Matrices</a>].</p>
+RomCom deals exclusively with the variance based method of Ilya M. Sobol, extended to novel <a class="reference external" href="https://arxiv.org/abs/2501.04602">Sobol’ matrices</a>.</p>
 </dd>
 <dt id="term-ROM">ROM<a class="headerlink" href="#term-ROM" title="Link to this term">§</a></dt><dd><p>Reduction of Order by Marginalization. A novel approach to locating an Active Subspace (AS) using conditional variances or Sobol’ indices.
 In the Active Subspace technique [<a class="reference external" href="https://epubs.siam.org/doi/book/10.1137/1.9781611973860">Constantine 2014</a>]
@@ -400,6 +399,9 @@ the input basis is rotated to align with the eigenvectors of the squared Jacobia
 In ROM, the input basis is rotated to maximise the Sobol’ index of the first <span class="math notranslate nohighlight">\(m\)</span> inputs.</p>
 </dd>
 </dl>
+<p>We recommend reading this page up to the general <a class="reference internal" href="#glossary">Glossary</a>, which is intended for reference.
+RomCom considers source code and User Guide as one: <a class="reference internal" href="#conventions">Conventions</a> and <a class="reference internal" href="#glossary">Glossary</a> apply equally to both, within their format limitations.
+RomCom is, for better or worse, laced with <a href="#id1"><span class="problematic" id="id2">`Python lingo&lt;https://www.fluentpython.com/lingo/&gt;`_</span></a>.</p>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">§</a></h2>
@@ -408,7 +410,7 @@ In ROM, the input basis is rotated to maximise the Sobol’ index of the first <
 </section>
 <section id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">§</a></h2>
-<p>Initially, it is recommended to read <a class="reference internal" href="pages/intro.html"><span class="doc">Intro</span></a>, then <a class="reference internal" href="pages/usage.html"><span class="doc">Usage</span></a>, then <a class="reference internal" href="pages/data.html"><span class="doc">Data</span></a>, then experiment.</p>
+<p>We recommend reading <a class="reference internal" href="pages/intro.html"><span class="doc">Intro</span></a>, <a class="reference internal" href="pages/usage.html"><span class="doc">Usage</span></a> and <a class="reference internal" href="pages/data.html"><span class="doc">Data</span></a>, in that order, then experiment.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pages/intro.html">Intro</a></li>
@@ -422,25 +424,62 @@ In ROM, the input basis is rotated to maximise the Sobol’ index of the first <
 </ul>
 </div>
 </section>
+<section id="conventions">
+<h2>Conventions<a class="headerlink" href="#conventions" title="Link to this heading">§</a></h2>
+<p>RomCom views Python entities as falling into one of three categories, each with its own naming convention.</p>
+<dl class="simple glossary">
+<dt id="term-namespace">namespace<a class="headerlink" href="#term-namespace" title="Link to this term">§</a></dt><dd><p>Packages and modules are referred to in lowercase (abbreviations or single words).</p>
+</dd>
+<dt id="term-Class">Class<a class="headerlink" href="#term-Class" title="Link to this term">§</a></dt><dd><p>Classes and Types are referred to in UpperCamelCase. The User Guide italicizes <em>AbstractClasses</em> –
+i.e those not instantiable as objects.</p>
+</dd>
+<dt id="term-object">object<a class="headerlink" href="#term-object" title="Link to this term">§</a></dt><dd><p>Anything which is neither <a class="reference internal" href="#term-namespace"><span class="xref std std-term">namespace</span></a> nor <a class="reference internal" href="#term-Class"><span class="xref std std-term">Class</span></a> is referred to in lowerCamelCase.
+This includes classInstances, classAttributes and instanceAttributes.</p>
+</dd>
+</dl>
+<section id="constants">
+<h3>Constants<a class="headerlink" href="#constants" title="Link to this heading">§</a></h3>
+<p>Constancy in RomCom is determined by scope, not name.
+Every namespace or Class attribute in RomCom is a constant which must not be modified.
+Bespoke constants should be implemented by subclassing, leaving the RomCom parent unmodified.
+An UpperCamelCase constant refers to a Class, a lowerCamelCase constant does not.</p>
+</section>
+<section id="annotations">
+<h3>Annotations<a class="headerlink" href="#annotations" title="Link to this heading">§</a></h3>
+<p>RomCom is copiously annotated, in the spirit of a statically typed library.
+Type annotation is the subject of <code class="docutils literal notranslate"><span class="pre">rc.base.definitions</span></code>, which simply extends
+<a class="reference external" href="https://docs.python.org/3/library/typing.html">Python Standard Library typing</a>.
+For aliasing and naming conflict resolution, <code class="docutils literal notranslate"><span class="pre">rc.base.definitions</span></code> imports the core libraries <code class="docutils literal notranslate"><span class="pre">pandas</span></code>,
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">torch</span></code>, and wraps them in aliasing classes <code class="docutils literal notranslate"><span class="pre">Pd</span></code>, <code class="docutils literal notranslate"><span class="pre">Np</span></code>, <code class="docutils literal notranslate"><span class="pre">Tc</span></code>. This provides the namespace/Class duals
+<a class="reference internal" href="#term-pd-Pd"><span class="xref std std-term">pd | Pd</span></a>, <a class="reference internal" href="#term-np-Np"><span class="xref std std-term">np | Np</span></a>, and <a class="reference internal" href="#term-tc-Tc"><span class="xref std std-term">tc | Tc</span></a>.</p>
+</section>
+<section id="flexibility-and-pep-8">
+<h3>Flexibility and PEP 8<a class="headerlink" href="#flexibility-and-pep-8" title="Link to this heading">§</a></h3>
+<p>As the previous paragraph demonstrates, RomCom conventions may be flexed when needs must.
+This aligns with the spirit of <a class="reference external" href="https://peps.python.org/pep-0008/">PEP 8</a>,
+to which RomCom abides, except for source code line wraps at 114 characters and
+a neurotic aversion to ugly under_scores and BLOCK_CAPS.</p>
+</section>
+</section>
 <section id="glossary">
 <h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">§</a></h2>
 <p>Following Python convention, Logical OR is written as |
-This should not be confused with the probablistic conditioning operator │,
-which is used to delimit categories in a semantically coherent and instructive way. Furthermore, these semantics
-dictate function in RomCom file generation, so a character mimicking mathematical convention which is
-UTF-8 but non-ASCII is used. User data may contain <code class="docutils literal notranslate"><span class="pre">|</span></code> or any other character, except <code class="docutils literal notranslate"><span class="pre">│</span></code>.</p>
+Do not mistake this for the – taller – probablistic conditioning operator │,
+which is used to delimit categories in a semantically coherent and instructive way. Semantics
+affect function in RomCom file generation, so we prefer to encode them in
+UTF-8 which is non-ASCII. Hence, user data may contain any ASCII character, or any UTF-8 except <code class="docutils literal notranslate"><span class="pre">│</span></code>.</p>
 <dl class="simple glossary">
 <dt id="term-folder">folder<a class="headerlink" href="#term-folder" title="Link to this term">§</a></dt><dd><p>directory.</p>
+</dd>
+<dt id="term-np-Np">np | Np<a class="headerlink" href="#term-np-Np" title="Link to this term">§</a></dt><dd><p>The NumPy package <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+</dd>
+<dt id="term-pd-Pd">pd | Pd<a class="headerlink" href="#term-pd-Pd" title="Link to this term">§</a></dt><dd><p>The pandas package <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
 </dd>
 <dt id="term-RMSE">RMSE<a class="headerlink" href="#term-RMSE" title="Link to this term">§</a></dt><dd><p>Root Mean Square Error.</p>
 </dd>
 <dt id="term-SD">SD<a class="headerlink" href="#term-SD" title="Link to this term">§</a></dt><dd><p>Standard Deviation.</p>
 </dd>
-<dt id="term-pd-Pd"><code class="docutils literal notranslate"><span class="pre">pd</span></code> | <code class="docutils literal notranslate"><span class="pre">Pd</span></code><a class="headerlink" href="#term-pd-Pd" title="Link to this term">§</a></dt><dd><p>The pandas package <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
-</dd>
-<dt id="term-np-Np"><code class="docutils literal notranslate"><span class="pre">np</span></code> | <code class="docutils literal notranslate"><span class="pre">Np</span></code><a class="headerlink" href="#term-np-Np" title="Link to this term">§</a></dt><dd><p>The NumPy package <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
-</dd>
-<dt id="term-tc-Tc"><code class="docutils literal notranslate"><span class="pre">tc</span></code> | <code class="docutils literal notranslate"><span class="pre">Tc</span></code><a class="headerlink" href="#term-tc-Tc" title="Link to this term">§</a></dt><dd><p>The PyTorch package <code class="docutils literal notranslate"><span class="pre">torch</span></code>.</p>
+<dt id="term-tc-Tc">tc | Tc<a class="headerlink" href="#term-tc-Tc" title="Link to this term">§</a></dt><dd><p>The PyTorch package <code class="docutils literal notranslate"><span class="pre">torch</span></code>.</p>
 </dd>
 </dl>
 </section>
@@ -487,6 +526,12 @@ UTF-8 but non-ASCII is used. User data may contain <code class="docutils literal
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#welcome">Welcome</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions">Conventions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constants">Constants</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annotations">Annotations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#flexibility-and-pep-8">Flexibility and PEP 8</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
 </ul>
   </nav></div>

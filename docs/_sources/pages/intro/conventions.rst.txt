@@ -1,0 +1,29 @@
+
+Code Conventions
+-----------------
+
+When ordered alphabetically, the API hierarchy is best understood top-down, and used bottom-up.
+So the ``base`` module is fundamental to everything, but the ``user`` module is the best interface
+to achieve most tasks.
+The code dependency structure is naturally top-down alphabetically.
+
+These observations apply within submodules too, so the ``data`` module depends only on ``base``,
+and consists of three submodules:
+``data.functions`` which is independent of ``data.models`` which is independent of ``data.samples``.
+
+.. glossary::
+
+    packages/modules
+        Package and module names are lowercase words or abbreviations.
+
+    ClassNames/TypeNames
+        Class and type names are UpperCamelCase.
+
+    functionNames/variableNames
+        Function and variable names are lowerCamelCase.
+
+    Constants/constants
+        Constancy in RomCom is determined by scope, not name.
+        Every Class or module attribute in RomCom is a constant which must not be modified.
+        Bespoke constants should be implemented by subclassing, leaving the RomCom parent unmodified.
+        An UpperCamelCase constant refers to a Class/Type, a lowerCamelCase constant does not.

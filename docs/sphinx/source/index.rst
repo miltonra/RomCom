@@ -12,8 +12,8 @@ Welcome
 ---------------
 
 The RomCom Python package performs Reduction of Order by Marginalization (:term:`ROM`) Computations via Global Sensitivity Analysis (:term:`GSA`)
-using Gaussian Process Regression (:term:`GPR`). The mathematics behind this software is covered in some detail in a
-`paper currently under peer review for publication <https://github.com/miltonra/RomDoc/blob/dev/Sobol%20Matrices/Sobol%20Matrices.pdf>`_.
+using Gaussian Process Regression (:term:`GPR`). The mathematics behind this software is covered in some detail in the following preprint
+`Milton and Brown 2025 <https://arxiv.org/abs/2501.04602>`_.
 
 
 .. glossary::
@@ -28,14 +28,17 @@ using Gaussian Process Regression (:term:`GPR`). The mathematics behind this sof
         This Assesses and ranks the relevance of a system's inputs to its outputs by a variety of methods covered broadly in
         [`Saltelli et al. 2007 <https://onlinelibrary.wiley.com/doi/book/10.1002/9780470725184>`_] and
         [`Razavi et al. 2021 <https://doi.org/10.1016/j.envsoft.2020.104954>`_].
-        RomCom deals exclusively with the variance based method of Ilya M. Sobol, extended to novel
-        [`Sobol' Matrices <https://github.com/C-O-M-M-A/rom-papers/blob/main/Sobol%20Matrices/Sobol%20Matrices.pdf>`_].
+        RomCom deals exclusively with the variance based method of Ilya M. Sobol, extended to novel `Sobol' matrices  <https://arxiv.org/abs/2501.04602>`_.
 
     ROM
         Reduction of Order by Marginalization. A novel approach to locating an Active Subspace (AS) using conditional variances or Sobol' indices.
         In the Active Subspace technique [`Constantine 2014 <https://epubs.siam.org/doi/book/10.1137/1.9781611973860>`_]
         the input basis is rotated to align with the eigenvectors of the squared Jacobian vector.
         In ROM, the input basis is rotated to maximise the Sobol' index of the first :math:`m` inputs.
+
+We recommend reading this page up to the general `Glossary`_, which is intended for reference.
+RomCom considers source code and User Guide as one: `Conventions`_ and `Glossary`_ apply equally to both, within their format limitations.
+RomCom is, for better or worse, laced with `Python lingo<https://www.fluentpython.com/lingo/>`_.
 
 
 Installation
@@ -47,8 +50,7 @@ Detailed installation instructions are contained in RomCom's
 
 Contents
 ----------
-
-Initially, it is recommended to read :doc:`pages/intro`, then :doc:`pages/usage`, then :doc:`pages/data`, then experiment.
+We recommend reading :doc:`pages/intro`, :doc:`pages/usage` and :doc:`pages/data`, in that order, then experiment.
 
 .. toctree::
     :maxdepth: 1
@@ -65,32 +67,14 @@ Initially, it is recommended to read :doc:`pages/intro`, then :doc:`pages/usage`
     :ref: `genindex`
 
 
+Conventions
+-----------------
+
+.. include:: conventions.rst
+
+
 Glossary
-----------------
+-----------------
 
-Following Python convention, Logical OR is written as |
-This should not be confused with the probablistic conditioning operator │,
-which is used to delimit categories in a semantically coherent and instructive way. Furthermore, these semantics
-dictate function in RomCom file generation, so a character mimicking mathematical convention which is
-UTF-8 but non-ASCII is used. User data may contain ``|`` or any other character, except ``│``.
-
-.. glossary::
-
-    folder
-      directory.
-
-    RMSE
-      Root Mean Square Error.
-
-    SD
-      Standard Deviation.
-
-    ``pd`` | ``Pd``
-      The pandas package ``pandas``.
-
-    ``np`` | ``Np``
-      The NumPy package ``numpy``.
-
-    ``tc`` | ``Tc``
-      The PyTorch package ``torch``.
+.. include:: glossary.rst
 

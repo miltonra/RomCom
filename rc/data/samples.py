@@ -23,13 +23,13 @@
 #  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-""" **Functionality for Design of Experiments (DOE) and sampling.** """
+""" Functionality for Design of Experiments (DOE) and sampling. """
 
 from __future__ import annotations
 
 from rc.base import *
-import scipy.stats
 from . import functions
+import scipy.stats
 import shutil
 import argparse
 
