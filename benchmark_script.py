@@ -33,7 +33,7 @@ import tarfile
 import os
 
 from rc.base.definitions import *
-from rc import run
+from rc import task
 
 #: Parameters to generate data from test functions.
 K: int = -2  #: The number of Folds in a new repository.
@@ -47,11 +47,11 @@ NOISE_MAGNITUDES: Tuple[float] = (0.0025, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 
                                   5.0,)   #: The noise-to-signal ratio, which is equal to the StdDev of the noise added to the normalised function output.
 IS_NOISE_VARIANCE_DETERMINED: bool = True  #: Whether the noise variance is fixed or random.
 ROTATIONS: Dict[str, NP.Matrix] = {'': None}  #: Dict of rotations applied to the input basis after the function vector has been sampled.
-#: Parameters to run Gaussian Process Regression.
+#: Parameters to task Gaussian Process Regression.
 IS_GPR_READ: bool | None = None  #: Whether to read the GPR model from file.
 IS_GPR_ISOTROPIC: bool | None = False  #: Whether the GPR kernel is isotropic.
-#: Parameters to run Global Sensitivity Analysis.
-GSA_KINDS: List[run.run.GSA.Kind] = run.run.GSA.ALL_KINDS  #: A list of the kinds of GSA to do.
+#: Parameters to task Global Sensitivity Analysis.
+GSA_KINDS: List[task.run.GSA.Kind] = task.run.GSA.ALL_KINDS  #: A list of the kinds of GSA to do.
 IS_GSA_ERROR_CALCULATED: bool = True  #: Whether to calculate the GSA standard error
 
 
@@ -136,10 +136,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='A program to benchmark GPR and GSA against a (vector) test function.')
     # Control flow arguments.
     parser.add_argument('-f', '--function', action='store_true', help='Flag to sample the test function to generate test data.')
-    parser.add_argument('-r', '--gpr', action='store_true', help='Flag to run Gaussian process regression.')
-    parser.add_argument('-s', '--gsa', action='store_true', help='Flag to run global sensitivity analysis.')
+    parser.add_argument('-r', '--gpr', action='store_true', help='Flag to task Gaussian process regression.')
+    parser.add_argument('-s', '--gsa', action='store_true', help='Flag to task global sensitivity analysis.')
     parser.add_argument('-i', '--ignore', action='store_true', help='Flag to ignore exceptions.')
-    parser.add_argument('-G', '--GPU', action='store_true', help='Flag to run on a GPU instead of CPU.')
+    parser.add_argument('-G', '--GPU', action='store_true', help='Flag to task on a GPU instead of CPU.')
     # Optional parameter setters
     parser.add_argument('-K', '--folds', help='The number of k-folds to use (negative to omit improper fold). Defaults to 2.', type=int)
     parser.add_argument('-M', '--input_dim', help='The input dimension M. Defaults to [7, 10, 12, 15, 18].', type=int)

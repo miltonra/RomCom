@@ -124,17 +124,15 @@ class NormalDesignMatrix(DesignMatrix):
 
 class Normalization(DataBase):
     """ Normalization of a Repo. """
-    class Tables(Tables):
+    class NamedTables(NamedTuple):
 
-        class NT(NamedTuple):
+        data: DesignMatrix | MetaData = DesignMatrix.skeleton
 
-            data: DesignMatrix | MetaData = DesignMatrix.skeleton
+        def __call__(self, name: str) -> Table | Matrix | MetaData:
+            """ Returns the Table named ``name``."""
+            return getattr(self, name)
 
-            def __call__(self, name: str) -> Table | Matrix | MetaData:
-                """ Returns the Table named ``name``."""
-                return getattr(self, name)
-
-        options: NT[MetaData] = NT(data = DesignMatrix.defaultOptions)
+    options: NamedTables[MetaData] = NamedTables(data = DesignMatrix.defaultOptions)
 
     defaultMetaData: MetaData = {'category delimiter' : '│'}
 
@@ -170,18 +168,16 @@ class Normalization(DataBase):
 
 class Repo(DataBase):
     """ A Repository of data and models. Informally a dataset and all the things we'd like to do to it. """
-    class Tables(Tables):
 
-        class NT(NamedTuple):
+    class NamedTables(NamedTuple):
 
-            data: Table | Matrix | MetaData = pd.DataFrame(columns=('x', 'l', 'y'))
+        data: Table | Matrix | MetaData = pd.DataFrame(columns=('x', 'l', 'y'))
 
-            def __call__(self, name: str) -> Table | Matrix | MetaData:
-                """ Returns the Table named ``name``."""
-                return getattr(self, name)
+        def __call__(self, name: str) -> Table | Matrix | MetaData:
+            """ Returns the Table named ``name``."""
+            return getattr(self, name)
 
-        options: NT[MetaData] = NT(data = {option: value for default in Table.Options._field_defaults.values()
-                                           for option, value in default.items()})
+    options: NamedTables[MetaData] = NamedTables(data = Table.Options.default())
 
     defaultMetaData: MetaData = {'K': 0}
 
@@ -209,7 +205,7 @@ class Repo(DataBase):
 
     def __setitem__(self, fold: int | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
         """ Indexer creates the ``Fold`` (s) named or sliced by ``name``."""
-        self._tables[name] = tables
+        self[fold] = tables
 
     def __call__(self, **meta: Any) -> Self:
         """ Optimize and update ``self``.
@@ -219,6 +215,6 @@ class Repo(DataBase):
 
         Returns: ``self``
         """
-        self._tables(**meta)
+        self(**meta)
         return self
 

@@ -58,11 +58,11 @@ def Timer(name: str = '', is_inline: bool = True):
 
 @contextmanager
 def Environment(name: str = '', device: str = '', **kwargs):
-    """ Context Manager setting up the environment to run operations.
+    """ Context Manager setting up the environment to task operations.
 
     Args:
-        name: The name of this context, ``print``ed as what is being run. The (default) empty string will not be timed.
-        device: The device to run on. If this ends in the regex ``[C,G]PU*`` then the logical device ``/[C,G]PU*`` is used,
+        name: The name of this context, ``print``ed as what is being task. The (default) empty string will not be timed.
+        device: The device to task on. If this ends in the regex ``[C,G]PU*`` then the logical device ``/[C,G]PU*`` is used,
             otherwise device allocation is automatic.
         **kwargs: Is passed straight to the implementation GPFlow manager. Note, however, that ``float=float32`` is inoperative due to SciPy.
             ``eager=bool`` is passed to `tf.config.run_functions_eagerly <https://www.tensorflow.org/api_docs/python/tf/config/run_functions_eagerly>`_.

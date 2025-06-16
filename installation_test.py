@@ -31,7 +31,7 @@
 from __future__ import annotations
 
 from rc.base.definitions import *
-from rc import run
+from rc import task
 
 #: Parameters to generate data from test functions.
 K: int = 2  #: The number of Folds in a new repository.
@@ -43,12 +43,12 @@ NOISE_MAGNITUDES: Tuple[float] = (0.04, )    #: The noise-to-signal ratio, which
 IS_NOISE_COVARIANT: bool = False  #: Whether the Gaussian noise applied to the outputs is statistically independent between outputs.
 IS_NOISE_VARIANCE_DETERMINED: bool = True  #: Whether the noise variance is fixed or random.
 ROTATIONS = {'': None}  #: Dict of rotations applied to the input basis after the function vector has been sampled.
-#: Parameters to run Gaussian Process Regression.
+#: Parameters to task Gaussian Process Regression.
 IS_GPR_READ: bool | None = False  #: Whether to read the GPR model from file.
 IS_GPR_COVARIANT: bool | None = False  #: Whether the GPR likelihood is covariant.
 IS_GPR_ISOTROPIC: bool | None = None  #: Whether the GPR kernel is isotropic.
-#: Parameters to run Global Sensitivity Analysis.
-GSA_KINDS: List[run.run.GSA.Kind] = run.run.GSA.ALL_KINDS  #: A list of the kinds of GSA to do.
+#: Parameters to task Global Sensitivity Analysis.
+GSA_KINDS: List[task.run.GSA.Kind] = task.run.GSA.ALL_KINDS  #: A list of the kinds of GSA to do.
 IS_GSA_ERROR_CALCULATED: bool = True  #: Whether to calculate the GSA standard error
 IS_GSA_ERROR_PARTIAL: bool = False  #: Whether the calculated the GSA standard error is partial
 

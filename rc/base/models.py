@@ -33,15 +33,12 @@ from json import load, dump
 from .definitions import *
 
 
-MetaData = dict[str, Any]  #: Type for passing metadata as ``**kwargs``.
-Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix] #: Types which a DataBase Table accepts.
-
-
 class Store(ABC):
     """ Base class for any stored class. Users are not expected to subclass this class directly."""
 
     Path = Path | str
     """ Class attribute aliasing Types used to specify the ``path`` to a Store. Do not override."""
+
     ext: str = ''
     """Class attribute specifying the file extension terminating ``self.path``. 
     Override if and only if the derived class must be stored in a file.
@@ -64,7 +61,7 @@ class Store(ABC):
 
         :meta public:
         """
-        return self._path.stem if self._path.is_file() else self._path.name
+        return self._path.stem if self.ext else self._path.name
 
     @abstractmethod
     def __call__(self, **data) -> Self:
@@ -91,11 +88,18 @@ class Store(ABC):
 
     @classmethod
     def mkdir(cls, path: Path) -> Path:
-        path = Path(path).with_suffix(cls.ext)
-        if cls.ext == '':
-            path.mkdir(mode=0o777, parents=True, exist_ok=True)
-        else:
+        """ Create ``path.parent``, with a subfolder ``path`` if ``cls.ext == ''``.
+
+        Args:
+            path: The folder to create, or a child file of the folder to create.
+
+        Returns: The ``Path`` created.
+        """
+        path = Path(path)
+        if cls.ext:
             path.parent.mkdir(mode=0o777, parents=True, exist_ok=True)
+        else:
+            path.mkdir(mode=0o777, parents=True, exist_ok=True)
         return path
 
     @classmethod
@@ -109,7 +113,7 @@ class Store(ABC):
             path: Where to create the folder. If ``cls.ext != ''``, the parent folder of ``path`` is created.
 
         Returns:
-            ``path.with_suffix(cls.ext)``.
+            ``path`` with extension ``f'.{cls.ext}'``.
 
         Raises:
             FileExistsError: If attempting to overwrite a file with a folder.
@@ -134,8 +138,9 @@ class Store(ABC):
             FileNotFoundError: If ``src`` does not exist.
             FileExistsError: If attempting to overwrite a file with a folder.
         """
-        src, dst = Path(src).with_suffix(cls.ext), Path(dst).with_suffix(cls.ext)
-
+        src, dst = Path(src), Path(dst)
+        if cls.ext:
+            src, dst = src.with_name(f'{src.name}.{cls.ext}'), src.with_name(f'{src.name}.{cls.ext}')
         if src.is_dir():
             copytree(src=src, dst=dst, dirs_exist_ok=True)
         else:
@@ -151,12 +156,16 @@ class Store(ABC):
             
         Returns: ``path``, which no longer exists.
         """
-        path = Path(path).with_suffix(cls.ext)
+        path = Path(path)
+        if cls.ext: path = path.with_name(f'{path.name}.{cls.ext}')
         if path.is_dir():
             rmtree(path, ignore_errors=True)
         else:
-            path.unlink(missing_ok=True)
+            path.unlink(missing_ok=False)
         return path
+
+
+MetaData = dict[str, Any]  #: Type for passing metadata as ``**kwargs``.
 
 
 class Meta(Store, dict):
@@ -176,6 +185,11 @@ class Meta(Store, dict):
         with open(self._path, mode='w') as file:
             dump(self, file, indent=4)
         return self
+
+    def __setitem__(self, key, value):
+        """ Indexer sets the ``value`` indexed by ``key``."""
+        super().__setitem__(key, value)
+        self()
 
     def __init__(self, path: Store.Path, **data: Any):
         """ Construct ``self`` from a ``.json`` file or ``MetaData``.
@@ -214,24 +228,49 @@ class Meta(Store, dict):
             dst: The destination ``Path``, overwritten if existing.
                 A ``.json`` extension is automatically appended.
 
-        Returns: The ``Meta`` now stored at ``dst.with_suffix('.json')``.
+        Returns: The ``Meta`` now stored at ``dst.json``.
         """
         return cls(dst, **src)
 
 
+Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix] #: Types which a DataBase Table accepts.
+
+
 class Table(Store):
-    """ Concrete class encapsulating a ``Pd.DataFrame`` backed by a ``.csv`` file."""
+    """ Concrete class encapsulating a ``pd.DataFrame`` backed by a ``.csv`` file.
+
+    This class may be usefully overridden to provide bespoke read and write options for
+    file operations. Subclasses should follow the template (copy and paste it)::
+
+        class MyTable(Table):
+
+        class Options(NamedTuple):
+
+            read: MetaData =  {'index_col': 0}  #: Read options passed to ``pd.read_csv``.
+            write: MetaData =  {}   #: Write options passed to ``pd.DataFrame.to_csv``.
+
+            @classmethod
+            def default(cls) -> MetaData:
+                \"\"\" Returns the default Options as ``cls.read | cls.write``.\"\"\"
+                return cls._field_defaults['read'] | cls._field_defaults['write']
+    """
+    class Options(NamedTuple):
+
+        read: MetaData =  {'index_col': 0}  #: Read options passed to ``pd.read_csv``.
+        write: MetaData =  {}   #: Write options passed to ``pd.DataFrame.to_csv``.
+
+        @classmethod
+        def default(cls) -> MetaData:
+            """ Returns the default Options as ``cls.read | cls.write``."""
+            return cls._field_defaults['read'] | cls._field_defaults['write']
+
+
+    ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects.
 
     writeOptions: list[str] = ['sep', 'na_rep', 'float_format']
     """ Class attribute listing kwargs which will be interpreted as write options. 
     All other kwargs are interpreted as read options. 
     To specify a separator, use ``delimiter`` as read option and ``sep`` as write option. """
-
-    class Options(NamedTuple):
-        read: MetaData =  {'index_col': 0}  # Read options passed to ``pd.read_csv``.
-        write: MetaData =  {}   # Write options passed to ``pd.DataFrame.to_csv``.
-
-    ext: str = '.csv'   #: Class attribute specifying the file extension of DataTable instances.
 
     @property
     def options(self) -> MetaData:
@@ -312,7 +351,8 @@ class Table(Store):
             path: The ``Path`` (file) to store ``self``. A ``.csv`` extension is automatically appended.
             data: The data to store. If ``None``, ``data`` is read from ``path``,
                 otherwise ``data`` is stored in ``path`` (which is overwritten if existing).
-            **metadata: Updates ``self.readMetaData`` if ``data is None``, otherwise updates ``self.writeMetaData``.
+            **metadata: Updates ``self.readMetaData`` if ``data is None``,
+                otherwise updates ``self.writeMetaData``.
         """
         super().__init__(path)
         self._options = self.Options()
@@ -340,9 +380,11 @@ class Table(Store):
             **metadata: MetaData passed to
                 `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_
                 or
-                `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`_.
+                `pd.DataFrame.to_csv`_.
 
         Returns: The ``DataTable`` created.
+
+        .. _pd.DataFrame.to_csv: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
         """
         return cls(path, pd.DataFrame(data.pd if isinstance(data, Table) else data, index, columns, dtype, copy),
                    **metadata)
@@ -356,30 +398,38 @@ class Table(Store):
             dst: The destination ``Path``, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
 
-        Returns: The ``DataTable`` now stored at ``dst.with_suffix('.csv')``.
+        Returns: The ``DataTable`` now stored at ``dst.csv``.
         """
         return cls(dst, src.pd, **src.options)
 
 
-class Tables(Store):
-    """ A ``NamedTuple`` of ``Table`` s in a folder. Abstract base class for any ``DataBase.Tables``.
+class DataBase(Store):
+    """ ``NamedTables(NamedTuple)`` in a folder alongside ``Meta``. Abstract base class for any model.
 
-    ``Tables`` subclasses must be implemented according to the template (copy and paste it)::
+    ``DataBase`` subclasses must be implemented according to the template (copy and paste it)::
 
-        class MyTables(Tables):
+        class MyDataBase(DataBase):
 
             class NT(NamedTuple):
 
-                names[i]: Table | Matrix | MetaData = pd.DataFrame(defaults[names[i]].pd)
+                names[i]: Table | Matrix | MetaData = pd.DataFrame(defaults[names[i]].pd)   #: Comment
                 ...
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
-            options: NT[MetaData] = NT(names[i] = data[i].options[i], ...)
+
+            options: NamedTables[MetaData] = NamedTables(**{name: table.options for name, table in {}.items()})
+            \"\"\" Class attribute of the form ``NamedTables(**{names[i]: options[i], ...})``.
+            Override as necessary for bespoke ``Table.options``.
+            Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,
+            the remainder populate ``self[i].options.read``.\"\"\"
+
+            defaultMetaData: MetaData = {'Tables': Tables.options._asdict()}
     """
-    class NT(NamedTuple):
+
+    class NamedTables(NamedTuple):
         """ Must be overridden. """
         NotImplemented: Table | Matrix = pd.DataFrame(((f'Attribute type should be Table in '
                                                         f'any implementation.',),))  #: :meta private:
@@ -388,25 +438,32 @@ class Tables(Store):
             """ Returns the Table named ``name``."""
             return getattr(self, name)
 
-    options: NT[MetaData] = NT(**{name: {} for name in NT._fields})
-    """ Class attribute of the form ``NT(**{names[i]: options[i], ...})``. 
+
+    options: NamedTables[MetaData] = NamedTables(**{name: table.options for name, table in {}.items()})
+    """ Class attribute of the form ``NamedTables(**{names[i]: options[i], ...})``. 
     Override as necessary for bespoke ``Table.options``.
     Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,
     the remainder populate ``self[i].options.read``."""
 
-    # TODO: Delete if unmissed
-    # @property
-    # def asDict(self) -> Dict[str, Table]:
-    #     """ The ``self.NT(NamedTuple)`` of ``self`` as a ``dict``."""
-    #     return self._nt._asdict()
+    #: Class attribute. Should be overridden.
+    defaultMetaData: MetaData = {'Tables': options._asdict()}
+
+    @property
+    def nt(self) -> NamedTables:
+        """ The ``NamedTables`` currently in ``self``."""
+        return self._nt
+
+    @property
+    def meta(self) -> Meta:
+        """ The ``Meta`` currently in ``self``."""
+        return self._meta
 
     def __len__(self) -> int:
         """ Counts the ``Table`` s in ``self``. """
         return len(self._nt)
 
     def __getitem__(self, name: str | slice) -> Table | Tuple[Table, ...]:
-        """ Indexer returns the ``Table`` (s) named or sliced by ``name``.
-            The NamedTuple constituting ``self`` is ``self.NT(*self[:]``."""
+        """ Indexer returns the ``Table`` (s) named or sliced by ``name``. """
         return self._nt(name) if isinstance(name, str) else self._nt[name]
 
     def __setitem__(self, name: str | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
@@ -430,179 +487,43 @@ class Tables(Store):
             self._nt(name)(table, **self.options(name))
         return self
 
-    def __init__(self, path: Store.Path, **tables: Table | Matrix):
-        """ Read the ``Tables`` in ``path``, updating ``**tables``.
-
-        Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's ``Table`` is not read, just updated.
-
-        Args:
-            path: The ``Path`` to read from, and update to.
-            **tables: Updates to ``self``, in the form ``names[i]=tables[i], ...``.
-
-        Raises:
-            FileNotFoundError: If ``path`` lacks any member of ``cls.names()`` not mentioned in ``**data``.
-        """
-        super().__init__(path)
-        try:
-            self._nt = self.NT(**{name:
-                                        Table(path / name, tables[name], **self.options(name))
-                                        if name in tables and tables[name] is not None
-                                        else Table(path / name, **self.options(name))
-                                  for name in self.names()})
-        except FileNotFoundError as error:
-            print(f'Tables "{self}" is trying to read a non-existent Table. Did your script mean to call '
-                  f'{type(self).__qualname__}.create("{str(self)}") '
-                  f'instead of {type(self).__qualname__}("{str(self)}")?')
-            raise error
-
-    @classmethod    # Class Property
-    def names(cls) -> Tuple[str, ...]:
-        """ ``(names[i], ...)`` of table names for this ``Tables`` class."""
-        return cls.NT._fields
-
-    @classmethod    # Class Property
-    def defaults(cls) -> Dict[str, Pd.DataFrame]:
-        """ ``{names[i]: Pd.DataFrame[i], ...}`` of default tables for this ``Tables`` class."""
-        return cls.NT._field_defaults
-
-    @classmethod
-    def create(cls, path: Store.Path, **tables: Table) -> Self:
-        """ Create a ``Tables`` (folder) in ``path``.
-
-        Args:
-            path: The folder to store the ``Tables`` in. Need not exist,
-                any existing ``Tables`` will be overwritten if it does.
-            **tables: ``Table``s to update ``self.table_defaults``,
-                in the form ``names[i]=Table[i], ...``.
-
-        Returns: The ``Tables`` created.
-        """
-        return cls(path, **(cls.defaults() | tables))
-
-    @classmethod
-    def copy(cls, src: Self, dst: Store.Path) -> Self:
-        """ Copy ``src`` to ``dst``, overwriting any files in common.
-
-        Args:
-            src: The source ``Tables``.
-            dst: The destination ``Path``, which may or may not exist.
-
-        Returns: The ``Tables`` now stored at ``dst``.
-        """
-        return cls(dst, **src.tables_as_dict())
-
-    @classmethod
-    def delete(cls, path: Store.Path) -> Path:
-        """ Delete ``cls.names[i].with_suffix(.csv)`` from ``path``,
-        retaining ``path`` and any files it contains.
-
-        If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
-
-        Args:
-            path: ``Path`` to the ``Tables`` to delete.
-
-        Returns: ``path``, which still exists.
-        """
-        path = Path(path)
-        for table_name in cls.names():
-            Table.delete(path / table_name)
-        return path
-
-
-class DataBase(Store):
-    """ ``Tables`` with ``Meta``. Abstract base class for any model.
-
-    ``DataBase`` subclasses must be implemented according to the template (copy and paste it)::
-
-        class MyDataBase(DataBase):
-
-            class Tables(Tables):
-
-                class NT(NamedTuple):
-
-                    names[i]: Table | Matrix | MetaData = pd.DataFrame(defaults[names[i]].pd)
-                    ...
-
-                    def __call__(self, name: str) -> Table | Matrix | MetaData:
-                        \"\"\" Returns the Table named ``name``.\"\"\"
-                        return getattr(self, name)
-
-                options: NT[MetaData] = NT(names[i] = data[i].options[i], ...)
-
-            defaultMetaData: MetaData = {'Tables': Tables.options._asdict()}
-    """
-
-    class Tables(Tables):
-        """ Must be overridden."""
-        class NT(NamedTuple):
-            """ Must be overridden."""
-            NotImplemented: Table | Matrix = pd.DataFrame(((f'Attribute type should be Table in '
-                                                            f'any implementation.',),))  #: :meta private:
-
-            def __call__(self, name: str) -> Table | Matrix | MetaData:
-                """ Returns the Table named ``name``."""
-                return getattr(self, name)
-
-        options: NT[MetaData] = NT(**{name: {} for name in NT._fields})
-        """ Class attribute of the form ``NT(**{names[i]: options[i], ...})``. 
-        Override as necessary for bespoke ``Table.options``.
-        Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``table[i].options.write``,
-        the remainder populate ``table[i].options.read``."""
-
-    #: Class attribute. Should be overridden.
-    defaultMetaData: MetaData = {'Tables': Tables.options._asdict()}
-
-    @property
-    def meta(self) -> Meta:
-        """ The ``Meta`` currently in ``self``."""
-        return self._meta
-
-    def __len__(self) -> int:
-        """ Counts the ``Table`` s in ``self``. """
-        return len(self._tables)
-
-    def __getitem__(self, name: str | slice) -> Table:
-        """ Indexer returns the ``Table`` (s) named or sliced by ``name``.
-            The NamedTuple constituting ``self`` is ``self.NT(*self[:]``."""
-        return self._tables[name]
-
-    def __setitem__(self, name: str | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
-        """ Indexer sets the ``Table`` (s) named or sliced by ``name``."""
-        self._tables[name] = tables
-
-    def __call__(self, **metadata: Any) -> Self:
-        """ Optimize and update ``self``.
-
-        Args:
-            **metadata: Optimization ``MetaData``.
-
-        Returns: ``self``
-        """
-        self._tables(**metadata)
-        return self
-
     def __init__(self, path: Store.Path, **tables: Table | Pd.DataFrame):
         """ Read the ``DataBase`` in ``path``.
-
+        Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's ``Table`` is not read, just updated.
         Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.
 
         Args:
             path: The ``Path`` to read from.
             **tables: ``Table`` s to update those read, in the form ``names[i]=tables[i], ...``.
-            
+
         Raises:
             FileNotFoundError: If ``path`` lacks ``self.meta`` or any member of
-                ``self.Tables.names`` not mentioned in ``**data``.
+                ``self.Tables.names`` not mentioned in ``**tables``.
         """
         super().__init__(path)
         try:
             self._meta = Meta(self._meta_in(path))
-            self._tables = self.Tables(path, **tables)
+            self._nt = self.NamedTables(**{name:
+                                               Table(path / name, tables[name], **self.options(name))
+                                               if name in tables and tables[name] is not None
+                                               else Table(path / name, **self.options(name))
+                                           for name in self.names()})
         except FileNotFoundError as error:
-            print(f'DataBase "{self}" is trying to read a non-existent file. '
-                  f'Did your script mean to call {type(self).__qualname__}.create("{str(self)}") '
+            print(f'DataBase "{self}" is trying to read a non-existent Table. Did your script mean to call '
+                  f'{type(self).__qualname__}.create("{str(self)}") '
                   f'instead of {type(self).__qualname__}("{str(self)}")?')
             raise error
+
+
+    @classmethod    # Class Property
+    def names(cls) -> Tuple[str, ...]:
+        """ ``(names[i], ...)`` of table names for this ``Tables`` class."""
+        return cls.NamedTables._fields
+
+    @classmethod    # Class Property
+    def defaults(cls) -> Dict[str, Pd.DataFrame]:
+        """ ``{names[i]: Pd.DataFrame[i], ...}`` of default tables for this ``Tables`` class."""
+        return cls.NamedTables._field_defaults
 
     @classmethod
     def create(cls, path: Store.Path, **tables_and_meta: Table | Pd.DataFrame | MetaData) -> Self:
@@ -611,13 +532,13 @@ class DataBase(Store):
         Args:
             path: The folder to store the ``DataBase`` in. Need not exist,
                 any existing ``Tables`` will be overwritten if it does.
-            **tables_and_meta: Data to update ``cls.Tables.table_defaults``, in the form ``names[i]=tables[i]``,
+            **tables_and_meta: Data to update ``cls.defaults()``, in the form ``names[i]=tables[i]``,
                 and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.
-            
+
         Returns: The ``DataBase`` created.
         """
         Meta.create(cls._meta_in(path), **(cls.defaultMetaData | (tables_and_meta.pop('meta', {}))))
-        return cls(path, **(cls.Tables.defaults() | tables_and_meta))
+        return cls(path, **(cls.defaults() | tables_and_meta))
 
     @classmethod
     def copy(cls, src: Self, dst: Store.Path) -> Self:
@@ -629,7 +550,7 @@ class DataBase(Store):
 
         Returns: The ``DataBase`` now stored in ``dst``.
         """
-        return cls.create(dst, meta=src.meta.data, **src[:].asDict())
+        return cls.create(dst, meta=src.meta, **src.nt._asdict())
 
     @classmethod
     def delete(cls, path: Store.Path) -> Path:
@@ -641,8 +562,10 @@ class DataBase(Store):
             path: ``Path`` to the ``DataBase`` to delete.
         Returns: ``path``, which still exists.
         """
+        path = Path(path)
         Meta.delete(cls._meta_in(path))
-        cls.Tables.delete(path)
+        for name in cls.names():
+            Table.delete(path / name)
         return path
 
     @staticmethod

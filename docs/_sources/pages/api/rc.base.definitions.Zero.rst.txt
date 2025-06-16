@@ -1,6 +1,0 @@
-rc.base.definitions.zero
-========================
-
-.. currentmodule:: rc.base.definitions
-
-.. autodata:: zero

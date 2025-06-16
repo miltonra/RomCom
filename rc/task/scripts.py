@@ -32,7 +32,7 @@ from rc.data.models import Repo, Fold
 from rc.gpr.kernels import Kernel
 from rc.gpr.models import GPR, MOGP
 from rc.gsa.models import GSA, Sobol
-from rc.run import contexts, result
+from rc.task import contexts, result
 import shutil
 
 
@@ -47,8 +47,8 @@ def gpr(name: str, repo: Repo, is_read: bool | None, is_covariant: bool | None, 
         is_read: If True, MOGP kernel data and likelihood_variance are read from ``fold.folder/name``, otherwise defaults are used.
             If None, the nearest ancestor MOGP in the independence/isotropy hierarchy is recursively constructed from its nearest ancestor MOGP if necessary,
             then read and broadcast available.
-        is_covariant: Whether the outputs are independent of each other or not. If None, independent is run then broadcast to run dependent.
-        is_isotropic: Whether the kernel is isotropic. If None, isotropic is run, then broadcast to run anisotropic.
+        is_covariant: Whether the outputs are independent of each other or not. If None, independent is task then broadcast to task dependent.
+        is_isotropic: Whether the kernel is isotropic. If None, isotropic is task, then broadcast to task anisotropic.
         ignore_exceptions: Whether to continue when the MOGP provider throws an exception.
         kernel_parameters: If not None, this replaces the Kernel specified by the MOGP default.
         likelihood_variance: If not None this replaces the likelihood_variance specified by the MOGP default.
@@ -56,7 +56,7 @@ def gpr(name: str, repo: Repo, is_read: bool | None, is_covariant: bool | None, 
         is_tested: Whether to test_data each MOGP.
         kwargs: A Dict of implementation-dependent passes straight to MOGP.Optimize().
     Returns:
-        A list of the names of the GPs which have been constructed. The MOGP.Data are ``run.results.Aggregated`` over folds
+        A list of the names of the GPs which have been constructed. The MOGP.Data are ``task.results.Aggregated`` over folds
     Raises:
         FileNotFoundError: If repo is not a Fold, and contains no Folds.
     """
@@ -116,8 +116,8 @@ def gsa(name: str, repo: Repo, is_covariant: Optional[bool], is_isotropic: Optio
         name: The GSA name.
         repo: A Fold to house the GSA, or a Repo containing Folds to house the GSAs.
         is_covariant: Whether each output is independent of the other outputs. None results in variant (independent) followed by covariant (dependent).
-        is_isotropic: Whether the kernel is isotropic. If None, isotropic is run, then broadcast to run anisotropic.
-        kinds: Kind of index to calculate - first_order, closed or total. A Sequence of Kinds will be run consecutively.
+        is_isotropic: Whether the kernel is isotropic. If None, isotropic is task, then broadcast to task anisotropic.
+        kinds: Kind of index to calculate - first_order, closed or total. A Sequence of Kinds will be task consecutively.
         is_error_calculated: Whether to calculate variances (errors) on the Sobol indices.
             The calculation of error is memory intensive, so leave this flag as False unless you are sure you need errors.
             Furthermore, errors will only be calculated if the kernel of the GP has diagonal variance F.
@@ -128,7 +128,7 @@ def gsa(name: str, repo: Repo, is_covariant: Optional[bool], is_isotropic: Optio
     Raises:
         FileNotFoundError: If repo is not a Fold, and contains no Folds.
     Returns:
-        A list of the calculation names which have been run, relative to repo.folder.
+        A list of the calculation names which have been task, relative to repo.folder.
     """
     kinds = (kinds,) if isinstance(kinds, GSA.Kind) else kinds
     if not isinstance(repo, Fold):

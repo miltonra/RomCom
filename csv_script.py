@@ -31,7 +31,7 @@
 from __future__ import annotations
 
 from rc.base.definitions import *
-from rc import run, data
+from rc import task, data
 from rc.gpr import kernels
 import argparse
 import tarfile
@@ -41,12 +41,12 @@ import os
 K: int = 2  #: The number of Folds in a new repository.
 INPUT_AXIS_PERMUTATIONS: Dict[str, List[int] | None] = {'': None}   # , '.0': [5, 2, 3, 1, 4, 6, 0], '.1': [5, 3, 2, 4, 6, 1, 0], '.2': [5, 2, 1, 3, 4, 0, 6], '.3': [5, 2, 6, 1, 3, 0, 6]}
                                                         # '.520': [5, 2, 0, 6, 3, 4, 1]}   #: A Dict of the form {path_suffix, input_axis_permutation}.
-#: Parameters to run Gaussian Process Regression.
+#: Parameters to task Gaussian Process Regression.
 IS_GPR_READ: bool | None = False  #: Whether to read the GPR model from file.
 IS_GPR_COVARIANT: bool | None = False  #: Whether the GPR likelihood is covariant.
 IS_GPR_ISOTROPIC: bool | None = False  #: Whether the GPR kernel is isotropic.
-#: Parameters to run Global Sensitivity Analysis.
-GSA_KINDS: List[run.run.GSA.Kind] = run.run.GSA.ALL_KINDS  #: A list of the kinds of GSA to do.
+#: Parameters to task Global Sensitivity Analysis.
+GSA_KINDS: List[task.run.GSA.Kind] = task.run.GSA.ALL_KINDS  #: A list of the kinds of GSA to do.
 IS_GSA_ERROR_CALCULATED: bool = True  #: Whether to calculate the GSA standard error.
 IS_GSA_ERROR_PARTIAL: bool = False  #: Whether the calculated the GSA standard error is partial.
 
@@ -87,7 +87,7 @@ def run(root: str | Path, csv: str | Path, gpr: bool = False, gsa: bool = False,
             repo_folder = root if len(INPUT_AXIS_PERMUTATIONS) == 1 else (root / root.name).with_suffix(root.suffix + ext)
             with run.contexts.Timer(f'ext={ext}', is_inline=False):
                 if gpr:
-                    # Get data from csv then run GPR.
+                    # Get data from csv then task GPR.
                     repo = (data.storage.Repo.from_csv(repo_folder, csv)
                             .into_K_folds(k, normalization=normalization, is_normalization_applicable=not unnormalized)
                             .rotate_folds(rc.data.sample.permute_axes(permutation)))
@@ -99,7 +99,7 @@ def run(root: str | Path, csv: str | Path, gpr: bool = False, gsa: bool = False,
                     try:
                         repo = data.storage.Repo(repo_folder)
                     except FileNotFoundError as fnfe:
-                        raise FileNotFoundError(f'You have never run GPR on {repo_folder}, so there is no GSA or results collection to be done.')
+                        raise FileNotFoundError(f'You have never task GPR on {repo_folder}, so there is no GSA or results collection to be done.')
                     models = [path.name for path in repo.folder.glob('gpr.*')]
 
                 # Collect GPR results from GPR models.
@@ -136,11 +136,11 @@ if __name__ == '__main__':
     # Get the command line arguments.
     parser = argparse.ArgumentParser(description='A program to benchmark GPR and GSA against a (vector) test function.')
     # Control Flow.
-    parser.add_argument('-r', '--gpr', action='store_true', help='Flag to run Gaussian process regression.')
-    parser.add_argument('-a', '--gsa', action='store_true', help='Flag to run global sensitivity analysis.')
+    parser.add_argument('-r', '--gpr', action='store_true', help='Flag to task Gaussian process regression.')
+    parser.add_argument('-a', '--gsa', action='store_true', help='Flag to task global sensitivity analysis.')
     parser.add_argument('-i', '--ignore', action='store_true', help='Flag to ignore exceptions.')
     parser.add_argument('-u', '--unnormalized', action='store_true', help='Flag to use unnormalized data.')
-    parser.add_argument('-G', '--GPU', action='store_true', help='Flag to run on a GPU instead of CPU.')
+    parser.add_argument('-G', '--GPU', action='store_true', help='Flag to task on a GPU instead of CPU.')
     parser.add_argument("-l", "--likelihood_variance", help="Initial guess for likelihood variance to be calibrated.", type=float)
     parser.add_argument("-s", "--rbf_lengthscale", help="Initial guess for rbf lengthscale to be calibrated.", type=float)
     parser.add_argument("-v", "--rbf_variance", help="Initial guess for the rbf variance to be calibrated.", type=float)

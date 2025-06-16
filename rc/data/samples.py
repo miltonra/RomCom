@@ -179,7 +179,7 @@ class GaussianNoise:
 
 
 class Function:
-    """ Sample a ``run.function.Vector``."""
+    """ Sample a ``task.function.Vector``."""
 
     @property
     def repo(self) -> Repo:
@@ -187,7 +187,7 @@ class Function:
         return self._repo
 
     def collection(self, sub_folder: Union[Path, str]) -> Dict[str, Any]:
-        """ Construct a Dict for run.results.Collect, with appropriate ``extra_columns``.
+        """ Construct a Dict for task.results.Collect, with appropriate ``extra_columns``.
 
         Args:
             folder: The folder under ``self.repo.folder`` housing the csvs to collect.

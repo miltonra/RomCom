@@ -59,7 +59,9 @@ html_title = project
 html_logo = '_static/MattLogo2.svg'
 html_favicon = '_static/MattLogo2.png'
 html_theme = 'pydata_sphinx_theme'
-html_theme_options = {'header_links_before_dropdown': 8, 'header_dropdown_text': 'Extras'}
+html_theme_options = {'header_links_before_dropdown': 8, 'header_dropdown_text': 'Extras',
+                      'secondary_sidebar_items': {"**": []}, 'show_nav_level': 5, 'navigation_depth': 4,
+                      }
 html_static_path = ['_static']
-html_sidebars = {"**": []}
+# html_sidebars = { '**': ['sidd']}
 html_show_sourcelink = False

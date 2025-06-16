@@ -2,16 +2,17 @@
 RomCom User Guide
 ==========================================================================================================================================
 
-.. rubric:: Reduced Order Modelling via GSA/GPR, by Robert A. Milton of The University of Sheffield
+.. rubric:: Reduced Order Modelling via GSA/GPR, by Robert A. Milton and Solomon F. Brown.
 
 
 .. danger:: This documentation is currently under construction
 
+How about `The Python Standard Library`_
 
 Welcome
 ---------------
 
-The RomCom Python package performs Reduction of Order by Marginalization (:term:`ROM`) Computations via Global Sensitivity Analysis (:term:`GSA`)
+The RomCom Python library performs Reduction of Order by Marginalization (:term:`ROM`) Computations via Global Sensitivity Analysis (:term:`GSA`)
 using Gaussian Process Regression (:term:`GPR`). The mathematics behind this software is covered in some detail in the following preprint
 `Milton and Brown 2025 <https://arxiv.org/abs/2501.04602>`_.
 
@@ -36,9 +37,8 @@ using Gaussian Process Regression (:term:`GPR`). The mathematics behind this sof
         the input basis is rotated to align with the eigenvectors of the squared Jacobian vector.
         In ROM, the input basis is rotated to maximise the Sobol' index of the first :math:`m` inputs.
 
-We recommend reading this page up to the general `Glossary`_, which is intended for reference.
-RomCom considers source code and User Guide as one: `Conventions`_ and `Glossary`_ apply equally to both, within their format limitations.
-RomCom is, for better or worse, laced with `Python lingo<https://www.fluentpython.com/lingo/>`_.
+We recommend reading this page up to the general :doc:`glossary`, which is intended for reference.
+RomCom considers source code and User Guide as one: :doc:`conventions` and :doc:`glossary` entries apply equally to both, within format limitations.
 
 
 Installation
@@ -50,10 +50,11 @@ Detailed installation instructions are contained in RomCom's
 
 Contents
 ----------
+
 We recommend reading :doc:`pages/intro`, :doc:`pages/usage` and :doc:`pages/data`, in that order, then experiment.
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
     pages/intro
     pages/usage
@@ -66,15 +67,9 @@ We recommend reading :doc:`pages/intro`, :doc:`pages/usage` and :doc:`pages/data
 
     :ref: `genindex`
 
-
-Conventions
------------------
-
 .. include:: conventions.rst
 
-
-Glossary
------------------
+.. include:: refs.rst
 
 .. include:: glossary.rst
 

@@ -6,9 +6,10 @@
 
    {% block attributes %}
    {% if attributes %}
-   .. rubric:: {{ _('Attributes') }}
+   .. rubric:: {{ _('Properties') }}
 
    .. autosummary::
+
    {% for item in attributes %}
       ~{{ name }}.{{ item }}
    {%- endfor %}
@@ -20,6 +21,7 @@
    .. rubric:: {{ _('Methods') }}
 
    .. autosummary::
+
       ~{{name}}.__call__
    {% for item in methods %}
       ~{{ name }}.{{ item }}

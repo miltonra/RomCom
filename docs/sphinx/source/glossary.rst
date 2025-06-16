@@ -1,12 +1,14 @@
 
-Following Python convention, Logical OR is written as |
-Do not mistake this for the -- taller -- probablistic conditioning operator │,
-which is used to delimit categories in a semantically coherent and instructive way. Semantics
-affect function in RomCom file generation, so we prefer to encode them in
-UTF-8 which is non-ASCII. Hence, user data may contain any ASCII character, or any UTF-8 except ``│``.
+Glossary
+------------------
+
+RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpython.com/lingo/>`_.
+The User Guide follows Python convention by using | to denote logical OR.
 
 .. glossary::
     :sorted:
+
+    protocol
 
     folder
       directory.
@@ -17,12 +19,12 @@ UTF-8 which is non-ASCII. Hence, user data may contain any ASCII character, or a
     SD
       Standard Deviation.
 
-    pd | Pd
+    ``pd`` | ``Pd``
       The pandas package ``pandas``.
 
-    np | Np
+    ``np`` | ``Np``
       The NumPy package ``numpy``.
 
-    tc | Tc
+    ``tc`` | ``Tc``
       The PyTorch package ``torch``.
 

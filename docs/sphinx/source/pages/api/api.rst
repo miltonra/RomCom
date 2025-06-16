@@ -1,11 +1,11 @@
 ﻿
 .. automodule:: rc
 
-Modules
+Packages
 -----------------
 
 .. autosummary::
-    :toctree:
+    :toctree: packages
     :template: custom-module-template.rst
     :recursive:
 
