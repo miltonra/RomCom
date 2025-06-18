@@ -1,11 +1,10 @@
 # Cleanup script for the Sphinx documentation builder.
 
 
-import os
-import sys
-sys.path.insert(0, os.path.abspath('../'))
-
 from rc.base import *
+
+import os
+import argparse
 
 here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/source/
 scope = Path('C:/Users/rober/Documents/Research/RomCom/bin/docs')
@@ -31,6 +30,6 @@ def empty(path: Path, preserve: List[str], confirm: bool = True) -> Path:
                 Store.delete(filename)
 
 if __name__ == "__main__":
-    empty(scope / 'sphinx' / 'source' / 'pages' / 'api', preserve=['api.rst'], confirm=False)
+    empty(scope / 'sphinx' / 'source' / 'pages' / 'api', preserve=[], confirm=False)
     empty(scope / 'sphinx', preserve=['source'], confirm=False)
     empty(scope, preserve=['sphinx', '.nojekyll'], confirm=False)

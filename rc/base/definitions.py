@@ -29,6 +29,8 @@ All modules of RomCom ``import *`` from this module, so all types and constants 
 without adornment throughout RomCom."""
 
 
+from __future__ import annotations
+
 from typing import *
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -38,7 +40,8 @@ import pandas as pd
 import torch as tc
 
 
-zero: float = 1.0E-64  #: Tolerance when testing floats for equality.
+zero: float = 1.0E-64
+"""Tolerance when testing floats for equality."""
 
 
 class Pd:

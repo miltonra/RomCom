@@ -1,0 +1,3 @@
+<map id="inheritancedd29b3e904" name="inheritancedd29b3e904">
+<area shape="rect" id="node1" href="#rc.gpf.mean_functions.MOMeanFunction" target="_top" title="Mean functions for MOGPR. Basically a wrapper for a Sequence of gpflow.mean_functions.MeanFunctions, one for each output_dim." alt="" coords="5,5,130,32"/>
+</map>

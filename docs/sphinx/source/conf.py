@@ -21,36 +21,41 @@ sys.path.insert(0, os.path.abspath('../'))
 
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 needs_sphinx = '8.3'
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.autosummary', 'sphinx.ext.viewcode',
-              "sphinx.ext.mathjax", 'sphinx_copybutton', 'sphinxarg.ext']
+extensions = ['sphinx.ext.autodoc', 'autoapi.extension', 'sphinx.ext.napoleon', 'sphinx.ext.viewcode',
+              "sphinx.ext.mathjax", 'sphinx_copybutton', 'sphinxarg.ext', 'sphinx.ext.inheritance_diagram',
+              'sphinx.ext.graphviz', 'sphinx_design',]
+
+autodoc_typehints_format = 'short'
+python_use_unqualified_type_names = True
 
 
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-warning-control
-suppress_warnings = []
-
-
+# Extensions
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-python-domain
 add_module_names = False
 modindex_common_prefix = ['rc.']
 
-
-# https://www.sphinx-doc.org/en/master/usage/extensions/autosummary.html
-autosummary_generate = True
-autosummary_imported_members = False
-
+# https://sphinx-autoapi.readthedocs.io/en/latest/index.html
+autoapi_dirs = ['../../../rc']
+autoapi_add_toctree_entry = True
+autoapi_root = 'pages/api'
+autoapi_template_dir = '_templates'
+autoapi_options = [
+    'members',
+    'special-members',
+    'show-inheritance',
+    'show-inheritance-diagram',
+    'show-module-summary',
+    # 'inherited-members', 'imported-members', 'undoc-members', 'private-members',
+]
+autoapi_keep_files = True
 
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
-autodoc_member_order = 'bysource'
 autodoc_typehints = 'description'
-autodoc_preserve_defaults = True
-autodoc_class_signature = 'separated'
-autodoc_type_aliases = {'Store.Path': 'Store.Path', 'Data': 'Data'}
-templates_path = ['_templates']
-exclude_patterns = []
-autodoc_default_options = {'members': True, 'private-members': False, 'inherited-members': True,
-                           'show-inheritance': True, 'special-members': '__init__, __call__'
-}
+autodoc_type_aliases = {'DataFrame': 'rc.base.definitions.Pd.DataFrame', 'Cunt': 'rc.base.definitions.Path',}
 
+
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-warning-control
+suppress_warnings = []
 
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 html_css_files = ['pydata-custom.css']
@@ -60,7 +65,7 @@ html_logo = '_static/MattLogo2.svg'
 html_favicon = '_static/MattLogo2.png'
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {'header_links_before_dropdown': 8, 'header_dropdown_text': 'Extras',
-                      'secondary_sidebar_items': {"**": []}, 'show_nav_level': 5, 'navigation_depth': 4,
+                      'secondary_sidebar_items': {"**": []}, 'navigation_depth': 5
                       }
 html_static_path = ['_static']
 # html_sidebars = { '**': ['sidd']}

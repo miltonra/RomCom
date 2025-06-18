@@ -1,6 +1,6 @@
 
 Conventions
------------------
+=============================
 
 RomCom abides by the spirit of `PEP 8 <https://peps.python.org/pep-0008/>`_,
 which allows conventions to be flexed, but only when needs must.
@@ -12,7 +12,7 @@ RomCom abides by the letter of `PEP 8 <https://peps.python.org/pep-0008/>`_ exce
 * a neurotic aversion to ugly under_scores and BLOCK_CAPS.
 
 Names
-^^^^^^^^^^^
+----------------------------------------------------------
 
 RomCom views any Python entity as falling into one of three categories, each with its own naming convention.
 
@@ -31,7 +31,7 @@ RomCom views any Python entity as falling into one of three categories, each wit
 
 
 Constants
-^^^^^^^^^^^
+----------------------------------------------------------
 
 Constancy in RomCom is determined by scope, not name.
 Every namespace or Class attribute in RomCom is a constant which must not be modified.
@@ -39,8 +39,9 @@ Bespoke constants should be implemented by subclassing, leaving the RomCom paren
 An UpperCamelCase constant refers to a Class, a lowerCamelCase constant does not.
 
 
-Annotations
-^^^^^^^^^^^^^^^^^^
+Type Annotations
+----------------------------------------------------------
+
 
 RomCom is copiously annotated, in the spirit of a statically typed library.
 Type annotation is the subject of ``rc.base.definitions``, which simply extends
@@ -51,7 +52,8 @@ For aliasing and naming conflict resolution, ``rc.base.definitions`` imports the
 
 
 Character Set
-^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------
+^
 
 RomCom assumes `UTF-8 encoding <https://www.w3schools.com/charsets/ref_html_utf8.asp>`_ but actually uses only one non-ASCII character, the Box Drawing Light Vertical │ (U+2502).
 It denotes probablistic conditioning, which delimits categories in a semantically coherent and instructive way.
@@ -60,3 +62,48 @@ User data may safely contain any printable UTF character except ``│``, includi
 
 If needs must, the category delimiter can be changed globally in user code by resetting the constant
 ``rc.data.models.Normalization.defaultMetaData['category delimiter']`` before any RomCom code is executed.
+
+
+Internal Code Conventions
+----------------------------------------------------------
+
+Begin every source file with::
+
+    #  BSD 3-Clause License.
+    #
+    #  Copyright (c) 2019-2025 Robert A. Milton. All rights reserved.
+    #
+    #  Redistribution and use in source and binary forms, with or without modification, are permitted provided that
+    #  the following conditions are met:
+    #
+    #  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the
+    #  following disclaimer.
+    #
+    #  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+    #  following disclaimer in the documentation and/or other materials provided with the distribution.
+    #
+    #  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or
+    #  promote products derived from this software without specific prior written permission.
+    #
+    #  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    #  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    #  PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+    #  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    #  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+    #  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+    #  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+    #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+    # TODO: \"\"\" DOCSTRING.\"\"\"
+
+    from __future__ import annotations
+
+    from rc.base.definitions import *
+
+    from rc import [WHATEVER IS NEEDED]
+
+    import [EXTERNAL LIBRARIES AS NEEDED]
+
+    import [PYTHON STANDARD LIBRARIES AS NEEDED]
+
+

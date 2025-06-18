@@ -1,0 +1,4 @@
+<map id="inheritance78e7dff23d" name="inheritance78e7dff23d">
+<area shape="rect" id="node1" href="#rc.gpf.kernels.MOStationary" target="_top" title="Base class for stationary kernels, i.e. kernels that only" alt="" coords="5,5,107,32"/>
+<area shape="rect" id="node2" href="#rc.gpf.kernels.RBF" target="_top" title="The radial basis function (RBF) or squared exponential kernel. The kernel equation is" alt="" coords="155,5,227,32"/>
+</map>

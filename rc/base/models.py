@@ -27,10 +27,17 @@
 
 from __future__ import annotations
 
+from .definitions import *
+
 from shutil import copyfile, copytree, rmtree
 from json import load, dump
 
-from .definitions import *
+
+MetaData = dict[str, Any]
+"""Type for passing metadata as ``**kwargs``."""
+
+Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix]
+"""Types which a DataBase Table accepts."""
 
 
 class Store(ABC):
@@ -46,8 +53,9 @@ class Store(ABC):
 
     @property
     def path(self) -> Path:
-        """ The ``Path`` to this ``Store``."""
-        return self._path
+        """ The ``Path`` to this ``Store``, without ``cls.ext``.
+        File extension is internal, meaning ``self._path = self._path + cls.ext``."""
+        return self._path.with_suffix('') if self.ext else self._path
 
     def __repr__(self) -> str:
         """ The ``Path`` to this ``Store``.
@@ -82,9 +90,23 @@ class Store(ABC):
         Then they should read ``self`` from ``self._path`` or write ``self`` in ``self._path``.
 
         Args:
-            path: The ``Path`` to ``self``. A ``cls.ext`` suffix is automatically appended.
+            path: The ``Path`` to ``self``. Do not include an extension.
         """
         self._path = self.mkdir(path)
+
+    @classmethod
+    def extAppend(cls, path: Path) -> Path:
+        """ Append ``cls.ext`` to ``path.name``.
+
+        Args:
+            path: The path to append ``cls.ext`` to.
+
+        Returns: ``Path(path)`` with ``cls.ext`` appended.
+        """
+        path = Path(path)
+        if cls.ext:
+            path = path.with_name(path.name + cls.ext)
+        return path
 
     @classmethod
     def mkdir(cls, path: Path) -> Path:
@@ -93,9 +115,9 @@ class Store(ABC):
         Args:
             path: The folder to create, or a child file of the folder to create.
 
-        Returns: The ``Path`` created.
+        Returns: ``Path(path)`` with ``cls.ext`` appended.
         """
-        path = Path(path)
+        path = cls.extAppend(path)
         if cls.ext:
             path.parent.mkdir(mode=0o777, parents=True, exist_ok=True)
         else:
@@ -138,9 +160,7 @@ class Store(ABC):
             FileNotFoundError: If ``src`` does not exist.
             FileExistsError: If attempting to overwrite a file with a folder.
         """
-        src, dst = Path(src), Path(dst)
-        if cls.ext:
-            src, dst = src.with_name(f'{src.name}.{cls.ext}'), src.with_name(f'{src.name}.{cls.ext}')
+        src, dst = cls.extAppend(src), cls.mkdir(dst)
         if src.is_dir():
             copytree(src=src, dst=dst, dirs_exist_ok=True)
         else:
@@ -156,16 +176,12 @@ class Store(ABC):
             
         Returns: ``path``, which no longer exists.
         """
-        path = Path(path)
-        if cls.ext: path = path.with_name(f'{path.name}.{cls.ext}')
+        path = cls.extAppend(path)
         if path.is_dir():
             rmtree(path, ignore_errors=True)
         else:
             path.unlink(missing_ok=False)
         return path
-
-
-MetaData = dict[str, Any]  #: Type for passing metadata as ``**kwargs``.
 
 
 class Meta(Store, dict):
@@ -231,9 +247,6 @@ class Meta(Store, dict):
         Returns: The ``Meta`` now stored at ``dst.json``.
         """
         return cls(dst, **src)
-
-
-Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix] #: Types which a DataBase Table accepts.
 
 
 class Table(Store):
@@ -358,7 +371,7 @@ class Table(Store):
         self._options = self.Options()
         self.options = options
         if data is None:
-            self(pd.read_csv(self.path, **self._options.read))
+            self(pd.read_csv(self._path, **self._options.read))
         else:
             self(data)
 
