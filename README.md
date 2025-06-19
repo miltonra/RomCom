@@ -26,11 +26,13 @@ This installs and tests all the correct runtime dependencies, as listed in
 ## Documentation
 All documentation for the ``RomCom`` library is published online in the 
 [RomCom User Guide](https://miltonra.github.io/RomCom/).
-The same documentation is available locally in 
+The same documentation is available locally at 
 [docs/index.html](https://github.com/miltonra/RomCom/blob/main/docs/index.html).
 
 ## Rebuilding Documentation
-In the unlikely event that you need to rebuild the local documentation, navigate to 
+In the unlikely event that you need to rebuild the local documentation, you must activate a Python environment 
+equipped with all the dependencies (including optional ones) listed in 
+[pyproject.toml](https://github.com/miltonra/RomCom/blob/main/pyproject.toml). Then, navigate to
 [docs/sphinx/](https://github.com/miltonra/RomCom/blob/main/docs/sphinx) and run::
 
     make tidy
@@ -50,4 +52,4 @@ As usual, help is available by running ``make help`` or ``make -h``, or just ``m
 Examine the makefiles  in 
 [docs/sphinx/](https://github.com/miltonra/RomCom/blob/main/docs/sphinx) 
 for further details. The ``clean`` and ``tidy`` aspects of ``make`` are provided by 
-[docs/sphinx/source/utilities.py](https://github.com/miltonra/RomCom/blob/main/docs/sphinx/source/utilities.py). 
+[docs/sphinx/source/utilities.py](https://github.com/miltonra/RomCom/blob/main/docs/sphinx/utilities.py).

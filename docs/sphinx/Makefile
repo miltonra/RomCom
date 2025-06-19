@@ -9,20 +9,18 @@ SOURCEDIR     = source/
 BUILDDIR      = ../
 
 help:
-	python -m utilities
+	@python -m utilities
 
 .PHONY: help
 
-.SILENT: help
-
 clean:
-	python -m utilities clean
-	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)"
+	@python -m utilities clean
+	@$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)"
 
 tidy:
-	python -m utilities clean
-	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)"
-	python -m utilities tidy
+	@python -m utilities clean
+	@$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)"
+	@python -m utilities tidy
 
 %:
-	python -m utilities
+	@python -m utilities

@@ -27,7 +27,7 @@ if "%1" == "" goto help
 
 if "%1" == "clean" python -m utilities clean
 if "%1" == "tidy" python -m utilities clean
-%SPHINXBUILD% -M html %SOURCEDIR% %BUILDDIR%
+%SPHINXBUILD% -b html %SOURCEDIR% %BUILDDIR%
 if "%1" == "tidy" python -m utilities tidy
 goto end
 
