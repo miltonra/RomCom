@@ -55,13 +55,14 @@ We recommend reading :doc:`pages/intro`, :doc:`pages/usage` and :doc:`pages/data
 .. toctree::
     :maxdepth: 2
 
-    pages/intro
-    pages/usage
-    pages/data
-    pages/gpr
-    pages/gsa
-    pages/rom
-    pages/api
+    Glossary <glossary>
+    Base <pages/intro>
+    Data <pages/data>
+    Task <pages/usage>
+    GPR <pages/gpr>
+    GSA <pages/gsa>
+    ROM <pages/rom>
+    API <pages/api>
     genindex
 
     :ref: `genindex`
