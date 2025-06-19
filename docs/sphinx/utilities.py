@@ -15,50 +15,18 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
-#
-#  Copyright (C) 2025 Robert A. Milton
-#
-#  This program is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU Affero General Public License as
-#  published by the Free Software Foundation, either version 3 of the
-#  License, or (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU Affero General Public License for more details.
-#
-#  You should have received a copy of the GNU Affero General Public License
-#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-#  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
-#
-#  Copyright (C) 2025 Robert A. Milton
-#
-#  This program is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU Affero General Public License as
-#  published by the Free Software Foundation, either version 3 of the
-#  License, or (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU Affero General Public License for more details.
-#
-#  You should have received a copy of the GNU Affero General Public License
-#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 """ RomCom's documentation utilities. """
 
 import os, argparse, time
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../../'))
+sys.path.insert(0, os.path.abspath('../../'))
 
 from rc.base import *
 
+
 replacements = {'rc.base.definitions.': '', }
+
 
 _here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/
 docs = _here.parent
@@ -121,7 +89,7 @@ if __name__ == "__main__":
     """
     print()
     parser = argparse.ArgumentParser(prog='make',
-        description='Make RomCom documentation using Sphinx <https://www.sphinx-doc.org/en/master/index.html#>.')
+        description='Make RomCom Documentation using Sphinx <https://www.sphinx-doc.org/en/master/index.html#>.')
     subparsers = parser.add_subparsers(dest='cmd', help='Use one of these targets.')
     subparsers.add_parser('tidy', help='Completely re-build all RomCom documentation. Slowest. Recommended.')
     subparsers.add_parser('clean',

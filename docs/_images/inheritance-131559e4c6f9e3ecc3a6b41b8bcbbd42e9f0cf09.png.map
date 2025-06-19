@@ -1,0 +1,4 @@
+<map id="inheritance9eb4282f28" name="inheritance9eb4282f28">
+<area shape="rect" id="node1" title="Base class for all neural network modules." alt="" coords="5,5,77,32"/>
+<area shape="rect" id="node2" href="#rc.gpr.base.Variance" target="_top" title="A (Co)Variance Matrix, efficiently represented." alt="" coords="125,5,197,32"/>
+</map>

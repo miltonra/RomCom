@@ -25,10 +25,10 @@ if errorlevel 9009 (
 
 if "%1" == "" goto help
 
-if "%1" == "clean" python -m source/utilities.py clean
-if "%1" == "tidy" python -m source/utilities.py clean
+if "%1" == "clean" python -m utilities clean
+if "%1" == "tidy" python -m utilities clean
 %SPHINXBUILD% -M html %SOURCEDIR% %BUILDDIR%
-if "%1" == "tidy" python -m source/utilities.py tidy
+if "%1" == "tidy" python -m utilities tidy
 goto end
 
 :help
