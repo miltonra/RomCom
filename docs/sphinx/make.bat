@@ -7,8 +7,8 @@ REM Command file for Sphinx documentation
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
-set SOURCEDIR=source/
-set BUILDDIR= ../
+set SOURCEDIR=.\source\
+set BUILDDIR= ..\
 
 %SPHINXBUILD% >NUL 2>NUL
 if errorlevel 9009 (
@@ -32,7 +32,7 @@ if "%1" == "tidy" python -m source/utilities.py tidy
 goto end
 
 :help
-%SPHINXBUILD% -M help %SOURCEDIR% %BUILDDIR%
+python -m utilities
 
 :end
 popd

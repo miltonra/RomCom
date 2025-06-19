@@ -9,18 +9,18 @@ SOURCEDIR     = source/
 BUILDDIR      = ../
 
 help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)"
+	python -m source/utilities makeHelp
 
 .PHONY: help makefile
 
 clean:
-    python -m source/utilities.py clean
-    @$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)"
+	python -m source/utilities.py clean
+	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)"
 
 tidy:
-    python -m source/utilities.py clean
-    @$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)"
-    python -m source/utilities.py tidy
+	python -m source/utilities.py clean
+	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)"
+	python -m source/utilities.py tidy
 
 %: makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)"
+	python -m source/utilities.py
