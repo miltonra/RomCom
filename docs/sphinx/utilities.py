@@ -71,10 +71,19 @@ def _tidyfile(filename: Path):
         f.truncate()
 
 
-def _tidy():
-    """ Tidy the Sphinx generated ``html`` in ``docs/``. """
-    for filename in (docs / 'pages').iterdir():
-        _tidyfile(filename)
+def _tidy(folder: Path = docs / 'pages'):
+    """ Recursively tidy all ``.html`` files in the given folder, and subfolders.
+
+    Args:
+        folder: The folder to tidy, defaults to ``docs/pages``, which houses all html.
+    """
+    if not (folder).is_dir():
+        raise FileNotFoundError(f'Cannot `tidy` html as it does not exist. You must run `sphinx-build` first.')
+    for filename in (folder).iterdir():
+        if filename.is_dir():
+            _tidy(filename)
+        elif filename.suffix == '.html':
+            _tidyfile(filename)
 
 
 if __name__ == "__main__":
@@ -100,9 +109,9 @@ if __name__ == "__main__":
     match parser.parse_args().cmd:
         case 'clean':
             _clean()
-            print(f'{parser.parse_args().cmd} took {time.time() - start_time}')
+            print(f'{parser.parse_args().cmd} took {time.time() - start_time : .1f}s')
         case 'tidy':
             _tidy()
-            print(f'{parser.parse_args().cmd} took {time.time() - start_time}')
+            print(f'{parser.parse_args().cmd} took {time.time() - start_time : .1f}s')
         case _:
             parser.parse_args(['--help'])

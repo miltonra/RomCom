@@ -504,7 +504,7 @@
 <li><p><strong>kind</strong> (<a class="reference internal" href="#rc.gsa.models.GSA" title="rc.gsa.models.GSA"><em>GSA</em></a>)</p></li>
 <li><p><strong>m</strong> (<em>int</em>)</p></li>
 <li><p><strong>is_error_calculated</strong> (<em>bool</em>)</p></li>
-<li><p><strong>kwargs</strong> (<em>rc.base.definitions.Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -540,7 +540,7 @@
 <dd class="field-odd"><p><strong>method</strong> (<em>str</em>) – Not used.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>rc.base.definitions.Dict[str, rc.base.definitions.Any]</p>
+<dd class="field-even"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 <p>Returns: The results of the calculation, as a labelled dictionary of tf.Tensors.</p>
@@ -572,7 +572,7 @@
 <li><p><strong>kind</strong> (<a class="reference internal" href="#rc.gsa.models.GSA" title="rc.gsa.models.GSA"><em>GSA</em></a>)</p></li>
 <li><p><strong>m</strong> (<em>int</em>)</p></li>
 <li><p><strong>is_error_calculated</strong> (<em>bool</em>)</p></li>
-<li><p><strong>kwargs</strong> (<em>rc.base.definitions.Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -586,12 +586,12 @@
 </map><p>The Data set of a GSA.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="rc.gsa.models.Sobol.Data.NamedTuple">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NamedTuple</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">rc.base.definitions.Type</span><span class="p"><span class="pre">[</span></span><span class="pre">rc.base.definitions.NamedTuple</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.gsa.models.Sobol.Data.NamedTuple" title="Link to this definition">§</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NamedTuple</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">NamedTuple</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.gsa.models.Sobol.Data.NamedTuple" title="Link to this definition">§</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Classmethod<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>rc.base.definitions.Type[rc.base.definitions.NamedTuple]</p>
+<dd class="field-even"><p>Type[NamedTuple]</p>
 </dd>
 </dl>
 <p>The NamedTuple underpinning this Data set.</p>
@@ -601,12 +601,12 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rc.gsa.models.Sobol.META">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">META</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">rc.base.definitions.Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rc.base.definitions.Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.gsa.models.Sobol.META" title="Link to this definition">§</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">META</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.gsa.models.Sobol.META" title="Link to this definition">§</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Classmethod<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>rc.base.definitions.Dict[str, rc.base.definitions.Any]</p>
+<dd class="field-even"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 <p>Default calculation meta. <code class="docutils literal notranslate"><span class="pre">is_T_partial</span></code> forces <code class="docutils literal notranslate"><span class="pre">WmM</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>

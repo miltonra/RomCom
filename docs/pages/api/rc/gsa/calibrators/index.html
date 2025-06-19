@@ -503,18 +503,18 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>gp</strong> (<a class="reference internal" href="../../gpr/models/index.html#rc.gpr.models.GPR" title="rc.gpr.models.GPR"><em>rc.gpr.models.GPR</em></a>)</p></li>
-<li><p><strong>kwargs</strong> (<em>rc.base.definitions.Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rc.gsa.calibrators.ClosedSobol.META">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">META</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">rc.base.definitions.Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rc.base.definitions.Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.gsa.calibrators.ClosedSobol.META" title="Link to this definition">§</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">META</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.gsa.calibrators.ClosedSobol.META" title="Link to this definition">§</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Classmethod<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>rc.base.definitions.Dict[str, rc.base.definitions.Any]</p>
+<dd class="field-even"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 <p>Default calculation meta.</p>
@@ -532,7 +532,7 @@
 <dd class="field-odd"><p><strong>m</strong> (<em>TF.Slice</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>rc.base.definitions.Dict[str, TF.Tensor]</p>
+<dd class="field-even"><p>Dict[str, TF.Tensor]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -553,18 +553,18 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>gp</strong> (<a class="reference internal" href="../../gpr/models/index.html#rc.gpr.models.GPR" title="rc.gpr.models.GPR"><em>rc.gpr.models.GPR</em></a>)</p></li>
-<li><p><strong>kwargs</strong> (<em>rc.base.definitions.Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="rc.gsa.calibrators.ClosedSobolWithError.META">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">META</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">rc.base.definitions.Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rc.base.definitions.Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.gsa.calibrators.ClosedSobolWithError.META" title="Link to this definition">§</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">META</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#rc.gsa.calibrators.ClosedSobolWithError.META" title="Link to this definition">§</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Classmethod<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>rc.base.definitions.Dict[str, rc.base.definitions.Any]</p>
+<dd class="field-even"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 <p>Default calculation meta. <code class="docutils literal notranslate"><span class="pre">is_T_partial</span></code> forces W[Mm] = W[MM] = 0.</p>
@@ -589,7 +589,7 @@
 <dd class="field-odd"><p><strong>m</strong> (<em>TF.Slice</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>rc.base.definitions.Dict[str:TF.Tensor]</p>
+<dd class="field-even"><p>Dict[str:TF.Tensor]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -610,7 +610,7 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>gp</strong> (<a class="reference internal" href="../../gpr/models/index.html#rc.gpr.models.GPR" title="rc.gpr.models.GPR"><em>rc.gpr.models.GPR</em></a>)</p></li>
-<li><p><strong>kwargs</strong> (<em>rc.base.definitions.Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 </dl>

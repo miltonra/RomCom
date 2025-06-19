@@ -491,10 +491,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>csvs</strong> (<em>rc.base.definitions.Dict</em><em>[</em><em>str</em><em>, </em><em>rc.base.definitions.Dict</em><em>[</em><em>str</em><em>, </em><em>rc.base.definitions.Any</em><em>]</em><em>]</em>)</p></li>
-<li><p><strong>folders</strong> (<em>rc.base.definitions.Dict</em><em>[</em><em>str</em><em>, </em><em>rc.base.definitions.Dict</em><em>[</em><em>str</em><em>, </em><em>rc.base.definitions.Any</em><em>]</em><em>]</em>)</p></li>
+<li><p><strong>csvs</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>)</p></li>
+<li><p><strong>folders</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>)</p></li>
 <li><p><strong>ignore_missing</strong> (<em>bool</em>)</p></li>
-<li><p><strong>kwargs</strong> (<em>rc.base.definitions.Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -505,9 +505,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dst</strong> (<em>rc.base.definitions.Union</em><em>[</em><a class="reference internal" href="../../data/models/index.html#rc.data.models.Repo" title="rc.data.models.Repo"><em>rc.data.models.Repo</em></a><em>, </em><em>rc.base.definitions.Path</em><em>, </em><em>str</em><em>]</em>) – The destination folder, to house <code class="docutils literal notranslate"><span class="pre">self.csvs</span></code> or <code class="docutils literal notranslate"><span class="pre">self.folders</span></code>.</p></li>
+<li><p><strong>dst</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../../data/models/index.html#rc.data.models.Repo" title="rc.data.models.Repo"><em>rc.data.models.Repo</em></a><em>, </em><em>Path</em><em>, </em><em>str</em><em>]</em>) – The destination folder, to house <code class="docutils literal notranslate"><span class="pre">self.csvs</span></code> or <code class="docutils literal notranslate"><span class="pre">self.folders</span></code>.</p></li>
 <li><p><strong>is_existing_deleted</strong> – Whether to delete and recreate an existing <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> (<em>rc.base.definitions.Any</em>) – Write options passed straight to <code class="docutils literal notranslate"><span class="pre">pd.to_csv</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Write options passed straight to <code class="docutils literal notranslate"><span class="pre">pd.to_csv</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -520,9 +520,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dst</strong> (<em>rc.base.definitions.Union</em><em>[</em><em>rc.base.definitions.Path</em><em>, </em><em>str</em><em>]</em>) – The destination folder, to house <code class="docutils literal notranslate"><span class="pre">[self.csvs]</span></code>.</p></li>
+<li><p><strong>dst</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>]</em>) – The destination folder, to house <code class="docutils literal notranslate"><span class="pre">[self.csvs]</span></code>.</p></li>
 <li><p><strong>is_existing_deleted</strong> – Whether to delete and recreate an existing <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> (<em>rc.base.definitions.Any</em>) – Write options passed straight to <code class="docutils literal notranslate"><span class="pre">pd.to_csv</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Write options passed straight to <code class="docutils literal notranslate"><span class="pre">pd.to_csv</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -541,7 +541,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dst</strong> (<a class="reference internal" href="../../data/models/index.html#rc.data.models.Repo" title="rc.data.models.Repo"><em>rc.data.models.Repo</em></a>) – The destination folder, to house <code class="docutils literal notranslate"><span class="pre">[self.folders]</span></code>.</p></li>
 <li><p><strong>is_existing_deleted</strong> – Whether to delete and recreate an existing <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> (<em>rc.base.definitions.Any</em>) – Write options passed straight to <code class="docutils literal notranslate"><span class="pre">pd.to_csv</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Write options passed straight to <code class="docutils literal notranslate"><span class="pre">pd.to_csv</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
