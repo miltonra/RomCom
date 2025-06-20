@@ -1,11 +1,78 @@
 
 RomCom User Guide
-==========================================================================================================================================
+===========================================================================================
 
 .. rubric:: Reduced Order Modelling via GSA/GPR, by Robert A. Milton and Solomon F. Brown.
 
 
 .. danger:: This documentation is currently under construction
+
+
+.. grid:: 3
+    :gutter: 1
+
+    .. grid-item-card::  :octicon:`info` Installation
+        :link: https://github.com/miltonra/RomCom/tree/dev
+        :link-type: url
+
+        Instructions provided in the README.
+
+    .. grid-item-card::  :octicon:`info` Glossary
+        :link: glossary
+        :link-type: doc
+
+        RomCom terminology and abbreviations.
+
+    .. grid-item-card::  :octicon:`info` Conventions
+        :link: conventions
+        :link-type: doc
+
+        GSA assesses the relevance of a system's inputs to its outputs.
+
+.. grid:: 3
+    :gutter: 1
+
+    .. grid-item-card::  :octicon:`package` Base
+        :link: pages/base
+        :link-type: doc
+
+        GPR interpolates training data with uncertainty quantification.
+
+    .. grid-item-card::  :octicon:`package` Data
+        :link: pages/data
+        :link-type: doc
+
+        GSA assesses the relevance of a system's inputs to its outputs.
+
+    .. grid-item-card::  :octicon:`package` Task
+        :link: pages/task
+        :link-type: doc
+
+        ROM uses GSA to find the minimal set (Active Subspace) of inputs.
+
+.. grid:: 3
+    :gutter: 1
+
+    .. grid-item-card::  :octicon:`package` Gaussian Process Regression
+        :link: pages/gpr
+        :link-type: doc
+
+        GPR interpolates training data with uncertainty quantification.
+
+    .. grid-item-card::  :octicon:`package` Global Sensitivity Analysis
+        :link: pages/gsa
+        :link-type: doc
+
+        GSA assesses the relevance of a system's inputs to its outputs.
+
+    .. grid-item-card::  :octicon:`package` Reduced Order Modelling
+        :link: pages/rom
+        :link-type: doc
+
+        ROM uses GSA to find the minimal set (Active Subspace) of inputs.
+
+
+
 
 
 Welcome
@@ -53,7 +120,8 @@ Contents
 We recommend reading :doc:`pages/intro`, :doc:`pages/usage` and :doc:`pages/data`, in that order, then experiment.
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
+    :hidden:
 
     Glossary <glossary>
     Base <pages/intro>

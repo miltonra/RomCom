@@ -1,7 +1,2 @@
 
-.. include:: api/index.rst
-
-.. include:: ../conventions.rst
-
-.. include:: ../refs.rst
-
+.. include:: api/rc/index.rst

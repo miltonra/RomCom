@@ -40,28 +40,29 @@ modindex_common_prefix = ['rc.']
 
 # -- Extensions --------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-python-domain
-extensions = ['sphinx.ext.autodoc', 'autoapi.extension', 'sphinx.ext.napoleon', 'sphinx.ext.viewcode',
+extensions = ['sphinx.ext.autodoc', 'autoapi.extension', 'sphinx.ext.napoleon',
               "sphinx.ext.mathjax", 'sphinx_copybutton', 'sphinxarg.ext', 'sphinx.ext.inheritance_diagram',
-              'sphinx.ext.graphviz', 'sphinx_design',]
+              'sphinx.ext.graphviz', 'sphinx_design', 'sphinx.ext.viewcode', ]
 
 # https://sphinx-autoapi.readthedocs.io/en/latest/index.html
 autoapi_dirs = ['../../../rc']
 autoapi_add_toctree_entry = True
 autoapi_root = 'pages/api'
 autoapi_template_dir = '_templates'
+autoapi_own_page_level = 'attribute'
 autoapi_options = [
     'members',
     'special-members',
     'show-inheritance',
     'show-inheritance-diagram',
     'show-module-summary',
-    # 'inherited-members', 'imported-members', 'undoc-members', 'private-members',
+    'inherited-members',
+    # 'imported-members', 'undoc-members', 'private-members',
 ]
 autoapi_keep_files = True
 
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 autodoc_typehints = 'description'
-autodoc_type_aliases = {'DataFrame': 'rc.base.definitions.Pd.DataFrame', 'Cunt': 'rc.base.definitions.Path',}
 
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-warning-control
 suppress_warnings = []
@@ -74,7 +75,8 @@ html_logo = '_static/MattLogo2.svg'
 html_favicon = '_static/MattLogo2.png'
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {'header_links_before_dropdown': 12, 'header_dropdown_text': 'Extras',
-                      'secondary_sidebar_items': {"**": []}, 'navigation_depth': 5
+                      'secondary_sidebar_items': {"**": []}, 'navigation_depth': 5,
+                      "github_url": "https://github.com/miltonra/RomCom",
                       }
 html_static_path = ['_static']
 html_show_sourcelink = False

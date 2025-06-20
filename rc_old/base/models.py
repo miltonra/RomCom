@@ -25,6 +25,13 @@ from shutil import copyfile, copytree, rmtree
 from json import load, dump
 
 
+MetaData = dict[str, Any]
+"""Type for passing metadata as ``**kwargs``."""
+
+Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix]
+"""Types which a DataBase Table accepts."""
+
+
 class Store(ABC):
     """ Base class for any stored class. Users are not expected to subclass this class directly."""
 
@@ -169,10 +176,6 @@ class Store(ABC):
         return path
 
 
-MetaData = dict[str, Any]
-"""Type for passing metadata as ``**kwargs``."""
-
-
 class Meta(Store, dict):
     """ Concrete class encapsulating metadata stored in a ``.json`` file."""
 
@@ -236,10 +239,6 @@ class Meta(Store, dict):
         Returns: The ``Meta`` now stored at ``dst.json``.
         """
         return cls(dst, **src)
-
-
-Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix]
-"""Types which a DataBase Table accepts."""
 
 
 class Table(Store):

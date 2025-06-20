@@ -25,7 +25,14 @@ sys.path.insert(0, os.path.abspath('../../'))
 from rc.base import *
 
 
-replacements = {'rc.base.definitions.': '', }
+# apiReplacements = {'rc.base.definitions.': '', 'rc.base.models.': '',
+#                    'rc.data.functions.': '', 'rc.data.models.': '', 'rc.data.samples.': '',
+#                    'rc.base.': '', 'rc.data.': '',}
+
+apiReplacements = {'rc.': '', 'base.': '', 'data.': '',
+                   'definitions.': '', 'models.': '',
+                   'functions.': '', 'samples.': '',
+                   }
 
 
 _here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/
@@ -56,11 +63,12 @@ def _clean():
     _empty(docs, preserve=['sphinx', '.nojekyll'], confirm=False)
 
 
-def _tidyfile(filename: Path):
+def _tidyfile(filename: Path, replacements: Dict[str, Any] = apiReplacements):
     """ Tidy a ``.html`` file.
 
     Args:
         filename: The file to tidy
+        replacements: A ``dict`` of {old: new} strings to replace in the html files.
     """
     with open(filename, "r+") as f:
         content = f.read()
@@ -71,11 +79,12 @@ def _tidyfile(filename: Path):
         f.truncate()
 
 
-def _tidy(folder: Path = docs / 'pages'):
+def _tidy(folder: Path = docs / 'pages' /'api', replacements: Dict[str, Any] = apiReplacements):
     """ Recursively tidy all ``.html`` files in the given folder, and subfolders.
 
     Args:
-        folder: The folder to tidy, defaults to ``docs/pages``, which houses all html.
+        folder: The folder to tidy, defaults to ``docs/pages/api``, which houses all html.
+        replacements: A ``dict`` of {old: new} strings to replace in the html files.
     """
     if not (folder).is_dir():
         raise FileNotFoundError(f'Cannot `tidy` {folder} as it does not exist. You must run `sphinx-build` first.')

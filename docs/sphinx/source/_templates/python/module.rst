@@ -12,20 +12,46 @@
 
       {% endif %}
 
-      {% block submodules %}
+      {% block subpackages %}
          {% set visible_subpackages = obj.subpackages|selectattr("display")|list %}
+         {% if visible_subpackages %}
+Packages
+----------
+
+.. toctree::
+   :hidden:
+
+                     {% for subpackage in visible_subpackages %}
+   {{ subpackage.include_path }}
+                     {% endfor %}
+
+.. autoapisummary::
+
+                  {% for subpackage in visible_subpackages %}
+   {{ subpackage.id }}
+                  {% endfor %}
+
+
+         {% endif %}
+      {% endblock %}
+      {% block submodules %}
          {% set visible_submodules = obj.submodules|selectattr("display")|list %}
-         {% set visible_submodules = (visible_subpackages + visible_submodules)|sort %}
          {% if visible_submodules %}
 Modules
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
             {% for submodule in visible_submodules %}
    {{ submodule.include_path }}
             {% endfor %}
+
+.. autoapisummary::
+
+                  {% for submodule in visible_submodules %}
+   {{ submodule.id }}
+                  {% endfor %}
 
 
          {% endif %}
@@ -36,8 +62,8 @@ Modules
             {% set visible_attributes = visible_children|selectattr("type", "equalto", "data")|list %}
             {% if visible_attributes %}
                {% if "attribute" in own_page_types or "show-module-summary" in autoapi_options %}
-Properties
------------
+Attributes
+----------
 
                   {% if "attribute" in own_page_types %}
 .. toctree::
@@ -108,7 +134,7 @@ Classes
             {% set visible_functions = visible_children|selectattr("type", "equalto", "function")|list %}
             {% if visible_functions %}
                {% if "function" in own_page_types or "show-module-summary" in autoapi_options %}
-Methods
+Functions
 ---------
 
                   {% if "function" in own_page_types %}
