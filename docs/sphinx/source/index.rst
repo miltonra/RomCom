@@ -7,48 +7,49 @@ RomCom User Guide
 
 .. danger:: This documentation is currently under construction
 
+These cards are clickable, preferably in order.
 
 .. grid:: 3
     :gutter: 1
 
-    .. grid-item-card::  :octicon:`info` Installation
+    .. grid-item-card::  :octicon:`download` Installation
         :link: https://github.com/miltonra/RomCom/tree/dev
         :link-type: url
 
-        Instructions provided in the README.
+        Installation instructions at the GitHub site README
 
-    .. grid-item-card::  :octicon:`info` Glossary
-        :link: glossary
+    .. grid-item-card::  :octicon:`project-roadmap` Plan
+        :link: pages/plan/index
         :link-type: doc
 
-        RomCom terminology and abbreviations.
+        The form and structure of RomCom.
 
-    .. grid-item-card::  :octicon:`info` Conventions
-        :link: conventions
+    .. grid-item-card::  :octicon:`log` Glossary
+        :link: pages/glossary
         :link-type: doc
 
-        GSA assesses the relevance of a system's inputs to its outputs.
+        RomCom terms and abbreviations
 
 .. grid:: 3
     :gutter: 1
 
-    .. grid-item-card::  :octicon:`package` Base
-        :link: pages/base
+    .. grid-item-card::  :octicon:`database` base
+        :link: pages/base/index
         :link-type: doc
 
-        GPR interpolates training data with uncertainty quantification.
+        Foundational data typing, storage and access facilities
 
-    .. grid-item-card::  :octicon:`package` Data
-        :link: pages/data
+    .. grid-item-card::  :octicon:`file` data
+        :link: pages/data/index
         :link-type: doc
 
-        GSA assesses the relevance of a system's inputs to its outputs.
+        Presenting your data to RomCom
 
-    .. grid-item-card::  :octicon:`package` Task
+    .. grid-item-card::  :octicon:`play` task
         :link: pages/task
         :link-type: doc
 
-        ROM uses GSA to find the minimal set (Active Subspace) of inputs.
+        Scripted computations for mainstream tasks
 
 .. grid:: 3
     :gutter: 1
@@ -57,87 +58,42 @@ RomCom User Guide
         :link: pages/gpr
         :link-type: doc
 
-        GPR interpolates training data with uncertainty quantification.
+        GPR interpolates training data with uncertainty quantification
 
     .. grid-item-card::  :octicon:`package` Global Sensitivity Analysis
         :link: pages/gsa
         :link-type: doc
 
-        GSA assesses the relevance of a system's inputs to its outputs.
+        GSA assesses the relevance of a system's inputs to its outputs
 
     .. grid-item-card::  :octicon:`package` Reduced Order Modelling
         :link: pages/rom
         :link-type: doc
 
-        ROM uses GSA to find the minimal set (Active Subspace) of inputs.
+        ROM uses GSA to find the minimal set (Active Subspace) of inputs
 
-
-
-
-
-Welcome
----------------
-
-The RomCom Python library performs Reduction of Order by Marginalization (:term:`ROM`) Computations via Global Sensitivity Analysis (:term:`GSA`)
-using Gaussian Process Regression (:term:`GPR`). The mathematics behind this software is covered in some detail in the following preprint
-`Milton and Brown 2025 <https://arxiv.org/abs/2501.04602>`_.
-
-
-.. glossary::
-
-    GPR
-        Gaussian Process Regression.
-        A quite general technique for representing a functional dataset as a (Gaussian) stochastic process described thoroughly in
-        [`Rasmussen and Williams 2005 <https://direct.mit.edu/books/book/2320/Gaussian-Processes-for-Machine-Learning>`_].
-
-    GSA
-        Global Sensitivity Analysis.
-        This Assesses and ranks the relevance of a system's inputs to its outputs by a variety of methods covered broadly in
-        [`Saltelli et al. 2007 <https://onlinelibrary.wiley.com/doi/book/10.1002/9780470725184>`_] and
-        [`Razavi et al. 2021 <https://doi.org/10.1016/j.envsoft.2020.104954>`_].
-        RomCom deals exclusively with the variance based method of Ilya M. Sobol, extended to novel `Sobol' matrices  <https://arxiv.org/abs/2501.04602>`_.
-
-    ROM
-        Reduction of Order by Marginalization. A novel approach to locating an Active Subspace (AS) using conditional variances or Sobol' indices.
-        In the Active Subspace technique [`Constantine 2014 <https://epubs.siam.org/doi/book/10.1137/1.9781611973860>`_]
-        the input basis is rotated to align with the eigenvectors of the squared Jacobian vector.
-        In ROM, the input basis is rotated to maximise the Sobol' index of the first :math:`m` inputs.
-
-We recommend reading this page up to the general :doc:`glossary`, which is intended for reference.
-RomCom considers source code and User Guide as one: :doc:`conventions` and :doc:`glossary` entries apply equally to both, within format limitations.
-
-
-Installation
----------------
-
-Detailed installation instructions are contained in RomCom's
-`README.md <https://github.com/miltonra/RomCom/blob/dev/README.md>`_.
-
-
-Contents
-----------
-
-We recommend reading :doc:`pages/intro`, :doc:`pages/usage` and :doc:`pages/data`, in that order, then experiment.
 
 .. toctree::
     :maxdepth: 1
     :hidden:
 
-    Glossary <glossary>
-    Base <pages/intro>
-    Data <pages/data>
-    Task <pages/usage>
-    GPR <pages/gpr>
-    GSA <pages/gsa>
-    ROM <pages/rom>
+    Plan <pages/plan/index>
+    Glossary <pages/glossary>
+    base <pages/base/index>
+    data <pages/data/index>
+    task <pages/task/index>
+    GLR <pages/glr/index>
+    GPR <pages/gpr/index>
+    GSA <pages/gsa/index>
+    ROM <pages/rom/index>
     API <pages/api>
     genindex
 
     :ref: `genindex`
 
-.. include:: conventions.rst
 
-.. include:: refs.rst
-
-.. include:: glossary.rst
+.. _PEP8:  https://peps.python.org/pep-0008/
+.. _TheLizardBook:  https://www.fluentpython.com/
+.. _EffectivePython:  https://effectivepython.com/
+.. _PythonDocs:  https://docs.python.org/3/
 

@@ -48,6 +48,19 @@
       {% endif %}
    {% endfor %}
    {% if is_own_page and own_page_children %}
+      {% set visible_classes = own_page_children|selectattr("type", "equalto", "class")|list %}
+      {% if visible_classes %}
+Classes
+-------
+
+.. autoapisummary::
+
+         {% for klass in visible_classes %}
+   {{ klass.id }}
+         {% endfor %}
+
+
+      {% endif %}
       {% set visible_attributes = own_page_children|selectattr("type", "equalto", "attribute")|list %}
       {% if visible_attributes %}
 Attributes
@@ -61,6 +74,19 @@ Attributes
 
 
       {% endif %}
+      {% set visible_properties = own_page_children|selectattr("type", "equalto", "property")|list %}
+      {% if visible_properties %}
+Properties
+----------
+
+.. autoapisummary::
+
+         {% for property in visible_properties %}
+   {{ property.id }}
+         {% endfor %}
+
+
+      {% endif %}
       {% set visible_exceptions = own_page_children|selectattr("type", "equalto", "exception")|list %}
       {% if visible_exceptions %}
 Exceptions
@@ -70,19 +96,6 @@ Exceptions
 
          {% for exception in visible_exceptions %}
    {{ exception.id }}
-         {% endfor %}
-
-
-      {% endif %}
-      {% set visible_classes = own_page_children|selectattr("type", "equalto", "class")|list %}
-      {% if visible_classes %}
-Classes
--------
-
-.. autoapisummary::
-
-         {% for klass in visible_classes %}
-   {{ klass.id }}
          {% endfor %}
 
 

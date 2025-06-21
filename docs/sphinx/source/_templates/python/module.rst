@@ -134,7 +134,7 @@ Classes
             {% set visible_functions = visible_children|selectattr("type", "equalto", "function")|list %}
             {% if visible_functions %}
                {% if "function" in own_page_types or "show-module-summary" in autoapi_options %}
-Functions
+Methods
 ---------
 
                   {% if "function" in own_page_types %}
