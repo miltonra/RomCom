@@ -15,16 +15,24 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-""" Type and constant definitions.
+""" Basic Protocols, Types and constants.
 
-All modules of RomCom ``import *`` from this module, so all types and constants in this module are referenced 
-without adornment throughout RomCom."""
+All modules of RomCom ``import *`` from ``rc.definitions``, so all types and constants in this module are referenced
+without adornment throughout RomCom. The ``rc.definitions`` namespace includes::
+
+from typing import *
+from abc import ABC, abstractmethod
+from pathlib import Path
+from copy import copy, deepcopy
+
+"""
 
 from __future__ import annotations
 
 from typing import *
 from abc import ABC, abstractmethod
 from pathlib import Path
+from copy import copy, deepcopy
 
 import numpy as np
 import pandas as pd
@@ -33,6 +41,35 @@ import torch as tc
 
 zero: float = 1.0E-64
 """Tolerance when testing floats for equality."""
+
+
+class Protocol(Exception):
+    """ The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods."""
+
+class Indexed(Protocol):
+    """ ``self[key]`` is not implemented. Override ``__getitem__(self, key)`` and ``__setitem__(self, key, value)``. """
+
+class Len(Protocol):
+    """``len(self)`` is not implemented. Override ``__len__(self)``. """
+
+class Create(Protocol):
+    """``cls.create(path)`` is selective, preserving irrelevant items in ``path``. """
+
+class Read(Protocol):
+    """``cls(path)`` reads from ``path``. """
+
+class Update(Protocol):
+    """``self(**updates)`` updates ``self`` then writes to ``self.path``. """
+
+class Delete(Protocol):
+    """``cls.delete(path)`` is selective, preserving irrelevant items in ``path``. """
+
+class Copy(Protocol):
+    """``cls.copy(src, dst)`` is selective, copying only relevant items in ``src.path`` while preserving irrelevant items in ``dst``."""
+
+class StrRepr(Protocol):
+    """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
+
 
 
 class Pd:

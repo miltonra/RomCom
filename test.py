@@ -31,9 +31,45 @@ class TestCase(ut.TestCase):
 
     @classmethod
     def root(cls) -> Path:
-        return ROOT / cls.__name__.lower() / inspect.stack()[0][3][5:]
+        caller = inspect.stack()[1][3]
+        if caller.startswith("test_"): caller = caller[5:]
+        return ROOT / cls.__name__.lower() / caller
 
 
+class Base(TestCase):
+
+    def test_Meta(self):
+        meta = Meta.create(self.root() / 'meta', **Table.Options.defaults())
+        meta(update=1)
+
+    def test_Table(self):
+        Store.delete(self.root())
+        table = Table.create(self.root() / 'table', pd.DataFrame([0]))
+        table(pd.DataFrame([1]))
+
+    def test_DataBase(self):
+        class MyDataBase(DataBase):
+            class NamedTables(NamedTuple):
+                zero: Table | Matrix | MetaData = pd.DataFrame([0])
+                one: Table | Matrix | MetaData = pd.DataFrame([1])
+
+                def __call__(self, name: str) -> Table | Matrix | MetaData:
+                    """ Returns the Table named ``name``."""
+                    return getattr(self, name)
+
+            options: NamedTables[MetaData] = NamedTables(zero=Table.Options.defaults(),
+                                                         one=Table.Options.defaults())
+            """ Class attribute of the form ``NamedTables(**{names[i]: options[i], ...})``.
+            Override as necessary for bespoke ``Table.options``.
+            Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,
+            the remainder populate ``self[i].options.read``."""
+
+            defaultMetaData: MetaData = {'options': options._asdict()}
+
+        object = MyDataBase.create(self.root() / 'object.path.name')
+        ambition = MyDataBase.create(self.root() / 'object.path.name')
+
+@ut.skip('Not yet')
 class Data(TestCase):
 
     def setUp(self):
@@ -55,4 +91,4 @@ class Data(TestCase):
 #
 
 if __name__ == '__main__':
-    unittest.main()
+    ut.main()

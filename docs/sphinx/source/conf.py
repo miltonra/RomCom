@@ -52,12 +52,11 @@ autoapi_template_dir = '_templates'
 autoapi_own_page_level = 'attribute'
 autoapi_options = [
     'members',
-    'special-members',
     'show-inheritance',
     'show-inheritance-diagram',
     'show-module-summary',
     'inherited-members',
-    # 'imported-members', 'undoc-members', 'private-members',
+    # 'special-members', # 'imported-members', 'undoc-members', 'private-members',
 ]
 autoapi_keep_files = True
 
@@ -80,3 +79,6 @@ html_theme_options = {'header_links_before_dropdown': 12, 'header_dropdown_text'
                       }
 html_static_path = ['_static']
 html_show_sourcelink = False
+html_sidebars = {
+    "**": ["page-toc", "sidebar-nav-bs"]
+}

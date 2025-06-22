@@ -29,12 +29,30 @@ class Store(ABC):
     """ Base class for any stored class. Users are not expected to subclass this class directly."""
 
     Path = Path | str
-    """ Class attribute aliasing Types used to specify the ``path`` to a Store. Do not override."""
+    """ Class attribute aliasing ``Path | str``, valid Types for specifying the ``path`` to a Store."""
 
     ext: str = ''
     """Class attribute specifying the file extension terminating ``self.path``. 
     Override if and only if the derived class must be stored in a file.
     Otherwise, ``cls.ext == ''`` and the derived class is stored in a folder."""
+
+    class CreateProtocol(Create):
+        """ ``Store.create(path)`` destroys everything in its ``path``. """
+
+    class ReadProtocol(Read):
+        """ ``Store.__init__(path)`` must be overridden. """
+
+    class UpdateProtocol(Update):
+        """ ``Store.__call__(**updates)`` must be overridden. """
+
+    class DeleteProtocol(Delete):
+        """ ``Store.delete(path)`` destroys everything in its ``path``. """
+
+    class CopyProtocol(Copy):
+        """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything ``src``. """
+
+    class StrReprProtocol(StrRepr):
+        pass
 
     @property
     def path(self) -> Path:
@@ -43,25 +61,19 @@ class Store(ABC):
         return self._path.with_suffix('') if self.ext else self._path
 
     def __repr__(self) -> str:
-        """ The ``Path`` to this ``Store``.
-
-        :meta public:
-        """
-        return str(self._path)
+        """ The ``Path`` to this ``Store``."""
+        return str(self.path)
 
     def __str__(self) -> str:
-        """ The ``Path`` to this ``Store``, abbreviated.
-
-        :meta public:
-        """
-        return self._path.stem if self.ext else self._path.name
+        """ The name of this ``Store`` - i.e. ``self.path.name``."""
+        return str(self.path.name)
 
     @abstractmethod
-    def __call__(self, **data) -> Self:
+    def __call__(self, **updates: Any) -> Self:
         """ Update and store ``self``.
 
         Args:
-            **data: Data to update.
+            **updates: Updates to ``self``.
 
         Returns: ``self``.
         """
@@ -69,15 +81,14 @@ class Store(ABC):
 
     @abstractmethod
     def __init__(self, path: Path):
-        """ Construct ``self``.
+        """ Store ``path`` in ``self._path``.
 
         Overrides should call ``super(Store).__init__(path)`` as a matter of priority.
-        Then they should read ``self`` from ``self._path`` or write ``self`` in ``self._path``.
 
         Args:
             path: The ``Path`` to ``self``. Do not include an extension.
         """
-        self._path = self.mkdir(path)
+        self._path = self.extAppend(path)
 
     @classmethod
     def extAppend(cls, path: Path) -> Path:
@@ -100,9 +111,8 @@ class Store(ABC):
         Args:
             path: The folder to create, or a child file of the folder to create.
 
-        Returns: ``Path(path)`` with ``cls.ext`` appended.
+        Returns: ``Path(path) + cls.ext``.
         """
-        path = cls.extAppend(path)
         if cls.ext:
             path.parent.mkdir(mode=0o777, parents=True, exist_ok=True)
         else:
@@ -178,31 +188,53 @@ class Meta(Store, dict):
 
     ext: str = '.json'  #: ext: Class attribute specifying the file extension of Meta instances.
 
-    def __call__(self, **data: Any) -> Self:
+    class Indexed(Indexed):
+        """ ``self[key]`` is inherited from ``dict``. """
+
+    class Len(Len):
+        """ ``len(self)`` is inherited from ``dict``. """
+
+    class CreateProtocol(Create):
+        pass
+
+    class ReadProtocol(Read):
+        pass
+
+    class UpdateProtocol(Update):
+        """ ``self(**updates)`` performs ``dict.update(**updates)`` (inherited), then writes to ``self.path``. """
+
+    class DeleteProtocol(Delete):
+        pass
+
+    class CopyProtocol(Copy):
+        pass
+
+    def __call__(self, **updates: Any) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
-            **data: Data to update ``self.data``.
+            **updates: Data to update ``self.data``.
 
         Returns: ``self``.
         """
-        self.update(data)
+        self.update(updates)
         with open(self._path, mode='w') as file:
             dump(self, file, indent=4)
         return self
 
     def __setitem__(self, key, value):
-        """ Indexer sets the ``value`` indexed by ``key``."""
+        """ Act as a ``dict``, then write to ``.json``."""
         super().__setitem__(key, value)
         self()
 
     def __init__(self, path: Store.Path, **data: Any):
         """ Construct ``self`` from a ``.json`` file or ``MetaData``.
+        This is read *or* write, *never* both: ``path`` is read *only* if ``**data`` is absent.
 
         Args:
             path: The Path (file) to store ``self``. A ``.json`` extension is automatically appended.
-            **data: The ``MetaData`` to store. If absent, ``self.data`` is read from ``path``,
-                otherwise ``self.data=data`` is stored in ``path`` (which is overwritten if existing).
+            **data: The ``MetaData`` to store. If absent, ``self`` is read from ``path``,
+                otherwise ``self=dict(**data)`` is stored in ``path`` (which is overwritten if existing).
         """
         super(Meta, self).__init__(path)
         if data == {}:
@@ -222,7 +254,7 @@ class Meta(Store, dict):
 
         Returns: The ``Meta`` created.
         """
-        return cls(path, **data)
+        return cls(cls.mkdir(path), **data)
 
     @classmethod
     def copy(cls, src: Meta, dst: Store.Path) -> Self:
@@ -235,7 +267,7 @@ class Meta(Store, dict):
 
         Returns: The ``Meta`` now stored at ``dst.json``.
         """
-        return cls(dst, **src)
+        return cls.create(dst, **src)
 
 
 Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix]
@@ -266,7 +298,7 @@ class Table(Store):
         write: MetaData =  {}   #: Write options passed to ``pd.DataFrame.to_csv``.
 
         @classmethod
-        def default(cls) -> MetaData:
+        def defaults(cls) -> MetaData:
             """ Returns the default Options as ``cls.read | cls.write``."""
             return cls._field_defaults['read'] | cls._field_defaults['write']
 
@@ -277,6 +309,24 @@ class Table(Store):
     """ Class attribute listing kwargs which will be interpreted as write options. 
     All other kwargs are interpreted as read options. 
     To specify a separator, use ``delimiter`` as read option and ``sep`` as write option. """
+
+    class CreateProtocol(Create):
+        pass
+
+    class ReadProtocol(Read):
+        pass
+
+    class UpdateProtocol(Update):
+        pass
+
+    class DeleteProtocol(Delete):
+        pass
+
+    class CopyProtocol(Copy):
+        pass
+
+    class StrReprProtocol(StrRepr):
+        pass
 
     @property
     def options(self) -> MetaData:
@@ -289,9 +339,9 @@ class Table(Store):
         return self._options.read | self._options.write
 
     @options.setter
-    def options(self, update: MetaData):
-        write = {key: update.pop(key) for key in self.writeOptions if key in update}
-        self._options._replace(read =self._options.read | update, write =self._options.write | write)
+    def options(self, updates: MetaData):
+        write = {key: updates.pop(key) for key in self.writeOptions if key in updates}
+        self._options._replace(read =self._options.read | updates, write =self._options.write | write)
 
     @property
     def pd(self) -> Pd.DataFrame:
@@ -305,7 +355,7 @@ class Table(Store):
 
     @property
     def tc(self) -> Tc.Matrix:
-        """ The ``TF.Matrix`` stored in ``self``."""
+        """ The ``Tc.Matrix`` stored in ``self``."""
         return tc.from_numpy(self.np)
 
     def broadcast_to(self, target_shape: Tuple[int, int], is_diagonal: bool = True) -> Self:
@@ -329,23 +379,23 @@ class Table(Store):
             data = np.diag(np.diagonal(data))
         return self(data)
 
-    def __call__(self, data: Self | Matrix | None, **options: Any) -> Self:
+    def __call__(self, update: Self | Matrix | None = None, **options: Any) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
-            data: The data updates.
+            update: The data updates.
             **options: Updates ``self.options``, before storing ``self``.
 
         Returns: ``self``.
         """
-        if isinstance(data, Table):
-            self._pd = data.pd.copy()
-        elif isinstance(data, pd.DataFrame):
-            self._pd = data.copy()
-        elif isinstance(data, Np.Matrix):
-            self._pd.iloc[:, :] = data
-        elif isinstance(data, Tc.Matrix):
-            self._pd.iloc[:, :] = data.numpy()
+        if isinstance(update, Table):
+            self._pd = update.pd.copy(deep=True)
+        elif isinstance(update, pd.DataFrame):
+            self._pd = update.copy()
+        elif isinstance(update, Np.Matrix):
+            self._pd.iloc[:, :] = update
+        elif isinstance(update, Tc.Matrix):
+            self._pd.iloc[:, :] = update.numpy()
         self.options = options
         self._pd.to_csv(self._path, **self._options.write)
         return self
@@ -392,7 +442,8 @@ class Table(Store):
 
         .. _pd.DataFrame.to_csv: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
         """
-        return cls(path, pd.DataFrame(data.pd if isinstance(data, Table) else data, index, columns, dtype, copy),
+        return cls(cls.mkdir(path),
+                   pd.DataFrame(data.pd if isinstance(data, Table) else data, index, columns, dtype, copy),
                    **metadata)
 
     @classmethod
@@ -406,7 +457,7 @@ class Table(Store):
 
         Returns: The ``DataTable`` now stored at ``dst.csv``.
         """
-        return cls(dst, src.pd, **src.options)
+        return cls.create(dst, src.pd, **src.options)
 
 
 class DataBase(Store):
@@ -416,7 +467,7 @@ class DataBase(Store):
 
         class MyDataBase(DataBase):
 
-            class NT(NamedTuple):
+            class NamedTables(NamedTuple):
 
                 names[i]: Table | Matrix | MetaData = pd.DataFrame(defaults[names[i]].pd)   #: Comment
                 ...
@@ -428,17 +479,16 @@ class DataBase(Store):
 
             options: NamedTables[MetaData] = NamedTables(**{name: table.options for name, table in {}.items()})
             \"\"\" Class attribute of the form ``NamedTables(**{names[i]: options[i], ...})``.
-            Override as necessary for bespoke ``Table.options``.
             Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,
-            the remainder populate ``self[i].options.read``.\"\"\"
+            the remainder populate ``self[i].options.read``. Must be overridden.\"\"\"
 
-            defaultMetaData: MetaData = {'Tables': Tables.options._asdict()}
+            defaultMetaData: MetaData = {'Tables': options._asdict()}
     """
 
     class NamedTables(NamedTuple):
         """ Must be overridden. """
-        NotImplemented: Table | Matrix = pd.DataFrame(((f'Attribute type should be Table in '
-                                                        f'any implementation.',),))  #: :meta private:
+        NotImplemented: Table | Matrix | MetaData = pd.DataFrame(((f'Attribute type should be Table in '
+                                                                   f'any implementation.',),))  #: :meta private:
 
         def __call__(self, name: str) -> Table | Matrix | MetaData:
             """ Returns the Table named ``name``."""
@@ -447,17 +497,40 @@ class DataBase(Store):
 
     options: NamedTables[MetaData] = NamedTables(**{name: table.options for name, table in {}.items()})
     """ Class attribute of the form ``NamedTables(**{names[i]: options[i], ...})``. 
-    Override as necessary for bespoke ``Table.options``.
     Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,
-    the remainder populate ``self[i].options.read``."""
+    the remainder populate ``self[i].options.read``. Must be overridden."""
 
     #: Class attribute. Should be overridden.
     defaultMetaData: MetaData = {'Tables': options._asdict()}
 
+    class Indexed(Protocol):
+        """ ``self[key]`` accesses ``NamedTables`` by name or index/slice. """
+
+    class Len(Protocol):
+        """``len(self)`` counts the ``Table``s in ``self``. """
+
+    class CreateProtocol(Create):
+        pass
+
+    class ReadProtocol(Read):
+        pass
+
+    class UpdateProtocol(Update):
+        """ ``self(**tables) updates and writes ``NamedTables`` (``self.meta(**updates)`` updates ``Meta``."""
+
+    class DeleteProtocol(Delete):
+        pass
+
+    class CopyProtocol(Copy):
+        pass
+
+    class StrReprProtocol(StrRepr):
+        pass
+
     @property
-    def nt(self) -> NamedTables:
+    def namedTables(self) -> NamedTables:
         """ The ``NamedTables`` currently in ``self``."""
-        return self._nt
+        return self._namedTables
 
     @property
     def meta(self) -> Meta:
@@ -466,11 +539,11 @@ class DataBase(Store):
 
     def __len__(self) -> int:
         """ Counts the ``Table`` s in ``self``. """
-        return len(self._nt)
+        return len(self._namedTables)
 
     def __getitem__(self, name: str | slice) -> Table | Tuple[Table, ...]:
         """ Indexer returns the ``Table`` (s) named or sliced by ``name``. """
-        return self._nt(name) if isinstance(name, str) else self._nt[name]
+        return self._namedTables(name) if isinstance(name, str) else self._namedTables[name]
 
     def __setitem__(self, name: str | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
         """ Indexer sets the ``Table`` (s) named or sliced by ``name``."""
@@ -490,7 +563,7 @@ class DataBase(Store):
         Returns: ``self``.
         """
         for name, table in tables.items():
-            self._nt(name)(table, **self.options(name))
+            self._namedTables(name)(table, **self.options(name))
         return self
 
     def __init__(self, path: Store.Path, **tables: Table | Pd.DataFrame):
@@ -509,11 +582,11 @@ class DataBase(Store):
         super().__init__(path)
         try:
             self._meta = Meta(self._meta_in(path))
-            self._nt = self.NamedTables(**{name:
+            self._namedTables = self.NamedTables(**{name:
                                                Table(path / name, tables[name], **self.options(name))
                                                if name in tables and tables[name] is not None
                                                else Table(path / name, **self.options(name))
-                                           for name in self.names()})
+                                                    for name in self.names()})
         except FileNotFoundError as error:
             print(f'DataBase "{self}" is trying to read a non-existent Table. Did your script mean to call '
                   f'{type(self).__qualname__}.create("{str(self)}") '

@@ -107,10 +107,10 @@ class NormalDesignMatrix(DesignMatrix):
         write: MetaData =  {}   # Write options passed to ``pd.DataFrame.to_csv``.
 
     def create(cls, path: Store.Path, src: NormalDesignMatrix) -> Self:
-        return cls(path, data = src)
+        return cls(path, update= src)
 
     def copy(cls, src: Self, dst: Store.Path = '') -> NormalDesignMatrix:
-        return cls(dst, data = src) if dst else src
+        return cls(dst, update= src) if dst else src
 
 
 class Normalization(DataBase):
@@ -168,7 +168,7 @@ class Repo(DataBase):
             """ Returns the Table named ``name``."""
             return getattr(self, name)
 
-    options: NamedTables[MetaData] = NamedTables(data = Table.Options.default())
+    options: NamedTables[MetaData] = NamedTables(data = Table.Options.defaults())
 
     defaultMetaData: MetaData = {'K': 0}
 

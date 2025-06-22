@@ -8,7 +8,12 @@ The User Guide follows Python convention by using | to denote logical OR.
 .. glossary::
     :sorted:
 
-    protocol
+    Protocol
+        Documentation in code, detailing the interface a Class supports via undocumented :term:`dunder methods`.
+
+    dunder methods
+        Special methods (also known as magic methods) whose names are surrounded by double underscores (dunders).
+        The best know example is Python's Class constructor ``__init__(self, **kwargs)``.
 
     folder
       directory.
@@ -28,3 +33,8 @@ The User Guide follows Python convention by using | to denote logical OR.
     ``tc`` | ``Tc``
       The PyTorch package ``torch``.
 
+    MetaData
+        ``dict[str, Any]``.
+
+    Table
+        Consult :ref:`base`.

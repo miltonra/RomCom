@@ -59,6 +59,30 @@ Modules
       {% block content %}
          {% set visible_children = obj.children|selectattr("display")|list %}
          {% if visible_children %}
+            {% set visible_exceptions = visible_children|selectattr("type", "equalto", "exception")|list %}
+            {% if visible_exceptions %}
+               {% if "exception" in own_page_types or "show-module-summary" in autoapi_options %}
+Protocols
+----------
+
+                  {% if "exception" in own_page_types %}
+.. toctree::
+   :hidden:
+
+                     {% for exception in visible_exceptions %}
+   {{ exception.include_path }}
+                     {% endfor %}
+
+                  {% endif %}
+.. autoapisummary::
+
+                  {% for exception in visible_exceptions %}
+   {{ exception.id }}
+                  {% endfor %}
+               {% endif %}
+
+
+            {% endif %}
             {% set visible_attributes = visible_children|selectattr("type", "equalto", "data")|list %}
             {% if visible_attributes %}
                {% if "attribute" in own_page_types or "show-module-summary" in autoapi_options %}
@@ -78,30 +102,6 @@ Attributes
 
                   {% for attribute in visible_attributes %}
    {{ attribute.id }}
-                  {% endfor %}
-               {% endif %}
-
-
-            {% endif %}
-            {% set visible_exceptions = visible_children|selectattr("type", "equalto", "exception")|list %}
-            {% if visible_exceptions %}
-               {% if "exception" in own_page_types or "show-module-summary" in autoapi_options %}
-Exceptions
-----------
-
-                  {% if "exception" in own_page_types %}
-.. toctree::
-   :hidden:
-
-                     {% for exception in visible_exceptions %}
-   {{ exception.include_path }}
-                     {% endfor %}
-
-                  {% endif %}
-.. autoapisummary::
-
-                  {% for exception in visible_exceptions %}
-   {{ exception.id }}
                   {% endfor %}
                {% endif %}
 

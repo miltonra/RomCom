@@ -19,10 +19,10 @@ These cards are clickable, preferably in order.
         Installation instructions at the GitHub site README
 
     .. grid-item-card::  :octicon:`project-roadmap` Plan
-        :link: pages/plan/index
+        :link: pages/plan
         :link-type: doc
 
-        The form and structure of RomCom.
+        The form and content of RomCom
 
     .. grid-item-card::  :octicon:`log` Glossary
         :link: pages/glossary
@@ -34,19 +34,19 @@ These cards are clickable, preferably in order.
     :gutter: 1
 
     .. grid-item-card::  :octicon:`database` base
-        :link: pages/base/index
+        :link: pages/base
         :link-type: doc
 
-        Foundational data typing, storage and access facilities
+        Foundational type, storage and access facilities
 
     .. grid-item-card::  :octicon:`file` data
-        :link: pages/data/index
+        :link: pages/data
         :link-type: doc
 
         Presenting your data to RomCom
 
-    .. grid-item-card::  :octicon:`play` task
-        :link: pages/task
+    .. grid-item-card::  :octicon:`play` tasks
+        :link: pages/tasks
         :link-type: doc
 
         Scripted computations for mainstream tasks
@@ -64,36 +64,30 @@ These cards are clickable, preferably in order.
         :link: pages/gsa
         :link-type: doc
 
-        GSA assesses the relevance of a system's inputs to its outputs
+        GSA assesses the relevance of GPR inputs to outputs
 
     .. grid-item-card::  :octicon:`package` Reduced Order Modelling
         :link: pages/rom
         :link-type: doc
 
-        ROM uses GSA to find the minimal set (Active Subspace) of inputs
+        ROM uses GSA to find the minimal set (Active Subspace) of GPR inputs
 
 
 .. toctree::
     :maxdepth: 1
     :hidden:
 
-    Plan <pages/plan/index>
+    Plan <pages/plan>
     Glossary <pages/glossary>
-    base <pages/base/index>
-    data <pages/data/index>
-    task <pages/task/index>
-    GLR <pages/glr/index>
-    GPR <pages/gpr/index>
-    GSA <pages/gsa/index>
-    ROM <pages/rom/index>
+    base <pages/base>
+    data <pages/data>
+    tasks <pages/tasks>
+    GLR <pages/glr>
+    GPR <pages/gpr>
+    GSA <pages/gsa>
+    ROM <pages/rom>
     API <pages/api>
     genindex
 
     :ref: `genindex`
-
-
-.. _PEP8:  https://peps.python.org/pep-0008/
-.. _TheLizardBook:  https://www.fluentpython.com/
-.. _EffectivePython:  https://effectivepython.com/
-.. _PythonDocs:  https://docs.python.org/3/
 
