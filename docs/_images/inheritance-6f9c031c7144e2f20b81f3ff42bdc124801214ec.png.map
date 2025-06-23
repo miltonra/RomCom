@@ -1,0 +1,4 @@
+<map id="inheritanced379fb25dc" name="inheritanced379fb25dc">
+<area shape="rect" id="node1" href="#rc.base.definitions.Indexed" target="_top" title="``self[key]`` is not implemented. Override ``__getitem__(self, key)`` and ``__setitem__(self, key, value)``." alt="" coords="125,5,197,32"/>
+<area shape="rect" id="node2" href="Protocol.html#rc.base.definitions.Protocol" target="_top" title="The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods." alt="" coords="5,5,77,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="inheritancee35de35aa6" name="inheritancee35de35aa6">
+<area shape="rect" id="node1" href="Protocol.html#rc.base.definitions.Protocol" target="_top" title="The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods." alt="" coords="5,5,77,32"/>
+<area shape="rect" id="node2" href="#rc.base.definitions.Update" target="_top" title="``self(**updates)`` updates ``self`` then writes to ``self.path``." alt="" coords="125,5,197,32"/>
+</map>

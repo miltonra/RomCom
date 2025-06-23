@@ -1,0 +1,6 @@
+<map id="inheritance8793b2898c" name="inheritance8793b2898c">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,32"/>
+<area shape="rect" id="node3" href="../../base/models/Store.html#rc.base.models.Store" target="_top" title="Base class for any stored class. Users are not expected to subclass this class directly." alt="" coords="125,5,197,32"/>
+<area shape="rect" id="node2" href="../../base/models/DataBase.html#rc.base.models.DataBase" target="_top" title="``NamedTables(NamedTuple)`` in a folder alongside ``Meta``. Abstract base class for any model." alt="" coords="245,5,325,32"/>
+<area shape="rect" id="node4" href="#rc.data.models.Repo" target="_top" title="A Repository of data and models. Informally a dataset and all the things we&#39;d like to do to it." alt="" coords="373,5,445,32"/>
+</map>

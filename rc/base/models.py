@@ -541,16 +541,27 @@ class DataBase(Store):
         """ Counts the ``Table`` s in ``self``. """
         return len(self._namedTables)
 
-    def __getitem__(self, name: str | slice) -> Table | Tuple[Table, ...]:
+    def __getitem__(self, name: Iterable) -> Table | Tuple[Table, ...]:
         """ Indexer returns the ``Table`` (s) named or sliced by ``name``. """
-        return self._namedTables(name) if isinstance(name, str) else self._namedTables[name]
+        match name:
+            case str():
+                return self._namedTables(name)
+            case Iterable():
+                return tuple(self[named] for named in name)
+            case _:
+                return self._namedTables[name]
 
-    def __setitem__(self, name: str | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
+    def __setitem__(self, name: Iterable , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
         """ Indexer sets the ``Table`` (s) named or sliced by ``name``."""
-        if isinstance(name, str):
-            tables = {name: tables}
-        else:
-            tables = {named: tables[i] for i, named in enumerate(self.names()[name])}
+        match name:
+            case str():
+                tables = {name: tables}
+            case Iterable():
+                if not (isinstance(tables, Tuple) and len(tables) == len(name)):
+                    raise IndexError(f'Expected a tuple of {len(name)} tables, not {len(tables)}.')
+                    tables = {name[i]: tables[i] for i in range(len(name))}
+            case _:
+                tables = {self.names()[name]: tables}
         self(**tables)
 
     def __call__(self, **tables: Table | Matrix) -> Self:

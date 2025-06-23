@@ -1,0 +1,6 @@
+<map id="inheritancef6c4403c21" name="inheritancef6c4403c21">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,32"/>
+<area shape="rect" id="node4" href="../../base/models/Store.html#rc.base.models.Store" target="_top" title="Base class for any stored class. Users are not expected to subclass this class directly." alt="" coords="125,5,197,32"/>
+<area shape="rect" id="node2" href="#rc.data.models.DesignMatrix" target="_top" title="The familiar user format of ``DesignMatrix`` which is fat (has many columns)." alt="" coords="365,5,464,32"/>
+<area shape="rect" id="node3" href="../../base/models/Table.html#rc.base.models.Table" target="_top" title="Concrete class encapsulating a ``pd.DataFrame`` backed by a ``.csv`` file." alt="" coords="245,5,317,32"/>
+</map>

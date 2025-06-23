@@ -24,7 +24,7 @@ from typing import *
 from abc import ABC, abstractmethod
 from pathlib import Path
 from copy import copy, deepcopy
-
+import unittest as ut
 """
 
 from __future__ import annotations
@@ -33,6 +33,8 @@ from typing import *
 from abc import ABC, abstractmethod
 from pathlib import Path
 from copy import copy, deepcopy
+import unittest as ut
+from inspect import stack
 
 import numpy as np
 import pandas as pd
@@ -149,3 +151,15 @@ class Tc:
         :meta private:
         """
         raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
+
+class Test:
+
+    root = Path('../tst')
+
+    @classmethod
+    def folder(cls) -> Path:
+        frame = stack()[1]
+        package, caller = Path(frame[1]).parent.name, frame[3]
+        if caller.startswith("test_"): caller = caller[5:]
+        return cls.root / package / caller
+

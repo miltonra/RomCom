@@ -18,17 +18,17 @@ These cards are clickable, preferably in order.
 
         Installation instructions at the GitHub site README
 
-    .. grid-item-card::  :octicon:`project-roadmap` Plan
-        :link: pages/plan
-        :link-type: doc
-
-        The form and content of RomCom
-
     .. grid-item-card::  :octicon:`log` Glossary
         :link: pages/glossary
         :link-type: doc
 
         RomCom terms and abbreviations
+
+    .. grid-item-card::  :octicon:`project-roadmap` Plan
+        :link: pages/plan
+        :link-type: doc
+
+        The form and content of RomCom
 
 .. grid:: 3
     :gutter: 1
@@ -77,8 +77,8 @@ These cards are clickable, preferably in order.
     :maxdepth: 1
     :hidden:
 
-    Plan <pages/plan>
     Glossary <pages/glossary>
+    Plan <pages/plan>
     base <pages/base>
     data <pages/data>
     tasks <pages/tasks>
