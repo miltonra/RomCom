@@ -7,7 +7,7 @@ RomCom User Guide
 
 .. danger:: This documentation is currently under construction
 
-These cards are clickable, preferably in order.
+These cards are clickable, preferably from left to right.
 
 .. grid:: 3
     :gutter: 1

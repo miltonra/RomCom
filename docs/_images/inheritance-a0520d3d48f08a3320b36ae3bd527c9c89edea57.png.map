@@ -1,5 +1,0 @@
-<map id="inheritance0385dab3af" name="inheritance0385dab3af">
-<area shape="rect" id="node1" href="../definitions/Create.html#rc.base.definitions.Create" target="_top" title="``cls.create(path)`` is selective, preserving irrelevant items in ``path``." alt="" coords="125,5,197,32"/>
-<area shape="rect" id="node3" href="#rc.base.models.DataBase.CreateProtocol" target="_top" title="CreateProtocol" alt="" coords="245,5,354,32"/>
-<area shape="rect" id="node2" href="../definitions/Protocol.html#rc.base.definitions.Protocol" target="_top" title="The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods." alt="" coords="5,5,77,32"/>
-</map>

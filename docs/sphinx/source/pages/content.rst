@@ -55,10 +55,13 @@ A lowerCamelCase constant (e.g. moduleAttribute or classAttribute) does not.
 
 Protocols
 ^^^^^^^^^^^
+    In the context of object-oriented programming, a protocol is an informal interface, defined only in documentation and not in code. [Fluent Python pp.402]
 
 A Protocol documents an interface a Class supports via undocumented :term:`dunder methods`.
 Protocols are pure documentation in code, and are essentially meaningless outside a Class definition.
-Protocols are ClassAttributes which are Classes themselves (Python Exceptions, in fact), and are named in UpperCamelCase.
+Protocols are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python Exceptions, in fact), and are named in UpperCamelCase.
+
+.. _ecosystem:
 
 Ecosystem
 ^^^^^^^^^^^
@@ -68,9 +71,9 @@ Users may struggle if they are unacquainted with the key Python libraries suppor
 
 RomCom cannot live without
 
-* `pandas <https://pandas.pydata.org/>`__ for high-level data representation.
-* `numpy <https://numpy.org/>`__ for intermediation.
-* `torch <https://pytorch.org/>`__ for numerical methods.
+* `pandas <https://pandas.pydata.org/>`__ for high-level data representation. Referred to as ``pd`` or ``Pd``.
+* `numpy <https://numpy.org/>`__ for intermediation. Referred to as ``np`` or ``Np``.
+* `torch <https://pytorch.org/>`__ for numerical methods. Referred to as ``tc`` or ``Tc``.
 
 RomCom would be impaired without
 

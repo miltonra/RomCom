@@ -46,13 +46,13 @@ zero: float = 1.0E-64
 
 
 class Protocol(Exception):
-    """ The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods."""
+    """ The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods."""
 
-class Indexed(Protocol):
-    """ ``self[key]`` is not implemented. Override ``__getitem__(self, key)`` and ``__setitem__(self, key, value)``. """
+class Indexing(Protocol):
+    """ ``self[key]`` is not implemented. Override ``__getitem__(self, key)``, ``__setitem__(self, key, value)`` and ``__len__(self)``. """
 
-class Len(Protocol):
-    """``len(self)`` is not implemented. Override ``__len__(self)``. """
+class Equality(Protocol):
+    """ Not implemented. """
 
 class Create(Protocol):
     """``cls.create(path)`` is selective, preserving irrelevant items in ``path``. """

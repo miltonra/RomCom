@@ -30,16 +30,16 @@ from enum import IntEnum
 
 
 #: Slice for ``n`` (row) in a Repo Table.
-n: Tuple[slice, slice] = (slice(None, None, None), slice(None, 1, None))
+n: tuple[slice, slice] = (slice(None, None, None), slice(None, 1, None))
 
 #: Slice for ``x`` (inputs) in a Repo Table.
-x: Tuple[slice, slice] = (slice(None, None, None), slice(1, -2, None))
+x: tuple[slice, slice] = (slice(None, None, None), slice(1, -2, None))
 
 #: Slice for ``l`` (categorical state) in a Repo Table.
-l: Tuple[slice, slice] = (slice(None, None, None), slice(-2, -1, None))
+l: tuple[slice, slice] = (slice(None, None, None), slice(-2, -1, None))
 
 #: Slice for ``y`` (output) in a Repo Table.
-y: Tuple[slice, slice] = (slice(None, None, None), slice(-1, None, None))
+y: tuple[slice, slice] = (slice(None, None, None), slice(-1, None, None))
 
 
 class DesignMatrix(Table):
@@ -187,14 +187,14 @@ class Repo(DataBase):
         """ 1 + K proper folds in ``self``. """
         return self._meta['K'] + 1
 
-    def __getitem__(self, fold: int | slice) -> Path | Tuple[Path, ...]:
+    def __getitem__(self, fold: int | slice) -> Path | tuple[Path, ...]:
         """ Indexer returns the ``Path`` (s) to the Folds indexed or sliced by ``fold``. """
         if isinstance(fold, int):
             return self.path  if fold == 0 else self.path / f'{abs(fold)}'
         else:
             return tuple((self[i] for i in range(len(self))))[fold]
 
-    def __setitem__(self, fold: int | slice , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
+    def __setitem__(self, fold: int | slice , tables: Table | Matrix | tuple[Table | Matrix, ...]):
         """ Indexer creates the ``Fold`` (s) named or sliced by ``name``."""
         self[fold] = tables
 

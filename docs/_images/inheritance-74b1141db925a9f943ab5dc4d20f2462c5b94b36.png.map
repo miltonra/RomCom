@@ -1,5 +1,0 @@
-<map id="inheritanced569ec43f4" name="inheritanced569ec43f4">
-<area shape="rect" id="node1" href="../../base/definitions/Copy.html#rc.base.definitions.Copy" target="_top" title="``cls.copy(src, dst)`` is selective, copying only relevant items in ``src.path`` while preserving irrelevant items in ``dst``." alt="" coords="125,5,197,32"/>
-<area shape="rect" id="node3" href="../../base/models/DataBase.CopyProtocol.html#rc.base.models.DataBase.CopyProtocol" target="_top" title="CopyProtocol" alt="" coords="245,5,346,32"/>
-<area shape="rect" id="node2" href="../../base/definitions/Protocol.html#rc.base.definitions.Protocol" target="_top" title="The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods." alt="" coords="5,5,77,32"/>
-</map>

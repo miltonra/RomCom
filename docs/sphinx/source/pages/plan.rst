@@ -11,7 +11,7 @@ The RomCom library is an alphabetically ordered functional hierarchy of namespac
 
 library
 ++++++++
-Refers to the :doc:`RomCom library <api/rc/index>` imported as ``rc``.
+Refers to the :doc:`RomCom library <api>` imported as ``rc``.
 
 packages
 +++++++++

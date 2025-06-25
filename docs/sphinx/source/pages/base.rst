@@ -19,14 +19,12 @@ Provides nothing but basic Protocols, constants and Type annotations.
 
 ``base.models``
 ^^^^^^^^^^^^^^^^^^^^
-Provides BaseClasses for RomCom software objects.
-
-
+Provides BaseClasses for RomCom software objects. These classes provide software objects which are *always* perfectly synchronized with the filesystem.
 
 Classes
 ---------------------
 
-:doc:`api/rc/base/models/index` comprises the following classes, from which much of RomCom derives.
+:doc:`api/rc/base/models/index` (click for further details) comprises the following classes, from which much of RomCom derives.
 
 *Store*
 ^^^^^^^^^^^^
@@ -42,8 +40,7 @@ Alias for ``dict[str, Any]``. All Meta content must be of this Type.
 Meta
 ^^^^^^^^^
 
-A concrete :term:`Store`, consisting of :term:`MetaData` stored in a ``.json`` file.
-MetaData item ``'key'`` in any Meta ``object`` is accessed as ``object['key']``.
+A concrete *Store*, consisting of MetaData stored in a ``.json`` file.
 
 Matrix
 ^^^^^^^^^^^^
@@ -53,9 +50,9 @@ Alias for ``pd.DataFrame | Np.Matrix | Tc.Matrix``. All Table content must be of
 Table
 ^^^^^^^^^^^^
 
-A concrete *Store*, consisting of a ``pd.DataFrame`` stored in a ``.csv`` file.
-The Matrix` held in any Table ``object`` is accessed in the desired format as the property ``object.pd``, ``object.np``, or ``object.tc``.
-Although Table is concrete, the class constant ``Table.options`` governs ``.csv`` file options, which are frequently tailored by subclassing.
+A concrete *Store*, consisting of a :term:`pd.DataFrame` stored in a ``.csv`` file.
+The Matrix held in any Table ``object`` is accessed in the desired :ref:`ecosystem <ecosystem>` format as the property ``object.pd``, ``object.np``, or ``object.tc``.
+Although Table is concrete, the classAttribute (i.e. constant) ``Table.options`` governs ``.csv`` file options, which are frequently tailored by subclassing.
 For example, ``DesignMatrix`` is a concrete subclass of Table designed to hold training data.
 
 *DataBase*
@@ -74,101 +71,102 @@ For example, ``MyDataBase`` may define ``MyDataBase.NamedTables(NamedTuple)`` as
         zero: Table | Matrix | MetaData = pd.DataFrame([0])
         one: Table | Matrix | MetaData = pd.DataFrame([1])
 
-An ``object`` of type ``MyDataBase`` instantiated with ``path`` would appear on the filesystem as
+Accurately reflecting its content in memory, an ``object`` of type ``MyDataBase`` instantiated with ``path`` would appear on the filesystem as
 
-Every model in RomCom is some Type of concrete *Database*.
+.. image:: resources/DataBase.1.png
+    :scale: 60%
+
+|
+Most every model in RomCom is some Type of concrete *Database*.
 
 
-CRUD (Create Read Update Delete) Protocols
+CRUD Protocols
 ----------------------------------------------
 
 The `Lifecycle of Software Objects <https://en.wikipedia.org/wiki/The_Lifecycle_of_Software_Objects>`__ in RomCom
-follows the conventional `CRUD <https://www.fluentpython.com/lingo/>`__ biography, told on the user's filesystem.
-The ``base`` Classes take all responsibility for implementing CRUD in RomCom.
+follows the conventional :term:`CRUD` biography, told on the user's filesystem.
+The :doc:`api/rc/base/index` Classes take all responsibility for implementing CRUD in RomCom.
 
-.. glossary::
+Create Protocol
+^^^^^^^^^^^^^^^^^
+Every derived ``Class(Store)`` possesses a ``Class.create(path)`` classMethod
+returning an ``object`` of type ``Class`` created in ``path`` selectively (without affecting other files in ``path``).
+So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parents.
+Because *Store* considers itself a parent to all files and folders, ``Store.create(path)`` deletes everything in its ``path`` before creating it.
 
-    Create Protocol
-        Every derived ``Class(Store)`` possesses a ``Class.create(path)`` classMethod
-        returning an ``object`` of type ``Class`` created in ``path`` selectively (without affecting other files in ``path``).
-        So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parents.
-        Because all stored ``objects`` derive from *Store*, ``Store.create(path)`` will delete everything in its ``path``.
+Read Protocol
+^^^^^^^^^^^^^^^^^
+Every ``object`` of derived ``Class(Store)`` is read from ``path`` by its constructor ``object = Class(path)``
+defined in ``Class.__init__(path)``.
 
-    Read Protocol
-        Every ``object`` of derived ``Class(Store)`` is read from ``path`` by the constructor ``object = Class(path)``
-        defined in ``Class.__init__(path)``.
+Update Protocol
+^^^^^^^^^^^^^^^^^
+Every ``object`` of derived ``Class(Store)`` is updated in place and written in ``object.path`` by the
+function ``object(**kwargs)`` defined in ``__call__(self, **kwargs)``.
+SubClasses frequently override ``__call__(self,**kwargs)`` to perform some calibration or optimization before writing.
 
-    Update Protocol
-        Every ``object`` of derived ``Class(Store)`` is updated in place and written in ``object.path`` by the
-        function ``object(**kwargs)`` defined in ``__call__(self, **kwargs)``.
-        SubClasses frequently override ``__call__(self,**kwargs)`` to perform some calibration or optimization before writing.
-
-    Delete Protocol
-        Every class derived from *Store* has a ``delete(path)`` classMethod
-        which deletes a *Store* in ``path`` selectively  (leaving all other files intact).
-        So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parent folders.
-        Because all stored ``objects`` derive from *Store*, ``Store.delete(path)`` deletes everything in its ``path``.
+Delete Protocol
+^^^^^^^^^^^^^^^^^
+Every class derived from *Store* has a ``delete(path)`` classMethod
+which deletes a *Store* in ``path`` selectively  (leaving all other files intact).
+So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parent folders.
+Because *Store* considers itself a parent to all files and folders, ``Store.delete(path)`` deletes everything in its ``path``.
 
 
-Container Protocols
+Indexing Protocol
 ----------------------
 
-Items are retrieved from *Store* objects using the container protocol, which is implemented by the ``__getitem__`` method.
+Items are retrieved from, and replaced in, *Store* objects using the Indexing Protocol.
+The Indexing Protocol enables expressions such as::
 
-.. glossary::
+    values = object[names]  # Retrieves item(s) from object
+    object[names] = values  # Replaces item(s) in object
+    len(object)             # Counts the items accessible by Indexing
+    for name in object:
+        if name in object: print('is always True')
 
-    *Store*
-        An abstract base class whose objects are endowed with filesystem storage in ``self.path``.
+where ``names`` is of Type ``str | int | Iterable[str | int]``, which includes Python ``slice`` objects.
+When ``names`` is Iterable, ``values`` must be a ``tuple`` of corresponding ``len``.
 
-    MetaData
-        Alias for ``dict[str, Any]``.
+Meta
+^^^^^^
+Inherits its Indexing Protocol (and the rest) directly from Python ``dict``, but writes updates to disk immediately.
+Therefore Meta may only be accessed one item at a time using ``names: str = key``.
 
-    Meta
-        A concrete :term:`Store`, consisting of :term:`MetaData` stored in a ``.json`` file.
-        MetaData item ``'key'`` in any Meta ``object`` is accessed as ``object['key']``.
-
-    Matrix
-        Alias for ``pd.DataFrame | Np.Matrix | Tc.Matrix``.
-
-    Table
-        A concrete :term:`Store`, consisting of a ``pd.DataFrame`` stored in a ``.csv`` file.
-        The :term:`Matrix` held in any Table ``object`` is accessed in the desired format as the property ``object.pd``, ``object.np``, or ``object.tc``.
-        Although Table is concrete, the class constant Table.options governs ``.csv`` file options, which are frequently tailored by subclassing.
-        For example, ``DesignMatrix`` is a concrete subclass of Table tailored to house training data.
-
-    *DataBase*
-        An abstract :term:`Store`, containing ``NamedTables`` (a ``NamedTuple`` of :term:`Table` s) with :term:`Meta`.
-        Any concrete subclass such as ``MyDataBase`` must define ``MyDataBase.NamedTables(NamedTuple)``
-        which indexes ``MyDataBase.defaults()`` by ``MyDataBase.names()``.
-        Every model in RomCom is some Type of concrete *Database*.
+*DataBase*
+^^^^^^^^^^^^
+Implements its Indexing Protocol to access the Table(s) identifiable by ``names``.
+``values`` must be a (``tuple`` of) ``Table`` or ``Matrix`` objects (or ``MetaData`` storing ``Table.options``).
 
 
-CRUD (Create Read Update Delete) Protocols
-----------------------------------------------
+Equality Protocol
+----------------------
 
-The `Lifecycle of Software Objects <https://en.wikipedia.org/wiki/The_Lifecycle_of_Software_Objects>`__ in RomCom
-follows the conventional `CRUD <https://www.fluentpython.com/lingo/>`__ biography, told on the user's filesystem.
-Implementing CRUD is the primary responsibility of the ``base`` Classes.
+The Equality Protocol means that the expression::
 
-.. glossary::
+    objectA == objectB
 
-    Creating or Copying *Store* objects
-        Every derived ``Class(Store)`` possesses ``Class.create(path)`` and ``Class.copy(object, path)`` class methods
-        which create an ``object`` of type ``Class`` in ``path``, leaving other all other files intact.
-        So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parents.
+is True if and only if ``objectA`` and ``objectB`` are of the compatible Types and have the same content, except for ``path``.
+If two objects of the same Type share the same ``path``, they are surely identical for the filesystem is always synchronized with memory.
+So the only interesting comparison is between objects whose ``path`` differs.
 
-    Reading *Store* objects
-        Every ``object`` of derived ``Class(Store)`` is read from ``path`` by the constructor ``object = Class(path)``
-        defined in ``Class.__init__(path)``.
+Meta
+^^^^^^
+Inherits its Equality Protocol directly from Python ``dict``.
 
-    Updating *Store* objects
-        Every ``object`` of derived ``Class(Store)`` is updated in place and written in ``object.path`` by the
-        function ``object(**kwargs)`` defined in ``Class.__call__(**kwargs)``.
-        This is often overridden to perform some calibration or optimization before writing.
+Table
+^^^^^^
+``TableA == TableB`` is ``True`` if and only if both are (derived from) Tables and ``TableA.pd.equals(TableB.pd)``.
+``TableA == MatrixB`` is ``True`` if and only if ``MatrixB`` equals ``TableA.pd`` or ``TableA.np`` or ``TableA.tc``.
 
-    Deleting *Store* objects
-        Every class derived from *Store* has a ``delete(path)`` class method
-        which deletes a *Store* in ``path``, leaving all other files intact.
-        So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parent folders.
+*DataBase*
+^^^^^^^^^^^^
+Two *DataBase* objects are equal if and only if their ``meta`` is equal and their ``namedTables`` are equal,
+and their ``names()`` are equal. This is *not* the same as::
 
+    dataBaseA.meta == dataBaseB.meta and dataBaseA.namedTables == dataBaseB.namedTables
 
+because ``NamedTuple`` equality does not compare field names.
+
+In short, two *DataBase* objects are equal if and only if they contain identical information.
+They need not be of the same Type, nor even share ``dataBaseA.NamedTables is dataBaseB.NamedTables``.

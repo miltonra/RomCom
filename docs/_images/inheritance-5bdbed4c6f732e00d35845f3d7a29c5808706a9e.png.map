@@ -1,4 +1,0 @@
-<map id="inheritance49969f7918" name="inheritance49969f7918">
-<area shape="rect" id="node1" href="#rc.base.models.Meta.Indexed" target="_top" title="``self[key]`` is inherited from ``dict``." alt="" coords="125,29,197,56"/>
-<area shape="rect" id="node2" href="../definitions/Protocol.html#rc.base.definitions.Protocol" target="_top" title="The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods." alt="" coords="5,29,77,56"/>
-</map>

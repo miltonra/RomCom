@@ -1,5 +1,0 @@
-<map id="inheritance3320ad46a6" name="inheritance3320ad46a6">
-<area shape="rect" id="node1" href="../../base/definitions/Protocol.html#rc.base.definitions.Protocol" target="_top" title="The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods." alt="" coords="5,5,77,32"/>
-<area shape="rect" id="node2" href="../../base/definitions/Update.html#rc.base.definitions.Update" target="_top" title="``self(**updates)`` updates ``self`` then writes to ``self.path``." alt="" coords="125,5,197,32"/>
-<area shape="rect" id="node3" href="../../base/models/DataBase.UpdateProtocol.html#rc.base.models.DataBase.UpdateProtocol" target="_top" title="``self(**tables) updates and writes ``NamedTables`` (``self.meta(**updates)`` updates ``Meta``." alt="" coords="245,5,357,32"/>
-</map>

@@ -17,19 +17,57 @@
 
 from __future__ import annotations
 
+import pandas as pd
+
 from rc.data.models import *
 
 class TestCase(ut.TestCase):
 
     def test_Meta(self):
-        meta = Meta.create(Test.folder() / 'meta', **Table.Options.defaults())
-        meta(update=1)
+        try:
+            empty = Meta.create(Test.folder() / 'empty')
+            raise Exception('Meta.create should not create an empty MetaData object')
+        except Exception:
+            pass
+        created = Meta.create(Test.folder() / 'created', first=0, second=1)
+        read = Meta(Test.folder() / 'created')
+        self.assertEqual(created, read)
+        copied = Meta.copy(src=read, dst=Test.folder() / 'copied')
+        self.assertEqual(copied, read)
+        self.assertNotEqual(copied.path, read.path)
+        mangled = Meta.copy(src=copied, dst=Test.folder() / 'mangled')
+        mangled.delete(mangled.path)
+        created(update=1)
+        self.assertNotEqual(created, read)
+        created['update'] = 2
+        read = Meta(Test.folder() / 'created')
+        self.assertEqual(read['update'], 2)
+        self.assertEqual(len(read), 3)
 
     def test_Table(self):
-        table = Table.create(Test.folder() / 'table', pd.DataFrame([0]))
-        table(pd.DataFrame([1]))
+        try:
+            empty = Meta.create(Test.folder() / 'empty')
+            raise Exception('Table.create should not create an empty MetaData object')
+        except Exception:
+            pass
+        created = Table.create(Test.folder() / 'created', np.zeros((1, 1)))
+        for i in range(2):
+            value = np.ones((1, 1)) * i
+            shouldBe = self.assertNotEqual if i else self.assertEqual
+            shouldBe(created, pd.DataFrame(value, columns=['0']))
+            shouldBe(created, value)
+            shouldBe(created, tc.tensor(value))
+        read = Table(Test.folder() / 'created')
+        self.assertEqual(created, read)
+        copied = Table.copy(src=read, dst=Test.folder() / 'copied')
+        mangled = Table.copy(src=copied, dst=Test.folder() / 'mangled')
+        mangled.delete(mangled.path)
+        created(tc.tensor([1]))
+        self.assertNotEqual(created, read)
+        read = Table(Test.folder() / 'created')
+        self.assertEqual(created, read)
 
-    # @ut.skip('Not yet')
+    # @self.skip('Not yet')
     def test_DataBase(self):
         class MyDataBase(DataBase):
             class NamedTables(NamedTuple):
@@ -44,8 +82,14 @@ class TestCase(ut.TestCase):
 
             defaultMetaData: MetaData = {'options': options._asdict()}
 
-        object = MyDataBase.create(Test.folder() / 'object.path.name')
-        ambition = MyDataBase.create(Test.folder() / 'object.path.name')
+        created = MyDataBase.create(Test.folder() / 'created')
+        read = MyDataBase(Test.folder() / 'created')
+        copied = MyDataBase.copy(src=read, dst=Test.folder() / 'copied')
+        mangled = MyDataBase.copy(src=copied, dst=Test.folder() / 'mangled'/ 'mangled')
+        mangled.meta.delete(mangled.meta.path)
+        deleted = MyDataBase.copy(src=copied, dst=Test.folder() / 'mangled')
+        deleted.delete(deleted.path)
+
 
 if __name__ == '__main__':
-    ut.main()
+    self.main()

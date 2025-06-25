@@ -29,11 +29,12 @@ from rc.base import *
 #                    'rc.data.functions.': '', 'rc.data.models.': '', 'rc.data.samples.': '',
 #                    'rc.base.': '', 'rc.data.': '',}
 
-apiReplacements = {'rc.': '', 'base.': '', 'data.': '',
+apiReplacements = {'base.': '', 'data.': '',
                    'definitions.': '', 'models.': '',
                    'functions.': '', 'samples.': '',
                    }
 
+pagesReplacements = {'rc.': ''}
 
 _here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/
 docs = _here.parent
@@ -63,7 +64,7 @@ def _clean():
     _empty(docs, preserve=['sphinx', '.nojekyll'], confirm=False)
 
 
-def _tidyfile(filename: Path, replacements: Dict[str, Any] = apiReplacements):
+def _tidyfile(filename: Path, replacements: Dict[str, Any]):
     """ Tidy a ``.html`` file.
 
     Args:
@@ -79,7 +80,7 @@ def _tidyfile(filename: Path, replacements: Dict[str, Any] = apiReplacements):
         f.truncate()
 
 
-def _tidy(folder: Path = docs / 'pages' /'api', replacements: Dict[str, Any] = apiReplacements):
+def _tidy(folder: Path, replacements: Dict[str, str]):
     """ Recursively tidy all ``.html`` files in the given folder, and subfolders.
 
     Args:
@@ -90,9 +91,9 @@ def _tidy(folder: Path = docs / 'pages' /'api', replacements: Dict[str, Any] = a
         raise FileNotFoundError(f'Cannot `tidy` {folder} as it does not exist. You must run `sphinx-build` first.')
     for filename in (folder).iterdir():
         if filename.is_dir():
-            _tidy(filename)
+            _tidy(filename, replacements)
         elif filename.suffix == '.html':
-            _tidyfile(filename)
+            _tidyfile(filename, replacements)
 
 
 if __name__ == "__main__":
@@ -121,7 +122,8 @@ if __name__ == "__main__":
             print(f'{parser.parse_args().cmd} took {time.time() - start_time : .1f}s')
         case 'tidy':
             print(docs)
-            _tidy()
+            _tidy(docs / 'pages', pagesReplacements)
+            _tidy(docs / 'pages' / 'api', apiReplacements)
             print(f'{parser.parse_args().cmd} took {time.time() - start_time : .1f}s')
         case _:
             parser.parse_args(['--help'])

@@ -1,5 +1,0 @@
-<map id="inheritance824fdea255" name="inheritance824fdea255">
-<area shape="rect" id="node1" href="../../base/definitions/Protocol.html#rc.base.definitions.Protocol" target="_top" title="The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods." alt="" coords="5,5,77,32"/>
-<area shape="rect" id="node2" href="../../base/definitions/StrRepr.html#rc.base.definitions.StrRepr" target="_top" title="``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``." alt="" coords="125,5,197,32"/>
-<area shape="rect" id="node3" href="../../base/models/DataBase.StrReprProtocol.html#rc.base.models.DataBase.StrReprProtocol" target="_top" title="StrReprProtocol" alt="" coords="245,5,360,32"/>
-</map>

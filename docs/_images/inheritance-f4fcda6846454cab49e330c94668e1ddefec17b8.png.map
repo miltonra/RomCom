@@ -1,5 +1,0 @@
-<map id="inheritance1470a0e38d" name="inheritance1470a0e38d">
-<area shape="rect" id="node1" href="../definitions/Delete.html#rc.base.definitions.Delete" target="_top" title="``cls.delete(path)`` is selective, preserving irrelevant items in ``path``." alt="" coords="125,5,197,32"/>
-<area shape="rect" id="node3" href="#rc.base.models.DataBase.DeleteProtocol" target="_top" title="DeleteProtocol" alt="" coords="245,5,353,32"/>
-<area shape="rect" id="node2" href="../definitions/Protocol.html#rc.base.definitions.Protocol" target="_top" title="The Protocol from which all Protocols derive. Any ``cls`` defines sub classes of Protocol to document its API, especially dunder methods." alt="" coords="5,5,77,32"/>
-</map>

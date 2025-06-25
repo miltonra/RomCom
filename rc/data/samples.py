@@ -63,7 +63,7 @@ class DOE:
                               (M-1) * [1/(2 * NM) + np.linspace(0, 1, NM, False), ], axis=1)
 
     @staticmethod
-    def space_filling_test(X: Np.Matrix, o: int) -> Dict[str, float]:
+    def space_filling_test(X: Np.Matrix, o: int) -> dict[str, float]:
         """ Test whether ``X`` is a space-filling design matrix,
         by finding the distance to the nearest point in ``X`` for ``o`` test points.
 
@@ -97,7 +97,7 @@ class GaussianNoise:
             return self._matrix
 
         @property
-        def meta(self) -> Dict[str, Any]:
+        def meta(self) -> dict[str, Any]:
             """ Meta matching the initials in ``self.__format__()``."""
             return {'generator': 'determined' if self.is_determined else 'undetermined',
                     'is_covariant': 'covariance' if self.is_covariant else 'variance',
@@ -180,12 +180,12 @@ class Function:
         """ The Repo containing the Function sample."""
         return self._repo
 
-    def collection(self, sub_folder: Union[Path, str]) -> Dict[str, Any]:
-        """ Construct a Dict for task.results.Collect, with appropriate ``extra_columns``.
+    def collection(self, sub_folder: Union[Path, str]) -> dict[str, Any]:
+        """ Construct a dict for task.results.Collect, with appropriate ``extra_columns``.
 
         Args:
             folder: The folder under ``self.repo.folder`` housing the csvs to collect.
-        Returns: The Dict for ``self.repo``.
+        Returns: The dict for ``self.repo``.
         """
         return {'folder': self._repo.folder / sub_folder, 'N': self._N, 'noise': self._noise_variance.magnitude}
 
@@ -199,7 +199,7 @@ class Function:
         Table(self._repo.folder / 'undo_from.csv', fold.normalization.undo_from(fold.test_data.pd))
         return self
 
-    def _construct(self, folder: Path | str, X: Np.Matrix, function_vector: functions.Vector, noise: Np.Matrix, origin_meta: Dict[str, Any]) -> Repo:
+    def _construct(self, folder: Path | str, X: Np.Matrix, function_vector: functions.Vector, noise: Np.Matrix, origin_meta: dict[str, Any]) -> Repo:
         """ Construct Repo housing the sample design matrix ``(X, f(X) + noise)``.
 
         Args:
@@ -207,7 +207,7 @@ class Function:
             X: An (N,M) design matrix of inputs.
             function_vector: An (L,) function.Vector.
             noise: An (N,L) design matrix of noise.
-            origin_meta: A Dict of meta specifying the origin of the sample.
+            origin_meta: A dict of meta specifying the origin of the sample.
         Returns: The ``(X, f(X) + noise)`` sample design matrix Repo, before folding or rotating.
         """
         Y = function_vector(X)
@@ -247,7 +247,7 @@ def permute_axes(new_order: Sequence | None) -> Np.Matrix | None:
     """ Provide a rotation matrix which reorders axes. Most use cases are to re-order input axes according to GSA.
 
     Args:
-        new_order: A Tuple or List containing a permutation of ``[0,...,M-1]``, for passing to ``np.transpose``.
+        new_order: A tuple or list containing a permutation of ``[0,...,M-1]``, for passing to ``np.transpose``.
 
     Returns: A rotation matrix which will reorder the axes to new_order. Returns ``None`` if ``new_order is None``.
     """

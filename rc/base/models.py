@@ -188,11 +188,11 @@ class Meta(Store, dict):
 
     ext: str = '.json'  #: ext: Class attribute specifying the file extension of Meta instances.
 
-    class Indexed(Indexed):
-        """ ``self[key]`` is inherited from ``dict``. """
+    class Equality(Equality):
+        """ ``self == other`` is inherited directly from ``dict``. """
 
-    class Len(Len):
-        """ ``len(self)`` is inherited from ``dict``. """
+    class Indexing(Indexing):
+        """ ``self[key]``, ``len(self)`` are inherited from ``dict``, except that ``self[key]`` writes to file."""
 
     class CreateProtocol(Create):
         pass
@@ -253,7 +253,9 @@ class Meta(Store, dict):
             **data: The ``MetaData`` to store.
 
         Returns: The ``Meta`` created.
+        Raises: TypeError if ``data`` is empty.
         """
+        if not data: raise ValueError("Meta cannot be created with no data")
         return cls(cls.mkdir(path), **data)
 
     @classmethod
@@ -270,7 +272,7 @@ class Meta(Store, dict):
         return cls.create(dst, **src)
 
 
-Matrix = Union[Pd.DataFrame, Np.Matrix, Tc.Matrix]
+Matrix = Pd.DataFrame | Np.Matrix | Tc.Matrix
 """Types which a DataBase Table accepts."""
 
 
@@ -309,6 +311,9 @@ class Table(Store):
     """ Class attribute listing kwargs which will be interpreted as write options. 
     All other kwargs are interpreted as read options. 
     To specify a separator, use ``delimiter`` as read option and ``sep`` as write option. """
+
+    class Equality(Equality):
+        """ ``self == other`` compares ``self.pd``,``self.np`` or ``self.tc`` matching the the type of ``other``. """
 
     class CreateProtocol(Create):
         pass
@@ -358,7 +363,7 @@ class Table(Store):
         """ The ``Tc.Matrix`` stored in ``self``."""
         return tc.from_numpy(self.np)
 
-    def broadcast_to(self, target_shape: Tuple[int, int], is_diagonal: bool = True) -> Self:
+    def broadcast_to(self, target_shape: tuple[int, int], is_diagonal: bool = True) -> Self:
         """ Broadcast ``self``.
 
         Args:
@@ -378,6 +383,27 @@ class Table(Store):
         if is_diagonal and target_shape[0] > 1:
             data = np.diag(np.diagonal(data))
         return self(data)
+
+    def __eq__(self, other: Table | Matrix) -> bool:
+        """ Equality of ``self`` and ``other``.
+
+        Args:
+            other: The other to compare with.
+
+        Returns: Not implemented if ``other`` is not of admissable Type.
+            Otherwise returns comparison with ``self.pd``, ``self.np`` or ``self.tc`` matching the type of ``other``.
+        """
+        match other:
+            case Table():
+                return self.pd.equals(other.pd)
+            case pd.DataFrame():
+                return self.pd.equals(other)
+            case Np.Matrix():
+                return np.array_equal(self.np, other)
+            case Tc.Matrix():
+                return tc.equal(self.tc, other)
+            case _:
+                return NotImplemented
 
     def __call__(self, update: Self | Matrix | None = None, **options: Any) -> Self:
         """ Update and store ``self``, overwriting.
@@ -419,7 +445,7 @@ class Table(Store):
             self(data)
 
     @classmethod
-    def create(cls, path: Store.Path, data: Self | Matrix | None = None,
+    def create(cls, path: Store.Path, data: Self | Matrix,
                index: Pd.Index | Np.Array = None, columns: Pd.Index | Np.Array = None,
                dtype: Np.DType | None = None, copy: bool | None = None, **metadata) -> Self:
         """ Create a ``Table`` at ``path``, overwriting.
@@ -442,9 +468,9 @@ class Table(Store):
 
         .. _pd.DataFrame.to_csv: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
         """
-        return cls(cls.mkdir(path),
-                   pd.DataFrame(data.pd if isinstance(data, Table) else data, index, columns, dtype, copy),
-                   **metadata)
+        data = pd.DataFrame(data.pd if isinstance(data, Table) else data, index, columns, dtype, copy)
+        data.columns = data.columns.astype(str)  # Ensure column names are strings
+        return cls(cls.mkdir(path), data, **metadata)
 
     @classmethod
     def copy(cls, src: Self, dst: Store.Path) -> Self:
@@ -503,11 +529,8 @@ class DataBase(Store):
     #: Class attribute. Should be overridden.
     defaultMetaData: MetaData = {'Tables': options._asdict()}
 
-    class Indexed(Protocol):
-        """ ``self[key]`` accesses ``NamedTables`` by name or index/slice. """
-
-    class Len(Protocol):
-        """``len(self)`` counts the ``Table``s in ``self``. """
+    class Indexing(Indexing):
+        """ ``self[names]`` accesses ``NamedTables`` by ``str | int | Iterable | slice``. """
 
     class CreateProtocol(Create):
         pass
@@ -537,31 +560,38 @@ class DataBase(Store):
         """ The ``Meta`` currently in ``self``."""
         return self._meta
 
+    def __eq__(self, other: Any) -> bool:
+        """ Equality of meta, namedTables and names()."""
+        if isinstance(other, DataBase):
+            return (self.names() == other.names() and self.meta == other.meta
+                    and self._namedTables == other.namedTables)
+        return False
+
     def __len__(self) -> int:
         """ Counts the ``Table`` s in ``self``. """
         return len(self._namedTables)
 
-    def __getitem__(self, name: Iterable) -> Table | Tuple[Table, ...]:
+    def __getitem__(self, names: str | int | Iterable[str | int]) -> Table | tuple[Table, ...]:
         """ Indexer returns the ``Table`` (s) named or sliced by ``name``. """
-        match name:
+        match names:
             case str():
-                return self._namedTables(name)
+                return self._namedTables(names)
             case Iterable():
-                return tuple(self[named] for named in name)
+                return tuple(self[named] for named in names)
             case _:
-                return self._namedTables[name]
+                return self._namedTables[names]
 
-    def __setitem__(self, name: Iterable , tables: Table | Matrix | Tuple[Table | Matrix, ...]):
+    def __setitem__(self, names: str | int | Iterable[str | int], tables: Table | Matrix | tuple[Table | Matrix, ...]):
         """ Indexer sets the ``Table`` (s) named or sliced by ``name``."""
-        match name:
+        match names:
             case str():
-                tables = {name: tables}
+                tables = {names: tables}
             case Iterable():
-                if not (isinstance(tables, Tuple) and len(tables) == len(name)):
-                    raise IndexError(f'Expected a tuple of {len(name)} tables, not {len(tables)}.')
-                    tables = {name[i]: tables[i] for i in range(len(name))}
+                if not (isinstance(tables, tuple) and len(tables) == len(names)):
+                    raise IndexError(f'Expected a tuple of {len(names)} tables, not {len(tables)}.')
+                    tables = {names[i]: tables[i] for i in range(len(names))}
             case _:
-                tables = {self.names()[name]: tables}
+                tables = {self.names()[names]: tables}
         self(**tables)
 
     def __call__(self, **tables: Table | Matrix) -> Self:
@@ -606,12 +636,12 @@ class DataBase(Store):
 
 
     @classmethod    # Class Property
-    def names(cls) -> Tuple[str, ...]:
+    def names(cls) -> tuple[str, ...]:
         """ ``(names[i], ...)`` of table names for this ``Tables`` class."""
         return cls.NamedTables._fields
 
     @classmethod    # Class Property
-    def defaults(cls) -> Dict[str, Pd.DataFrame]:
+    def defaults(cls) -> dict[str, Pd.DataFrame]:
         """ ``{names[i]: Pd.DataFrame[i], ...}`` of default tables for this ``Tables`` class."""
         return cls.NamedTables._field_defaults
 
@@ -640,7 +670,7 @@ class DataBase(Store):
 
         Returns: The ``DataBase`` now stored in ``dst``.
         """
-        return cls.create(dst, meta=src.meta, **src.nt._asdict())
+        return cls.create(dst, meta=src.meta, **src._namedTables._asdict())
 
     @classmethod
     def delete(cls, path: Store.Path) -> Path:

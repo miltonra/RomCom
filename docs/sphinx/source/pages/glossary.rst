@@ -2,8 +2,9 @@
 Glossary
 ------------------
 
+.. rubric:: The User Guide follows Python convention by using | to denote logical OR.
+
 RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpython.com/lingo/>`_.
-The User Guide follows Python convention by using | to denote logical OR.
 
 .. glossary::
     :sorted:
@@ -15,23 +16,33 @@ The User Guide follows Python convention by using | to denote logical OR.
         Special methods (also known as magic methods) whose names are surrounded by double underscores (dunders).
         The best know example is Python's Class constructor ``__init__(self, **kwargs)``.
 
+    CRUD
+        Create, Read, Update, Delete. The usual lifecycle for software objects stored on a filesystem.
+
     folder
-      directory.
+        directory.
 
     RMSE
-      Root Mean Square Error.
+        Root Mean Square Error.
 
     SD
-      Standard Deviation.
+        Standard Deviation.
 
-    ``pd`` | ``Pd``
-      The pandas package ``pandas``.
+    ``pd``
+    ``Pd``
+        The pandas package ``pandas``.
 
-    ``np`` | ``Np``
-      The NumPy package ``numpy``.
+    pd.DataFrame
+        A sophisticated and flexible ``.csv`` viewer, used to store and manipulate Tables in RomCom.
+        For a full description, see the `pandas documentation <https://pandas.pydata.org/docs/user_guide/dsintro.html#basics-dataframe>`_.
 
-    ``tc`` | ``Tc``
-      The PyTorch package ``torch``.
+    ``np``
+    ``Np``
+        The NumPy package ``numpy``.
+
+    ``tc``
+    ``Tc``
+        The PyTorch package ``torch``.
 
     MetaData
         ``dict[str, Any]``.

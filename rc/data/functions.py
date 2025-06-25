@@ -95,7 +95,7 @@ class Vector(dict):
         return self._name
 
     @property
-    def meta(self) -> Dict:
+    def meta(self) -> dict:
         """ Meta data for providing to ``data.storage``."""
         return {'name': self.name, 'call': {l: function for l, function in enumerate(self.keys())}}
 
@@ -118,7 +118,7 @@ class Vector(dict):
 
         Args:
             name: The name of this ``Vector``.
-            **kwargs: The Dict of ``Scalar``s comprising this ``Vector``.
+            **kwargs: The dict of ``Scalar``s comprising this ``Vector``.
         """
         super().__init__(**kwargs)
         self._name = name
