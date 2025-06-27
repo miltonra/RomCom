@@ -21,6 +21,7 @@ All modules of RomCom ``import *`` from ``rc.definitions``, so all types and con
 without adornment throughout RomCom. The ``rc.definitions`` namespace includes::
 
 from typing import *
+from collections.abc import *
 from abc import ABC, abstractmethod
 from pathlib import Path
 from copy import copy, deepcopy
@@ -45,7 +46,7 @@ zero: float = 1.0E-64
 """Tolerance when testing floats for equality."""
 
 
-class Protocol(Exception):
+class Protocol(BaseException):
     """ The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods."""
 
 class Indexing(Protocol):

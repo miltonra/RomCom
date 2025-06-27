@@ -17,8 +17,6 @@
 
 from __future__ import annotations
 
-import pandas as pd
-
 from rc.data.models import *
 
 class TestCase(ut.TestCase):
@@ -46,7 +44,7 @@ class TestCase(ut.TestCase):
 
     def test_Table(self):
         try:
-            empty = Meta.create(Test.folder() / 'empty')
+            empty = Table.create(Test.folder() / 'empty')
             raise Exception('Table.create should not create an empty MetaData object')
         except Exception:
             pass
@@ -67,29 +65,55 @@ class TestCase(ut.TestCase):
         read = Table(Test.folder() / 'created')
         self.assertEqual(created, read)
 
-    # @self.skip('Not yet')
     def test_DataBase(self):
         class MyDataBase(DataBase):
             class NamedTables(NamedTuple):
-                zero: Table | Matrix | MetaData = pd.DataFrame([0])
-                one: Table | Matrix | MetaData = pd.DataFrame([1])
+                zero: Table | Matrix | MetaData = pd.DataFrame(np.atleast_2d(0.0))
+                one: Table | Matrix | MetaData = pd.DataFrame(np.ones((1, 1)))
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
                     return getattr(self, name)
 
-            options: NamedTables[MetaData] = NamedTables(zero=Table.Options.defaults(),
+            options: NamedTables = NamedTables(zero=Table.Options.defaults(),
                                                          one=Table.Options.defaults())
 
             defaultMetaData: MetaData = {'options': options._asdict()}
 
-        created = MyDataBase.create(Test.folder() / 'created')
+        empty = MyDataBase.create(Test.folder() / 'default')
+        created = MyDataBase.create(Test.folder() / 'created', zero = np.zeros((1, 1)), one = np.ones((1, 1)))
+        for i in range(2):
+            value = np.ones((1, 1)) * i
+            self.assertEqual(created[i], pd.DataFrame(value, columns=['0']))
+            self.assertNotEqual(created[abs(i-1)], pd.DataFrame(value, columns=['0']))
+            self.assertEqual(created[i], value)
+            self.assertNotEqual(created[abs(i-1)], value)
+            self.assertEqual(created[i], tc.tensor(value))
+            self.assertNotEqual(created[abs(i-1)], tc.tensor(value))
         read = MyDataBase(Test.folder() / 'created')
+        self.assertEqual(created, read)
         copied = MyDataBase.copy(src=read, dst=Test.folder() / 'copied')
-        mangled = MyDataBase.copy(src=copied, dst=Test.folder() / 'mangled'/ 'mangled')
-        mangled.meta.delete(mangled.meta.path)
-        deleted = MyDataBase.copy(src=copied, dst=Test.folder() / 'mangled')
+        mangled = MyDataBase.copy(src=copied, dst=Test.folder() / 'mangled')
+        Meta.copy(src=mangled.meta, dst=mangled.meta.path / 'copied')
+        mangled.delete(mangled.path)
+        created(zero=tc.tensor(1.0), one=tc.tensor(2.0))
+        self.assertNotEqual(created, read)
+        read = MyDataBase(Test.folder() / 'created')
+        self.assertEqual(created, read)
+        created['zero'] = tc.tensor(2.0)
+        created['one'] = tc.tensor(1.0)
+        self.assertNotEqual(created, read)
+        read = MyDataBase(Test.folder() / 'created')
+        self.assertEqual(created, read)
+        created[:] = copied[:]
+        self.assertEqual(created, copied)
+        self.assertNotEqual(created, read)
+        created(**read.namedTables._asdict())
+        self.assertEqual(created, read)
+        created[:] = copied['zero'], copied['one']
+        self.assertEqual(created, copied)
+        self.assertNotEqual(created, read)
+        deleted = MyDataBase.copy(created, Test.folder() / 'deleted')
         deleted.delete(deleted.path)
 
-
 if __name__ == '__main__':
-    self.main()
+    ut.main()

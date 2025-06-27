@@ -36,22 +36,22 @@ class Store(ABC):
     Override if and only if the derived class must be stored in a file.
     Otherwise, ``cls.ext == ''`` and the derived class is stored in a folder."""
 
-    class CreateProtocol(Create):
+    class Create(Create):
         """ ``Store.create(path)`` destroys everything in its ``path``. """
 
-    class ReadProtocol(Read):
+    class Read(Read):
         """ ``Store.__init__(path)`` must be overridden. """
 
-    class UpdateProtocol(Update):
+    class Update(Update):
         """ ``Store.__call__(**updates)`` must be overridden. """
 
-    class DeleteProtocol(Delete):
+    class Delete(Delete):
         """ ``Store.delete(path)`` destroys everything in its ``path``. """
 
-    class CopyProtocol(Copy):
+    class Copy(Copy):
         """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything ``src``. """
 
-    class StrReprProtocol(StrRepr):
+    class StrRepr(StrRepr):
         pass
 
     @property
@@ -194,19 +194,19 @@ class Meta(Store, dict):
     class Indexing(Indexing):
         """ ``self[key]``, ``len(self)`` are inherited from ``dict``, except that ``self[key]`` writes to file."""
 
-    class CreateProtocol(Create):
+    class Create(Create):
         pass
 
-    class ReadProtocol(Read):
+    class Read(Read):
         pass
 
-    class UpdateProtocol(Update):
+    class Update(Update):
         """ ``self(**updates)`` performs ``dict.update(**updates)`` (inherited), then writes to ``self.path``. """
 
-    class DeleteProtocol(Delete):
+    class Delete(Delete):
         pass
 
-    class CopyProtocol(Copy):
+    class Copy(Copy):
         pass
 
     def __call__(self, **updates: Any) -> Self:
@@ -315,22 +315,22 @@ class Table(Store):
     class Equality(Equality):
         """ ``self == other`` compares ``self.pd``,``self.np`` or ``self.tc`` matching the the type of ``other``. """
 
-    class CreateProtocol(Create):
+    class Create(Create):
         pass
 
-    class ReadProtocol(Read):
+    class Read(Read):
         pass
 
-    class UpdateProtocol(Update):
+    class Update(Update):
         pass
 
-    class DeleteProtocol(Delete):
+    class Delete(Delete):
         pass
 
-    class CopyProtocol(Copy):
+    class Copy(Copy):
         pass
 
-    class StrReprProtocol(StrRepr):
+    class StrRepr(StrRepr):
         pass
 
     @property
@@ -390,7 +390,7 @@ class Table(Store):
         Args:
             other: The other to compare with.
 
-        Returns: Not implemented if ``other`` is not of admissable Type.
+        Returns: Not implemented if ``other`` is not of admissible Type.
             Otherwise returns comparison with ``self.pd``, ``self.np`` or ``self.tc`` matching the type of ``other``.
         """
         match other:
@@ -451,21 +451,20 @@ class Table(Store):
         """ Create a ``Table`` at ``path``, overwriting.
 
         Args:
-            path: The ``Path`` to store this DataTable, overwritten if existing.
+            path: The ``Path`` to store this Table, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
             data: The data to store. If ``None``, a ``Pd.DataFrame`` is read from ``.csv``.
-                See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
-            index: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
-            columns: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
-            dtype: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
-            copy: See `pd.DataFrame <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html>`_.
-            **metadata: MetaData passed to
-                `pd.read_csv <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>`_
-                or
-                `pd.DataFrame.to_csv`_.
+                See `pd.DataFrame`_.
+            index: See `pd.DataFrame`_.
+            columns: See `pd.DataFrame`_.
+            dtype: See `pd.DataFrame`_.
+            copy: See `pd.DataFrame`_.
+            **metadata: MetaData passed to `pd.read_csv`_ or `pd.DataFrame.to_csv`_.
 
-        Returns: The ``DataTable`` created.
+        Returns: The ``Table`` created.
 
+        .. _pd.DataFrame: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
+        .. _pd.read_csv: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html
         .. _pd.DataFrame.to_csv: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
         """
         data = pd.DataFrame(data.pd if isinstance(data, Table) else data, index, columns, dtype, copy)
@@ -477,11 +476,11 @@ class Table(Store):
         """ Copy ``src`` to ``dst``, overwriting.
 
         Args:
-            src: The source ``DataTable``.
+            src: The source ``Table``.
             dst: The destination ``Path``, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
 
-        Returns: The ``DataTable`` now stored at ``dst.csv``.
+        Returns: The ``Table`` now stored at ``dst.csv``.
         """
         return cls.create(dst, src.pd, **src.options)
 
@@ -495,7 +494,7 @@ class DataBase(Store):
 
             class NamedTables(NamedTuple):
 
-                names[i]: Table | Matrix | MetaData = pd.DataFrame(defaults[names[i]].pd)   #: Comment
+                names[i]: Table | Matrix | MetaData = defaults[names[i]].pd   #: Must be ``pd.DataFrame``.
                 ...
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
@@ -513,8 +512,7 @@ class DataBase(Store):
 
     class NamedTables(NamedTuple):
         """ Must be overridden. """
-        NotImplemented: Table | Matrix | MetaData = pd.DataFrame(((f'Attribute type should be Table in '
-                                                                   f'any implementation.',),))  #: :meta private:
+        NotImplemented: Table | Matrix | MetaData = pd.DataFrame(((f'Default must be a pd.DataFrame',),))
 
         def __call__(self, name: str) -> Table | Matrix | MetaData:
             """ Returns the Table named ``name``."""
@@ -532,22 +530,22 @@ class DataBase(Store):
     class Indexing(Indexing):
         """ ``self[names]`` accesses ``NamedTables`` by ``str | int | Iterable | slice``. """
 
-    class CreateProtocol(Create):
+    class Create(Create):
         pass
 
-    class ReadProtocol(Read):
+    class Read(Read):
         pass
 
-    class UpdateProtocol(Update):
+    class Update(Update):
         """ ``self(**tables) updates and writes ``NamedTables`` (``self.meta(**updates)`` updates ``Meta``."""
 
-    class DeleteProtocol(Delete):
+    class Delete(Delete):
         pass
 
-    class CopyProtocol(Copy):
+    class Copy(Copy):
         pass
 
-    class StrReprProtocol(StrRepr):
+    class StrRepr(StrRepr):
         pass
 
     @property
@@ -565,7 +563,7 @@ class DataBase(Store):
         if isinstance(other, DataBase):
             return (self.names() == other.names() and self.meta == other.meta
                     and self._namedTables == other.namedTables)
-        return False
+        return NotImplemented
 
     def __len__(self) -> int:
         """ Counts the ``Table`` s in ``self``. """
@@ -573,25 +571,26 @@ class DataBase(Store):
 
     def __getitem__(self, names: str | int | Iterable[str | int]) -> Table | tuple[Table, ...]:
         """ Indexer returns the ``Table`` (s) named or sliced by ``name``. """
-        match names:
-            case str():
-                return self._namedTables(names)
-            case Iterable():
-                return tuple(self[named] for named in names)
-            case _:
-                return self._namedTables[names]
+        if isinstance(names, str):
+            return self._namedTables(names)
+        elif isinstance(names, Iterable):
+            return tuple(self[named] for named in names)
+        else:
+            return self._namedTables[names]
 
     def __setitem__(self, names: str | int | Iterable[str | int], tables: Table | Matrix | tuple[Table | Matrix, ...]):
         """ Indexer sets the ``Table`` (s) named or sliced by ``name``."""
-        match names:
-            case str():
-                tables = {names: tables}
-            case Iterable():
-                if not (isinstance(tables, tuple) and len(tables) == len(names)):
-                    raise IndexError(f'Expected a tuple of {len(names)} tables, not {len(tables)}.')
-                    tables = {names[i]: tables[i] for i in range(len(names))}
-            case _:
-                tables = {self.names()[names]: tables}
+        if isinstance(names, str):
+            tables = {names: tables}
+        elif isinstance(names, Iterable):
+            if not (isinstance(tables, tuple) and len(tables) == len(names)):
+                raise IndexError(f'Expected a tuple of {len(names)} tables, not {len(tables)}.')
+            names = tuple((self.names()[named] if isinstance(named, int) else named for named in names))
+            tables = {names[i]: tables[i] for i in range(len(names))}
+        elif isinstance(tables, Iterable):
+            return self.__setitem__(self.names()[names], tables)
+        else:   # isinstance(names, int):
+            tables = {self.names()[names]: tables}
         self(**tables)
 
     def __call__(self, **tables: Table | Matrix) -> Self:
@@ -624,7 +623,7 @@ class DataBase(Store):
         try:
             self._meta = Meta(self._meta_in(path))
             self._namedTables = self.NamedTables(**{name:
-                                               Table(path / name, tables[name], **self.options(name))
+                                               Table.create(path / name, tables[name], **self.options(name))
                                                if name in tables and tables[name] is not None
                                                else Table(path / name, **self.options(name))
                                                     for name in self.names()})
@@ -673,19 +672,29 @@ class DataBase(Store):
         return cls.create(dst, meta=src.meta, **src._namedTables._asdict())
 
     @classmethod
-    def delete(cls, path: Store.Path) -> Path:
+    def delete(cls, path: Store.Path, ignoreErrors: bool=False) -> Path:
         """ Delete all ``DataBase`` files in ``path``, retaining ``path`` and any other files it contains.
 
         If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
 
         Args:
             path: ``Path`` to the ``DataBase`` to delete.
+            ignoreErrors: Whether to raise any ``FileNotFoundError`` s encountered.
         Returns: ``path``, which still exists.
+        Raises: FileNotFoundError if ``path`` is not a folder, regardless of ``ignoreErrors``.
         """
         path = Path(path)
-        Meta.delete(cls._meta_in(path))
-        for name in cls.names():
-            Table.delete(path / name)
+        if not path.is_dir():
+            raise FileNotFoundError(f'Path {path} is not a folder.')
+        try:
+            Meta.delete(cls._meta_in(path))
+            for name in cls.names():
+                Table.delete(path / name)
+            if not tuple(path.iterdir()):
+                path.rmdir()
+        except FileNotFoundError as error:
+            if not ignoreErrors:
+                raise error
         return path
 
     @staticmethod

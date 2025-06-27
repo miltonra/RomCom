@@ -59,7 +59,7 @@ Protocols
 
 A Protocol documents an interface a Class supports via undocumented :term:`dunder methods`.
 Protocols are pure documentation in code, and are essentially meaningless outside a Class definition.
-Protocols are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python Exceptions, in fact), and are named in UpperCamelCase.
+Protocols are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python BaseExceptions, in fact), and are named in UpperCamelCase.
 
 .. _ecosystem:
 
