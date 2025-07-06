@@ -23,10 +23,14 @@ class TestCase(ut.TestCase):
 
     def setUp(self):
         self.src = DesignMatrix(Test.folder() / 'src')
-
-    def test_DesignMatrix(self):
+        self.srcmo = DesignMatrix(Test.folder() / 'srcmo')
         print(self.src.pd)
 
+    def test_DesignMatrix00(self):
+        designMatrix00 = DesignMatrix00.create(Test.folder() / 'src', self.src)
+        print(designMatrix00.pd)
+        designMatrix00 = DesignMatrix00.create(Test.folder() / 'srcmo', self.srcmo)
+        print(designMatrix00.pd)
 
 if __name__ == '__main__':
     ut.main()

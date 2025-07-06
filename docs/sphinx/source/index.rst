@@ -7,7 +7,8 @@ RomCom User Guide
 
 .. danger:: This documentation is currently under construction
 
-These cards are clickable, preferably from left to right.
+These cards are clickable, preferably in order.
+The top row is introductory narrative, the second row basic usage, the third row expert usage, the fourth row supplementary material and reference.
 
 .. grid:: 3
     :gutter: 1
@@ -24,7 +25,7 @@ These cards are clickable, preferably from left to right.
 
         RomCom terms and abbreviations
 
-    .. grid-item-card::  :octicon:`project-roadmap` Plan
+    .. grid-item-card::  :octicon:`book` Plan
         :link: pages/plan
         :link-type: doc
 
@@ -72,6 +73,27 @@ These cards are clickable, preferably from left to right.
 
         ROM uses GSA to find the minimal set (Active Subspace) of GPR inputs
 
+.. grid:: 3
+    :gutter: 1
+
+    .. grid-item-card::  :octicon:`package` Generalized Linear Regression
+        :link: pages/glr
+        :link-type: doc
+
+        GPR interpolates training data with uncertainty quantification
+
+    .. grid-item-card::  :octicon:`code-square` API
+        :link: pages/api
+        :link-type: doc
+
+        GSA assesses the relevance of GPR inputs to outputs
+
+    .. grid-item-card::  :octicon:`log` Index
+        :link: genindex
+        :link-type: doc
+
+        ROM uses GSA to find the minimal set (Active Subspace) of GPR inputs
+
 
 .. toctree::
     :maxdepth: 1
@@ -86,6 +108,7 @@ These cards are clickable, preferably from left to right.
     GPR <pages/gpr>
     GSA <pages/gsa>
     ROM <pages/rom>
+    GLR <pages/glr>
     API <pages/api>
     genindex
 

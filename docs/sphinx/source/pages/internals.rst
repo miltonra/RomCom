@@ -15,12 +15,12 @@ RomCom abides by the letter of `PEP 8 <https://peps.python.org/pep-0008/>`_ exce
 * a neurotic aversion to ugly under_scores and BLOCK_CAPS.
 
 
-Typing (MOVE!!!)
+Typing
 ^^^^^^^^^^^^^^^^^^^^
 
 For aliasing and naming conflict resolution, ``rc.base.definitions`` imports the core libraries ``pandas``,
-``numpy``, ``torch``, and wraps them in aliasing classes ``Pd``, ``Np``, ``Tc``. This provides the namespace/Class duals
-:term:`pd | Pd`, :term:`np | Np`, and :term:`tc | Tc`.
+``numpy``, ``torch``, and wraps them in aliasing classes ``Pd``, ``Np``, ``Tc``
+These are basically ``pd``, ``np``, ``tc``, with ``Vector, Matrix, Tensor`` added.
 
 
 Character Set

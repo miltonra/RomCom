@@ -15,9 +15,11 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-""" Abstract and concrete base classes for RomCom Models."""
+""" Abstract and concrete base classes for RomCom models."""
 
 from __future__ import annotations
+
+from astroid.bases import UnionType
 
 from .definitions import *
 
@@ -28,28 +30,28 @@ from json import load, dump
 class Store(ABC):
     """ Base class for any stored class. Users are not expected to subclass this class directly."""
 
-    Path = Path | str
-    """ Class attribute aliasing ``Path | str``, valid Types for specifying the ``path`` to a Store."""
+    Path: Type = Path | str
+    """ ClassAttribute aliasing ``Path | str``, valid Types for specifying the ``path`` to a Store."""
 
     ext: str = ''
     """Class attribute specifying the file extension terminating ``self.path``. 
     Override if and only if the derived class must be stored in a file.
     Otherwise, ``cls.ext == ''`` and the derived class is stored in a folder."""
 
-    class Create(Create):
+    class CreateP(CreateP):
         """ ``Store.create(path)`` destroys everything in its ``path``. """
 
-    class Read(Read):
+    class ReadP(ReadP):
         """ ``Store.__init__(path)`` must be overridden. """
 
-    class Update(Update):
+    class UpdateP(UpdateP):
         """ ``Store.__call__(**updates)`` must be overridden. """
 
-    class Delete(Delete):
+    class DeleteP(DeleteP):
         """ ``Store.delete(path)`` destroys everything in its ``path``. """
 
-    class Copy(Copy):
-        """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything ``src``. """
+    class CopyP(CopyP):
+        """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything in ``src``. """
 
     class StrRepr(StrRepr):
         pass
@@ -57,7 +59,7 @@ class Store(ABC):
     @property
     def path(self) -> Path:
         """ The ``Path`` to this ``Store``, without ``cls.ext``.
-        File extension is internal, meaning ``self._path = self._path + cls.ext``."""
+        File extension is internal, meaning ``self._path = self.path + cls.ext``."""
         return self._path.with_suffix('') if self.ext else self._path
 
     def __repr__(self) -> str:
@@ -111,7 +113,7 @@ class Store(ABC):
         Args:
             path: The folder to create, or a child file of the folder to create.
 
-        Returns: ``Path(path) + cls.ext``.
+        Returns: ``path``.
         """
         if cls.ext:
             path.parent.mkdir(mode=0o777, parents=True, exist_ok=True)
@@ -180,7 +182,7 @@ class Store(ABC):
 
 
 MetaData = dict[str, Any]
-"""Type for passing metadata as ``**kwargs``."""
+"""Type for passing metadata as ``**kwargs``, aliases ``dict[str, Any]``."""
 
 
 class Meta(Store, dict):
@@ -188,25 +190,25 @@ class Meta(Store, dict):
 
     ext: str = '.json'  #: ext: Class attribute specifying the file extension of Meta instances.
 
-    class Equality(Equality):
+    class EqualityP(EqualityP):
         """ ``self == other`` is inherited directly from ``dict``. """
 
-    class Indexing(Indexing):
+    class IndexP(IndexP):
         """ ``self[key]``, ``len(self)`` are inherited from ``dict``, except that ``self[key]`` writes to file."""
 
-    class Create(Create):
+    class CreateP(CreateP):
         pass
 
-    class Read(Read):
+    class ReadP(ReadP):
         pass
 
-    class Update(Update):
+    class UpdateP(UpdateP):
         """ ``self(**updates)`` performs ``dict.update(**updates)`` (inherited), then writes to ``self.path``. """
 
-    class Delete(Delete):
+    class DeleteP(DeleteP):
         pass
 
-    class Copy(Copy):
+    class CopyP(CopyP):
         pass
 
     def __call__(self, **updates: Any) -> Self:
@@ -273,7 +275,7 @@ class Meta(Store, dict):
 
 
 Matrix = Pd.DataFrame | Np.Matrix | Tc.Matrix
-"""Types which a DataBase Table accepts."""
+"""Types which a DataBase Table accepts, aliases ``Pd.DataFrame | Np.Matrix | Tc.Matrix``."""
 
 
 class Table(Store):
@@ -312,22 +314,22 @@ class Table(Store):
     All other kwargs are interpreted as read options. 
     To specify a separator, use ``delimiter`` as read option and ``sep`` as write option. """
 
-    class Equality(Equality):
+    class EqualityP(EqualityP):
         """ ``self == other`` compares ``self.pd``,``self.np`` or ``self.tc`` matching the the type of ``other``. """
 
-    class Create(Create):
+    class CreateP(CreateP):
+        """ Creates a new Table at ``path`` from ``data: Matrix | Table``. """
+
+    class ReadP(ReadP):
         pass
 
-    class Read(Read):
+    class UpdateP(UpdateP):
         pass
 
-    class Update(Update):
+    class DeleteP(DeleteP):
         pass
 
-    class Delete(Delete):
-        pass
-
-    class Copy(Copy):
+    class CopyP(CopyP):
         pass
 
     class StrRepr(StrRepr):
@@ -346,7 +348,8 @@ class Table(Store):
     @options.setter
     def options(self, updates: MetaData):
         write = {key: updates.pop(key) for key in self.writeOptions if key in updates}
-        self._options._replace(read =self._options.read | updates, write =self._options.write | write)
+        self._options = self._options._replace(read =self._options.read | updates | {'encoding': 'utf-8-sig'},
+                                               write =self._options.write | write | {'encoding': 'utf-8-sig'})
 
     @property
     def pd(self) -> Pd.DataFrame:
@@ -433,8 +436,7 @@ class Table(Store):
             path: The ``Path`` (file) to store ``self``. A ``.csv`` extension is automatically appended.
             data: The data to store. If ``None``, ``data`` is read from ``path``,
                 otherwise ``data`` is stored in ``path`` (which is overwritten if existing).
-            **metadata: Updates ``self.readMetaData`` if ``data is None``,
-                otherwise updates ``self.writeMetaData``.
+            **options: Updates ``self.options``.
         """
         super().__init__(path)
         self._options = self.Options()
@@ -488,7 +490,8 @@ class Table(Store):
 class DataBase(Store):
     """ ``NamedTables(NamedTuple)`` in a folder alongside ``Meta``. Abstract base class for any model.
 
-    ``DataBase`` subclasses must be implemented according to the template (copy and paste it)::
+    ``DataBase`` subcl
+    asses must be implemented according to the template (copy and paste it)::
 
         class MyDataBase(DataBase):
 
@@ -527,22 +530,22 @@ class DataBase(Store):
     #: Class attribute. Should be overridden.
     defaultMetaData: MetaData = {'Tables': options._asdict()}
 
-    class Indexing(Indexing):
+    class IndexP(IndexP):
         """ ``self[names]`` accesses ``NamedTables`` by ``str | int | Iterable | slice``. """
 
-    class Create(Create):
+    class CreateP(CreateP):
         pass
 
-    class Read(Read):
+    class ReadP(ReadP):
         pass
 
-    class Update(Update):
+    class UpdateP(UpdateP):
         """ ``self(**tables) updates and writes ``NamedTables`` (``self.meta(**updates)`` updates ``Meta``."""
 
-    class Delete(Delete):
+    class DeleteP(DeleteP):
         pass
 
-    class Copy(Copy):
+    class CopyP(CopyP):
         pass
 
     class StrRepr(StrRepr):
@@ -576,21 +579,23 @@ class DataBase(Store):
         elif isinstance(names, Iterable):
             return tuple(self[named] for named in names)
         else:
-            return self._namedTables[names]
+            return self._namedTables[names]     # int or slice
 
     def __setitem__(self, names: str | int | Iterable[str | int], tables: Table | Matrix | tuple[Table | Matrix, ...]):
         """ Indexer sets the ``Table`` (s) named or sliced by ``name``."""
         if isinstance(names, str):
+            tables = {names: tables}
+        elif isinstance(names, int):
             tables = {names: tables}
         elif isinstance(names, Iterable):
             if not (isinstance(tables, tuple) and len(tables) == len(names)):
                 raise IndexError(f'Expected a tuple of {len(names)} tables, not {len(tables)}.')
             names = tuple((self.names()[named] if isinstance(named, int) else named for named in names))
             tables = {names[i]: tables[i] for i in range(len(names))}
-        elif isinstance(tables, Iterable):
+        elif isinstance(tables, tuple):
             return self.__setitem__(self.names()[names], tables)
-        else:   # isinstance(names, int):
-            tables = {self.names()[names]: tables}
+        else:
+            return NotImplemented
         self(**tables)
 
     def __call__(self, **tables: Table | Matrix) -> Self:

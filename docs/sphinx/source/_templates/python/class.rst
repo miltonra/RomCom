@@ -4,6 +4,9 @@
 {{ "=" * obj.id | length }}
 
    {% endif %}
+
+.. module:: {{ obj.include_path.split("/")[3:6]|join(".") }}
+
    {% set visible_children = obj.children|selectattr("display")|list %}
    {% set own_page_children = visible_children|selectattr("type", "in", own_page_types)|list %}
    {% if is_own_page and own_page_children %}

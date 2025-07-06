@@ -40,9 +40,9 @@ modindex_common_prefix = ['rc.']
 
 # -- Extensions --------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-python-domain
-extensions = [ 'sphinx.ext.viewcode', 'sphinx.ext.autodoc', 'autoapi.extension', 'sphinx.ext.napoleon',
+extensions = ['sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'autoapi.extension',
               "sphinx.ext.mathjax", 'sphinx_copybutton', 'sphinxarg.ext', 'sphinx.ext.inheritance_diagram',
-              'sphinx.ext.graphviz', 'sphinx_design',]
+              'sphinx.ext.graphviz', 'sphinx_design', 'sphinx.ext.viewcode', ]
 
 # https://sphinx-autoapi.readthedocs.io/en/latest/index.html
 autoapi_dirs = ['../../../rc']
@@ -59,6 +59,7 @@ autoapi_options = [
     # 'special-members', # 'imported-members', 'undoc-members', 'private-members',
 ]
 autoapi_keep_files = True
+autoapi_python_class_content = 'both'
 
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 autodoc_typehints = 'description'

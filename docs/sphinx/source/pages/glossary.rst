@@ -48,4 +48,9 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
         ``dict[str, Any]``.
 
     Table
-        Consult :ref:`base`.
+        Consult :doc:`base <base>`.
+
+    Categorical Input
+    Discrete Input
+        An input variable whose value is one of a finite set of discrete values (usually ``int```, ``str`` or ``bool``).
+

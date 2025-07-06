@@ -15,22 +15,24 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-""" Test functions, taken from `SALib <https://salib.readthedocs.io/en/latest/api/SALib.test_functions.html>`_."""
+""" Test functions, taken from `SALib test functions <https://salib.readthedocs.io/en/latest/api/SALib.test_functions.html>`_."""
 
 from __future__ import annotations
 
 from rc.base import *
 
-import SALib.test_functions.Ishigami, SALib.test_functions.Sobol_G, SALib.test_functions.oakley2004
+import SALib.test_functions.Ishigami as SALibIshigami
+import SALib.test_functions.Sobol_G as SALibSobolG
+import SALib.test_functions.oakley2004 as SALibOakley2004
 
 
 class Scalar:
-    """A scalar function ``scalar`` such that ``scalar(x, kwargs)`` calls
-        ``self.call(self.loc + self.scale * x[:, :self.m], **(self.kwargs | kwargs)``."""
+    """A scalar function ``scalar`` such that ``scalar(x, params)`` calls
+        ``self.salib(self.loc + self.scale * x[:, :self.m], **(self.params | params)``."""
 
     @property
-    def call(self) -> Callable[Np.Matrix, float]:
-        return self._call
+    def salib(self) -> Callable[Np.Matrix, float]:
+        return self._salib
 
     @property
     def loc(self) -> Np.Vector:
@@ -45,34 +47,34 @@ class Scalar:
         return self._m
 
     @property
-    def kwargs(self) -> dict[str, Np.Array]:
-        return self._kwargs
+    def params(self) -> dict[str, Np.Array]:
+        return self._params
 
-    def __call__(self, x: Np.Matrix, **kwargs: Np.Matrix) -> Np.Matrix:
-        return np.reshape(self._call(self._loc + self._scale * x[:, :self._m], **(self._kwargs | kwargs)),
+    def __call__(self, x: Np.Matrix, **params: Np.Matrix) -> Np.Matrix:
+        return np.reshape(self._salib(self._loc + self._scale * x[:, :self._m], **(self._params | params)),
                           (x.shape[0], 1))
 
-    def __init__(self, call: Callable[Np.Matrix, float], loc: Np.Vector, scale: Np.Vector, m: int,
-                 **kwargs: Np.Array):
-        """ A scalar function, which calls ``call(loc + scale * x[:, :m], **kwargs)``.
+    def __init__(self, salib: Callable[Np.Matrix, float], loc: Np.Vector, scale: Np.Vector, m: int,
+                 **params: Np.Array):
+        """ A scalar function, which calls ``call(loc + scale * x[:, :m], **params)``.
 
         Args:
-            call: The SALib function called.
+            salib: The SALib function called.
             loc: Input offset.
             scale: Input scale.
             m: The number of input dimensions.
-            **kwargs: Function data applied to call.
+            **params: Function data applied to call.
         """
-        self._call = call
+        self._salib = salib
         self._loc = loc
         self._scale = scale
         self._m = m
-        self._kwargs = kwargs
+        self._params = params
 
 
 class Vector(dict):
     """ A vector functon, which is little more than a named dictionary of Scalar functions,
-        such that ``vector(x, **kwargs)`` concatenates ``scalar(x, **kwargs)``
+        such that ``vector(x, **params)`` concatenates ``scalar(x, **params)``
         for each dictionary item ``key: Scalar``. """
 
     @classmethod
@@ -97,7 +99,7 @@ class Vector(dict):
     @property
     def meta(self) -> dict:
         """ Meta data for providing to ``data.storage``."""
-        return {'name': self.name, 'call': {l: function for l, function in enumerate(self.keys())}}
+        return {'name': self.name, 'salib': {l: function for l, function in enumerate(self.keys())}}
 
     def subVector(self, name: str, scalars: Sequence[str]) -> Vector:
         """ Create a subVector of ``self``.
@@ -110,28 +112,30 @@ class Vector(dict):
         """
         return Vector(name, **{scalar: self[scalar] for scalar in scalars})
 
-    def __call__(self, x: Np.Matrix, **kwargs) -> Np.Matrix:
-        return np.concatenate([scalar(x, **kwargs) for scalar in self.values()], axis = 1)
+    def __call__(self, x: Np.Matrix, **params) -> Np.Matrix:
+        return np.concatenate([scalar(x, **params) for scalar in self.values()], axis = 1)
 
-    def __init__(self, name: str, **kwargs: Scalar):
+    def __init__(self, name: str, **scalars: Scalar):
         """ Construct a vector function.
 
         Args:
             name: The name of this ``Vector``.
-            **kwargs: The dict of ``Scalar``s comprising this ``Vector``.
+            **scalars: The dict of ``Scalar``s comprising this ``Vector``.
         """
-        super().__init__(**kwargs)
+        super().__init__(**scalars)
         self._name = name
 
 
-#: The Ishigami function without data.
-_ISHIGAMI = {'call': SALib.test_functions.Ishigami.evaluate, 'loc': -np.pi, 'scale': 2 * np.pi}
+#: The ishigami function without data.
+_ishigami = {'salib': SALibIshigami.evaluate, 'loc': -np.pi, 'scale': 2 * np.pi}
+
 
 #: Modified Sobol G-function without data.
-_SOBOL_G = {'call': SALib.test_functions.Sobol_G.evaluate, 'loc': 0, 'scale': 1}
+_sobolG = {'salib': SALibSobolG.evaluate, 'loc': 0, 'scale': 1}
 
-#: Modified Oakley & O'Hagan (2004) function without data.
-_OAKLEY2004 = {'call': SALib.test_functions.oakley2004.evaluate, 'loc': -1, 'scale': 2}
+
+#: Modified oakley & O'Hagan (2004) function without data.
+_oakley2004 = {'salib': SALibOakley2004.evaluate, 'loc': -1, 'scale': 2}
 
 
 def linspace(start: float, stop: float, shape: Sequence[int]) -> Np.Matrix:
@@ -146,54 +150,74 @@ def linspace(start: float, stop: float, shape: Sequence[int]) -> Np.Matrix:
     return np.reshape(np.linspace(start, stop, int(np.prod(shape)), endpoint = True), newshape = shape)
 
 
-#: Three example Ishigami functions, requiring ``M >= 3``.
-ISHIGAMI = Vector(name = 'ishigami',
-                  standard = Scalar(**_ISHIGAMI, m = 3, A = 7.0, B = 0.1),
-                  balanced = Scalar(**_ISHIGAMI, m = 3, A = 20.0, B = 1.0),
-                  sin = Scalar(**_ISHIGAMI, m = 3, A = 0.0, B = 0.0),
+""" Three example ishigami functions, requiring ``M >= 3``."""
+ishigami = Vector(name = 'ishigami',
+                  standard = Scalar(**_ishigami, m = 3, A = 7.0, B = 0.1),
+                  balanced = Scalar(**_ishigami, m = 3, A = 20.0, B = 1.0),
+                  sin = Scalar(**_ishigami, m = 3, A = 0.0, B = 0.0),
                   )
 
-#: Three example modified Sobol G-functions, requiring ``M >= 5``.
-SOBOL_G = Vector(name = 'sobol_g',
-                 weak5_2 = Scalar(**_SOBOL_G, m = 5, a = np.array([3, 6, 9, 18, 27]),
+
+""" Three example modified Sobol G-functions, requiring ``M >= 5``."""
+sobolG: Vector = Vector(name = 'sobolG',
+                 weak5_2 = Scalar(**_sobolG, m = 5, a = np.array([3, 6, 9, 18, 27]),
                                   alpha = np.ones((5,)) * 2.0),
-                 strong5_2 = Scalar(**_SOBOL_G, m = 5, a = np.array([1 / 2, 1, 2, 4, 8]),
+                 strong5_2 = Scalar(**_sobolG, m = 5, a = np.array([1 / 2, 1, 2, 4, 8]),
                                     alpha = np.ones((5,)) * 2.0),
-                 strong5_4 = Scalar(**_SOBOL_G, m = 5, a = np.array([1 / 2, 1, 2, 4, 8]),
+                 strong5_4 = Scalar(**_sobolG, m = 5, a = np.array([1 / 2, 1, 2, 4, 8]),
                                     alpha = np.ones((5,)) * 4.0),
                  )
 
-#: Three example modified Oakley & O'Hagan (2004) functions, requiring ``M >= 5``.
-OAKLEY2004_5 = Vector(name = 'oakley2004',
-                      lin = Scalar(**_OAKLEY2004, m = 5,
+
+""" Three example modified oakley & O'Hagan (2004) functions, requiring ``M >= 5``."""
+oakley2004_5: Vector = Vector(name = 'oakley2004',
+                      lin = Scalar(**_oakley2004, m = 5,
                                    A = [linspace(start = 5.0, stop = 5.0 / 2, shape = [5, ]), ] + [
                                        np.zeros([5])] * 2,
                                    M = np.zeros([5, 5])),
-                      quad = Scalar(**_OAKLEY2004, m = 5,
+                      quad = Scalar(**_oakley2004, m = 5,
                                     A = [linspace(start = 5.0, stop = 5.0 / 2, shape = [5, ]), ] + [
                                         np.zeros([5])] * 2,
                                     M = linspace(start = 5.0, stop = 1.0, shape = [5, 5])),
-                      rev = Scalar(**_OAKLEY2004, m = 5,
+                      rev = Scalar(**_oakley2004, m = 5,
                                    A = [-linspace(start = 5.0, stop = 5.0 / 2, shape = [5, ]), ] + [
                                        np.zeros([5])] * 2,
                                    M = linspace(start = 1.0, stop = 5.0, shape = [5, 5])),
                       )
 
-#: 3 example modified Oakley & O'Hagan (2004) functions, requiring ``M >= 7``.
-OAKLEY2004 = Vector(name = 'oakley2004',
-                    lin = Scalar(**_OAKLEY2004, m = 7,
+
+""" Three example modified oakley & O'Hagan (2004) functions, requiring ``M >= 7``."""
+oakley2004: Vector = Vector(name = 'oakley2004',
+                    lin = Scalar(**_oakley2004, m = 7,
                                  A = [linspace(start = 7.0, stop = 7.0 / 2, shape = [7, ]), ] + [
                                      np.zeros([7])] * 2,
                                  M = np.zeros([7, 7])),
-                    quad = Scalar(**_OAKLEY2004, m = 7,
+                    quad = Scalar(**_oakley2004, m = 7,
                                   A = [linspace(start = 7.0, stop = 7.0 / 2, shape = [7, ]), ] + [
                                       np.zeros([7])] * 2,
                                   M = linspace(start = 7.0, stop = 1.0, shape = [7, 7])),
-                    rev = Scalar(**_OAKLEY2004, m = 7,
+                    rev = Scalar(**_oakley2004, m = 7,
                                  A = [-linspace(start = 7.0, stop = 7.0 / 2, shape = [7, ]), ] + [
                                      np.zeros([7])] * 2,
                                  M = linspace(start = 1.0, stop = 7.0, shape = [7, 7])),
                     )
 
-#: The concatenation of ISHIGAMI, SOBOL_G, OAKLEY2004.
-ALL = Vector.concat(name = 'all', vectors = (ISHIGAMI, SOBOL_G, OAKLEY2004))
+
+""" The concatenation of ishigami, sobolG, oakley2004."""
+All: Vector = Vector.concat(name = 'All', vectors = (ishigami, sobolG, oakley2004))
+
+
+_categorized = {'ish': ishigami, 'sob': sobolG, 'oak': oakley2004}
+
+def categorized(x, f: str, p: int) -> float:
+    """ A single-output test function, categorized by ``f`` and ``p``.
+
+    Args:
+        x: ``(n, m)`` design matrix of continuous inputs.
+        f: The function category: 0 for ``ishigami``, 1 for ``sobolG``, 2 for ``oakley2004``.
+        p: The parameter category: 0 for ``standard/weak5_2/lin``, 1 for ``balanced/strong5_2/quad``,
+            2 for ``sin/strong5_4/rev``.
+
+    Returns: The categorized function value evaluated at ``x,f,p``.
+    """
+    return _categorized[f].values[p](x)

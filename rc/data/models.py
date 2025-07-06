@@ -32,7 +32,7 @@ from enum import IntEnum
 #: Slice for ``n`` (row) in a Repo Table.
 n: tuple[slice, slice] = (slice(None, None, None), slice(None, 1, None))
 
-#: Slice for ``x`` (inputs) in a Repo Table.
+#: Slice for ``x`` (continuous inputs) in a Repo Table.
 x: tuple[slice, slice] = (slice(None, None, None), slice(1, -2, None))
 
 #: Slice for ``l`` (categorical state) in a Repo Table.
@@ -45,6 +45,9 @@ y: tuple[slice, slice] = (slice(None, None, None), slice(-1, None, None))
 class DesignMatrix(Table):
     """ The familiar user format of ``DesignMatrix`` which is fat (has many columns). """
 
+    class CreateP(CreateP):
+        """ Creates a new ``DesignMatrix`` at ``path`` from a ``DesignMatrix``. """
+
     Label = Path | str
     """ Class attribute aliasing acceptable Types for column (or index) labels. """
 
@@ -52,11 +55,6 @@ class DesignMatrix(Table):
 
         read: MetaData =  {'index_col': 0, 'header': [0, 1]}  # Read options passed to ``pd.read_csv``.
         write: MetaData =  {}   # Write options passed to ``pd.DataFrame.to_csv``.
-
-    skeleton: Pd.DataFrame = pd.DataFrame(columns=pd.MultiIndex.from_tuples(
-                                    (('Input', 'float'),('Category', 'int'),
-                                     ('Column', 'str'), ('Output', 'func'))))
-    """ DataFrame of the minimal, skeleton ``DesignMatrix``."""
 
     defaultOptions: MetaData = Options().read | Options().write
     """ Default file handling ``DesignMatrix.Options()``."""
@@ -72,52 +70,88 @@ class DesignMatrix(Table):
                 return 'l'
             case 'y' | 'output' | 'map' | 'func' :
                 return 'y'
-        return '~'
+        return '?'
 
     @classmethod
-    def create(cls, path: Store.Path, src: NormalDesignMatrix, columns_in_l: Label = '') -> Self:
-        """ Reformat the ``NormalDesignMatrix`` in ``src`` as a ``Self(DesignMatrix)``.
+    def create(cls, path: Store.Path, designMatrix: DesignMatrix) -> Self:
+        """ Create a ``DesignMatrix`` at ``path``.
 
         Args:
-            path: The ``Path`` to store the ``DesignMatrix`` created, overwritten if existing.
-            src: The ``NormalDesignMatrix`` to reformat.
+            path: The ``Path`` to store this Table, overwritten if existing.
+                A ``.csv`` extension is automatically appended.
+            designMatrix: The ``DesignMatrix`` to reformat if necessary and store in ``path``.
 
-        Returns: The ``NormalDesignMatrix`` created at ``dst``.
+        Returns: The ``DesignMatrix`` created.
         """
+        if not isinstance(designMatrix, DesignMatrix00):
+            return cls(cls.mkdir(path), designMatrix)
+        pd = designMatrix.pd
+        inputs = {'x': pd.iloc[:, -2], 'i': None}
+        pd.take([0,-2, -1], axis = 1, inplace = True)
 
-    @classmethod
-    def copy(cls, src: Self, dst: Store.Path = '') -> NormalDesignMatrix:
-        """ Reformat this ``DesignMatrix`` to a ``NormalDesignMatrix``.
-
-        Args:
-            src: The ``DesignMatrix`` to reformat.
-            dst: Optional ``Path`` to the ``NormalDesignMatrix``.
-                Defaults to ``''``, which overwrites ``src``.
-
-        Returns: The ``NormalDesignMatrix`` created at ``dst``.
-        """
+        return cls(cls.mkdir(path), pd)
 
 
-class NormalDesignMatrix(DesignMatrix):
-    """ The internal format of ``DesignMatrix``, which is thin (has few columns). """
+class DesignMatrix00(DesignMatrix):
+    """ The internal format of ``DesignMatrix``, which is thin (has few columns), and only one header row."""
+
+    class CreateP(CreateP):
+        """ Creates a new ``DesignMatrix00`` at ``path`` from a ``DesignMatrix``. """
 
     class Options(NamedTuple):
 
         read: MetaData =  {'index_col': 0, 'header': 0}  # Read options passed to ``pd.read_csv``.
         write: MetaData =  {}   # Write options passed to ``pd.DataFrame.to_csv``.
 
-    def create(cls, path: Store.Path, src: NormalDesignMatrix) -> Self:
-        return cls(path, update= src)
+    categoryDelimiter: str = '│'
+    """ The delimiter used to separate categories in a categorical column. """
 
-    def copy(cls, src: Self, dst: Store.Path = '') -> NormalDesignMatrix:
-        return cls(dst, update= src) if dst else src
+    @classmethod
+    def create(cls, path: Store.Path, designMatrix: DesignMatrix) -> Self:
+        """ Create a ``DesignMatrix00`` at ``path``.
+
+        Args:
+            path: The ``Path`` to store this Table, overwritten if existing.
+                A ``.csv`` extension is automatically appended.
+            designMatrix: The ``DesignMatrix`` to reformat if necessary and store in ``path``.
+
+        Returns: The ``DesignMatrix00`` created.
+        """
+        if isinstance(designMatrix, DesignMatrix00):
+            return cls(cls.mkdir(path), designMatrix) # If already a DesignMatrix00, just copy it.
+
+        # Reformat the DesignMatrix to a DesignMatrix00.
+        pd = designMatrix.pd.rename(cls.headers, axis = 'columns', level = 0)
+        # Strip out the inputs from ``pd`` and keep them in ``inputs``.
+        inputs = {'x': None, 'i': None}
+        for key in inputs.keys():
+            inputs[key] = pd.get(key)
+            if inputs[key] is not None: pd.drop(columns = key, level = 0, inplace = True)
+        pd.columns = pd.columns.droplevel(0)
+        # Return the categorical inputs to ``pd``.
+        if inputs['i'] is not None:
+            state = cls.categoryDelimiter.join(['l'] + inputs['i'].columns.to_list())
+            pd[state] = inputs['i'].astype(str).agg(cls.categoryDelimiter.join, axis = 1)
+            pd = pd.reset_index(names='n').melt(id_vars = ['n', state],
+                                                var_name = 'l', value_name = 'y', ignore_index = True).dropna()
+            pd[state] = pd['l'].astype(str) + cls.categoryDelimiter + pd[state]
+            pd.drop(columns = ['l'], inplace = True)
+        else:
+            state = 'l'
+            pd = pd.reset_index(names='n').melt(id_vars=['n'],
+                                                var_name='l', value_name='y', ignore_index=True).dropna()
+        # Return the continuous inputs to ``pd``.
+        if inputs['x'] is not None:
+            columns = ['n'] + inputs['x'].columns.to_list() + [state, 'y']
+            pd = pd.join(inputs['x'], on = 'n', how = 'left').reindex(columns = columns)
+        return cls(cls.mkdir(path), pd)
 
 
 class Normalization(DataBase):
     """ Normalization of a Repo. """
     class NamedTables(NamedTuple):
 
-        data: DesignMatrix | MetaData = DesignMatrix.skeleton
+        data: DesignMatrix | MetaData = pd.DataFrame(columns=('x', 'l', 'y'))
 
         def __call__(self, name: str) -> Table | Matrix | MetaData:
             """ Returns the Table named ``name``."""
@@ -138,23 +172,24 @@ class Normalization(DataBase):
         self._tables(**meta)
         return self
 
-    def __init__(self, path: Store.Path, **tables: Table | PD.DataFrame):
+    def __init__(self, path: Store.Path, **tables: Table | Pd.DataFrame):
         super().__init__(path, **tables)
 
 
     @classmethod
-    def create(cls, path: Store.Path, data: DesignMatrix, **meta: Any) -> Self:
+    def create(cls, path: Store.Path, designMatrix: DesignMatrix, **meta: Any) -> Self:
         """ Create a ``Normalization`` in ``path``.
 
         Args:
             path: The folder to store the ``Normalization`` in. Need not exist,
                 any existing ``Tables`` will be overwritten if it does.
+            designMatrix: The ``DesignMatrix`` to normalize.
             **meta: Optimization ``MetaData``.
 
         Returns: The ``Normalization`` created.
         """
         Meta.create(cls._meta_in(path), **(cls.defaultMetaData | meta))
-        return cls(path, data = data)
+        return cls(path, data = designMatrix)
 
 
 class Repo(DataBase):

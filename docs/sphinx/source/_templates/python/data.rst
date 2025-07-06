@@ -8,6 +8,8 @@
    {% if obj.is_type_alias() %}
       {% if obj.value %}
 
+   .. module:: {{ obj.include_path.split("/")[3:6]|join(".") }}
+
    :canonical: {{ obj.value }}
       {% endif %}
    {% else %}

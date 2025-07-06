@@ -20,12 +20,12 @@
 All modules of RomCom ``import *`` from ``rc.definitions``, so all types and constants in this module are referenced
 without adornment throughout RomCom. The ``rc.definitions`` namespace includes::
 
-from typing import *
-from collections.abc import *
-from abc import ABC, abstractmethod
-from pathlib import Path
-from copy import copy, deepcopy
-import unittest as ut
+    from typing import *
+    from collections.abc import *
+    from abc import ABC, abstractmethod
+    from pathlib import Path
+    from copy import copy, deepcopy
+    import unittest as ut
 """
 
 from __future__ import annotations
@@ -48,27 +48,33 @@ zero: float = 1.0E-64
 
 class Protocol(BaseException):
     """ The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods."""
+    def __init__(self, *args, **kwargs):
+        """
 
-class Indexing(Protocol):
+        :meta private:
+        """
+        raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
+
+class IndexP(Protocol):
     """ ``self[key]`` is not implemented. Override ``__getitem__(self, key)``, ``__setitem__(self, key, value)`` and ``__len__(self)``. """
 
-class Equality(Protocol):
+class EqualityP(Protocol):
     """ Not implemented. """
 
-class Create(Protocol):
+class CreateP(Protocol):
     """``cls.create(path)`` is selective, preserving irrelevant items in ``path``. """
 
-class Read(Protocol):
+class ReadP(Protocol):
     """``cls(path)`` reads from ``path``. """
 
-class Update(Protocol):
+class UpdateP(Protocol):
     """``self(**updates)`` updates ``self`` then writes to ``self.path``. """
 
-class Delete(Protocol):
+class DeleteP(Protocol):
     """``cls.delete(path)`` is selective, preserving irrelevant items in ``path``. """
 
-class Copy(Protocol):
-    """``cls.copy(src, dst)`` is selective, copying only relevant items in ``src.path`` while preserving irrelevant items in ``dst``."""
+class CopyP(Protocol):
+    """``cls.copy(src, dst)`` is selective, copying only relevant items in ``src`` while preserving irrelevant items in ``dst``."""
 
 class StrRepr(Protocol):
     """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
