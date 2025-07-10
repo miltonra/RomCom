@@ -53,7 +53,7 @@ class Store(ABC):
     class CopyP(CopyP):
         """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything in ``src``. """
 
-    class StrRepr(StrRepr):
+    class StrReprP(StrReprP):
         pass
 
     @property
@@ -82,7 +82,7 @@ class Store(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def __init__(self, path: Path):
+    def __init__(self, path: Path, **kwargs: Any):
         """ Store ``path`` in ``self._path``.
 
         Overrides should call ``super(Store).__init__(path)`` as a matter of priority.
@@ -123,7 +123,7 @@ class Store(ABC):
 
     @classmethod
     @abstractmethod
-    def create(cls, path: Path) -> Self | Path:
+    def create(cls, path: Path, **kwargs: Any) -> Self | Path:
         """ Create a folder (and its parents) if it doesn't already exist.
 
         Overrides should create and return an instance of ``cls``.
@@ -181,8 +181,8 @@ class Store(ABC):
         return path
 
 
-MetaData = dict[str, Any]
-"""Type for passing metadata as ``**kwargs``, aliases ``dict[str, Any]``."""
+MetaData: TypeAlias = dict[str, Any]
+""" = ``dict[str, Any]``. Type for passing metadata such as options or ``**kwargs``. """
 
 
 class Meta(Store, dict):
@@ -274,8 +274,8 @@ class Meta(Store, dict):
         return cls.create(dst, **src)
 
 
-Matrix = Pd.DataFrame | Np.Matrix | Tc.Matrix
-"""Types which a DataBase Table accepts, aliases ``Pd.DataFrame | Np.Matrix | Tc.Matrix``."""
+Matrix: TypeAlias = Pd.DataFrame | Np.Matrix | Tc.Matrix
+""" = ``Pd.DataFrame | Np.Matrix | Tc.Matrix``. Types which a DataBase Table accepts."""
 
 
 class Table(Store):
@@ -286,33 +286,22 @@ class Table(Store):
 
         class MyTable(Table):
 
-        class Options(NamedTuple):
+            readOptions: MetaData = {'encoding': 'utf-8-sig', 'index_col': 0, 'header': 0}
+            \"\"\" File read options passed directly to
+            `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__.\"\"\"
 
-            read: MetaData =  {'index_col': 0}  #: Read options passed to ``pd.read_csv``.
-            write: MetaData =  {}   #: Write options passed to ``pd.DataFrame.to_csv``.
-
-            @classmethod
-            def default(cls) -> MetaData:
-                \"\"\" Returns the default Options as ``cls.read | cls.write``.\"\"\"
-                return cls._field_defaults['read'] | cls._field_defaults['write']
+            writeOptions: MetaData = {'encoding': 'utf-8-sig',}
+            \"\"\" File write options passed directly to
+            `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`__.\"\"\"
     """
-    class Options(NamedTuple):
-
-        read: MetaData =  {'index_col': 0}  #: Read options passed to ``pd.read_csv``.
-        write: MetaData =  {}   #: Write options passed to ``pd.DataFrame.to_csv``.
-
-        @classmethod
-        def defaults(cls) -> MetaData:
-            """ Returns the default Options as ``cls.read | cls.write``."""
-            return cls._field_defaults['read'] | cls._field_defaults['write']
-
 
     ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects.
 
-    writeOptions: list[str] = ['sep', 'na_rep', 'float_format']
-    """ Class attribute listing kwargs which will be interpreted as write options. 
-    All other kwargs are interpreted as read options. 
-    To specify a separator, use ``delimiter`` as read option and ``sep`` as write option. """
+    readOptions: MetaData = {'encoding': 'utf-8-sig', 'index_col': 0, 'header': 0}
+    """ File read options passed directly to `pd.read_csv <https: //pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
+
+    writeOptions: MetaData = {'encoding': 'utf-8-sig'}
+    """ File write options passed directly to `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`__."""
 
     class EqualityP(EqualityP):
         """ ``self == other`` compares ``self.pd``,``self.np`` or ``self.tc`` matching the the type of ``other``. """
@@ -332,24 +321,8 @@ class Table(Store):
     class CopyP(CopyP):
         pass
 
-    class StrRepr(StrRepr):
+    class StrReprP(StrReprP):
         pass
-
-    @property
-    def options(self) -> MetaData:
-        """ A ``dict of options for file operations involving ``self``.
-        Any option not in ``Table.writeOptions`` is stored in ``self.options.read`` and passed to ``pd.read_csv``.
-        Any option in ``Table.writeOptions`` is stored in ``self.options.write``
-        and passed to ``pd.DataFrame.to_csv``.
-        The setter updates via logical or ``|=``, so existing values are retained unless explicitly updated.
-        """
-        return self._options.read | self._options.write
-
-    @options.setter
-    def options(self, updates: MetaData):
-        write = {key: updates.pop(key) for key in self.writeOptions if key in updates}
-        self._options = self._options._replace(read =self._options.read | updates | {'encoding': 'utf-8-sig'},
-                                               write =self._options.write | write | {'encoding': 'utf-8-sig'})
 
     @property
     def pd(self) -> Pd.DataFrame:
@@ -408,12 +381,11 @@ class Table(Store):
             case _:
                 return NotImplemented
 
-    def __call__(self, update: Self | Matrix | None = None, **options: Any) -> Self:
+    def __call__(self, update: Self | Matrix | None = None) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
             update: The data updates.
-            **options: Updates ``self.options``, before storing ``self``.
 
         Returns: ``self``.
         """
@@ -425,53 +397,44 @@ class Table(Store):
             self._pd.iloc[:, :] = update
         elif isinstance(update, Tc.Matrix):
             self._pd.iloc[:, :] = update.numpy()
-        self.options = options
-        self._pd.to_csv(self._path, **self._options.write)
+        self._pd.to_csv(self._path, **self.writeOptions)
         return self
 
-    def __init__(self, path: Store.Path, data: Self | Pd.DataFrame | None = None, **options: Any):
+    def __init__(self, path: Store.Path, table: Self | Pd.DataFrame | None = None):
         """ Construct ``self`` from a ``.csv`` file or ``Pd.DataFrame``.
 
         Args:
             path: The ``Path`` (file) to store ``self``. A ``.csv`` extension is automatically appended.
-            data: The data to store. If ``None``, ``data`` is read from ``path``,
-                otherwise ``data`` is stored in ``path`` (which is overwritten if existing).
-            **options: Updates ``self.options``.
+            table: The ``Table | Pd.DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
+                otherwise ``self`` is stored in ``path`` (which is overwritten if existing).
         """
         super().__init__(path)
-        self._options = self.Options()
-        self.options = options
-        if data is None:
-            self(pd.read_csv(self._path, **self._options.read))
+        if table is None:
+            self(pd.read_csv(self._path, **self.readOptions))
         else:
-            self(data)
+            self(table)
+        if self._pd.columns.nlevels > 1:
+            for n in range(self._pd.columns.nlevels):
+                self._pd.columns = self._pd.columns.set_levels(self._pd.columns.levels[n].astype(str), level=n)  # Ensure column names are strings
+        else:
+            self._pd.columns = self._pd.columns.astype(str)
 
     @classmethod
-    def create(cls, path: Store.Path, data: Self | Matrix,
-               index: Pd.Index | Np.Array = None, columns: Pd.Index | Np.Array = None,
-               dtype: Np.DType | None = None, copy: bool | None = None, **metadata) -> Self:
+    def create(cls, path: Store.Path, data: Self | Matrix, **kwargs: Any) -> Self:
         """ Create a ``Table`` at ``path``, overwriting.
 
         Args:
             path: The ``Path`` to store this Table, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
-            data: The data to store. If ``None``, a ``Pd.DataFrame`` is read from ``.csv``.
-                See `pd.DataFrame`_.
-            index: See `pd.DataFrame`_.
-            columns: See `pd.DataFrame`_.
-            dtype: See `pd.DataFrame`_.
-            copy: See `pd.DataFrame`_.
-            **metadata: MetaData passed to `pd.read_csv`_ or `pd.DataFrame.to_csv`_.
+            data: The table to store.
+            **kwargs: KeywordArguments passed directly to `pd.DataFrame(...)`_.
 
         Returns: The ``Table`` created.
 
-        .. _pd.DataFrame: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
-        .. _pd.read_csv: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html
-        .. _pd.DataFrame.to_csv: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
+        .. _pd.DataFrame(...): https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
         """
-        data = pd.DataFrame(data.pd if isinstance(data, Table) else data, index, columns, dtype, copy)
-        data.columns = data.columns.astype(str)  # Ensure column names are strings
-        return cls(cls.mkdir(path), data, **metadata)
+        data = pd.DataFrame(data.pd if isinstance(data, Table) else data, **kwargs)
+        return cls(cls.mkdir(path), data)
 
     @classmethod
     def copy(cls, src: Self, dst: Store.Path) -> Self:
@@ -482,22 +445,32 @@ class Table(Store):
             dst: The destination ``Path``, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
 
-        Returns: The ``Table`` now stored at ``dst.csv``.
+        Returns: The ``Table`` now stored at ``dst``.
         """
-        return cls.create(dst, src.pd, **src.options)
+        return cls.create(dst, src.pd)
+
+
+class StateTable(Table):
+    """ A standard Table with one header row."""
+
+
+class VariableTable(Table):
+    """ A standard Table with two header rows, column kinds grouping column names."""
+
+    readOptions = Table.readOptions | {'header': [0,1]}
+    """ File read options passed directly to `pd.read_csv <https: //pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
 
 
 class DataBase(Store):
     """ ``NamedTables(NamedTuple)`` in a folder alongside ``Meta``. Abstract base class for any model.
 
-    ``DataBase`` subcl
-    asses must be implemented according to the template (copy and paste it)::
+    ``DataBase`` SubClasses must be implemented according to the template (copy and paste it)::
 
         class MyDataBase(DataBase):
 
             class NamedTables(NamedTuple):
 
-                names[i]: Table | Matrix | MetaData = defaults[names[i]].pd   #: Must be ``pd.DataFrame``.
+                names[i]: Table | Matrix | type[Table] = defaults[names[i]].pd   #: Must be ``pd.DataFrame``.
                 ...
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
@@ -505,30 +478,30 @@ class DataBase(Store):
                     return getattr(self, name)
 
 
-            options: NamedTables[MetaData] = NamedTables(**{name: table.options for name, table in {}.items()})
-            \"\"\" Class attribute of the form ``NamedTables(**{names[i]: options[i], ...})``.
-            Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,
-            the remainder populate ``self[i].options.read``. Must be overridden.\"\"\"
+            Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})
+            \"\"\" Class attribute of the form ``NamedTables(**{names[i]: Tables[i], ...})``,
+            where ``Tables[i]`` is a SubClass of ``Table``. Must be overridden.\"\"\"
 
-            defaultMetaData: MetaData = {'Tables': options._asdict()}
+            defaultMetaData: MetaData = {'Tables': Tables._asdict()}
+            \"\"\" Class attribute. Should be overridden.\"\"\"
     """
 
     class NamedTables(NamedTuple):
         """ Must be overridden. """
-        NotImplemented: Table | Matrix | MetaData = pd.DataFrame(((f'Default must be a pd.DataFrame',),))
+        NotImplemented: Table | Matrix | type[Table] = pd.DataFrame(((f'Default must be a pd.DataFrame',),))
 
         def __call__(self, name: str) -> Table | Matrix | MetaData:
             """ Returns the Table named ``name``."""
             return getattr(self, name)
 
 
-    options: NamedTables[MetaData] = NamedTables(**{name: table.options for name, table in {}.items()})
-    """ Class attribute of the form ``NamedTables(**{names[i]: options[i], ...})``. 
-    Elements of ``options[i]`` found in ``Table.writeOptions`` populate ``self[i].options.write``,
-    the remainder populate ``self[i].options.read``. Must be overridden."""
+    Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})
+    """ Class attribute of the form ``NamedTables(**{names[i]: Type[i], ...})``, 
+    where ``Type[i]`` is a subclass of ``Table``. Must be overridden."""
 
-    #: Class attribute. Should be overridden.
-    defaultMetaData: MetaData = {'Tables': options._asdict()}
+    defaultMetaData: MetaData = {'Tables': {name: TableType.__name__
+                                            for name, TableType in Tables._asdict().items()}}
+    """ Class attribute. Should be overridden."""
 
     class IndexP(IndexP):
         """ ``self[names]`` accesses ``NamedTables`` by ``str | int | Iterable | slice``. """
@@ -548,7 +521,7 @@ class DataBase(Store):
     class CopyP(CopyP):
         pass
 
-    class StrRepr(StrRepr):
+    class StrReprP(StrReprP):
         pass
 
     @property
@@ -572,8 +545,8 @@ class DataBase(Store):
         """ Counts the ``Table`` s in ``self``. """
         return len(self._namedTables)
 
-    def __getitem__(self, names: str | int | Iterable[str | int]) -> Table | tuple[Table, ...]:
-        """ Indexer returns the ``Table`` (s) named or sliced by ``name``. """
+    def __getitem__(self, names: str | int | Iterable[str | int] | slice) -> Table | tuple[Table, ...]:
+        """ Indexer returns the ``Table`` (s) named or sliced by ``names``. """
         if isinstance(names, str):
             return self._namedTables(names)
         elif isinstance(names, Iterable):
@@ -581,8 +554,8 @@ class DataBase(Store):
         else:
             return self._namedTables[names]     # int or slice
 
-    def __setitem__(self, names: str | int | Iterable[str | int], tables: Table | Matrix | tuple[Table | Matrix, ...]):
-        """ Indexer sets the ``Table`` (s) named or sliced by ``name``."""
+    def __setitem__(self, names: str | int | Iterable[str | int] | slice, tables: Table | Matrix | tuple[Table | Matrix, ...]):
+        """ Indexer sets the ``Table`` (s) named or sliced by ``names``."""
         if isinstance(names, str):
             tables = {names: tables}
         elif isinstance(names, int):
@@ -608,7 +581,7 @@ class DataBase(Store):
         Returns: ``self``.
         """
         for name, table in tables.items():
-            self._namedTables(name)(table, **self.options(name))
+            self._namedTables(name)(table)
         return self
 
     def __init__(self, path: Store.Path, **tables: Table | Pd.DataFrame):
@@ -628,10 +601,10 @@ class DataBase(Store):
         try:
             self._meta = Meta(self._meta_in(path))
             self._namedTables = self.NamedTables(**{name:
-                                               Table.create(path / name, tables[name], **self.options(name))
-                                               if name in tables and tables[name] is not None
-                                               else Table(path / name, **self.options(name))
-                                                    for name in self.names()})
+                                                        TableType.create(path / name, tables[name])
+                                                        if name in tables and tables[name] is not None
+                                                        else TableType(path / name)
+                                                    for name, TableType in self.Tables._asdict().items()})
         except FileNotFoundError as error:
             print(f'DataBase "{self}" is trying to read a non-existent Table. Did your script mean to call '
                   f'{type(self).__qualname__}.create("{str(self)}") '

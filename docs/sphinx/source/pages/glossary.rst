@@ -11,6 +11,7 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
 
     Protocol
         Documentation in code, detailing the interface a Class supports via undocumented :term:`dunder methods`.
+        They are named in UpperCamelCaseP, which is UpperCamelCase with a big P at the end which stands for Protocol and avoids tedious naming conflicts.
 
     dunder methods
         Special methods (also known as magic methods) whose names are surrounded by double underscores (dunders).
@@ -52,5 +53,8 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
 
     Categorical Input
     Discrete Input
-        An input variable whose value is one of a finite set of discrete values (usually ``int```, ``str`` or ``bool``).
+        An input variable whose value is one of a finite set of discrete values of Type ``int | str | bool``,
+        which will be interpreted as ``str`` for generality
 
+    model
+        An imprecise term for a Class which furnishes core functionality.

@@ -37,6 +37,7 @@ from copy import copy, deepcopy
 import unittest as ut
 from inspect import stack
 
+import csv
 import numpy as np
 import pandas as pd
 import torch as tc
@@ -76,7 +77,7 @@ class DeleteP(Protocol):
 class CopyP(Protocol):
     """``cls.copy(src, dst)`` is selective, copying only relevant items in ``src`` while preserving irrelevant items in ``dst``."""
 
-class StrRepr(Protocol):
+class StrReprP(Protocol):
     """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
 
 

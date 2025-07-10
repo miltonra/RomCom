@@ -17,24 +17,26 @@
 
 """ RomCom's documentation utilities. """
 
-import os, argparse, time
-import os
+import os, argparse, time, re
 import sys
 sys.path.insert(0, os.path.abspath('../../'))
 
 from rc.base import *
 
 
-# apiReplacements = {'rc.base.definitions.': '', 'rc.base.models.': '',
-#                    'rc.data.functions.': '', 'rc.data.models.': '', 'rc.data.samples.': '',
-#                    'rc.base.': '', 'rc.data.': '',}
-
-apiReplacements = {'base.': '', 'data.': '',
-                   'definitions.': '', 'models.': '',
-                   'functions.': '', 'samples.': '',
+apiReplacements = {'rc\.base\.definitions\.': '', 'rc\.base\.models\.': '',
+                   'rc\.base\.': '',
+                   'rc\.data\.benchmarks\.': '', 'rc\.data\.formats\.': '',
+                   'rc\.data\.models\.': '', 'rc\.data\.samples\.': '',
+                   'rc\.data\.': '',
                    }
 
-pagesReplacements = {'rc.': ''}
+# apiReplacements = {'rc\.base\.': '', 'rc\.data\.': '',
+#                    '\.definitions': '', '\.models': '',
+#                    '\.functions': '', '\.samples': '',
+#                    }
+
+pagesReplacements = {'([^a-zA-Z])rc\.': '\\1'}
 
 _here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/
 docs = _here.parent
@@ -74,7 +76,7 @@ def _tidyfile(filename: Path, replacements: Dict[str, Any]):
     with open(filename, "r+") as f:
         content = f.read()
         for old, new in replacements.items():
-            content = content.replace(old, new)
+            content = re.sub(old, new, content)
         f.seek(0)
         f.write(content)
         f.truncate()
@@ -122,8 +124,8 @@ if __name__ == "__main__":
             print(f'{parser.parse_args().cmd} took {time.time() - start_time : .1f}s')
         case 'tidy':
             print(docs)
-            _tidy(docs / 'pages', pagesReplacements)
             _tidy(docs / 'pages' / 'api', apiReplacements)
+            _tidy(docs / 'pages', pagesReplacements)
             print(f'{parser.parse_args().cmd} took {time.time() - start_time : .1f}s')
         case _:
             parser.parse_args(['--help'])

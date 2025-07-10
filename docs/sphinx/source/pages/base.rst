@@ -15,11 +15,14 @@ The package consists of two modules.
 
 ``base.definitions``
 ^^^^^^^^^^^^^^^^^^^^^
-Provides nothing but basic Protocols, constants and Type annotations.
+Provides nothing but basic :ref:`Protocols`, constants and Type annotations.
+The constants and Type annotations are simple and dull, but ubiquitous.
+The Protocols are BaseClasses for documenting interfaces of RomCom Classes.
 
 ``base.models``
 ^^^^^^^^^^^^^^^^^^^^
 Provides BaseClasses for RomCom software objects. These classes provide software objects which are *always* perfectly synchronized with the filesystem.
+These Classes and their :ref:`Protocols` are the topic of the remainder of this page.
 
 Classes
 ---------------------
@@ -52,7 +55,11 @@ Table
 
 A concrete *Store*, consisting of a :term:`pd.DataFrame` stored in a ``.csv`` file.
 The Matrix held in any Table ``object`` is accessed in the desired :ref:`ecosystem <ecosystem>` format as the property ``object.pd``, ``object.np``, or ``object.tc``.
-Although Table is concrete, the classAttribute (i.e. constant) ``Table.options`` governs ``.csv`` file options, which are frequently tailored by subclassing.
+The classAttributes (i.e. constants) ``Table.readOptions``  and ``Table.writeOptions`` govern ``.csv`` file options.
+These options are often tailored by SubClassing.
+If you ever need bespoke ``.csv`` options, you must SubClass ``Table`` and override ``Table.readOptions``
+and/or ``Table.writeOptions``, which is not onerous.
+Furthermore, RomCom is replete with SubClasses of ``Table`` fulfilling specific needs.
 For example, ``DesignMatrix`` is a concrete subclass of Table designed to hold training data.
 
 *DataBase*
@@ -68,9 +75,13 @@ which indexes ``MyDataBase.defaults()`` by ``MyDataBase.names()``.
 For example, ``MyDataBase`` may define ``MyDataBase.NamedTables(NamedTuple)`` as::
 
     NamedTables(NamedTuple)
-        zero: Table | Matrix | MetaData = pd.DataFrame([0])
-        one: Table | Matrix | MetaData = pd.DataFrame([1])
+        zero: Table | Matrix | type[Table] = pd.DataFrame([0])
+        one: Table | Matrix | type[Table] = pd.DataFrame([1])
 
+    Tables: NamedTables[type[Table], ...] = NamedTables(zero=Table, one=Table)
+
+The last line is required to tell the DataBase SubClass what Table Types to expect.
+In this way, ``Tables`` encapsulates file options and, possibly other functionality.
 Accurately reflecting its content in memory, an ``object`` of type ``MyDataBase`` instantiated with ``path`` would appear on the filesystem as
 
 .. image:: resources/DataBase.1.png
@@ -87,25 +98,25 @@ The `Lifecycle of Software Objects <https://en.wikipedia.org/wiki/The_Lifecycle_
 follows the conventional :term:`CRUD` biography, told on the user's filesystem.
 The :doc:`api/rc/base/index` Classes take all responsibility for implementing CRUD in RomCom.
 
-Create Protocol
+CreateP
 ^^^^^^^^^^^^^^^^^
 Every derived ``Class(Store)`` possesses a ``Class.create(path)`` classMethod
 returning an ``object`` of type ``Class`` created in ``path`` selectively (without affecting other files in ``path``).
 So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parents.
 Because *Store* considers itself a parent to all files and folders, ``Store.create(path)`` deletes everything in its ``path`` before creating it.
 
-Read Protocol
+ReadP
 ^^^^^^^^^^^^^^^^^
 Every ``object`` of derived ``Class(Store)`` is read from ``path`` by its constructor ``object = Class(path)``
 defined in ``Class.__init__(path)``.
 
-Update Protocol
+UpdateP
 ^^^^^^^^^^^^^^^^^
 Every ``object`` of derived ``Class(Store)`` is updated in place and written in ``object.path`` by the
 function ``object(**kwargs)`` defined in ``__call__(self, **kwargs)``.
 SubClasses frequently override ``__call__(self,**kwargs)`` to perform some calibration or optimization before writing.
 
-Delete Protocol
+DeleteP
 ^^^^^^^^^^^^^^^^^
 Every class derived from *Store* has a ``delete(path)`` classMethod
 which deletes a *Store* in ``path`` selectively  (leaving all other files intact).
@@ -113,10 +124,10 @@ So any *DataBase* may safely reside alongside other files (or folders) in ``path
 Because *Store* considers itself a parent to all files and folders, ``Store.delete(path)`` deletes everything in its ``path``.
 
 
-Indexing Protocol
+IndexP Protocol
 ----------------------
 
-Items are retrieved from, and replaced in, *Store* objects using the Indexing Protocol.
+Items are retrieved from, and replaced in, *Store* objects using the IndexP Protocol.
 The Indexing Protocol enables expressions such as::
 
     values = object[names]  # Retrieves item(s) from object
@@ -125,24 +136,26 @@ The Indexing Protocol enables expressions such as::
     for name in object:
         if name in object: print('is always True')
 
-where ``names`` is of Type ``str | int | Iterable[str | int]``, which includes Python ``slice`` objects.
-When ``names`` is Iterable, ``values`` must be a ``tuple`` of corresponding ``len``.
+where ``names`` is of Type ``str | int | Iterable[str | int] | slice``.
+When ``names`` is Iterable, ``values`` must be a ``tuple[Table | Matrix, ...]`` of corresponding ``len``.
+IndexP is identical to Python's concept of a `sequence <https://docs.python.org/3/glossary.html#term-sequence>`__.
 
 Meta
 ^^^^^^
-Inherits its Indexing Protocol (and the rest) directly from Python ``dict``, but writes updates to disk immediately.
-Therefore Meta may only be accessed one item at a time using ``names: str = key``.
+Inherits IndexP (and the rest) directly from Python ``dict``, but writes updates to disk immediately.
+Like ``dict``, Meta may only be accessed one item at a time using ``names: str = key``.
 
 *DataBase*
 ^^^^^^^^^^^^
-Implements its Indexing Protocol to access the Table(s) identifiable by ``names``.
-``values`` must be a (``tuple`` of) ``Table`` or ``Matrix`` objects (or ``MetaData`` storing ``Table.options``).
+Implements IndexP to access the Table(s) identifiable by ``names``, which may be a ``str`` or ``int``, or an ``Iterable[str | int]``, or a ``slice``.
+When ``names`` is an ``Iterable[str | int]``, the corresponding Tables are returned as a ``tuple`` of Tables.
+``values`` must be a (``tuple`` of) ``Table`` or ``Matrix`` objects.
 
 
-Equality Protocol
+EqualityP
 ----------------------
 
-The Equality Protocol means that the expression::
+The EqualityP Protocol means that the expression::
 
     objectA == objectB
 

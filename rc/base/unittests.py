@@ -21,7 +21,7 @@ from unittest import SkipTest
 
 from rc.base.models import *
 
-@ut.skip('Package passes.')
+# @ut.skip('Package passes.')
 class TestCase(ut.TestCase):
 
     def test_Meta(self):
@@ -69,18 +69,23 @@ class TestCase(ut.TestCase):
         self.assertEqual(created, read)
 
     def test_DataBase(self):
+
         class MyDataBase(DataBase):
+
             class NamedTables(NamedTuple):
                 zero: Table | Matrix | MetaData = pd.DataFrame(np.atleast_2d(0.0))
                 one: Table | Matrix | MetaData = pd.DataFrame(np.ones((1, 1)))
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
+                    """ Returns the Table named ``name``."""
                     return getattr(self, name)
 
-            options: NamedTables = NamedTables(zero=Table.Options.defaults(),
-                                                         one=Table.Options.defaults())
+            Tables: NamedTables[type[Table]] = NamedTables(**{name: Table for name in NamedTables._fields})
+            """ Class attribute of the form ``NamedTables(**{names[i]: Table[i], ...})``,
+            where ``Table[i]`` is a Type which SubClasses ``Table``. Must be overridden."""
 
-            defaultMetaData: MetaData = {'options': options._asdict()}
+            defaultMetaData: MetaData = {'Tables': {name: TableType.__name__
+                                                    for name, TableType in Tables._asdict().items()}}
 
         empty = MyDataBase.create(Test.folder() / 'default')
         created = MyDataBase.create(Test.folder() / 'created', zero = np.zeros((1, 1)), one = np.ones((1, 1)))

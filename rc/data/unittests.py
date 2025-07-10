@@ -22,15 +22,27 @@ from rc.data.models import *
 class TestCase(ut.TestCase):
 
     def setUp(self):
-        self.src = DesignMatrix(Test.folder() / 'src')
-        self.srcmo = DesignMatrix(Test.folder() / 'srcmo')
+        self.src = DesignMatrix.copy(DesignMatrix(Test.folder() / 'src'), Test.folder() / 'src')
+        self.srcmo = DesignMatrix.copy(DesignMatrix(Test.folder() / 'srcmo'), Test.folder() / 'srcmo')
+        self.srcco = DesignMatrix.copy(DesignMatrix(Test.folder() / 'srcco'), Test.folder() / 'srcco')
         print(self.src.pd)
 
-    def test_DesignMatrix00(self):
-        designMatrix00 = DesignMatrix00.create(Test.folder() / 'src', self.src)
-        print(designMatrix00.pd)
-        designMatrix00 = DesignMatrix00.create(Test.folder() / 'srcmo', self.srcmo)
-        print(designMatrix00.pd)
+    def test_StateMatrix(self):
+        stateMatrix = StateMatrix.create(Test.folder() / 'src', self.src)
+        stateMatrix = StateMatrix.create(Test.folder() / 'srcmo', self.srcmo)
+        stateMatrix = StateMatrix.create(Test.folder() / 'srcco', self.srcco)
+
+    def test_DesignMatrix(self):
+        src = StateMatrix(Test.folder().parent / 'StateMatrix' / 'src')
+        designMatrix = DesignMatrix.create(Test.folder() / 'src', src)
+        self.assertEqual(designMatrix, self.src)
+        srcmo = StateMatrix(Test.folder().parent / 'StateMatrix' / 'srcmo')
+        designMatrix = DesignMatrix.create(Test.folder() / 'srcmo', srcmo)
+        self.assertEqual(designMatrix, self.srcmo)
+        srcco = StateMatrix(Test.folder().parent / 'StateMatrix' / 'srcco')
+        designMatrix = DesignMatrix.create(Test.folder() / 'srcco', srcco)
+        self.assertEqual(designMatrix, self.srcco)
+
 
 if __name__ == '__main__':
     ut.main()

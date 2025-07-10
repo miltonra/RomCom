@@ -52,14 +52,16 @@ Bespoke constants should be implemented by SubClassing, leaving the RomCom paren
 An UpperCamelCase constant (e.g. ModuleAttribute or ClassAttribute) refers to a Class.
 A lowerCamelCase constant (e.g. moduleAttribute or classAttribute) does not.
 
+.. _Protocols:
 
 Protocols
 ^^^^^^^^^^^
-    In the context of object-oriented programming, a protocol is an informal interface, defined only in documentation and not in code. [Fluent Python pp.402]
+    In the context of object-oriented programming, a protocol is an informal interface, defined only in documentation and not in code. [The Lizard Book pp.402]
 
 A Protocol documents an interface a Class supports via undocumented :term:`dunder methods`.
 Protocols are pure documentation in code, and are essentially meaningless outside a Class definition.
-Protocols are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python BaseExceptions, in fact), and are named in UpperCamelCase.
+Protocols are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python BaseExceptions, in fact),
+They are named in UpperCamelCaseP, which is UpperCamelCase with a big P at the end which stands for Protocol and avoids tedious naming conflicts.
 
 .. _ecosystem:
 
