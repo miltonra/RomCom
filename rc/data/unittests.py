@@ -22,26 +22,27 @@ from rc.data.models import *
 class TestCase(ut.TestCase):
 
     def setUp(self):
-        self.src = DesignMatrix.copy(DesignMatrix(Test.folder() / 'src'), Test.folder() / 'src')
-        self.srcmo = DesignMatrix.copy(DesignMatrix(Test.folder() / 'srcmo'), Test.folder() / 'srcmo')
-        self.srcco = DesignMatrix.copy(DesignMatrix(Test.folder() / 'srcco'), Test.folder() / 'srcco')
+        self.src = CoordDesign.copy(CoordDesign(Test.folder() / 'src'), Test.folder() / 'src')
+        self.srcmo = CoordDesign.copy(CoordDesign(Test.folder() / 'srcmo'), Test.folder() / 'srcmo')
+        self.srcco = CoordDesign.copy(CoordDesign(Test.folder() / 'srcco'), Test.folder() / 'srcco')
         print(self.src.pd)
 
-    def test_StateMatrix(self):
-        stateMatrix = StateMatrix.create(Test.folder() / 'src', self.src)
-        stateMatrix = StateMatrix.create(Test.folder() / 'srcmo', self.srcmo)
-        stateMatrix = StateMatrix.create(Test.folder() / 'srcco', self.srcco)
+    def test_PointDesign(self):
+        pointDesign = PointDesign.create(Test.folder() / 'src', self.src)
+        pointDesign = PointDesign.create(Test.folder() / 'srcmo', self.srcmo)
+        pointDesign = PointDesign.create(Test.folder() / 'srcco', self.srcco)
 
-    def test_DesignMatrix(self):
-        src = StateMatrix(Test.folder().parent / 'StateMatrix' / 'src')
-        designMatrix = DesignMatrix.create(Test.folder() / 'src', src)
-        self.assertEqual(designMatrix, self.src)
-        srcmo = StateMatrix(Test.folder().parent / 'StateMatrix' / 'srcmo')
-        designMatrix = DesignMatrix.create(Test.folder() / 'srcmo', srcmo)
-        self.assertEqual(designMatrix, self.srcmo)
-        srcco = StateMatrix(Test.folder().parent / 'StateMatrix' / 'srcco')
-        designMatrix = DesignMatrix.create(Test.folder() / 'srcco', srcco)
-        self.assertEqual(designMatrix, self.srcco)
+    # @ut.skip('CoordDesign is not valid')
+    def test_CoordDesign(self):
+        src = PointDesign(Test.folder().parent / 'PointDesign' / 'src')
+        coordDesign = CoordDesign.create(Test.folder() / 'src', src)
+        self.assertEqual(coordDesign, self.src)
+        srcmo = PointDesign(Test.folder().parent / 'PointDesign' / 'srcmo')
+        coordDesign = CoordDesign.create(Test.folder() / 'srcmo', srcmo)
+        self.assertEqual(coordDesign, self.srcmo)
+        srcco = PointDesign(Test.folder().parent / 'PointDesign' / 'srcco')
+        coordDesign = CoordDesign.create(Test.folder() / 'srcco', srcco)
+        self.assertEqual(coordDesign, self.srcco)
 
 
 if __name__ == '__main__':

@@ -286,11 +286,11 @@ class Table(Store):
 
         class MyTable(Table):
 
-            readOptions: MetaData = {'encoding': 'utf-8-sig', 'index_col': 0, 'header': 0}
+            readOptions: MetaData = Table.readOptions | {'myOption': 'myValue'}
             \"\"\" File read options passed directly to
             `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__.\"\"\"
 
-            writeOptions: MetaData = {'encoding': 'utf-8-sig',}
+            writeOptions: MetaData = Table.writeOptions | {'myOption': 'myValue'}
             \"\"\" File write options passed directly to
             `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`__.\"\"\"
     """
@@ -450,17 +450,6 @@ class Table(Store):
         return cls.create(dst, src.pd)
 
 
-class StateTable(Table):
-    """ A standard Table with one header row."""
-
-
-class VariableTable(Table):
-    """ A standard Table with two header rows, column kinds grouping column names."""
-
-    readOptions = Table.readOptions | {'header': [0,1]}
-    """ File read options passed directly to `pd.read_csv <https: //pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
-
-
 class DataBase(Store):
     """ ``NamedTables(NamedTuple)`` in a folder alongside ``Meta``. Abstract base class for any model.
 
@@ -470,19 +459,19 @@ class DataBase(Store):
 
             class NamedTables(NamedTuple):
 
-                names[i]: Table | Matrix | type[Table] = defaults[names[i]].pd   #: Must be ``pd.DataFrame``.
+                names[i]: Table | Matrix = defaults[names[i]].pd   #: Must be ``pd.DataFrame``.
                 ...
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
-
             Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})
             \"\"\" Class attribute of the form ``NamedTables(**{names[i]: Tables[i], ...})``,
             where ``Tables[i]`` is a SubClass of ``Table``. Must be overridden.\"\"\"
 
-            defaultMetaData: MetaData = {'Tables': Tables._asdict()}
+            defaultMetaData: MetaData = {'Tables': {name: TableType.__name__
+                                                          for name, TableType in Tables._asdict().items()}}
             \"\"\" Class attribute. Should be overridden.\"\"\"
     """
 
@@ -500,7 +489,7 @@ class DataBase(Store):
     where ``Type[i]`` is a subclass of ``Table``. Must be overridden."""
 
     defaultMetaData: MetaData = {'Tables': {name: TableType.__name__
-                                            for name, TableType in Tables._asdict().items()}}
+                                             for name, TableType in Tables._asdict().items()}}
     """ Class attribute. Should be overridden."""
 
     class IndexP(IndexP):
