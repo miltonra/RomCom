@@ -84,8 +84,8 @@ class TestCase(ut.TestCase):
             """ Class attribute of the form ``NamedTables(**{names[i]: Table[i], ...})``,
             where ``Table[i]`` is a Type which SubClasses ``Table``. Must be overridden."""
 
-            defaultMetaData: MetaData = {'Tables': {name: TableType.__name__
-                                                    for name, TableType in Tables._asdict().items()}}
+            defaultMeta: MetaData = {'Tables': {name: TableType.__name__
+                                                for name, TableType in Tables._asdict().items()}}
 
         empty = MyDataBase.create(Test.folder() / 'default')
         created = MyDataBase.create(Test.folder() / 'created', zero = np.zeros((1, 1)), one = np.ones((1, 1)))
@@ -115,7 +115,7 @@ class TestCase(ut.TestCase):
         created[:] = copied[:]
         self.assertEqual(created, copied)
         self.assertNotEqual(created, read)
-        created(**read.namedTables._asdict())
+        created(**read.tables._asdict())
         self.assertEqual(created, read)
         created[:] = copied['zero'], copied['one']
         self.assertEqual(created, copied)

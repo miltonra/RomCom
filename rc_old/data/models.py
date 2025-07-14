@@ -125,7 +125,7 @@ class Normalization(DataBase):
 
     options: NamedTables[MetaData] = NamedTables(data = DesignMatrix.defaultOptions)
 
-    defaultMetaData: MetaData = {'category delimiter' : '│'}
+    defaultMeta: MetaData = {'category delimiter' : '│'}
 
     def __call__(self, **meta: Any) -> Self:
         """ Optimize and update ``self``.
@@ -170,7 +170,7 @@ class Repo(DataBase):
 
     options: NamedTables[MetaData] = NamedTables(data = Table.Options.defaults())
 
-    defaultMetaData: MetaData = {'K': 0}
+    defaultMeta: MetaData = {'K': 0}
 
     @property
     def fold(self):

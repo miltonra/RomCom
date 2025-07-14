@@ -21,12 +21,7 @@ from __future__ import annotations
 
 from rc.base import *
 
-from copy import deepcopy
-import itertools
-import random
-import shutil
-import scipy.stats
-from enum import IntEnum
+from itertools import product
 
 
 
@@ -50,22 +45,30 @@ y: tuple[slice, slice] = (slice(None, None), slice(lcol + 1, None))
 
 
 class DesignMatrix(Table):
+    """ A DesignMatrix of user data, tabulating continuous inputs, categorical inputs, and outputs."""
 
     class CreateP(CreateP):
         """ Creates a new instance of ``cls`` at ``path`` from ``designMatrix: PointDesign | CoordDesign``. """
 
-    axisSeparator: str = '│'
-    """ The separator used to delimit axes in a column of categorical Points. """
+    coordSeparator: str = '│'
+    """ The separator used to delimit coords in a column of categorical points. """
 
     @classmethod
     def axisType(cls, axis: str) -> str:
-        
+        """ The axisType of the given ``axis``.
+
+        Args:
+            axis: A ``str`` axisType, such as ``'x', 'i', 'y', 'continuous', 'discrete', 'output', etc.
+
+        Returns: ``axisType in 'x', 'i', 'y', '?'``. ``'?'`` is returned if ``axis`` is not recognized.
+
+        """
         match axis.lower():
-            case 'x' | 'input' | 'continuous' | 'float' :
+            case 'x' | 'input' | 'in' | 'continuous' | 'float' :
                 return 'x'
-            case 'i' | 'category' | 'discrete' | 'int' :
+            case 'i' | 'category' | 'cat' | 'discrete' | 'int' | 'str' :
                 return 'i'
-            case 'y' | 'output' | 'map' | 'func' :
+            case 'y' | 'output' | 'out'| 'map' | 'func' :
                 return 'y'
         return '?'
 
@@ -96,16 +99,44 @@ class DesignMatrix(Table):
         return cls.create(dst, src)
 
 
-class CoordPDF(Table):
-    """ The Probability Density Functions of categorical coordinates in a CoordDesign."""
+class PDF(Table):
+    """ The Probability Density Function(s) of categorical coords or points."""
 
-    readOptions: MetaData = Table.readOptions | {'index': [0, 1]}
-    """ File read options passed directly to
-    `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
+    class CreateP(CreateP):
+        """ Creates a new instance of ``cls`` at ``path`` from ``designMatrix: PointDesign | CoordDesign``. """
 
-    writeOptions: MetaData = Table.writeOptions | {'myOption': 'myValue'}
-    """ File write options passed directly to
-    `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`__."""
+    @classmethod
+    @abstractmethod
+    def create(cls, path: Store.Path, designMatrix: DesignMatrix) -> Self:
+        """ Create a ``PDF`` at ``path``.
+
+        Args:
+            path: The ``Path`` to store this Table, overwritten if existing.
+                A ``.csv`` extension is automatically appended.
+            designMatrix: The ``CoordDesign | PointDesign`` to work from.
+
+        Returns: The ``PDF`` created.
+        """
+
+
+class Stats(Table):
+    """ The statistics of continuous coordinates by output coord or categorical point."""
+
+    class CreateP(CreateP):
+        """ Creates a new instance of ``cls`` at ``path`` from ``designMatrix: PointDesign | CoordDesign``. """
+
+    @classmethod
+    @abstractmethod
+    def create(cls, path: Store.Path, designMatrix: DesignMatrix) -> Self:
+        """ Create a ``Stats`` table at ``path``.
+
+        Args:
+            path: The ``Path`` to store this Table, overwritten if existing.
+                A ``.csv`` extension is automatically appended.
+            designMatrix: The ``CoordDesign | PointDesign`` to work from.
+
+        Returns: The ``Stats`` created.
+        """
 
 
 class CoordDesign(DesignMatrix):
@@ -129,9 +160,9 @@ class CoordDesign(DesignMatrix):
                 pointDesign = designMatrix.pd.set_index('n')
                 pointDesign[pointDesign.columns[lcol]] = pointDesign[pointDesign.columns[lcol]].astype(str)
                 # convert Points to coords.
-                iDesign = pointDesign.iloc[:, lcol].apply(lambda point: point.split(cls.axisSeparator))
+                iDesign = pointDesign.iloc[:, lcol].apply(lambda point: point.split(cls.coordSeparator))
                 iDesign = pd.DataFrame(iDesign.tolist(), index=pointDesign.index,
-                                       columns=iDesign.name.split(cls.axisSeparator))
+                                       columns=iDesign.name.split(cls.coordSeparator))
                 # convert first categorical variable to output axes.
                 yAxes = iDesign['l'].drop_duplicates().tolist()
                 yDesign = pd.concat([iDesign['l'], pointDesign.iloc[:, lcol + 1]], axis=1)
@@ -154,8 +185,40 @@ class CoordDesign(DesignMatrix):
         return cls(cls.mkdir(path), coordDesign)
 
 
-class PointPDF(Table):
-    """ The Probability Density Function of categorical points in a PointDesign."""
+class CoordPDF(PDF):
+
+    readOptions: MetaData = Table.readOptions | {'index': [0, 1]}
+    """ File read options passed directly to
+    `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
+
+    @classmethod
+    def create(cls, path: Store.Path, designMatrix: DesignMatrix, isUniform: bool = False) -> Self:
+        design = designMatrix.pd['i']
+        pcol = 'p'
+        while pcol in design.columns:
+            pcol += '_'
+        design[pcol] = 1.0 / design.shape[0]
+        design = {axis: design.iloc[[axis, pcol]].set_index(axis).groupby().sum() for axis in design.columns[:-1]}
+        if isUniform:
+            for pdf in design.values():
+                pdf[pcol] = 1.0 / pdf.shape[0]
+        pdf = pd.concat(design.values(), axis=0)
+        pdf.index = pd.MultiIndex.from_tuples([(axis, coord) for axis in design.keys()
+                                               for coord in design[axis].index], names=['axis', 'coord'])
+
+
+class CoordStats(Stats):
+    readOptions: MetaData = Table.readOptions | {'header': [0, 1]}
+    """ File read options passed directly to
+    `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
+
+    @classmethod
+    def create(cls, path: Store.Path, designMatrix: CoordDesign) -> Self:
+        stats = designMatrix.pd.drop(columns=['i'])
+        stats.set_index('n', drop=True, inplace=True)
+        stats = stats.groupby().agg(['min', 'max', 'mean', 'std'])
+        return cls(cls.mkdir(path), stats)
+
 
 class PointDesign(DesignMatrix):
     """ The internal format of ``DesignMatrix``, which is thin (has few columns), and only one header row.
@@ -178,13 +241,13 @@ class PointDesign(DesignMatrix):
                 coordDesign.columns = coordDesign.columns.droplevel(0)
                 # Return the categorical inputs to ``designMatrix``.
                 if inputAxes['i'] is not None:
-                    pointCoord = cls.axisSeparator.join(['l'] + inputAxes['i'].columns.to_list())
-                    coordDesign[pointCoord] = inputAxes['i'].astype(str).agg(cls.axisSeparator.join, axis=1)
+                    pointCoord = cls.coordSeparator.join(['l'] + inputAxes['i'].columns.to_list())
+                    coordDesign[pointCoord] = inputAxes['i'].astype(str).agg(cls.coordSeparator.join, axis=1)
                     pointDesign = coordDesign.reset_index(names='n').melt(id_vars=['n', pointCoord],
                                                                           var_name='l', value_name='y',
                                                                           ignore_index=True).dropna()
                     pointDesign[pointCoord] = (pointDesign
-                                              ['l'].astype(str) + cls.axisSeparator +
+                                              ['l'].astype(str) + cls.coordSeparator +
                                                pointDesign[pointCoord])
                     pointDesign.drop(columns=['l'], inplace=True)
                 else:
@@ -201,30 +264,126 @@ class PointDesign(DesignMatrix):
         return cls(cls.mkdir(path), pointDesign)
 
 
-class Normalization(DataBase):
+class PointPDF(PDF):
+
+    @classmethod
+    def create(cls, path: Store.Path, designMatrix: PointDesign) -> Self:
+        pdf = designMatrix.pd.iloc[l]
+        pdf['p'] = 1.0 / pdf.shape[0]
+        pdf.set_index('l', drop=True, inplace=True)
+        pdf = pdf.groupby().sum()
+        return cls(cls.mkdir(path), pdf)
+
+    @classmethod
+    def createFromCoordPDF(cls, path: Store.Path, coordPDF: CoordPDF) -> Self:
+        """ Create a ``PointPDF`` from a ``CoordPDF`` at ``path``, assuming independence of coords.
+        Args:
+            path: The ``Path`` to store this Table, overwritten if existing.
+                A ``.csv`` extension is automatically appended.
+            coordPDF: The ``CoordPDF`` to work from.
+
+        Returns: The ``PointPDF`` created.
+        """
+        coordPDF = coordPDF.pd.reset_index(level=1, names='coord')
+        pdf = coordPDF.groupby().apply(list)
+        axis = DesignMatrix.coordSeparator.join(pdf.index.tolist())
+        pdf = pdf.to_numpy().tolist()
+        coord, p = zip(*pdf)
+        coord = [DesignMatrix.coordSeparator.join(coords) for coords in product(*coord)]
+        p = [np.prod(ps) for ps in product(*p)]
+        pdf = pd.DataFrame(p, index=pd.Index(coord, name=axis), columns=['p'])
+        return cls(cls.mkdir(path), pdf)
+
+
+class PointStats(Stats):
+
+    @classmethod
+    def create(cls, path: Store.Path, designMatrix: PointDesign) -> Self:
+        stats = designMatrix.pd.drop(columns=['n'])
+        stats.set_index('l', drop=True, inplace=True)
+        stats = stats.groupby().agg(['min', 'max', 'mean', 'std'])
+        return cls(cls.mkdir(path), stats)
+
+
+class Normalizer(DataBase):
+    """ Normalizer of a DesignMatrix. """
 
     class NamedTables(NamedTuple):
+        """ NamedTables in a Normalizer. """
 
-        coordDesign: Table | Matrix | type[Table] = None
-        pointDesign: Table | Matrix | type[Table] = None
+        design: DesignMatrix | Matrix = DesignMatrix
+        """The DesignMatrix of user data."""
+        pDF: PDF | Matrix = PDF
+        """The Probability Density Function of categorical coords or points."""
+        stats: Table | Matrix = Stats
+        """The statistics of continuous coordinates by categorical coord or point."""
 
-        def __call__(self, name: str) -> Table | Matrix | MetaData:
-            """ Returns the Table named ``name``."""
+        def __call__(self, name: str) -> Table | Matrix:
             return getattr(self, name)
 
+    Tables: NamedTables[type[Table], ...] = NamedTables()
+    """ Table Types, to communicate ``Table.readOptions`` and ``Table.writeOptions``. """
 
-    Tables: NamedTables[type[Table], ...] = NamedTables(coordDesign=CoordDesign, pointDesign=PointDesign)
-    """ Class attribute of the form ``NamedTables(**{names[i]: Tables[i], ...})``. """
+    defaultMeta: MetaData = {'Tables': {name: TableType.__name__ for name, TableType in Tables._asdict().items()}}
+    """ Default ``self.meta``. """
 
-    defaultMetaData: MetaData = {'Tables': Tables._asdict()}
-    """ Class attribute. Should be overridden."""
+    class CreateP(CreateP):
+        """ Creates a new instance of ``cls`` at ``path`` from ``designMatrix: PointDesign | CoordDesign``. """
 
     @classmethod
     def create(cls, path: Store.Path, designMatrix: DesignMatrix, **meta: Any) -> Self:
-        """ Create a ``Normalization`` in ``path``. """
+        """ Create a ``Normalizer`` in ``path``.
 
-# class Normalization(DataBase):
-#     """ Normalization of a Repo. """
+        Args:
+            path: The folder to store the ``Normalizer`` in. Need not exist.
+            designMatrix: the ``DesignMatrix`` to normalize, either a ``PointDesign`` or a ``CoordDesign``.
+            **meta: ``self.meta`` to update. In particular, ``isUniform = True`` infers a uniform distribution
+                for each categorical coord, discarding ``isIndependent`` as tautologically ``False``.
+                On the other hand, ``isDependent = True`` infers a ``PointPDF`` from a
+                ``PointDesign``. If both are ``False`` or absent, the ``PointPDF`` is inferred from the
+                mutually independent ``CoordPDF``s inferred from the ``CoordDesign``.
+
+        Returns: The Normalization created
+        """
+        isUniform = {'isUniform': True} if meta.pop('isUniform', False) else {}
+        isDependent = {'isDependent': True} if meta.pop('isDependent', False) and not isUniform else {}
+        meta = Meta.create(cls._meta_in(path), **(cls.defaultMeta | meta | isUniform))
+        path = meta.path.parent
+        match cls:
+            case Normalizer():
+                coord = CoordNormalizer.create(path / 'coord', designMatrix, **meta)
+                point = PointNormalizer.create(path / 'point', designMatrix, **meta)
+                meta = meta(**isDependent)
+                tables = {name: PointPDF.createFromCoordPDF(path / name, coord[name])
+                                if TableType is PDF and not isDependent
+                                else TableType.copy(point[name], path / name)
+                          for name, TableType in cls.Tables._asdict().items()}
+            case _:
+                tables = {name: CoordPDF.create(path / name, designMatrix, **isUniform) if TableType is CoordPDF
+                                else TableType.create(path / name, designMatrix)
+                          for name, TableType in cls.Tables._asdict().items()}
+        return cls(path, **tables)
+
+class CoordNormalizer(Normalizer):
+    """ Normalizer of a DesignMatrix. """
+
+    NamedTables: type[NamedTuple] = Normalizer.NamedTables
+
+    Tables: NamedTables[type[Table], ...] = NamedTables(design=CoordDesign, pDF=CoordPDF, stats=CoordStats)
+    """ Table Types, to communicate ``Table.readOptions`` and ``Table.writeOptions``. """
+
+
+class PointNormalizer(Normalizer):
+    """ Normalizer of a DesignMatrix. """
+
+    NamedTables: type[NamedTuple] = Normalizer.NamedTables
+
+    Tables: NamedTables[type[Table], ...] = NamedTables(design=PointDesign, pDF=PointPDF, stats=PointStats)
+    """ Table Types, to communicate ``Table.readOptions`` and ``Table.writeOptions``. """
+
+
+# class Normalizer(DataBase):
+#     """ Normalizer of a Repo. """
 #     class NamedTables(NamedTuple):
 #
 #         data: DesignMatrix | MetaData = pd.DataFrame(columns=('x', 'l', 'y'))
@@ -254,15 +413,15 @@ class Normalization(DataBase):
 #
 #     @classmethod
 #     def create(cls, path: Store.Path, designMatrix: DesignMatrix, **meta: Any) -> Self:
-#         """ Create a ``Normalization`` in ``path``.
+#         """ Create a ``Normalizer`` in ``path``.
 #
 #         Args:
-#             path: The folder to store the ``Normalization`` in. Need not exist,
+#             path: The folder to store the ``Normalizer`` in. Need not exist,
 #                 any existing ``Tables`` will be overwritten if it does.
 #             designMatrix: The ``DesignMatrix`` to normalize.
 #             **meta: Optimization ``MetaData``.
 #
-#         Returns: The ``Normalization`` created.
+#         Returns: The ``Normalizer`` created.
 #         """
 #         Meta.create(cls._meta_in(path), **(cls.defaultMetaData | meta))
 #         return cls(path, data = designMatrix)

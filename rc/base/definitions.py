@@ -86,13 +86,9 @@ class Pd:
     """ Extended Pandas types and constants.
 
     Attributes:
-        DataFrame: pd.DataFrame.
-        Index: pd.Index.
-        MultiIndex: pd.MultiIndex.
+        DataFrame = ``pd.DataFrame``.
     """
     DataFrame = pd.DataFrame    #: :meta private:
-    Index = pd.Index            #: :meta private:
-    MultiIndex = pd.MultiIndex  #: :meta private:
 
     def __init__(self):
         """
@@ -106,12 +102,12 @@ class Np:
     """ Extended NumPy types and constants. This class should never be instantiated or subclassed.
 
     Attributes:
-        DType: ``np.dtype``.
-        Array: ``np.ndarray``.
-        Tensor: ``Array``.
-        Vector: Column vector, first order Tensor ``.shape = (i,1)``.
-        CoVector = Tensor: Row vector, first order Tensor ``.shape = (1,j)``.
-        Matrix = Tensor: Second order Tensor ``.shape = (i,j)``.
+        DType = ``np.dtype``.
+        Array = ``np.ndarray``.
+        Tensor = ``Array``.
+        Vector = ``Tensor``. Column vector, first order Tensor ``.shape = (i,1)``.
+        CoVector = ``Tensor``. Row vector, first order Tensor ``.shape = (1,j)``.
+        Matrix = ``Tensor``. Second order Tensor ``.shape = (i,j)``.
     """
     DType = np.dtype    #: :meta private:
     Array = np.ndarray  #: :meta private:
@@ -132,14 +128,14 @@ class Tc:
     """ Extended PyTorch types and constants. This class should never be instantiated or subclassed.
 
     Attributes:
-        DType: ``tc.dtype``.
-        Tensor: ``tc.Tensor``.
-        Vector: Column vector, first order Tensor ``.shape = (i,1)``.
-        CoVector = Tensor: Row vector, first order Tensor ``.shape = (1,j)``.
-        Matrix = Tensor: Second order Tensor ``.shape = (i,j)``.
-        BatchVector = Tensor: Vector ``.shape = (...,i,1)``.
-        BatchCoVector = Tensor: CoVector ``.shape = (...,1,j)``.
-        BatchMatrix = Tensor: Matrix ``.shape = (...,i,j)``.
+        DType = ``tc.dtype``.
+        Tensor = ``tc.Tensor``.
+        Vector = ``Tensor``. Column vector, first order Tensor ``.shape = (i,1)``.
+        CoVector = ``Tensor``. Row vector, first order Tensor ``.shape = (1,j)``.
+        Matrix = ``Tensor``. Second order Tensor ``.shape = (i,j)``.
+        BatchVector = ``Tensor``. Vector ``.shape = (...,i,1)``.
+        BatchCoVector = ``Tensor``. CoVector ``.shape = (...,1,j)``.
+        BatchMatrix = ``Tensor``. Matrix ``.shape = (...,i,j)``.
     """
     DType = tc.dtype    #: :meta private:
     Tensor = tc.Tensor  #: :meta private:

@@ -80,19 +80,19 @@ The top row is introductory narrative, the second row basic usage, the third row
         :link: pages/glr
         :link-type: doc
 
-        GPR interpolates training data with uncertainty quantification
+        GLR interpolates linearly with uncertainty quantification
 
     .. grid-item-card::  :octicon:`code-square` API
         :link: pages/api
         :link-type: doc
 
-        GSA assesses the relevance of GPR inputs to outputs
+        Complete API reference
 
     .. grid-item-card::  :octicon:`log` Index
         :link: genindex
         :link-type: doc
 
-        ROM uses GSA to find the minimal set (Active Subspace) of GPR inputs
+        Complete index of this documentation
 
 
 .. toctree::

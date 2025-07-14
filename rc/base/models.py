@@ -31,7 +31,7 @@ class Store(ABC):
     """ Base class for any stored class. Users are not expected to subclass this class directly."""
 
     Path: Type = Path | str
-    """ ClassAttribute aliasing ``Path | str``, valid Types for specifying the ``path`` to a Store."""
+    """ = ``Path | str``. ClassAttribute aliasing valid Types for specifying the ``path`` to a Store."""
 
     ext: str = ''
     """Class attribute specifying the file extension terminating ``self.path``. 
@@ -459,25 +459,24 @@ class DataBase(Store):
 
             class NamedTables(NamedTuple):
 
-                names[i]: Table | Matrix = defaults[names[i]].pd   #: Must be ``pd.DataFrame``.
+                names[i]: Table | Matrix = defaults[names[i]].pd
+                \"\"\" Normally a ``pd.DataFrame``. If no default is appropriate, use the Table Type\"\"\"
                 ...
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
-            Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})
-            \"\"\" Class attribute of the form ``NamedTables(**{names[i]: Tables[i], ...})``,
-            where ``Tables[i]`` is a SubClass of ``Table``. Must be overridden.\"\"\"
+            Tables: NamedTables[type[Table], ...] = NamedTables()
+            \"\"\" The ``NamedTables`` of Table Types, to communicate ``readOptions, writeOptions``.\"\"\"
 
-            defaultMetaData: MetaData = {'Tables': {name: TableType.__name__
-                                                          for name, TableType in Tables._asdict().items()}}
-            \"\"\" Class attribute. Should be overridden.\"\"\"
+            defaultMeta: MetaData = {'Tables': {name: TableType.__name__ for name, TableType in Tables._asdict().items()}}
+            \"\"\" Class default ``self.meta``.\"\"\"
     """
 
     class NamedTables(NamedTuple):
         """ Must be overridden. """
-        NotImplemented: Table | Matrix | type[Table] = pd.DataFrame(((f'Default must be a pd.DataFrame',),))
+        NotImplemented: Table | Matrix = Table
 
         def __call__(self, name: str) -> Table | Matrix | MetaData:
             """ Returns the Table named ``name``."""
@@ -488,8 +487,7 @@ class DataBase(Store):
     """ Class attribute of the form ``NamedTables(**{names[i]: Type[i], ...})``, 
     where ``Type[i]`` is a subclass of ``Table``. Must be overridden."""
 
-    defaultMetaData: MetaData = {'Tables': {name: TableType.__name__
-                                             for name, TableType in Tables._asdict().items()}}
+    defaultMeta: MetaData = {'Tables': {name: TableType.__name__ for name, TableType in Tables._asdict().items()}}
     """ Class attribute. Should be overridden."""
 
     class IndexP(IndexP):
@@ -514,9 +512,9 @@ class DataBase(Store):
         pass
 
     @property
-    def namedTables(self) -> NamedTables:
+    def tables(self) -> NamedTables:
         """ The ``NamedTables`` currently in ``self``."""
-        return self._namedTables
+        return self._tables
 
     @property
     def meta(self) -> Meta:
@@ -527,21 +525,21 @@ class DataBase(Store):
         """ Equality of meta, namedTables and names()."""
         if isinstance(other, DataBase):
             return (self.names() == other.names() and self.meta == other.meta
-                    and self._namedTables == other.namedTables)
+                    and self._tables == other.tables)
         return NotImplemented
 
     def __len__(self) -> int:
         """ Counts the ``Table`` s in ``self``. """
-        return len(self._namedTables)
+        return len(self._tables)
 
     def __getitem__(self, names: str | int | Iterable[str | int] | slice) -> Table | tuple[Table, ...]:
         """ Indexer returns the ``Table`` (s) named or sliced by ``names``. """
         if isinstance(names, str):
-            return self._namedTables(names)
+            return self._tables(names)
         elif isinstance(names, Iterable):
             return tuple(self[named] for named in names)
         else:
-            return self._namedTables[names]     # int or slice
+            return self._tables[names]     # int or slice
 
     def __setitem__(self, names: str | int | Iterable[str | int] | slice, tables: Table | Matrix | tuple[Table | Matrix, ...]):
         """ Indexer sets the ``Table`` (s) named or sliced by ``names``."""
@@ -570,7 +568,7 @@ class DataBase(Store):
         Returns: ``self``.
         """
         for name, table in tables.items():
-            self._namedTables(name)(table)
+            self._tables(name)(table)
         return self
 
     def __init__(self, path: Store.Path, **tables: Table | Pd.DataFrame):
@@ -589,11 +587,11 @@ class DataBase(Store):
         super().__init__(path)
         try:
             self._meta = Meta(self._meta_in(path))
-            self._namedTables = self.NamedTables(**{name:
+            self._tables = self.NamedTables(**{name:
                                                         TableType.create(path / name, tables[name])
                                                         if name in tables and tables[name] is not None
                                                         else TableType(path / name)
-                                                    for name, TableType in self.Tables._asdict().items()})
+                                               for name, TableType in self.Tables._asdict().items()})
         except FileNotFoundError as error:
             print(f'DataBase "{self}" is trying to read a non-existent Table. Did your script mean to call '
                   f'{type(self).__qualname__}.create("{str(self)}") '
@@ -623,7 +621,7 @@ class DataBase(Store):
 
         Returns: The ``DataBase`` created.
         """
-        Meta.create(cls._meta_in(path), **(cls.defaultMetaData | (tables_and_meta.pop('meta', {}))))
+        Meta.create(cls._meta_in(path), **(cls.defaultMeta | (tables_and_meta.pop('meta', {}))))
         return cls(path, **(cls.defaults() | tables_and_meta))
 
     @classmethod
@@ -636,7 +634,7 @@ class DataBase(Store):
 
         Returns: The ``DataBase`` now stored in ``dst``.
         """
-        return cls.create(dst, meta=src.meta, **src._namedTables._asdict())
+        return cls.create(dst, meta=src.meta, **src._tables._asdict())
 
     @classmethod
     def delete(cls, path: Store.Path, ignoreErrors: bool=False) -> Path:
