@@ -157,7 +157,7 @@ class Store(ABC):
             FileNotFoundError: If ``src`` does not exist.
             FileExistsError: If attempting to overwrite a file with a folder.
         """
-        src, dst = cls.extAppend(src), cls.mkdir(dst)
+        # src, dst = cls.extAppend(src), cls.mkdir(dst)
         if src.is_dir():
             copytree(src=src, dst=dst, dirs_exist_ok=True)
         else:
@@ -371,11 +371,11 @@ class Table(Store):
         """
         match other:
             case Table():
-                return self.pd.equals(other.pd)
+                return self.pd.astype(str).equals(other.pd.astype(str))
             case pd.DataFrame():
-                return self.pd.equals(other)
+                return self.pd.astype(str).equals(other.astype(str))
             case Np.Matrix():
-                return np.array_equal(self.np, other)
+                return np.array_equal(self.np.astype(str), other.astype(str))
             case Tc.Matrix():
                 return tc.equal(self.tc, other)
             case _:
@@ -447,7 +447,8 @@ class Table(Store):
 
         Returns: The ``Table`` now stored at ``dst``.
         """
-        return cls.create(dst, src.pd)
+        Store.copy(src._path, cls.extAppend(dst))
+        return cls(dst)
 
 
 class DataBase(Store):

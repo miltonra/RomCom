@@ -19,12 +19,18 @@ from __future__ import annotations
 
 from rc.data.models import *
 
+
 class TestCase(ut.TestCase):
 
     def setUp(self):
-        self.src = CoordDesign.copy(CoordDesign(Test.folder() / 'src'), Test.folder() / 'src')
-        self.srcmo = CoordDesign.copy(CoordDesign(Test.folder() / 'srcmo'), Test.folder() / 'srcmo')
-        self.srcco = CoordDesign.copy(CoordDesign(Test.folder() / 'srcco'), Test.folder() / 'srcco')
+        self.src = CoordDesign(Test.folder() / 'src')
+        self.srcmo = CoordDesign(Test.folder() / 'srcmo')
+        self.srcco = CoordDesign(Test.folder() / 'srcco')
+        self.basic = CoordDesign(Test.folder() / 'basic')
+        self.srcNorm = CoordDesign(Test.folder() / 'srcNorm')
+        self.srcsoNorm = CoordDesign(Test.folder() / 'srcsoNorm')
+        self.srcmoNorm = CoordDesign(Test.folder() / 'srcmoNorm')
+        self.srccoNorm = CoordDesign(Test.folder() / 'srccoNorm')
         print(self.src.pd)
 
     def test_PointDesign(self):
@@ -44,6 +50,12 @@ class TestCase(ut.TestCase):
         coordDesign = CoordDesign.create(Test.folder() / 'srcco', srcco)
         self.assertEqual(coordDesign, self.srcco)
 
+    def test_Normalizer(self):
+        basic = Normalizer.create(Test.folder() / 'basic', self.basic)
+        srcNorm = Normalizer.create(Test.folder() / 'srcNorm', self.srcNorm)
+        srcsoNorm = Normalizer.create(Test.folder() / 'srcsoNorm', self.srcsoNorm)
+        srcmoNorm = Normalizer.create(Test.folder() / 'srcmoNorm', self.srcmoNorm)
+        srccoNorm = Normalizer.create(Test.folder() / 'srccoNorm', self.srccoNorm)
 
 if __name__ == '__main__':
     ut.main()
