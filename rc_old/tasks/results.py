@@ -29,7 +29,7 @@ from __future__ import annotations
 
 from rc.base.definitions import *
 from rc.base.models import Store
-from rc.data.models import Repo, Fold
+from rc.data.normalizers import Repo, Fold
 from shutil import rmtree
 
 

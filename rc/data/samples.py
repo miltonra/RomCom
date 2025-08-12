@@ -21,7 +21,7 @@ from __future__ import annotations
 
 from rc.base import *
 
-from . import functions
+from . import benchmarks
 
 import scipy.stats
 import shutil

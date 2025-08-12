@@ -33,6 +33,9 @@ The test function ``all`` is also available as ``categorized``.
 This is a scalar function which accepts two :term:`categorical inputs`, ``f in ('ish', 'sob', 'oak')``
 and ``p in (0, 1, 2)``, which which determine which of the 9 components of ``all`` is computed.
 
+.. image:: resources/PDFStatsFlowchart2.png
+    :scale: 40%
+
 ``data.models``
 ^^^^^^^^^^^^^^^^^^^^^
 

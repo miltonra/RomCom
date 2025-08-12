@@ -19,7 +19,7 @@
 
 from __future__ import annotations
 
-from rc.data.models import *
+from rc.data.normalizers import *
 from rc.base.unittests import TestCase as base
 from rc.data.unittests import TestCase as data
 

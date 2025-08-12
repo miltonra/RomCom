@@ -28,7 +28,7 @@
 from __future__ import annotations
 
 from rc.base.definitions import *
-from rc.data.models import Repo, Fold
+from rc.data.normalizers import Repo, Fold
 from rc.gpr.kernels import Kernel
 from rc.gpr.models import GPR, MOGP
 from rc.gsa.models import GSA, Sobol

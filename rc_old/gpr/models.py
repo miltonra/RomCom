@@ -31,7 +31,7 @@ import numpy as np
 import pandas as pd
 
 from rc.base.definitions import *
-from rc.data.models import Fold, Table
+from rc.data.normalizers import Fold, Table
 from rc.base.models import Tables, DataBase
 from rc.gpr.kernels import Kernel
 

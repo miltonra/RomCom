@@ -17,6 +17,6 @@
 
 """ Data storage classes. """
 
-from . import functions
-from . import models
+from . import benchmarks
+from . import normalizers
 from . import samples

@@ -27,11 +27,12 @@ from shutil import copyfile, copytree, rmtree
 from json import load, dump
 
 
+PathLike: TypeAlias = Path | str
+""" = ``Path | str``. ClassAttribute aliasing valid Types for specifying the ``path`` to a Store."""
+
+
 class Store(ABC):
     """ Base class for any stored class. Users are not expected to subclass this class directly."""
-
-    Path: Type = Path | str
-    """ = ``Path | str``. ClassAttribute aliasing valid Types for specifying the ``path`` to a Store."""
 
     ext: str = ''
     """Class attribute specifying the file extension terminating ``self.path``. 
@@ -82,7 +83,7 @@ class Store(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def __init__(self, path: Path, **kwargs: Any):
+    def __init__(self, path: PathLike, **kwargs: Any):
         """ Store ``path`` in ``self._path``.
 
         Overrides should call ``super(Store).__init__(path)`` as a matter of priority.
@@ -93,7 +94,7 @@ class Store(ABC):
         self._path = self.extAppend(path)
 
     @classmethod
-    def extAppend(cls, path: Path) -> Path:
+    def extAppend(cls, path: PathLike) -> Path:
         """ Append ``cls.ext`` to ``path.name``.
 
         Args:
@@ -107,7 +108,7 @@ class Store(ABC):
         return path
 
     @classmethod
-    def mkdir(cls, path: Path) -> Path:
+    def mkdir(cls, path: PathLike) -> Path:
         """ Create ``path.parent``, with a subfolder ``path`` if ``cls.ext == ''``.
 
         Args:
@@ -115,6 +116,7 @@ class Store(ABC):
 
         Returns: ``path``.
         """
+        path = Path(path)
         if cls.ext:
             path.parent.mkdir(mode=0o777, parents=True, exist_ok=True)
         else:
@@ -123,7 +125,7 @@ class Store(ABC):
 
     @classmethod
     @abstractmethod
-    def create(cls, path: Path, **kwargs: Any) -> Self | Path:
+    def create(cls, path: PathLike, **kwargs: Any) -> Self | Path:
         """ Create a folder (and its parents) if it doesn't already exist.
 
         Overrides should create and return an instance of ``cls``.
@@ -141,10 +143,10 @@ class Store(ABC):
 
     @classmethod
     @abstractmethod
-    def copy(cls, src: Path, dst: Path) -> Self | Path:
+    def copy(cls, src: PathLike, dst: PathLike) -> Self | Path:
         """ Copy ``src`` to ``dst``, overwriting only files in common.
 
-        Overrides should copy an instance of ``cls`` called ``src`` to ``Store.create(dst)``,
+        Overrides should copy an instance of ``cls`` called ``src`` to ``Store.create(dst)``
         and return the copy.
 
         Args:
@@ -157,7 +159,7 @@ class Store(ABC):
             FileNotFoundError: If ``src`` does not exist.
             FileExistsError: If attempting to overwrite a file with a folder.
         """
-        # src, dst = cls.extAppend(src), cls.mkdir(dst)
+        src, dst = Path(src), Path(dst)
         if src.is_dir():
             copytree(src=src, dst=dst, dirs_exist_ok=True)
         else:
@@ -229,7 +231,7 @@ class Meta(Store, dict):
         super().__setitem__(key, value)
         self()
 
-    def __init__(self, path: Store.Path, **data: Any):
+    def __init__(self, path: PathLike, **data: Any):
         """ Construct ``self`` from a ``.json`` file or ``MetaData``.
         This is read *or* write, *never* both: ``path`` is read *only* if ``**data`` is absent.
 
@@ -246,7 +248,7 @@ class Meta(Store, dict):
         self()
 
     @classmethod
-    def create(cls, path: Store.Path, **data: Any):
+    def create(cls, path: PathLike, **data: Any):
         """ Create a ``Meta`` at ``path``, overwriting.
 
         Args:
@@ -261,7 +263,7 @@ class Meta(Store, dict):
         return cls(cls.mkdir(path), **data)
 
     @classmethod
-    def copy(cls, src: Meta, dst: Store.Path) -> Self:
+    def copy(cls, src: Meta, dst: PathLike) -> Self:
         """ Copy ``src`` to ``dst``, overwriting.
 
         Args:
@@ -400,7 +402,7 @@ class Table(Store):
         self._pd.to_csv(self._path, **self.writeOptions)
         return self
 
-    def __init__(self, path: Store.Path, table: Self | Pd.DataFrame | None = None):
+    def __init__(self, path: PathLike, table: Self | Pd.DataFrame | None = None):
         """ Construct ``self`` from a ``.csv`` file or ``Pd.DataFrame``.
 
         Args:
@@ -420,7 +422,7 @@ class Table(Store):
             self._pd.columns = self._pd.columns.astype(str)
 
     @classmethod
-    def create(cls, path: Store.Path, data: Self | Matrix, **kwargs: Any) -> Self:
+    def create(cls, path: PathLike, data: Self | Matrix, **kwargs: Any) -> Self:
         """ Create a ``Table`` at ``path``, overwriting.
 
         Args:
@@ -437,7 +439,7 @@ class Table(Store):
         return cls(cls.mkdir(path), data)
 
     @classmethod
-    def copy(cls, src: Self, dst: Store.Path) -> Self:
+    def copy(cls, src: Self, dst: PathLike) -> Self:
         """ Copy ``src`` to ``dst``, overwriting.
 
         Args:
@@ -572,7 +574,7 @@ class DataBase(Store):
             self._tables(name)(table)
         return self
 
-    def __init__(self, path: Store.Path, **tables: Table | Pd.DataFrame):
+    def __init__(self, path: PathLike, **tables: Table | Pd.DataFrame):
         """ Read the ``DataBase`` in ``path``.
         Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's ``Table`` is not read, just updated.
         Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.
@@ -611,7 +613,7 @@ class DataBase(Store):
         return cls.NamedTables._field_defaults
 
     @classmethod
-    def create(cls, path: Store.Path, **tables_and_meta: Table | Pd.DataFrame | MetaData) -> Self:
+    def create(cls, path: PathLike, **tables_and_meta: Table | Pd.DataFrame | MetaData) -> Self:
         """ Create a ``DataBase`` in ``path``.
 
         Args:
@@ -626,7 +628,7 @@ class DataBase(Store):
         return cls(path, **(cls.defaults() | tables_and_meta))
 
     @classmethod
-    def copy(cls, src: Self, dst: Store.Path) -> Self:
+    def copy(cls, src: Self, dst: PathLike) -> Self:
         """ Copy ``src`` to ``dst``, overwriting any files in common.
 
         Args:
@@ -638,7 +640,7 @@ class DataBase(Store):
         return cls.create(dst, meta=src.meta, **src._tables._asdict())
 
     @classmethod
-    def delete(cls, path: Store.Path, ignoreErrors: bool=False) -> Path:
+    def delete(cls, path: PathLike, ignoreErrors: bool=False) -> Path:
         """ Delete all ``DataBase`` files in ``path``, retaining ``path`` and any other files it contains.
 
         If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
@@ -664,5 +666,5 @@ class DataBase(Store):
         return path
 
     @staticmethod
-    def _meta_in(path: Store.Path) -> Path:
+    def _meta_in(path: PathLike) -> Path:
         return Path(path) / 'meta'

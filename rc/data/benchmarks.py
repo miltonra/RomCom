@@ -55,7 +55,7 @@ class Scalar:
                           (x.shape[0], 1))
 
     def __init__(self, salib: Callable[Np.Matrix, float], loc: Np.Vector, scale: Np.Vector, m: int,
-                 **params: Np.Array):
+                 **params: float | Np.Array | Sequence[float | Np.Array]):
         """ A scalar function, which calls ``call(loc + scale * x[:, :m], **params)``.
 
         Args:

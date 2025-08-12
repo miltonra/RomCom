@@ -43,6 +43,9 @@ import pandas as pd
 import torch as tc
 
 
+pd.options.mode.copy_on_write = True
+
+
 zero: float = 1.0E-64
 """Tolerance when testing floats for equality."""
 

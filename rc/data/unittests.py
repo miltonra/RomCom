@@ -17,7 +17,7 @@
 
 from __future__ import annotations
 
-from rc.data.models import *
+from rc.data.normalizers import *
 
 
 class TestCase(ut.TestCase):
