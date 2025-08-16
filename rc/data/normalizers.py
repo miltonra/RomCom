@@ -22,8 +22,7 @@ from __future__ import annotations
 from rc.data.distributions import *
 
 
-class Normalizer(DataBase):
-    """ Normalizer of a Design. """
+class IndependentNormalizer(DataBase):
 
     class NamedTables(NamedTuple):
         """ NamedTables in a Normalizer. """
@@ -57,47 +56,11 @@ class Normalizer(DataBase):
     """ Default ``self.meta``. """
 
     class CreateP(CreateP):
-        """ Creates a new instance of ``cls`` at ``path`` from ``design: PointDesign | CoordDesign``. """
+        """ Creates a new instance of ``cls`` at ``path`` from ``PointDesign``. """
 
     @classmethod
-    def create(cls, path: PathLike, design: Design, **meta: Any) -> Self:
-        """ Create a ``Normalizer`` in ``path``.
-
-        Args:
-            path: The folder to store the ``Normalizer`` in. Need not exist.
-            design: the ``Design`` to normalize, either a ``PointDesign`` or a ``CoordDesign``.
-            **meta: ``self.meta`` to update. In particular, ``isUniform = True`` infers a uniform distribution
-                for each categorical coord, discarding ``isIndependent`` as tautologically ``False``.
-                On the other hand, ``isDependent = True`` infers a ``PointPDF`` from a
-                ``PointDesign``. If both are ``False`` or absent, the ``PointPDF`` is inferred from the
-                mutually independent ``CoordPDF``s inferred from the ``CoordDesign``.
-
-        Returns: The Normalization created.
-        """
-        isUniform = {'isUniform': True} if meta.pop('isUniform', False) else {}
-        isDependent = {'isDependent': True} if meta.pop('isDependent', False) and not isUniform else {}
-        tableNames = cls.names()
-        design = PointDesign.create(path / tableNames[0], design)
-        coord = CoordNormalizer.create(path / 'coord', design, **meta)
-        point = PointNormalizer.create(path / 'point', design, coord[1], **meta)
-        meta = meta(**(isDependent | isUniform))
-        meta = Meta.create(cls._meta_in(path), **(cls.defaultMeta | meta))
-        empiricalPDF = PointPDF.copy(point[1], path / tableNames[1])
-        coordPDF = CoordPDF.copy(coord[2] if isUniform else coord[1], path / tableNames[2])
-        pointPDF = (PointPDF.copy(empiricalPDF, path / tableNames[3]) if isDependent
-                    else empiricalPDF.rational(path / tableNames[3], coordPDF))
-        ratioPDF = empiricalPDF.compare(path / tableNames[4], pointPDF)
-        pointStats = PointStats.create(path / tableNames[5], design)
-        return cls(path)
-
-class PointNormalizer(Normalizer):
-    """ Normalizer of a Design. """
-
-    NamedTables: type[NamedTuple] = Normalizer.NamedTables
-
-    @classmethod
-    def create(cls, path: PathLike, design: Design, coordPDF: CoordPDF, **meta: Any) -> Self:
-        """ Create a ``Normalizer`` in ``path``.
+    def create(cls, path: PathLike, design: PointDesign, coordPDF: CoordPDF, **meta: Any) -> Self:
+        """ Normalizer of a ``PointDesign``
 
         Args:
             path: The folder to store the ``Normalizer`` in. Need not exist.
@@ -113,34 +76,69 @@ class PointNormalizer(Normalizer):
         """
         meta = Meta.create(cls._meta_in(path), **(cls.defaultMeta | meta))
         path = meta.path.parent
-        tableNames = cls.names()
-        design = PointDesign.create(path / tableNames[0], design)
-        empiricalPDF = PointPDF.create(path / tableNames[1], design)
-        coordPDF = CoordPDF.copy(coordPDF, path / tableNames[2])
-        pointPDF = empiricalPDF.rational(path / tableNames[3], coordPDF)
-        ratioPDF = empiricalPDF.compare(path / tableNames[4], pointPDF)
-        pointStats = PointStats.create(path / tableNames[5], design)
+        design = PointDesign.create(path / 'design', design)
+        empiricalPDF = PointPDF.create(path / 'empiricalPDF', design)
+        coordPDF = CoordPDF.copy(coordPDF, path / 'coordPDF')
+        pointPDF = empiricalPDF.independent(path / 'pointPDF', coordPDF)
+        ratioPDF = empiricalPDF.compare(path / 'ratioPDF', pointPDF)
+        pointStats = PointStats.create(path / 'pointStats', design)
         return cls(path)
 
-class CoordNormalizer(Normalizer):
+class UniformNormalizer(IndependentNormalizer):
     """ Normalizer of a Design. """
 
-    NamedTables: type[NamedTuple] = Normalizer.NamedTables
+    NamedTables: type[NamedTuple] = IndependentNormalizer.NamedTables
 
-    Tables: NamedTables[type[Table], ...] = NamedTables(design=CoordDesign, empiricalPDF=CoordPDF, coordPDF=CoordPDF, pointPDF=CoordPDF,
-                              ratioPDF=CoordPDF, pointStats=PointStats)
+    Tables: NamedTables[type[Table], ...] = NamedTables(design=CoordDesign, empiricalPDF=CoordPDF,
+                                                        coordPDF=CoordPDF, pointPDF=CoordPDF,
+                                                        ratioPDF=CoordPDF, pointStats=PointStats)
     """ Table Types, to communicate ``Table.readOptions`` and ``Table.writeOptions``. """
 
     @classmethod
     def create(cls, path: PathLike, design: PointDesign, **meta: Any) -> Self:
         meta = Meta.create(cls._meta_in(path), **(cls.defaultMeta | meta))
         path = meta.path.parent
-        tableNames = cls.names()
-        coordDesign = CoordDesign.create(path / tableNames[0], design)
-        empiricalPDF = CoordPDF.create(path / tableNames[1], coordDesign)
-        coordPDF = CoordPDF.rational(path / tableNames[2], empiricalPDF)
-        pointPDF = PointPDF.create(path / tableNames[3], design).rational(path / tableNames[3], coordPDF)
-        ratioPDF = empiricalPDF.compare(path / tableNames[4], coordPDF)
-        pointStats = PointStats.create(path / tableNames[5], design)
+        coordDesign = CoordDesign.create(path / 'design', design)
+        empiricalPDF = CoordPDF.create(path / 'empiricalPDF', coordDesign)
+        coordPDF = CoordPDF.uniform(path / 'coordPDF', empiricalPDF)
+        pointPDF = PointPDF.create(path / 'pointPDF', design).independent(path / 'pointPDF', coordPDF)
+        ratioPDF = empiricalPDF.compare(path / 'ratioPDF', coordPDF)
+        pointStats = PointStats.create(path / 'pointStats', design)
+        return cls(path)
+
+class Normalizer(IndependentNormalizer):
+
+    NamedTables: type[NamedTuple] = IndependentNormalizer.NamedTables
+
+    class CreateP(CreateP):
+        """ Creates a new instance of ``cls`` at ``path`` from ``design: PointDesign | CoordDesign``. """
+
+    @classmethod
+    def create(cls, path: PathLike, design: Design, **meta: Any) -> Self:
+        """ Normalizer of a Design.
+
+        Args:
+            path: The folder to store the ``Normalizer`` in. Need not exist.
+            design: the ``Design`` to normalize, either a ``PointDesign`` or a ``CoordDesign``.
+            **meta: ``self.meta`` to update. In particular, ``isUniform = True`` infers a uniform distribution
+                for each categorical coord, discarding ``isIndependent`` as tautologically ``False``.
+                On the other hand, ``isDependent = True`` infers a ``PointPDF`` from a
+                ``PointDesign``. If both are ``False`` or absent, the ``PointPDF`` is inferred from the
+                mutually independent ``CoordPDF``s inferred from the ``CoordDesign``.
+
+        Returns: The Normalization created.
+        """
+        isUniform = {'isUniform': True} if meta.pop('isUniform', False) else {}
+        isDependent = {'isDependent': True} if meta.pop('isDependent', False) and not isUniform else {}
+        design = PointDesign.create(path / 'design', design)
+        uniform = UniformNormalizer.create(path / 'uniform', design, **meta)
+        independent = IndependentNormalizer.create(path / 'independent', design, uniform['empiricalPDF'], **meta)
+        meta = Meta.create(cls._meta_in(path), **(cls.defaultMeta | meta | isDependent | isUniform))
+        empiricalPDF = PointPDF.copy(independent['empiricalPDF'], path / 'empiricalPDF')
+        coordPDF = CoordPDF.copy(uniform['coordPDF'] if isUniform else uniform['empiricalPDF'], path / 'coordPDF')
+        pointPDF = (PointPDF.copy(empiricalPDF, path / 'pointPDF') if isDependent
+                    else empiricalPDF.independent(path / 'pointPDF', coordPDF))
+        ratioPDF = empiricalPDF.compare(path / 'ratioPDF', pointPDF)
+        pointStats = PointStats.create(path / 'pointStats', design)
         return cls(path)
 

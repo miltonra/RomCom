@@ -339,7 +339,7 @@ class Table(Store):
     @property
     def tc(self) -> Tc.Matrix:
         """ The ``Tc.Matrix`` stored in ``self``."""
-        return tc.from_numpy(self.np)
+        return tc.tensor(self.np)
 
     def broadcast_to(self, target_shape: tuple[int, int], is_diagonal: bool = True) -> Self:
         """ Broadcast ``self``.

@@ -27,6 +27,10 @@ from itertools import product
 class PDF(Table):
     """ The Probability Density Function(s) of categorical coords or points."""
 
+    readOptions: MetaData = Table.readOptions | {'index_col': [0, 1]}
+    """ File read options passed directly to
+    `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
+
     class CreateP(CreateP):
         """ Creates a new instance of ``cls`` at ``path`` from ``design: PointDesign | CoordDesign``. """
 
@@ -40,11 +44,6 @@ class PDF(Table):
         Returns: The ratio of ``self / pdf``, stored in ``path``.
         """
         return type(self)(self.mkdir(path), (self.pd / pdf.pd).fillna(0.0))
-
-    @classmethod
-    @abstractmethod
-    def rational(cls, path: PathLike, coordPDF: CoordPDF) -> Self:
-        raise NotImplementedError()
 
     @classmethod
     @abstractmethod
@@ -62,9 +61,8 @@ class PDF(Table):
 class PointPDF(PDF):
     """ The Probability Density Function of categorical points."""
 
-    @classmethod
-    def rational(cls, path: PathLike, coordPDF: CoordPDF) -> Self:
-        """ Create a rational, independent ``PointPDF`` from ``coordPDF``.
+    def independent(self, path: PathLike, coordPDF: CoordPDF) -> Self:
+        """ Create an independent ``PointPDF`` from ``coordPDF``.
 
         Args:
             path: The ``Path`` to this Table, overwritten if existing.
@@ -72,36 +70,36 @@ class PointPDF(PDF):
 
         Returns: The rational ``PointPDF`` created.
         """
+        if coordPDF.pd.shape[0] <= 1:
+            return PointPDF(self.mkdir(path), self.pd)
         coordPDF = coordPDF.pd.reset_index(level=1)
-        pdf = coordPDF.groupby(level=0).agg(list)
+        pdf = coordPDF.groupby(level=0, sort=False).agg(list)
         axis = Design.coordSeparator.join(pdf.index.tolist())
         pdf = pdf.to_numpy().tolist()
         coord, p = zip(*pdf)
         coord = [Design.coordSeparator.join(coords) for coords in product(*coord)]
         p = [np.prod(ps) for ps in product(*p)]
-        return type(cls)(cls.mkdir(path), pd.DataFrame(p, index=pd.Index(coord, name=axis), columns=['p']))
+        pdf = pd.DataFrame(p, index=pd.Index(coord, name=axis), columns=['p│'])
+        result = self.pd * 0 + pdf
+        return PointPDF(self.mkdir(path), result)
 
     @classmethod
     def create(cls, path: PathLike, design: PointDesign) -> Self:
-        designed = design
-        laxis = design.pd.columns[lCol]
-        pdf = design.pd.iloc[l]
-        # pdf.insert(0, 'll', pdf[laxis].apply(lambda s: s.split(Design.coordSeparator)[0]))
-        pdf.insert(pdf.shape[1], 'p', 1.0 / pdf.shape[0])
-        pdf.set_index(laxis, drop=True, inplace=True)
-        pdf = pdf.groupby(level=0).sum()
-        return cls(cls.mkdir(path), pdf)
+        lAxis = design.pd.columns[-2]
+        pdf = design.pd.iloc[:, -2:].rename(columns = {'y│': 'p│'})
+        n = pdf.shape[0]
+        pdf.set_index(lAxis, drop=True, inplace=True)
+        pdf = pdf.groupby(level=0).count()
+        lAxis = lAxis.partition(Design.coordSeparator)[2]
+        pdf.index = pdf.index.str.partition(Design.coordSeparator).droplevel(1).rename([n, lAxis])
+        return cls(cls.mkdir(path), pdf / pdf.groupby(level=0).sum())
 
 
 class CoordPDF(PDF):
     """ The Probability Density Function(s) of statistically independent categorical coords."""
 
-    readOptions: MetaData = Table.readOptions | {'index_col': [0, 1]}
-    """ File read options passed directly to
-    `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
-
     @classmethod
-    def rational(cls, path: PathLike, coordPDF: CoordPDF) -> Self:
+    def uniform(cls, path: PathLike, coordPDF: CoordPDF) -> Self:
         """ Create a uniform version of ``coordPDF``.
 
         Args:
@@ -112,18 +110,18 @@ class CoordPDF(PDF):
         """
         coordPDF = coordPDF.pd
         for axis in coordPDF.index.get_level_values(0).unique():
-            coordPDF.loc[[axis],['p']] = 1.0 / coordPDF.loc[[axis],['p']].shape[0]
-        return CoordPDF(cls.mkdir(path), coordPDF)
+            coordPDF.loc[[axis],['p│']] = 1.0 / coordPDF.loc[[axis],['p│']].shape[0]
+        return cls(cls.mkdir(path), coordPDF)
 
     @classmethod
     def create(cls, path: PathLike, design: CoordDesign) -> Self:
-        if 'i' not in design.pd.columns.get_level_values(0):
-            design.pd.insert(0, ('i','i'), '0')
-        design = design.pd['i']
-        design.insert(design.shape[1], Design.coordSeparator, 1.0 / design.shape[0])
-        design = {axis: design.loc[:, [axis, Design.coordSeparator]].set_index(axis).groupby(level=0).sum()
+        if 'i│' not in design.pd.columns.get_level_values(0):
+            design.pd.insert(0, ('i│','i│'), '0')
+        design = design.pd['i│']
+        design.insert(design.shape[1], 'p│', 1.0 / design.shape[0])
+        design = {axis: design.loc[:, [axis, 'p│']].set_index(axis).groupby(level=0).sum()
                         for axis in design.columns[:-1]}
-        pdf = pd.concat(design.values(), axis=0).rename(columns={Design.coordSeparator: 'p'})
+        pdf = pd.concat(design.values(), axis=0)
         pdf.index = pd.MultiIndex.from_tuples([(axis, coord) for axis in design.keys()
                                                for coord in design[axis].index], names=['axis', 'coord'])
         return cls(cls.mkdir(path), pdf)
@@ -135,6 +133,9 @@ class PointStats(Table):
     """ File read options passed directly to
     `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
 
+    class CreateP(CreateP):
+        """ Creates a new instance of ``cls`` at ``path`` from a ``PointDesign``."""
+
     @classmethod
     def create(cls, path: PathLike, design: PointDesign) -> Self:
         """ The empirical statistics of a PointDesign per categorical points.
@@ -145,13 +146,13 @@ class PointStats(Table):
 
         Returns: The empirical ``PointStats`` calculated from ``design``.
         """
-        laxis = design.pd.columns[lCol]
-        stats = design.pd.drop(columns=['n'])
-        stats.set_index(laxis, drop=True, inplace=True)
+        lAxis = design.pd.columns[-2]
+        stats = design.pd.drop(columns=['n│'])
+        stats.set_index(lAxis, drop=True, inplace=True)
         column = stats.columns
         stat = ['min', 'max', 'mean', 'std']
         stats = stats.groupby(level=0).agg(stat)
-        stats.columns = pd.MultiIndex.from_product([column, stat], names=['axis', 'stat'])
+        stats.columns = pd.MultiIndex.from_product([column, stat], names=[design.outputAxis, 'stat'])
         return cls(cls.mkdir(path), stats)
 
 

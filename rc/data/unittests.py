@@ -31,7 +31,6 @@ class TestCase(ut.TestCase):
         self.srcsoNorm = CoordDesign(Test.folder() / 'srcsoNorm')
         self.srcmoNorm = CoordDesign(Test.folder() / 'srcmoNorm')
         self.srccoNorm = CoordDesign(Test.folder() / 'srccoNorm')
-        print(self.src.pd)
 
     def test_PointDesign(self):
         pointDesign = PointDesign.create(Test.folder() / 'src', self.src)
