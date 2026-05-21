@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -24,11 +24,11 @@ sys.path.insert(0, os.path.abspath('../../'))
 from rc.base import *
 
 
-apiReplacements = {'rc\.base\.definitions\.': '', 'rc\.base\.models\.': '',
-                   'rc\.base\.': '',
-                   'rc\.data\.benchmarks\.': '', 'rc\.data\.formats\.': '',
-                   'rc\.data\.models\.': '', 'rc\.data\.samples\.': '',
-                   'rc\.data\.': '',
+apiReplacements = {r'rc\.base\.definitions\.': r'', r'rc\.base\.models\.': '',
+                   r'rc\.base\.': r'',
+                   r'rc\.data\.benchmarks\.': r'', r'rc\.data\.formats\.': '',
+                   r'rc\.data\.models\.': '', r'rc\.data\.samples\.': r'',
+                   r'rc\.data\.': '',
                    }
 
 # apiReplacements = {'rc\.base\.': '', 'rc\.data\.': '',
@@ -36,7 +36,7 @@ apiReplacements = {'rc\.base\.definitions\.': '', 'rc\.base\.models\.': '',
 #                    '\.functions': '', '\.samples': '',
 #                    }
 
-pagesReplacements = {'([^a-zA-Z])rc\.': '\\1'}
+pagesReplacements = {r'([^a-zA-Z])rc\.': r'\\1'}
 
 _here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/
 docs = _here.parent

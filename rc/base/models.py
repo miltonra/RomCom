@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """ Abstract and concrete base classes for RomCom models."""
-
-from __future__ import annotations
 
 from astroid.bases import UnionType
 
@@ -183,8 +181,8 @@ class Store(ABC):
         return path
 
 
-MetaData: TypeAlias = dict[str, Any]
-""" = ``dict[str, Any]``. Type for passing metadata such as options or ``**kwargs``. """
+MetaData: TypeAlias = Mapping[str, Any]
+""" = ``Mapping[str, Any]``. Type for passing metadata such as options or ``**kwargs``. """
 
 
 class Meta(Store, dict):
@@ -263,7 +261,7 @@ class Meta(Store, dict):
         return cls(cls.mkdir(path), **data)
 
     @classmethod
-    def copy(cls, src: Meta, dst: PathLike) -> Self:
+    def copy(cls, src: Self, dst: PathLike) -> Self:
         """ Copy ``src`` to ``dst``, overwriting.
 
         Args:
@@ -276,12 +274,12 @@ class Meta(Store, dict):
         return cls.create(dst, **src)
 
 
-Matrix: TypeAlias = Pd.DataFrame | Np.Matrix | Tc.Matrix
-""" = ``Pd.DataFrame | Np.Matrix | Tc.Matrix``. Types which a DataBase Table accepts."""
+Matrix: TypeAlias = Pl.DataFrame | Np.Matrix | Tc.Matrix
+""" = ``Pl.DataFrame | Np.Matrix | Tc.Matrix``. Types which a DataBase Table accepts."""
 
 
 class Table(Store):
-    """ Concrete class encapsulating a ``pd.DataFrame`` backed by a ``.csv`` file.
+    """ Concrete class encapsulating a ``Pl.DataFrame`` backed by a ``.csv`` file.
 
     This class may be usefully overridden to provide bespoke read and write options for
     file operations. Subclasses should follow the template (copy and paste it)::
@@ -290,23 +288,23 @@ class Table(Store):
 
             readOptions: MetaData = Table.readOptions | {'myOption': 'myValue'}
             \"\"\" File read options passed directly to
-            `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__.\"\"\"
+            `Pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__.\"\"\"
 
             writeOptions: MetaData = Table.writeOptions | {'myOption': 'myValue'}
             \"\"\" File write options passed directly to
-            `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`__.\"\"\"
+            `Pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__.\"\"\"
     """
 
     ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects.
 
-    readOptions: MetaData = {'encoding': 'utf-8-sig', 'index_col': 0, 'header': 0}
-    """ File read options passed directly to `pd.read_csv <https: //pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
+    readOptions: MetaData = {}
+    """ File read options passed directly to `Pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__."""
 
-    writeOptions: MetaData = {'encoding': 'utf-8-sig'}
-    """ File write options passed directly to `pd.DataFrame.to_csv <https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html>`__."""
+    writeOptions: MetaData = {}
+    """ File write options passed directly to `Pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__."""
 
     class EqualityP(EqualityP):
-        """ ``self == other`` compares ``self.pd``,``self.np`` or ``self.tc`` matching the the type of ``other``. """
+        """ ``self == other`` compares ``self.pl``,``self.np`` or ``self.tc`` matching the the type of ``other``. """
 
     class CreateP(CreateP):
         """ Creates a new Table at ``path`` from ``data: Matrix | Table``. """
@@ -327,19 +325,19 @@ class Table(Store):
         pass
 
     @property
-    def pd(self) -> Pd.DataFrame:
-        """ The ``Pd.DataFrame`` stored in ``self``."""
-        return self._pd
+    def pl(self) -> Pl.DataFrame:
+        """ The ``Pl.DataFrame`` stored in ``self``."""
+        return self._pl
 
     @property
     def np(self) -> Np.Matrix:
         """ The ``Np.Matrix`` stored in ``self``."""
-        return self.pd.to_numpy()
+        return self._pl.to_numpy()
 
     @property
     def tc(self) -> Tc.Matrix:
         """ The ``Tc.Matrix`` stored in ``self``."""
-        return tc.tensor(self.np)
+        return self._pl.to_torch()
 
     def broadcast_to(self, target_shape: tuple[int, int], is_diagonal: bool = True) -> Self:
         """ Broadcast ``self``.
@@ -356,28 +354,28 @@ class Table(Store):
         try:
             data = np.array(np.broadcast_to(self.np, target_shape))
         except ValueError:
-            raise IndexError(f'{repr(self)} has shape {self._pd.shape} '
+            raise IndexError(f'{repr(self)} has shape {self._pl.shape} '
                              f'which cannot be broadcast to {target_shape}.')
         if is_diagonal and target_shape[0] > 1:
             data = np.diag(np.diagonal(data))
         return self(data)
 
-    def __eq__(self, other: Table | Matrix) -> bool:
+    def __eq__(self, other: Self | Matrix) -> bool:
         """ Equality of ``self`` and ``other``.
 
         Args:
             other: The other to compare with.
 
         Returns: Not implemented if ``other`` is not of admissible Type.
-            Otherwise returns comparison with ``self.pd``, ``self.np`` or ``self.tc`` matching the type of ``other``.
+            Otherwise returns comparison with ``self.pl``, ``self.np`` or ``self.tc`` matching the type of ``other``.
         """
         match other:
             case Table():
-                return self.pd.astype(str).equals(other.pd.astype(str))
-            case pd.DataFrame():
-                return self.pd.astype(str).equals(other.astype(str))
+                return self._pl.equals(other._pl)
+            case Pl.DataFrame():
+                return self._pl.equals(other)
             case Np.Matrix():
-                return np.array_equal(self.np.astype(str), other.astype(str))
+                return np.array_equal(self.np, other)
             case Tc.Matrix():
                 return tc.equal(self.tc, other)
             case _:
@@ -392,34 +390,29 @@ class Table(Store):
         Returns: ``self``.
         """
         if isinstance(update, Table):
-            self._pd = update.pd.copy(deep=True)
-        elif isinstance(update, pd.DataFrame):
-            self._pd = update.copy()
+            self._pl = update._pl
+        elif isinstance(update, Pl.DataFrame):
+            self._pl = update
         elif isinstance(update, Np.Matrix):
-            self._pd.iloc[:, :] = update
+            self._pl = pl.from_numpy(update)
         elif isinstance(update, Tc.Matrix):
-            self._pd.iloc[:, :] = update.numpy()
-        self._pd.to_csv(self._path, **self.writeOptions)
+            self._pl = pl.from_torch(update)
+        self._pl.write_csv(self._path, **self.writeOptions)
         return self
 
-    def __init__(self, path: PathLike, table: Self | Pd.DataFrame | None = None):
-        """ Construct ``self`` from a ``.csv`` file or ``Pd.DataFrame``.
+    def __init__(self, path: PathLike, table: Self | Pl.DataFrame | None = None):
+        """ Construct ``self`` from a ``.csv`` file or ``Pl.DataFrame``.
 
         Args:
             path: The ``Path`` (file) to store ``self``. A ``.csv`` extension is automatically appended.
-            table: The ``Table | Pd.DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
+            table: The ``Table | Pl.DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
                 otherwise ``self`` is stored in ``path`` (which is overwritten if existing).
         """
         super().__init__(path)
         if table is None:
-            self(pd.read_csv(self._path, **self.readOptions))
+            self(pl.read_csv(self._path, **self.readOptions))
         else:
             self(table)
-        if self._pd.columns.nlevels > 1:
-            for n in range(self._pd.columns.nlevels):
-                self._pd.columns = self._pd.columns.set_levels(self._pd.columns.levels[n].astype(str), level=n)  # Ensure column names are strings
-        else:
-            self._pd.columns = self._pd.columns.astype(str)
 
     @classmethod
     def create(cls, path: PathLike, data: Self | Matrix, **kwargs: Any) -> Self:
@@ -429,13 +422,13 @@ class Table(Store):
             path: The ``Path`` to store this Table, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
             data: The table to store.
-            **kwargs: KeywordArguments passed directly to `pd.DataFrame(...)`_.
+            **kwargs: KeywordArguments passed directly to `Pl.DataFrame(...)`_.
 
         Returns: The ``Table`` created.
 
-        .. _pd.DataFrame(...): https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
+        .. Pl.DataFrame(...): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
         """
-        data = pd.DataFrame(data.pd if isinstance(data, Table) else data, **kwargs)
+        data = pl.DataFrame(data._pl if isinstance(data, Table) else data, **kwargs)
         return cls(cls.mkdir(path), data)
 
     @classmethod
@@ -462,8 +455,8 @@ class DataBase(Store):
 
             class NamedTables(NamedTuple):
 
-                names[i]: Table | Matrix = defaults[names[i]].pd
-                \"\"\" Normally a ``pd.DataFrame``. If no default is appropriate, use the Table Type\"\"\"
+                names[i]: Table | Matrix = defaults[names[i]].pl
+                \"\"\" Normally a ``Pl.DataFrame``. If no default is appropriate, use the Table Type\"\"\"
                 ...
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
@@ -574,7 +567,7 @@ class DataBase(Store):
             self._tables(name)(table)
         return self
 
-    def __init__(self, path: PathLike, **tables: Table | Pd.DataFrame):
+    def __init__(self, path: PathLike, **tables: Table | Pl.DataFrame):
         """ Read the ``DataBase`` in ``path``.
         Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's ``Table`` is not read, just updated.
         Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.
@@ -608,12 +601,12 @@ class DataBase(Store):
         return cls.NamedTables._fields
 
     @classmethod    # Class Property
-    def defaults(cls) -> dict[str, Pd.DataFrame]:
-        """ ``{names[i]: Pd.DataFrame[i], ...}`` of default tables for this ``Tables`` class."""
+    def defaults(cls) -> dict[str, Pl.DataFrame]:
+        """ ``{names[i]: Pl.DataFrame[i], ...}`` of default tables for this ``Tables`` class."""
         return cls.NamedTables._field_defaults
 
     @classmethod
-    def create(cls, path: PathLike, **tables_and_meta: Table | Pd.DataFrame | MetaData) -> Self:
+    def create(cls, path: PathLike, **tables_and_meta: Table | Pl.DataFrame | MetaData) -> Self:
         """ Create a ``DataBase`` in ``path``.
 
         Args:

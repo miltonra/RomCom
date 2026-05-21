@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -28,8 +28,6 @@ without adornment throughout RomCom. The ``rc.definitions`` namespace includes::
     import unittest as ut
 """
 
-from __future__ import annotations
-
 from typing import *
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -37,13 +35,10 @@ from copy import copy, deepcopy
 import unittest as ut
 from inspect import stack
 
-import csv
+import polars as pl
 import numpy as np
 import pandas as pd
 import torch as tc
-
-
-pd.options.mode.copy_on_write = True
 
 
 zero: float = 1.0E-64
@@ -85,13 +80,13 @@ class StrReprP(Protocol):
 
 
 
-class Pd:
-    """ Extended Pandas types and constants.
+class Pl:
+    """ Extended Polars types and constants.
 
     Attributes:
-        DataFrame = ``pd.DataFrame``.
+        DataFrame = ``pl.DataFrame``.
     """
-    DataFrame = pd.DataFrame    #: :meta private:
+    DataFrame = pl.DataFrame    #: :meta private:
 
     def __init__(self):
         """

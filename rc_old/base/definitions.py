@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -19,8 +19,6 @@
 
 All modules of RomCom ``import *`` from this module, so all types and constants in this module are referenced 
 without adornment throughout RomCom."""
-
-from __future__ import annotations
 
 from typing import *
 from abc import ABC, abstractmethod

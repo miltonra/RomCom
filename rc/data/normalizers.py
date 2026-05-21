@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """ Normalizers for data storage. """
-
-from __future__ import annotations
 
 from rc.data.distributions import *
 
@@ -39,12 +37,12 @@ class IndependentNormalizer(DataBase):
         """ The ratio between ``empiricalPDF`` and ``pointPDF | coordPDF``."""
         pointStats: PointStats = PointStats
         """ The statistics of continuous coordinates by categorical point."""
-        # coordStats: CoordStats = CoordStats
-        # """ The statistics of continuous coordinates by categorical coord."""
-        # pointStatsDiff: PointStats = PointStats
-        # """ The difference between empirical and rational stats."""
-        # coordStatsDiff: CoordStats = CoordStats
-        # """ The difference between empirical and rational stats."""
+        coordStats: CoordStats = CoordStats
+        """ The statistics of continuous coordinates by categorical coord, according to ``pointPDF``."""
+        empiricalStats: CoordStats = CoordStats
+        """ The statistics of continuous coordinates by categorical coord, according to ``empiricalPDF``."""
+        diffStats: CoordStats = CoordStats
+        """ The difference between ``empiricalStats`` and ``coordStats``."""
 
         def __call__(self, name: str) -> Table:
             return getattr(self, name)
@@ -82,6 +80,9 @@ class IndependentNormalizer(DataBase):
         pointPDF = empiricalPDF.independent(path / 'pointPDF', coordPDF)
         ratioPDF = empiricalPDF.compare(path / 'ratioPDF', pointPDF)
         pointStats = PointStats.create(path / 'pointStats', design)
+        coordStats = CoordStats.create(path / 'coordStats', pointPDF, pointStats)
+        empiricalStats = CoordStats.create(path / 'empiricalStats', empiricalPDF, pointStats)
+        diffStats = empiricalStats.diff(path / 'diffStats', coordStats)
         return cls(path)
 
 class UniformNormalizer(IndependentNormalizer):
@@ -91,19 +92,25 @@ class UniformNormalizer(IndependentNormalizer):
 
     Tables: NamedTables[type[Table], ...] = NamedTables(design=CoordDesign, empiricalPDF=CoordPDF,
                                                         coordPDF=CoordPDF, pointPDF=CoordPDF,
-                                                        ratioPDF=CoordPDF, pointStats=PointStats)
+                                                        ratioPDF=CoordPDF, pointStats=PointStats,
+                                                        coordStats=CoordStats, empiricalStats=CoordStats,
+                                                        diffStats=CoordStats)
     """ Table Types, to communicate ``Table.readOptions`` and ``Table.writeOptions``. """
 
     @classmethod
     def create(cls, path: PathLike, design: PointDesign, **meta: Any) -> Self:
         meta = Meta.create(cls._meta_in(path), **(cls.defaultMeta | meta))
         path = meta.path.parent
+        pointStats = PointStats.create(path / 'pointStats', design)
         coordDesign = CoordDesign.create(path / 'design', design)
         empiricalPDF = CoordPDF.create(path / 'empiricalPDF', coordDesign)
         coordPDF = CoordPDF.uniform(path / 'coordPDF', empiricalPDF)
         pointPDF = PointPDF.create(path / 'pointPDF', design).independent(path / 'pointPDF', coordPDF)
+        coordStats = CoordStats.create(path / 'coordStats', pointPDF, pointStats)
+        pointPDF = PointPDF.create(path / 'pointPDF', design).independent(path / 'pointPDF', empiricalPDF)
+        empiricalStats = CoordStats.create(path / 'empiricalStats', pointPDF, pointStats)
         ratioPDF = empiricalPDF.compare(path / 'ratioPDF', coordPDF)
-        pointStats = PointStats.create(path / 'pointStats', design)
+        diffStats = empiricalStats.diff(path / 'diffStats', coordStats)
         return cls(path)
 
 class Normalizer(IndependentNormalizer):
@@ -140,5 +147,8 @@ class Normalizer(IndependentNormalizer):
                     else empiricalPDF.independent(path / 'pointPDF', coordPDF))
         ratioPDF = empiricalPDF.compare(path / 'ratioPDF', pointPDF)
         pointStats = PointStats.create(path / 'pointStats', design)
+        coordStats = CoordStats.create(path / 'coordStats', pointPDF, pointStats)
+        empiricalStats = CoordStats.create(path / 'empiricalStats', empiricalPDF, pointStats)
+        diffStats = empiricalStats.diff(path / 'diffStats', coordStats)
         return cls(path)
 

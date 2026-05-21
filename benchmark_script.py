@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """ Benchmark GPR and GSA for known test functions. """
-
-from __future__ import annotations
 
 from rc.base.definitions import *
 

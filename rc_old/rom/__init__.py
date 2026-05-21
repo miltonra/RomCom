@@ -1,6 +1,6 @@
 #  BSD 3-Clause License.
 #
-#  Copyright (c) 2019-2025 Robert A. Milton. All rights reserved.
+#  Copyright (c) 2019-2027 Robert A. Milton. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without modification, are permitted provided that
 #  the following conditions are met:
@@ -25,4 +25,3 @@
 
 """ RomCom reduced order modelling functionality."""
 
-from __future__ import annotations

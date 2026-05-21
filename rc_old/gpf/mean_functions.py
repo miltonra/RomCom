@@ -1,6 +1,6 @@
 #  BSD 3-Clause License.
 #
-#  Copyright (c) 2019-2025 Robert A. Milton. All rights reserved.
+#  Copyright (c) 2019-2027 Robert A. Milton. All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without modification, are permitted provided that
 #  the following conditions are met:
@@ -24,8 +24,6 @@
 #  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 """ Mean functions for gpf - i.e. Gaussian prior predictions."""
-
-from __future__ import annotations
 
 import tensorflow as tf
 from typing import Sequence, Union

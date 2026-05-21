@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -17,7 +17,8 @@
 
 """ Categorical input PDFs and statistics. """
 
-from __future__ import annotations
+import numpy as np
+import pandas as pd
 
 from rc.data.designs import *
 
@@ -71,22 +72,24 @@ class PointPDF(PDF):
         Returns: The rational ``PointPDF`` created.
         """
         if coordPDF.pd.shape[0] <= 1:
-            return PointPDF(self.mkdir(path), self.pd)
-        coordPDF = coordPDF.pd.reset_index(level=1)
+            return PointPDF(self.mkdir(path), self.pd.copy(deep=True))
+        coordPDF = coordPDF.pd.copy(deep=True).reset_index(level=1)
         pdf = coordPDF.groupby(level=0, sort=False).agg(list)
         axis = Design.coordSeparator.join(pdf.index.tolist())
         pdf = pdf.to_numpy().tolist()
         coord, p = zip(*pdf)
         coord = [Design.coordSeparator.join(coords) for coords in product(*coord)]
         p = [np.prod(ps) for ps in product(*p)]
-        pdf = pd.DataFrame(p, index=pd.Index(coord, name=axis), columns=['p│'])
-        result = self.pd * 0 + pdf
-        return PointPDF(self.mkdir(path), result)
+        yAxis = self.pd.index.unique(level=0).tolist()
+        p = np.concatenate([p,] * len(yAxis), axis=0)
+        pdf = pd.DataFrame(p, index=pd.MultiIndex.from_product([yAxis, coord], names=self.pd.index.names),
+                           columns=['p│'])
+        return PointPDF(self.mkdir(path), pdf)
 
     @classmethod
     def create(cls, path: PathLike, design: PointDesign) -> Self:
         lAxis = design.pd.columns[-2]
-        pdf = design.pd.iloc[:, -2:].rename(columns = {'y│': 'p│'})
+        pdf = design.pd.iloc[:, -2:].copy(deep=True).rename(columns = {'y│': 'p│'})
         n = pdf.shape[0]
         pdf.set_index(lAxis, drop=True, inplace=True)
         pdf = pdf.groupby(level=0).count()
@@ -108,16 +111,17 @@ class CoordPDF(PDF):
 
         Returns: The uniform ``CoordPDF`` created.
         """
-        coordPDF = coordPDF.pd
-        for axis in coordPDF.index.get_level_values(0).unique():
+        coordPDF = coordPDF.pd.copy(deep=True)
+        for axis in coordPDF.index.unique(level=0):
             coordPDF.loc[[axis],['p│']] = 1.0 / coordPDF.loc[[axis],['p│']].shape[0]
         return cls(cls.mkdir(path), coordPDF)
 
     @classmethod
     def create(cls, path: PathLike, design: CoordDesign) -> Self:
-        if 'i│' not in design.pd.columns.get_level_values(0):
-            design.pd.insert(0, ('i│','i│'), '0')
-        design = design.pd['i│']
+        design = design.pd.copy(deep=True)
+        if 'i│' not in design.columns.get_level_values(0):
+            design.insert(0, ('i│','i│'), '0')
+        design = design['i│']
         design.insert(design.shape[1], 'p│', 1.0 / design.shape[0])
         design = {axis: design.loc[:, [axis, 'p│']].set_index(axis).groupby(level=0).sum()
                         for axis in design.columns[:-1]}
@@ -129,7 +133,7 @@ class CoordPDF(PDF):
 
 class PointStats(Table):
 
-    readOptions: MetaData = Table.readOptions | {'header': [0, 1]}
+    readOptions: MetaData = Table.readOptions | {'index_col': [0, 1], 'header': [0, 1]}
     """ File read options passed directly to
     `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
 
@@ -147,12 +151,16 @@ class PointStats(Table):
         Returns: The empirical ``PointStats`` calculated from ``design``.
         """
         lAxis = design.pd.columns[-2]
-        stats = design.pd.drop(columns=['n│'])
+        stats = design.pd.copy(deep=True).drop(columns=['n│'])
         stats.set_index(lAxis, drop=True, inplace=True)
+        n = stats.shape[0]
         column = stats.columns
-        stat = ['min', 'max', 'mean', 'std']
+        stat = ['min', 'max', 'mean', lambda x: x.std(ddof=0)]
         stats = stats.groupby(level=0).agg(stat)
-        stats.columns = pd.MultiIndex.from_product([column, stat], names=[design.outputAxis, 'stat'])
+        stat = ['min│', 'max│', 'mean│', 'SD│']
+        stats.columns = pd.MultiIndex.from_product([column, stat], names=['axis', 'stat'])
+        lAxis = lAxis.partition(Design.coordSeparator)[2]
+        stats.index = stats.index.str.partition(Design.coordSeparator).droplevel(1).rename([n, lAxis])
         return cls(cls.mkdir(path), stats)
 
 
@@ -166,7 +174,7 @@ class CoordStats(Table):
     class CreateP(CreateP):
         """ Creates a new instance of ``cls`` at ``path`` from a ``PointPDF`` and ``PointStats``."""
 
-    def compare(self, path: PathLike, stats: Self) -> Self:
+    def diff(self, path: PathLike, stats: Self) -> Self:
         """ Compare ``self`` to ``stats``, returning the difference.
 
         Args:
@@ -188,10 +196,15 @@ class CoordStats(Table):
 
         Returns: The ``CoordStats`` describing ``pointPDF`` and ``pointStats``.
         """
-        stats = pointStats.pd.drop(columns=['n'])
-        stats.index = stats.index.str.partition(Design.coordSeparator)
-        stats.index.droplevel(1, inplace=True)
-        stats = stats.groupby(level=0).agg(
-            {'p': ['sum', 'prod'], 'min': 'min', 'max': 'max', 'mean': 'mean', 'std': 'std'}
-        )
+        stats = pointStats.pd.copy(deep=True)
+        stats.columns = stats.columns.swaplevel()
+        columns = {}
+        columns['min│'] = stats.loc[:, 'min│'].groupby(level=0).agg('min')
+        columns['max│'] = stats.loc[:, 'max│'].groupby(level=0).agg('max')
+        columns['mean│'] = (stats.loc[:, 'mean│'].mul(pointPDF.pd.loc[:, 'p│'], axis=0)).groupby(level=0).agg('sum')
+        columns['SD│'] = ((stats.loc[:, 'SD│']**2 + stats.loc['mean│']**2).mul(pointPDF.pd.loc[:, 'p│'], axis=0)
+                          ).groupby(level=0).agg('sum')
+        columns['SD│'] = np.sqrt(columns[:, 'SD│'] - columns['mean│']**2)
+        stats = pd.DataFrame(columns.values(), columns=stats.columns)
+        stats.columns = stats.columns.swaplevel()
         return cls(cls.mkdir(path), stats)

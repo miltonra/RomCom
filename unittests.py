@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -17,20 +17,10 @@
 
 """ Unit Tests for the RomCom Library. """
 
-from __future__ import annotations
+import rc
 
-from rc.data.normalizers import *
-from rc.base.unittests import TestCase as base
-from rc.data.unittests import TestCase as data
-
-
-# def suite():
-#     suite = ut.TestSuite()
-#     suite.addTest(base())
-#     suite.addTest(data())
-#     return suite
 
 if __name__ == '__main__':
-    ut.main()
-    # runner = ut.TextTestRunner()
-    # runner.run(suite())
+    loader = rc.base.ut.TestLoader()
+    suite=loader.loadTestsFromModule(rc.base.unittests)
+    rc.base.ut.TextTestRunner(verbosity=2).run(suite)

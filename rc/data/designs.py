@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """ Design Matrix formats. """
-
-from __future__ import annotations
 
 from rc.base import *
 
@@ -83,10 +81,10 @@ class PointDesign(Design):
         match design:
             case PointDesign():
                 # If already a PointDesign, just copy it.
-                pointDesign = design.pd
+                pointDesign = design.pd.copy(deep=True)
             case CoordDesign():
                 # Reformat the CoordDesign to a PointDesign.
-                coordDesign = design.pd.rename(cls.axisType, axis='columns', level=0)
+                coordDesign = design.pd.copy(deep=True).rename(cls.axisType, axis='columns', level=0)
                 # Strip out the ``inputAxes`` from ``design``.
                 inputAxes = {'x│': None, 'i│': None}
                 for key in inputAxes.keys():
@@ -132,12 +130,12 @@ class CoordDesign(Design):
         match design:
             case CoordDesign():
                 # Reformat colum labels and categorical coords to strings.
-                coordDesign = design.pd.rename(cls.axisType, axis='columns', level=0)
+                coordDesign = design.pd.copy(deep=True).rename(cls.axisType, axis='columns', level=0)
                 if 'i│' in coordDesign.columns.get_level_values(0):
                     coordDesign['i│'] = coordDesign['i│'].astype(str)
             case PointDesign():
                 # Reformat the PointDesign to an CoordDesign.
-                pointDesign = design.pd.set_index('n│')
+                pointDesign = design.pd.copy(deep=True).set_index('n│')
                 pointDesign[pointDesign.columns[-2]] = pointDesign[pointDesign.columns[-2]].astype(str)
                 # convert Points to coords.
                 iDesign = pointDesign.iloc[:, -2].apply(lambda point: point.split(cls.coordSeparator))

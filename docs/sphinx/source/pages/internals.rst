@@ -42,7 +42,7 @@ Begin every source file with::
 
     #  BSD 3-Clause License.
     #
-    #  Copyright (c) 2019-2025 Robert A. Milton. All rights reserved.
+    #  Copyright (c) 2019-2027 Robert A. Milton. All rights reserved.
     #
     #  Redistribution and use in source and binary forms, with or without modification, are permitted provided that
     #  the following conditions are met:
@@ -67,9 +67,7 @@ Begin every source file with::
 
     # TODO: \"\"\" DOCSTRING.\"\"\"
 
-    from __future__ import annotations
-
-    from rc.base.definitions import *
+        from rc.base.definitions import *
 
     from rc import [WHATEVER IS NEEDED]
 

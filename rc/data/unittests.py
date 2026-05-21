@@ -1,6 +1,6 @@
 #  This file is part of the RomCom Python Package <https://github.com/miltonra/RomCom>
 #
-#  Copyright (C) 2025 Robert A. Milton
+#  Copyright (C) 2027 Robert A. Milton
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -15,8 +15,6 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from __future__ import annotations
-
 from rc.data.normalizers import *
 
 
@@ -27,6 +25,7 @@ class TestCase(ut.TestCase):
         self.srcmo = CoordDesign(Test.folder() / 'srcmo')
         self.srcco = CoordDesign(Test.folder() / 'srcco')
         self.basic = CoordDesign(Test.folder() / 'basic')
+        self.full = CoordDesign(Test.folder() / 'full')
         self.srcNorm = CoordDesign(Test.folder() / 'srcNorm')
         self.srcsoNorm = CoordDesign(Test.folder() / 'srcsoNorm')
         self.srcmoNorm = CoordDesign(Test.folder() / 'srcmoNorm')
@@ -51,6 +50,7 @@ class TestCase(ut.TestCase):
 
     def test_Normalizer(self):
         basic = Normalizer.create(Test.folder() / 'basic', self.basic)
+        full = Normalizer.create(Test.folder() / 'full', self.full)
         srcNorm = Normalizer.create(Test.folder() / 'srcNorm', self.srcNorm)
         srcsoNorm = Normalizer.create(Test.folder() / 'srcsoNorm', self.srcsoNorm)
         srcmoNorm = Normalizer.create(Test.folder() / 'srcmoNorm', self.srcmoNorm)
