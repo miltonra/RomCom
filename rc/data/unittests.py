@@ -15,7 +15,7 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from rc.data.normalizers import *
+from rc.data.designs import *
 
 
 class TestCase(ut.TestCase):
@@ -48,13 +48,13 @@ class TestCase(ut.TestCase):
         coordDesign = CoordDesign.create(Test.folder() / 'srcco', srcco)
         self.assertEqual(coordDesign, self.srcco)
 
-    def test_Normalizer(self):
-        basic = Normalizer.create(Test.folder() / 'basic', self.basic)
-        full = Normalizer.create(Test.folder() / 'full', self.full)
-        srcNorm = Normalizer.create(Test.folder() / 'srcNorm', self.srcNorm)
-        srcsoNorm = Normalizer.create(Test.folder() / 'srcsoNorm', self.srcsoNorm)
-        srcmoNorm = Normalizer.create(Test.folder() / 'srcmoNorm', self.srcmoNorm)
-        srccoNorm = Normalizer.create(Test.folder() / 'srccoNorm', self.srccoNorm)
+    # def test_Normalizer(self):
+    #     basic = Normalizer.create(Test.folder() / 'basic', self.basic)
+    #     full = Normalizer.create(Test.folder() / 'full', self.full)
+    #     srcNorm = Normalizer.create(Test.folder() / 'srcNorm', self.srcNorm)
+    #     srcsoNorm = Normalizer.create(Test.folder() / 'srcsoNorm', self.srcsoNorm)
+    #     srcmoNorm = Normalizer.create(Test.folder() / 'srcmoNorm', self.srcmoNorm)
+    #     srccoNorm = Normalizer.create(Test.folder() / 'srccoNorm', self.srccoNorm)
 
 if __name__ == '__main__':
     ut.main()

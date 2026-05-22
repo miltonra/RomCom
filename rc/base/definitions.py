@@ -23,26 +23,34 @@ without adornment throughout RomCom. The ``rc.definitions`` namespace includes::
     from typing import *
     from collections.abc import *
     from abc import ABC, abstractmethod
-    from pathlib import Path
     from copy import copy, deepcopy
+    from inspect import stack
+    from pathlib import Path
+    import polars as pl
+    import numpy as np
+    import torch as tc
     import unittest as ut
 """
 
 from typing import *
+from collections.abc import *
 from abc import ABC, abstractmethod
-from pathlib import Path
 from copy import copy, deepcopy
-import unittest as ut
 from inspect import stack
-
+from pathlib import Path
 import polars as pl
 import numpy as np
 import pandas as pd
 import torch as tc
+import unittest as ut
 
 
 zero: float = 1.0E-64
 """Tolerance when testing floats for equality."""
+
+
+PathLike: TypeAlias = Path | str
+""" = ``Path | str``. Class attribute aliasing valid Types for specifying the ``path`` to a Store."""
 
 
 class Protocol(BaseException):
@@ -52,10 +60,12 @@ class Protocol(BaseException):
 
         :meta private:
         """
-        raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
+        raise NotImplementedError('Abstract Class, do not instantiate.')
 
 class IndexP(Protocol):
     """ ``self[key]`` is not implemented. Override ``__getitem__(self, key)``, ``__setitem__(self, key, value)`` and ``__len__(self)``. """
+    Index: TypeAlias = str | int | Iterable[str | int] | slice
+    """ = ``str | int | Iterable[str | int] | slice``. Types of index supported by ``IndexP``. """
 
 class EqualityP(Protocol):
     """ Not implemented. """
@@ -81,31 +91,27 @@ class StrReprP(Protocol):
 
 
 class Pl:
-    """ Extended Polars types and constants.
+    """ Extended Polars types and constants. This Class should never be instantiated or SubClassed.
 
     Attributes:
-        DataFrame = ``pl.DataFrame``.
+        DataFrame = pl.DataFrame
     """
     DataFrame = pl.DataFrame    #: :meta private:
 
     def __init__(self):
-        """
-
-        :meta private:
-        """
-        raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
+        raise NotImplementedError('Abstract Class, do not instantiate.')
 
 
 class Np:
-    """ Extended NumPy types and constants. This class should never be instantiated or subclassed.
+    """ Extended NumPy types and constants. This Class should never be instantiated or SubClassed.
 
     Attributes:
-        DType = ``np.dtype``.
-        Array = ``np.ndarray``.
-        Tensor = ``Array``.
-        Vector = ``Tensor``. Column vector, first order Tensor ``.shape = (i,1)``.
-        CoVector = ``Tensor``. Row vector, first order Tensor ``.shape = (1,j)``.
-        Matrix = ``Tensor``. Second order Tensor ``.shape = (i,j)``.
+        DType = np.dtype
+        Array = np.ndarray
+        Tensor = Array
+        Vector = Tensor[i,1]
+        CoVector = Tensor[1,j]
+        Matrix = Tensor[i,j]
     """
     DType = np.dtype    #: :meta private:
     Array = np.ndarray  #: :meta private:
@@ -115,25 +121,21 @@ class Np:
     Matrix = Tensor     #: :meta private:
 
     def __init__(self):
-        """
-
-        :meta private:
-        """
-        raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
+        raise NotImplementedError('Abstract Class, do not instantiate.')
 
 
 class Tc:
-    """ Extended PyTorch types and constants. This class should never be instantiated or subclassed.
+    """ Extended PyTorch types and constants. This Class should never be instantiated or SubClassed.
 
     Attributes:
-        DType = ``tc.dtype``.
-        Tensor = ``tc.Tensor``.
-        Vector = ``Tensor``. Column vector, first order Tensor ``.shape = (i,1)``.
-        CoVector = ``Tensor``. Row vector, first order Tensor ``.shape = (1,j)``.
-        Matrix = ``Tensor``. Second order Tensor ``.shape = (i,j)``.
-        BatchVector = ``Tensor``. Vector ``.shape = (...,i,1)``.
-        BatchCoVector = ``Tensor``. CoVector ``.shape = (...,1,j)``.
-        BatchMatrix = ``Tensor``. Matrix ``.shape = (...,i,j)``.
+        DType = tc.dtype
+        Tensor = tc.Tensor
+        Vector = Tensor[i,1]
+        CoVector = Tensor[1,j]
+        Matrix = Tensor[i,j]
+        BatchVector = Tensor[...,i,1]
+        BatchCoVector = Tensor[...,1,j]
+        BatchMatrix = Tensor[...,i,j]
     """
     DType = tc.dtype    #: :meta private:
     Tensor = tc.Tensor  #: :meta private:
@@ -148,11 +150,7 @@ class Tc:
     zero: Tensor = tc.tensor(zero, dtype = Float)  #: :meta private:
 
     def __init__(self):
-        """
-
-        :meta private:
-        """
-        raise NotImplementedError('This class is not intended to be instantiated or subclassed.')
+        raise NotImplementedError('This Class is not intended to be instantiated or SubClassed.')
 
 class Test:
 

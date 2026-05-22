@@ -33,9 +33,6 @@ class Design(Table):
     class CreateP(CreateP):
         """ Creates a new instance of ``cls`` at ``path`` from ``design: PointDesign | CoordDesign``. """
 
-    coordSeparator: str = '│'
-    """ The separator used to delimit coords in a column of categorical points. """
-
     outputAxis: str = 'ο'
     """ The label used to denote the output axis in a PointDesign. """
 

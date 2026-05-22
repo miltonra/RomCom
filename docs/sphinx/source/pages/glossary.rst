@@ -9,9 +9,9 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
 .. glossary::
     :sorted:
 
-    Protocol
+    *Protocol*
         Documentation in code, detailing the interface a Class supports via undocumented :term:`dunder methods`.
-        They are named in UpperCamelCaseP, which is UpperCamelCase with a big P at the end which stands for Protocol and avoids tedious naming conflicts.
+        They are named in *UpperCamelCaseP*, which is UpperCamelCase with a big P at the end which stands for *Protocol* and avoids tedious naming conflicts.
 
     dunder methods
         Special methods (also known as magic methods) whose names are surrounded by double underscores (dunders).
@@ -29,13 +29,13 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
     SD
         Standard Deviation.
 
-    ``pd``
-    ``Pd``
-        The pandas package ``pandas``.
+    ``pl``
+    ``Pl``
+        The polars package ``polars``.
 
-    pd.DataFrame
+    pl.DataFrame
         A sophisticated and flexible ``.csv`` viewer, used to store and manipulate Tables in RomCom.
-        For a full description, see the `pandas documentation <https://pandas.pydata.org/docs/user_guide/dsintro.html#basics-dataframe>`_.
+        For a full description, see the `polars documentation <https://docs.pola.rs/user-guide/concepts/data-types-and-structures/#dataframe>`_.
 
     ``np``
     ``Np``
@@ -46,7 +46,7 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
         The PyTorch package ``torch``.
 
     MetaData
-        ``dict[str, Any]``.
+        ``Mapping[str, Any]``.
 
     Table
         Consult :doc:`base <base>`.

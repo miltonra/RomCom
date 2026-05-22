@@ -18,7 +18,7 @@
 """ **The RomCom library exists in Python code as the** ``rc`` **package.** """
 
 from . import base
-# from . import data
+from . import data
 # from . import gpf
 # from . import gpr
 # from . import gsa

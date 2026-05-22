@@ -53,18 +53,16 @@ An UpperCamelCase constant (e.g. ModuleAttribute or ClassAttribute) refers to a 
 A lowerCamelCase constant (e.g. moduleAttribute or classAttribute) does not.
 
 .. _Protocols:
-
-Protocols
+*Protocols*
 ^^^^^^^^^^^
     In the context of object-oriented programming, a protocol is an informal interface, defined only in documentation and not in code. [The Lizard Book pp.402]
 
-A Protocol documents an interface a Class supports via undocumented :term:`dunder methods`.
-Protocols are pure documentation in code, and are essentially meaningless outside a Class definition.
-Protocols are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python BaseExceptions, in fact),
-They are named in UpperCamelCaseP, which is UpperCamelCase with a big P at the end which stands for Protocol and avoids tedious naming conflicts.
+A *Protocol* documents an interface a Class supports via undocumented :term:`dunder methods`.
+*Protocols* are pure documentation in code, and are essentially meaningless outside a Class definition.
+*Protocols* are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python *BaseExceptions*, in fact),
+They are named in *UpperCamelCaseP*, which is UpperCamelCase with a big P at the end which stands for *Protocol* and avoids tedious naming conflicts.
 
 .. _ecosystem:
-
 Ecosystem
 ^^^^^^^^^^^
 
@@ -73,7 +71,7 @@ Users may struggle if they are unacquainted with the key Python libraries suppor
 
 RomCom cannot live without
 
-* `pandas <https://pandas.pydata.org/>`__ for high-level data representation. Referred to as ``pd`` or ``Pd``.
+* `polars <https://https://pola.rs/>`__ for high-level data representation. Referred to as ``pl`` or ``Pl``.
 * `numpy <https://numpy.org/>`__ for intermediation. Referred to as ``np`` or ``Np``.
 * `torch <https://pytorch.org/>`__ for numerical methods. Referred to as ``tc`` or ``Tc``.
 

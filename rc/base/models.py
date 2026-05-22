@@ -15,27 +15,20 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-""" Abstract and concrete base classes for RomCom models."""
-
-from astroid.bases import UnionType
+""" Abstract and concrete base Classes for RomCom models."""
 
 from .definitions import *
-
 from shutil import copyfile, copytree, rmtree
 from json import load, dump
 
 
-PathLike: TypeAlias = Path | str
-""" = ``Path | str``. ClassAttribute aliasing valid Types for specifying the ``path`` to a Store."""
-
-
 class Store(ABC):
-    """ Base class for any stored class. Users are not expected to subclass this class directly."""
+    """ Base Class for any stored Class. Users are not expected to SubClass this Class directly."""
 
     ext: str = ''
     """Class attribute specifying the file extension terminating ``self.path``. 
-    Override if and only if the derived class must be stored in a file.
-    Otherwise, ``cls.ext == ''`` and the derived class is stored in a folder."""
+    Override if and only if the derived Class must be stored in a file.
+    Otherwise, ``cls.ext == ''`` and the derived Class is stored in a folder."""
 
     class CreateP(CreateP):
         """ ``Store.create(path)`` destroys everything in its ``path``. """
@@ -52,8 +45,8 @@ class Store(ABC):
     class CopyP(CopyP):
         """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything in ``src``. """
 
-    class StrReprP(StrReprP):
-        pass
+    class StrReprP(Protocol):
+        """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
 
     @property
     def path(self) -> Path:
@@ -186,15 +179,15 @@ MetaData: TypeAlias = Mapping[str, Any]
 
 
 class Meta(Store, dict):
-    """ Concrete class encapsulating metadata stored in a ``.json`` file."""
+    """ Concrete Class encapsulating metadata stored in a ``.json`` file."""
 
     ext: str = '.json'  #: ext: Class attribute specifying the file extension of Meta instances.
 
-    class EqualityP(EqualityP):
-        """ ``self == other`` is inherited directly from ``dict``. """
-
     class IndexP(IndexP):
         """ ``self[key]``, ``len(self)`` are inherited from ``dict``, except that ``self[key]`` writes to file."""
+
+    class EqualityP(EqualityP):
+        """ ``self == other`` is inherited directly from ``dict``. """
 
     class CreateP(CreateP):
         pass
@@ -279,10 +272,10 @@ Matrix: TypeAlias = Pl.DataFrame | Np.Matrix | Tc.Matrix
 
 
 class Table(Store):
-    """ Concrete class encapsulating a ``Pl.DataFrame`` backed by a ``.csv`` file.
+    """ Concrete Class encapsulating a ``Pl.DataFrame`` backed by a ``.csv`` file.
 
-    This class may be usefully overridden to provide bespoke read and write options for
-    file operations. Subclasses should follow the template (copy and paste it)::
+    This Class may be usefully overridden to provide bespoke read and write options for
+    file operations. SubClasses should follow the template (copy and paste it)::
 
         class MyTable(Table):
 
@@ -295,7 +288,11 @@ class Table(Store):
             `Pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__.\"\"\"
     """
 
-    ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects.
+    ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects. Defaults to ``.csv``.
+
+    con: str = '│'
+    """ Class attribute specifying the connector conditioning column header levels and categorical coords.
+    Defaults to ``│``."""
 
     readOptions: MetaData = {}
     """ File read options passed directly to `Pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__."""
@@ -303,8 +300,11 @@ class Table(Store):
     writeOptions: MetaData = {}
     """ File write options passed directly to `Pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__."""
 
+    class IndexP(IndexP):
+        """ ``self[columns]`` accesses ``Table`` columns by ``str | int | Iterable | slice``. ``len(self)`` counts the columns."""
+
     class EqualityP(EqualityP):
-        """ ``self == other`` compares ``self.pl``,``self.np`` or ``self.tc`` matching the the type of ``other``. """
+        """ ``self == other`` compares ``self.pl``, ``self.np`` or ``self.tc`` matching the the type of ``other``. """
 
     class CreateP(CreateP):
         """ Creates a new Table at ``path`` from ``data: Matrix | Table``. """
@@ -319,9 +319,6 @@ class Table(Store):
         pass
 
     class CopyP(CopyP):
-        pass
-
-    class StrReprP(StrReprP):
         pass
 
     @property
@@ -359,6 +356,31 @@ class Table(Store):
         if is_diagonal and target_shape[0] > 1:
             data = np.diag(np.diagonal(data))
         return self(data)
+
+    def __len__(self) -> int:
+        """ Counts the columns in ``self``. """
+        return self._pl.width
+
+    def __getitem__(self, names: IndexP.Index) -> Pl.DataFrame:
+        """ Indexer returns the column(s) named or sliced by ``names``. """
+        return self._pl[:, names]     # int or slice
+
+    def __setitem__(self, names: IndexP.Index, columns: Table | Matrix | tuple[Table | Matrix, ...]):
+        """ Indexer sets the ``Table`` (s) named or sliced by ``names``."""
+        if isinstance(names, str):
+            columns = self._pl.with_columns(**{names : pl.lit(columns)})
+        elif isinstance(names, int):
+            columns = self._pl.with_columns(**{self._pl.columns[names] : pl.lit(columns)})
+        elif isinstance(names, Iterable):
+            if not (isinstance(columns, tuple) and len(columns) == len(names)):
+                raise IndexError(f'Expected a tuple of {len(names)} tables, not {len(columns)}.')
+            columns = self._pl.with_columns(**{self._pl.columns[i]: pl.lit(columns[i])
+                                               for i in range(len(names))})
+        elif isinstance(columns, tuple):
+            return self.__setitem__(self._pl.columns[names], columns)
+        else:
+            return NotImplemented
+        self(columns)
 
     def __eq__(self, other: Self | Matrix) -> bool:
         """ Equality of ``self`` and ``other``.
@@ -447,7 +469,7 @@ class Table(Store):
 
 
 class DataBase(Store):
-    """ ``NamedTables(NamedTuple)`` in a folder alongside ``Meta``. Abstract base class for any model.
+    """ ``NamedTables(NamedTuple)`` in a folder alongside ``Meta``. Abstract base Class for any model.
 
     ``DataBase`` SubClasses must be implemented according to the template (copy and paste it)::
 
@@ -481,13 +503,16 @@ class DataBase(Store):
 
     Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})
     """ Class attribute of the form ``NamedTables(**{names[i]: Type[i], ...})``, 
-    where ``Type[i]`` is a subclass of ``Table``. Must be overridden."""
+    where ``Type[i]`` is a SubClass of ``Table``. Must be overridden."""
 
     defaultMeta: MetaData = {'Tables': {name: TableType.__name__ for name, TableType in Tables._asdict().items()}}
     """ Class attribute. Should be overridden."""
 
     class IndexP(IndexP):
         """ ``self[names]`` accesses ``NamedTables`` by ``str | int | Iterable | slice``. """
+
+    class EqualityP(EqualityP):
+        """ ``self == other`` compares ``meta`` and ``tables`` between two ``DataBase`` s. """
 
     class CreateP(CreateP):
         pass
@@ -496,15 +521,12 @@ class DataBase(Store):
         pass
 
     class UpdateP(UpdateP):
-        """ ``self(**tables) updates and writes ``NamedTables`` (``self.meta(**updates)`` updates ``Meta``."""
+        """ ``self(**tables)`` updates and writes ``NamedTables`` (``self.meta(**updates)`` updates ``Meta``."""
 
     class DeleteP(DeleteP):
         pass
 
     class CopyP(CopyP):
-        pass
-
-    class StrReprP(StrReprP):
         pass
 
     @property
@@ -528,7 +550,7 @@ class DataBase(Store):
         """ Counts the ``Table`` s in ``self``. """
         return len(self._tables)
 
-    def __getitem__(self, names: str | int | Iterable[str | int] | slice) -> Table | tuple[Table, ...]:
+    def __getitem__(self, names: IndexP.Index) -> Table | tuple[Table, ...]:
         """ Indexer returns the ``Table`` (s) named or sliced by ``names``. """
         if isinstance(names, str):
             return self._tables(names)
@@ -537,7 +559,7 @@ class DataBase(Store):
         else:
             return self._tables[names]     # int or slice
 
-    def __setitem__(self, names: str | int | Iterable[str | int] | slice, tables: Table | Matrix | tuple[Table | Matrix, ...]):
+    def __setitem__(self, names: IndexP.Index, tables: Table | Matrix | tuple[Table | Matrix, ...]):
         """ Indexer sets the ``Table`` (s) named or sliced by ``names``."""
         if isinstance(names, str):
             tables = {names: tables}
@@ -584,9 +606,9 @@ class DataBase(Store):
         try:
             self._meta = Meta(self._meta_in(path))
             self._tables = self.NamedTables(**{name:
-                                                        TableType.create(path / name, tables[name])
-                                                        if name in tables and tables[name] is not None
-                                                        else TableType(path / name)
+                                                    TableType.create(path / name, tables[name])
+                                                    if name in tables and tables[name] is not None
+                                                    else TableType(path / name)
                                                for name, TableType in self.Tables._asdict().items()})
         except FileNotFoundError as error:
             print(f'DataBase "{self}" is trying to read a non-existent Table. Did your script mean to call '
@@ -597,12 +619,12 @@ class DataBase(Store):
 
     @classmethod    # Class Property
     def names(cls) -> tuple[str, ...]:
-        """ ``(names[i], ...)`` of table names for this ``Tables`` class."""
+        """ ``(names[i], ...)`` of table names for this ``Tables`` Class."""
         return cls.NamedTables._fields
 
     @classmethod    # Class Property
     def defaults(cls) -> dict[str, Pl.DataFrame]:
-        """ ``{names[i]: Pl.DataFrame[i], ...}`` of default tables for this ``Tables`` class."""
+        """ ``{names[i]: Pl.DataFrame[i], ...}`` of default tables for this ``Tables`` Class."""
         return cls.NamedTables._field_defaults
 
     @classmethod

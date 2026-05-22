@@ -80,7 +80,7 @@ For example, ``MyDataBase`` may define ``MyDataBase.NamedTables(NamedTuple)`` as
 
     Tables: NamedTables[type[Table], ...] = NamedTables(zero=Table, one=Table)
 
-The last line is required to tell the DataBase SubClass what Table Types to expect.
+The last line is required to tell the *DataBase* SubClass what Table Types to expect.
 In this way, ``Tables`` encapsulates file options and, possibly other functionality.
 Accurately reflecting its content in memory, an ``object`` of type ``MyDataBase`` instantiated with ``path`` would appear on the filesystem as
 
