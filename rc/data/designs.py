@@ -20,10 +20,13 @@
 from rc.base import *
 
 
+#: Slice for ``n`` (row index) in a Point Design
+n: int = 0
+
 #: Slice for ``x`` (continuous inputs) in a PointDesign.
 x: tuple[slice, slice] = (slice(None, None), slice(1, -2))
 
-#: Slice for ``y`` (output) in a PointDesign.
+#: Slice for ``y`` (outputs) in a PointDesign.
 y: tuple[slice, slice] = (slice(None, None), slice(-1, None))
 
 
@@ -37,7 +40,7 @@ class Design(Table):
     """ The label used to denote the output axis in a PointDesign. """
 
     @classmethod
-    def axisType(cls, axis: str) -> str:
+    def validate(cls, axis: str) -> str:
         """ The axisType of the given ``axis``.
 
         Args:
@@ -61,13 +64,12 @@ class Design(Table):
         """ Create a ``Design`` at ``path``.
 
         Args:
-            path: The ``Path`` to store this Table, overwritten if existing.
+            path: The Path to store this Table, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
             design: The ``CoordDesign | PointDesign`` to reformat if necessary and store in ``path``.
-
         Returns: The ``Design`` created.
         """
-
+        result = design.pl.rename({design.pl.columns[0]: 'n│'})
 
 class PointDesign(Design):
     """ The internal format of ``Design``, which is thin (has few columns), and only one header row.
@@ -77,11 +79,12 @@ class PointDesign(Design):
     def create(cls, path: PathLike, design: Design) -> Self:
         match design:
             case PointDesign():
-                # If already a PointDesign, just copy it.
-                pointDesign = design.pd.copy(deep=True)
+                # If already a PointDesign, just ensure the first column head.
+                pointDesign = design.pl.rename({design.pl.columns[0]: 'n│'})
             case CoordDesign():
                 # Reformat the CoordDesign to a PointDesign.
-                coordDesign = design.pd.copy(deep=True).rename(cls.axisType, axis='columns', level=0)
+                coordDesign = design.pl.rename({design.pl.columns[0]: 'n│'})
+                coordDesign = coordDesign.rename(cls.axisType, strict=False)
                 # Strip out the ``inputAxes`` from ``design``.
                 inputAxes = {'x│': None, 'i│': None}
                 for key in inputAxes.keys():

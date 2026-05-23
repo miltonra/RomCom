@@ -15,7 +15,7 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-""" Abstract and concrete base Classes for RomCom models."""
+""" Abstract and concrete BaseClasses for RomCom models."""
 
 from .definitions import *
 from shutil import copyfile, copytree, rmtree
@@ -45,21 +45,21 @@ class Store(ABC):
     class CopyP(CopyP):
         """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything in ``src``. """
 
-    class StrReprP(Protocol):
+    class NameP(Protocol):
         """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
 
     @property
     def path(self) -> Path:
-        """ The ``Path`` to this ``Store``, without ``cls.ext``.
+        """ The Path to this Store, without ``cls.ext``.
         File extension is internal, meaning ``self._path = self.path + cls.ext``."""
         return self._path.with_suffix('') if self.ext else self._path
 
     def __repr__(self) -> str:
-        """ The ``Path`` to this ``Store``."""
+        """ The Path to this Store."""
         return str(self.path)
 
     def __str__(self) -> str:
-        """ The name of this ``Store`` - i.e. ``self.path.name``."""
+        """ The name of this Store - i.e. ``self.path.name``."""
         return str(self.path.name)
 
     @abstractmethod
@@ -80,7 +80,7 @@ class Store(ABC):
         Overrides should call ``super(Store).__init__(path)`` as a matter of priority.
 
         Args:
-            path: The ``Path`` to ``self``. Do not include an extension.
+            path: The Path to ``self``. Do not include an extension.
         """
         self._path = self.extAppend(path)
 
@@ -141,8 +141,8 @@ class Store(ABC):
         and return the copy.
 
         Args:
-            src: The source ``Path``, which must be a folder or a file.
-            dst: The destination ``Path``, which may or may not exist.
+            src: The source Path, which must be a folder or a file.
+            dst: The destination Path, which may or may not exist.
             
         Returns: ``dst``.
         
@@ -162,7 +162,7 @@ class Store(ABC):
         """ Delete any file or folder at ``path``.
 
         Args:
-            path: The ``Path`` to delete.
+            path: The Path to delete.
             
         Returns: ``path``, which no longer exists.
         """
@@ -186,7 +186,7 @@ class Meta(Store, dict):
     class IndexP(IndexP):
         """ ``self[key]``, ``len(self)`` are inherited from ``dict``, except that ``self[key]`` writes to file."""
 
-    class EqualityP(EqualityP):
+    class EqualsP(EqualsP):
         """ ``self == other`` is inherited directly from ``dict``. """
 
     class CreateP(CreateP):
@@ -227,7 +227,7 @@ class Meta(Store, dict):
         This is read *or* write, *never* both: ``path`` is read *only* if ``**data`` is absent.
 
         Args:
-            path: The Path (file) to store ``self``. A ``.json`` extension is automatically appended.
+            path: The Path (file) to store ``self``. A ``.json`` extension is implicitly appended.
             **data: The ``MetaData`` to store. If absent, ``self`` is read from ``path``,
                 otherwise ``self=dict(**data)`` is stored in ``path`` (which is overwritten if existing).
         """
@@ -240,14 +240,14 @@ class Meta(Store, dict):
 
     @classmethod
     def create(cls, path: PathLike, **data: Any):
-        """ Create a ``Meta`` at ``path``, overwriting.
+        """ Create a Meta at ``path``, overwriting.
 
         Args:
-            path: The ``Path`` (file) to store ``self``, overwritten if existing.
-                A ``.json`` extension is automatically appended.
+            path: The Path (file) to store ``self``, overwritten if existing.
+                A ``.json`` extension is implicitly appended.
             **data: The ``MetaData`` to store.
 
-        Returns: The ``Meta`` created.
+        Returns: The Meta created.
         Raises: TypeError if ``data`` is empty.
         """
         if not data: raise ValueError("Meta cannot be created with no data")
@@ -258,11 +258,11 @@ class Meta(Store, dict):
         """ Copy ``src`` to ``dst``, overwriting.
 
         Args:
-            src: The source ``Meta``.
-            dst: The destination ``Path``, overwritten if existing.
-                A ``.json`` extension is automatically appended.
+            src: The source Meta.
+            dst: The destination Path, overwritten if existing.
+                A ``.json`` extension is implicitly appended.
 
-        Returns: The ``Meta`` now stored at ``dst.json``.
+        Returns: The Meta now stored at ``dst.json``.
         """
         return cls.create(dst, **src)
 
@@ -291,7 +291,7 @@ class Table(Store):
     ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects. Defaults to ``.csv``.
 
     con: str = '│'
-    """ Class attribute specifying the connector conditioning column header levels and categorical coords.
+    """ Class attribute specifying the connector when collapsing column heads and categorical coords.
     Defaults to ``│``."""
 
     readOptions: MetaData = {}
@@ -301,9 +301,9 @@ class Table(Store):
     """ File write options passed directly to `Pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__."""
 
     class IndexP(IndexP):
-        """ ``self[columns]`` accesses ``Table`` columns by ``str | int | Iterable | slice``. ``len(self)`` counts the columns."""
+        """ ``self[columns]`` accesses Table columns by ``str | int | Iterable | slice``. ``len(self)`` counts the columns."""
 
-    class EqualityP(EqualityP):
+    class EqualsP(EqualsP):
         """ ``self == other`` compares ``self.pl``, ``self.np`` or ``self.tc`` matching the the type of ``other``. """
 
     class CreateP(CreateP):
@@ -320,6 +320,16 @@ class Table(Store):
 
     class CopyP(CopyP):
         pass
+
+    @property
+    def heads(self) -> list[str]:
+        """ The column heads of ``self.pl``."""
+        return self._pl.columns
+
+    @heads.setter
+    def heads(self, value: Iterable[str]):
+        """ The column heads of ``self.pl``."""
+        self._pl.columns = list(value)
 
     @property
     def pl(self) -> Pl.DataFrame:
@@ -361,23 +371,23 @@ class Table(Store):
         """ Counts the columns in ``self``. """
         return self._pl.width
 
-    def __getitem__(self, names: IndexP.Index) -> Pl.DataFrame:
-        """ Indexer returns the column(s) named or sliced by ``names``. """
-        return self._pl[:, names]     # int or slice
+    def __getitem__(self, index: IndexP.Index) -> Pl.DataFrame:
+        """ Indexer returns the column(s) named or sliced by ``index``. """
+        return self._pl[:, index]     # int or slice
 
-    def __setitem__(self, names: IndexP.Index, columns: Table | Matrix | tuple[Table | Matrix, ...]):
-        """ Indexer sets the ``Table`` (s) named or sliced by ``names``."""
-        if isinstance(names, str):
-            columns = self._pl.with_columns(**{names : pl.lit(columns)})
-        elif isinstance(names, int):
-            columns = self._pl.with_columns(**{self._pl.columns[names] : pl.lit(columns)})
-        elif isinstance(names, Iterable):
-            if not (isinstance(columns, tuple) and len(columns) == len(names)):
-                raise IndexError(f'Expected a tuple of {len(names)} tables, not {len(columns)}.')
+    def __setitem__(self, index: IndexP.Index, columns: Table | Matrix | tuple[Table | Matrix, ...]):
+        """ Indexer sets the Table (s) named or sliced by ``index``."""
+        if isinstance(index, str):
+            columns = self._pl.with_columns(**{index : pl.lit(columns)})
+        elif isinstance(index, int):
+            columns = self._pl.with_columns(**{self._pl.columns[index] : pl.lit(columns)})
+        elif isinstance(index, Iterable):
+            if not (isinstance(columns, tuple) and len(columns) == len(index)):
+                raise IndexError(f'Expected a tuple of {len(index)} tables, not {len(columns)}.')
             columns = self._pl.with_columns(**{self._pl.columns[i]: pl.lit(columns[i])
-                                               for i in range(len(names))})
+                                               for i in range(len(index))})
         elif isinstance(columns, tuple):
-            return self.__setitem__(self._pl.columns[names], columns)
+            return self.__setitem__(self._pl.columns[index], columns)
         else:
             return NotImplemented
         self(columns)
@@ -426,7 +436,7 @@ class Table(Store):
         """ Construct ``self`` from a ``.csv`` file or ``Pl.DataFrame``.
 
         Args:
-            path: The ``Path`` (file) to store ``self``. A ``.csv`` extension is automatically appended.
+            path: The Path (file) to store ``self``. A ``.csv`` extension is implicitly appended.
             table: The ``Table | Pl.DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
                 otherwise ``self`` is stored in ``path`` (which is overwritten if existing).
         """
@@ -438,15 +448,15 @@ class Table(Store):
 
     @classmethod
     def create(cls, path: PathLike, data: Self | Matrix, **kwargs: Any) -> Self:
-        """ Create a ``Table`` at ``path``, overwriting.
+        """ Create a Table at ``path``, overwriting.
 
         Args:
-            path: The ``Path`` to store this Table, overwritten if existing.
-                A ``.csv`` extension is automatically appended.
+            path: The Path to store this Table, overwritten if existing.
+                A ``.csv`` extension is implicitly appended.
             data: The table to store.
             **kwargs: KeywordArguments passed directly to `Pl.DataFrame(...)`_.
 
-        Returns: The ``Table`` created.
+        Returns: The Table created.
 
         .. Pl.DataFrame(...): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
         """
@@ -458,20 +468,64 @@ class Table(Store):
         """ Copy ``src`` to ``dst``, overwriting.
 
         Args:
-            src: The source ``Table``.
-            dst: The destination ``Path``, overwritten if existing.
-                A ``.csv`` extension is automatically appended.
+            src: The source Table.
+            dst: The destination Path, overwritten if existing.
+                A ``.csv`` extension is implicitly appended.
 
-        Returns: The ``Table`` now stored at ``dst``.
+        Returns: The Table now stored at ``dst``.
         """
         Store.copy(src._path, cls.extAppend(dst))
         return cls(dst)
 
+    @classmethod
+    def conjoinHeads(cls, src: PathLike, dst: PathLike, headcount: int = 2) -> Self:
+        """ Collapse multi-level headers in ``src`` to single-level ``dst.heads``,
+        overwriting ``dst`` with a Table.
+        Collapse is top down, so a 3-level header ``(a,b,c)`` becomes the single head ``a│b│c``.
+        The first column is presumed to be an index. Any other column with empty header levels is dropped.
+
+        Args:
+            src: The source Path. A ``.csv`` extension is implicitly appended.
+            dst: The destination ``Table.path``, overwritten if existing.
+                A ``.csv`` extension is implicitly appended.
+            headcount: Counts the column heads (header rows) in ``src.csv``.
+        Returns: The Table now stored at ``dst``.
+        """
+        src = cls.extAppend(src)
+        heads = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'n_rows': headcount})).fill_null(2*cls.con)
+        src = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'skip_rows': headcount}))
+        heads = [cls.con.join(map(str, heads[head].to_list())) for head in heads.columns]
+        src = pl.DataFrame(src, heads).drop([col for col in heads[1:] if 2*cls.con in col])
+        return cls.create(dst, src)
+
+    @classmethod
+    def unjoinHeads(cls, src: Table, dst: PathLike) -> Path:
+        """ Explode ``src.heads`` into multi-level headed  ``dst.csv``, overwriting.
+        Explosion is from the left, so ``a│b│c`` becomes the 3-level header ``(a,b,c)``.
+
+        Args:
+            src: The source Table.
+            dst: The destination Path, overwritten if existing. A ``.csv`` extension is implicitly appended.
+        Returns: ``dst``, now containing the unjoined ``dst.csv``.
+        """
+        heads = [head.split(cls.con) for head in src.heads]
+        if len(heads) > 1:
+            headcount = {len(head) for head in heads[1:]}
+            if len(headcount) > 1:
+                raise IndexError(f'Cannot unjoin heads: Expected all heads except the first '
+                                 f'to have the same number of levels, but got {headcount}.')
+            heads[0] += [None] * (headcount.pop() - len(heads[0]))
+        heads = pl.DataFrame(list(zip(*heads)))
+        with open(cls.extAppend(dst), "w", newline="", encoding="utf-8") as file:
+            heads.write_csv(file, **(cls.writeOptions | {'header': False}))
+            src.pl.write_csv(file, **(cls.writeOptions | {'header': False}))
+        return Path(dst)
+
 
 class DataBase(Store):
-    """ ``NamedTables(NamedTuple)`` in a folder alongside ``Meta``. Abstract base Class for any model.
+    """ ``NamedTables(NamedTuple)`` in a folder alongside Meta. Abstract BaseClass for any model.
 
-    ``DataBase`` SubClasses must be implemented according to the template (copy and paste it)::
+    DataBase SubClasses must be implemented according to the template (copy and paste it)::
 
         class MyDataBase(DataBase):
 
@@ -503,16 +557,16 @@ class DataBase(Store):
 
     Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})
     """ Class attribute of the form ``NamedTables(**{names[i]: Type[i], ...})``, 
-    where ``Type[i]`` is a SubClass of ``Table``. Must be overridden."""
+    where ``Type[i]`` is a SubClass of Table. Must be overridden."""
 
     defaultMeta: MetaData = {'Tables': {name: TableType.__name__ for name, TableType in Tables._asdict().items()}}
     """ Class attribute. Should be overridden."""
 
     class IndexP(IndexP):
-        """ ``self[names]`` accesses ``NamedTables`` by ``str | int | Iterable | slice``. """
+        """ ``self[index]`` accesses ``NamedTables`` by ``str | int | Iterable | slice``. """
 
-    class EqualityP(EqualityP):
-        """ ``self == other`` compares ``meta`` and ``tables`` between two ``DataBase`` s. """
+    class EqualsP(EqualsP):
+        """ ``self == other`` compares Meta and ``tables`` between two DataBases. """
 
     class CreateP(CreateP):
         pass
@@ -521,7 +575,7 @@ class DataBase(Store):
         pass
 
     class UpdateP(UpdateP):
-        """ ``self(**tables)`` updates and writes ``NamedTables`` (``self.meta(**updates)`` updates ``Meta``."""
+        """ ``self(**tables)`` updates and writes ``NamedTables`` (``self.meta(**updates)`` updates Meta."""
 
     class DeleteP(DeleteP):
         pass
@@ -536,7 +590,7 @@ class DataBase(Store):
 
     @property
     def meta(self) -> Meta:
-        """ The ``Meta`` currently in ``self``."""
+        """ The Meta currently in ``self``."""
         return self._meta
 
     def __eq__(self, other: Any) -> bool:
@@ -547,31 +601,31 @@ class DataBase(Store):
         return NotImplemented
 
     def __len__(self) -> int:
-        """ Counts the ``Table`` s in ``self``. """
+        """ Counts the Tables in ``self``. """
         return len(self._tables)
 
-    def __getitem__(self, names: IndexP.Index) -> Table | tuple[Table, ...]:
-        """ Indexer returns the ``Table`` (s) named or sliced by ``names``. """
-        if isinstance(names, str):
-            return self._tables(names)
-        elif isinstance(names, Iterable):
-            return tuple(self[named] for named in names)
+    def __getitem__(self, index: IndexP.Index) -> Table | tuple[Table, ...]:
+        """ Indexer returns the Table (s) named or sliced by ``index``. """
+        if isinstance(index, str):
+            return self._tables(index)
+        elif isinstance(index, Iterable):
+            return tuple(self[i] for i in index)
         else:
-            return self._tables[names]     # int or slice
+            return self._tables[index]     # int or slice
 
-    def __setitem__(self, names: IndexP.Index, tables: Table | Matrix | tuple[Table | Matrix, ...]):
-        """ Indexer sets the ``Table`` (s) named or sliced by ``names``."""
-        if isinstance(names, str):
-            tables = {names: tables}
-        elif isinstance(names, int):
-            tables = {names: tables}
-        elif isinstance(names, Iterable):
-            if not (isinstance(tables, tuple) and len(tables) == len(names)):
-                raise IndexError(f'Expected a tuple of {len(names)} tables, not {len(tables)}.')
-            names = tuple((self.names()[named] if isinstance(named, int) else named for named in names))
-            tables = {names[i]: tables[i] for i in range(len(names))}
+    def __setitem__(self, index: IndexP.Index, tables: Table | Matrix | tuple[Table | Matrix, ...]):
+        """ Indexer sets the Table (s) named or sliced by ``index``."""
+        if isinstance(index, str):
+            tables = {index: tables}
+        elif isinstance(index, int):
+            tables = {index: tables}
+        elif isinstance(index, Iterable):
+            if not (isinstance(tables, tuple) and len(tables) == len(index)):
+                raise IndexError(f'Expected a tuple of {len(index)} tables, not {len(tables)}.')
+            index = tuple((self.index()[i] if isinstance(i, int) else i for i in index))
+            tables = {index[i]: tables[i] for i in range(len(index))}
         elif isinstance(tables, tuple):
-            return self.__setitem__(self.names()[names], tables)
+            return self.__setitem__(self.names()[index], tables)
         else:
             return NotImplemented
         self(**tables)
@@ -590,13 +644,13 @@ class DataBase(Store):
         return self
 
     def __init__(self, path: PathLike, **tables: Table | Pl.DataFrame):
-        """ Read the ``DataBase`` in ``path``.
-        Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's ``Table`` is not read, just updated.
+        """ Read the DataBase in ``path``.
+        Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's Table is not read, just updated.
         Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.
 
         Args:
-            path: The ``Path`` to read from.
-            **tables: ``Table`` s to update those read, in the form ``names[i]=tables[i], ...``.
+            path: The Path to read from.
+            **tables: Tables to update those read, in the form ``names[i]=tables[i], ...``.
 
         Raises:
             FileNotFoundError: If ``path`` lacks ``self.meta`` or any member of
@@ -629,15 +683,15 @@ class DataBase(Store):
 
     @classmethod
     def create(cls, path: PathLike, **tables_and_meta: Table | Pl.DataFrame | MetaData) -> Self:
-        """ Create a ``DataBase`` in ``path``.
+        """ Create a DataBase in ``path``.
 
         Args:
-            path: The folder to store the ``DataBase`` in. Need not exist,
+            path: The folder to store the DataBase in. Need not exist,
                 any existing ``Tables`` will be overwritten if it does.
             **tables_and_meta: Data to update ``cls.defaults()``, in the form ``names[i]=tables[i]``,
                 and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.
 
-        Returns: The ``DataBase`` created.
+        Returns: The DataBase created.
         """
         Meta.create(cls._meta_in(path), **(cls.defaultMeta | (tables_and_meta.pop('meta', {}))))
         return cls(path, **(cls.defaults() | tables_and_meta))
@@ -647,21 +701,21 @@ class DataBase(Store):
         """ Copy ``src`` to ``dst``, overwriting any files in common.
 
         Args:
-            src: The source ``DataBase``.
-            dst: The destination ``Path``, which may or may not exist.
+            src: The source DataBase.
+            dst: The destination Path, which may or may not exist.
 
-        Returns: The ``DataBase`` now stored in ``dst``.
+        Returns: The DataBase now stored in ``dst``.
         """
         return cls.create(dst, meta=src.meta, **src._tables._asdict())
 
     @classmethod
     def delete(cls, path: PathLike, ignoreErrors: bool=False) -> Path:
-        """ Delete all ``DataBase`` files in ``path``, retaining ``path`` and any other files it contains.
+        """ Delete all DataBase files in ``path``, retaining ``path`` and any other files it contains.
 
         If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
 
         Args:
-            path: ``Path`` to the ``DataBase`` to delete.
+            path: Path to the DataBase to delete.
             ignoreErrors: Whether to raise any ``FileNotFoundError`` s encountered.
         Returns: ``path``, which still exists.
         Raises: FileNotFoundError if ``path`` is not a folder, regardless of ``ignoreErrors``.

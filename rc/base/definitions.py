@@ -67,7 +67,7 @@ class IndexP(Protocol):
     Index: TypeAlias = str | int | Iterable[str | int] | slice
     """ = ``str | int | Iterable[str | int] | slice``. Types of index supported by ``IndexP``. """
 
-class EqualityP(Protocol):
+class EqualsP(Protocol):
     """ Not implemented. """
 
 class CreateP(Protocol):
@@ -85,7 +85,7 @@ class DeleteP(Protocol):
 class CopyP(Protocol):
     """``cls.copy(src, dst)`` is selective, copying only relevant items in ``src`` while preserving irrelevant items in ``dst``."""
 
-class StrReprP(Protocol):
+class NameP(Protocol):
     """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
 
 

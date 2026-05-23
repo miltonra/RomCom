@@ -1,4 +1,4 @@
-Library Foundations
+Base
 ================================================
 
 Recall from :doc:`plan` that RomCom is an alphabetically ordered hierarchy.
@@ -17,13 +17,15 @@ The package consists of two modules.
 ^^^^^^^^^^^^^^^^^^^^^
 Provides nothing but basic :ref:`Protocols`, constants and Type annotations.
 The constants and Type annotations are simple and dull, but ubiquitous.
-The Protocols are BaseClasses for documenting interfaces of RomCom Classes.
+The *Protocols* are abstract *BaseClasses* for documenting interfaces of RomCom Classes.
 
 ``base.models``
 ^^^^^^^^^^^^^^^^^^^^
-Provides BaseClasses for RomCom software objects. These classes provide software objects which are *always* perfectly synchronized with the filesystem.
+Provides BaseClasses for RomCom software objects. These classes provide software objects which are **always** perfectly synchronized with the filesystem.
 These Classes and their :ref:`Protocols` are the topic of the remainder of this page.
+In essence, ``base.models`` provides the raw materials to build *DataBases* out of Tables (``.csv``) and Meta (``.json``).
 
+.. _baseClasses:
 Classes
 ---------------------
 
@@ -33,12 +35,16 @@ Classes
 ^^^^^^^^^^^^
 
 An abstract base class whose objects are endowed with filesystem storage in ``self.path``.
-*Store* regards itself as SuperClass of all files and folders.
+
+Every Class derived from *Store* has a (constant) classAttribute ``Store.ext`` specifying its file extension.
+This is implicitly appended to any path communicated to the *Store*.
+
+*Store* regards itself as the *SuperClass* of all files and folders.
 
 MetaData
 ^^^^^^^^^^^
 
-Alias for ``dict[str, Any]``. All Meta content must be of this Type.
+Alias for ``Mapping[str, Any]``. All Meta content must be of this Type.
 
 Meta
 ^^^^^^^^^
@@ -48,24 +54,33 @@ A concrete *Store*, consisting of MetaData stored in a ``.json`` file.
 Matrix
 ^^^^^^^^^^^^
 
-Alias for ``pd.DataFrame | Np.Matrix | Tc.Matrix``. All Table content must be of this Type.
+Alias for ``pl.DataFrame | Np.Matrix | Tc.Matrix``. All Table content must be of this Type.
 
 Table
 ^^^^^^^^^^^^
 
-A concrete *Store*, consisting of a :term:`pd.DataFrame` stored in a ``.csv`` file.
-The Matrix held in any Table ``object`` is accessed in the desired :ref:`ecosystem <ecosystem>` format as the property ``object.pd``, ``object.np``, or ``object.tc``.
+A concrete *Store*, consisting of a Matrix stored in a ``.csv`` file.
+
+The Matrix held in any Table ``object`` is accessed in the desired :ref:`ecosystem <ecosystem>` format as the property ``object.pl``, ``object.np``, or ``object.tc``.
+
 The classAttributes (i.e. constants) ``Table.readOptions``  and ``Table.writeOptions`` govern ``.csv`` file options.
 These options are often tailored by SubClassing.
 If you ever need bespoke ``.csv`` options, you must SubClass ``Table`` and override ``Table.readOptions``
 and/or ``Table.writeOptions``, which is not onerous.
-Furthermore, RomCom is replete with SubClasses of ``Table`` fulfilling specific needs.
+
+Every Table begins with a row of column ``Table.heads``. Heads may join levels of categorization using the conjunction
+``Table.con = │``.
+This strange character is the utf8 Box Drawing Light Vertical (U+2502), which is unlikely to occur in user data.
+Multi-row heads should be conjoined using ``Table.conjoinHeads(src, dst, headcount)`` upon entry.
+
+RomCom is replete with SubClasses of ``Table`` fulfilling specific needs.
 For example, ``DesignMatrix`` is a concrete subclass of Table designed to hold training data.
 
 *DataBase*
 ^^^^^^^^^^^^
 
 An abstract *Store*, containing ``NamedTables`` (a ``NamedTuple`` of Tables) with Meta.
+
 The ``NamedTables`` of any *DataBase* ``object`` is the property ``object.namedTables``,
 its Meta the property ``object.meta``.
 
@@ -75,14 +90,14 @@ which indexes ``MyDataBase.defaults()`` by ``MyDataBase.names()``.
 For example, ``MyDataBase`` may define ``MyDataBase.NamedTables(NamedTuple)`` as::
 
     NamedTables(NamedTuple)
-        zero: Table | Matrix | type[Table] = pd.DataFrame([0])
-        one: Table | Matrix | type[Table] = pd.DataFrame([1])
+        zero: Table | Matrix | type[Table] = pl.DataFrame([0])
+        one: Table | Matrix | type[Table] = pl.DataFrame([1])
 
     Tables: NamedTables[type[Table], ...] = NamedTables(zero=Table, one=Table)
 
 The last line is required to tell the *DataBase* SubClass what Table Types to expect.
 In this way, ``Tables`` encapsulates file options and, possibly other functionality.
-Accurately reflecting its content in memory, an ``object`` of type ``MyDataBase`` instantiated with ``path`` would appear on the filesystem as
+Reflecting its programmatic content, an ``object`` of type ``MyDataBase`` instantiated with ``path`` would appear on the filesystem as
 
 .. image:: resources/DataBase.1.png
     :scale: 60%
@@ -90,13 +105,13 @@ Accurately reflecting its content in memory, an ``object`` of type ``MyDataBase`
 |
 Most every model in RomCom is some Type of concrete *Database*.
 
-
-CRUD Protocols
-----------------------------------------------
-
+.. _baseProtocols:
+Protocols
+----------------------
 The `Lifecycle of Software Objects <https://en.wikipedia.org/wiki/The_Lifecycle_of_Software_Objects>`__ in RomCom
 follows the conventional :term:`CRUD` biography, told on the user's filesystem.
-The :doc:`api/rc/base/index` Classes take all responsibility for implementing CRUD in RomCom.
+Software objects in RomCom are also named, and their content indexed and compared with other objects.
+The :doc:`api/rc/base/index` :ref:`Classes <baseClasses>` take responsibility for implementing these *Protocols* in RomCom, as follows.
 
 CreateP
 ^^^^^^^^^^^^^^^^^
@@ -123,63 +138,67 @@ which deletes a *Store* in ``path`` selectively  (leaving all other files intact
 So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parent folders.
 Because *Store* considers itself a parent to all files and folders, ``Store.delete(path)`` deletes everything in its ``path``.
 
+NameP
+^^^^^^^^^^^^^^^^^
+The NameP Protocol provides ``str(object) = str(object.path.name)`` and ``repr(object) = str(object.path)``
+for any ``object`` derived from *Store*.
 
-IndexP Protocol
-----------------------
-
+IndexP
+^^^^^^^^^^^^^^^^^
 Items are retrieved from, and replaced in, *Store* objects using the IndexP Protocol.
 The Indexing Protocol enables expressions such as::
 
-    values = object[names]  # Retrieves item(s) from object
-    object[names] = values  # Replaces item(s) in object
+    values = object[index]  # Retrieves item(s) from object
+    object[index] = values  # Replaces item(s) in object
     len(object)             # Counts the items accessible by Indexing
-    for name in object:
-        if name in object: print('is always True')
+    for index in object:
+        if index in object: print('is always True')
 
-where ``names`` is of Type ``str | int | Iterable[str | int] | slice``.
-When ``names`` is Iterable, ``values`` must be a ``tuple[Table | Matrix, ...]`` of corresponding ``len``.
+When ``index`` is Iterable, ``values`` must be a ``tuple[Table | Matrix, ...]`` of corresponding ``len``.
 IndexP is identical to Python's concept of a `sequence <https://docs.python.org/3/glossary.html#term-sequence>`__.
 
+IndexP supports any ``index`` of Type
+
+IndexP.Index
+%%%%%%%%%%%%%%%
+Alias for ``str | int | Iterable[str | int] | slice``. All index requests must be of this Type.
+
+The specifics for each of the :doc:`api/rc/base/index` :ref:`Classes <baseClasses>` are as follows.
+
 Meta
-^^^^^^
-Inherits IndexP (and the rest) directly from Python ``dict``, but writes updates to disk immediately.
-Like ``dict``, Meta may only be accessed one item at a time using ``names: str = key``.
+%%%%%%%
+IndexP refers to ``dict`` items, but writes updates to disk immediately.
+
+Table
+%%%%%%%
+IndexP refers to ``table.heads``, so ``len(table)`` is its width (complementing ``len(table.pl)`` its height).
 
 *DataBase*
-^^^^^^^^^^^^
-Implements IndexP to access the Table(s) identifiable by ``names``, which may be a ``str`` or ``int``, or an ``Iterable[str | int]``, or a ``slice``.
-When ``names`` is an ``Iterable[str | int]``, the corresponding Tables are returned as a ``tuple`` of Tables.
-``values`` must be a (``tuple`` of) ``Table`` or ``Matrix`` objects.
+%%%%%%%%%%%%%
+IndexP refers to ``database.namedTables``.
 
-
-EqualityP
-----------------------
-
-The EqualityP Protocol means that the expression::
+EqualsP
+^^^^^^^^^
+The EqualsP Protocol::
 
     objectA == objectB
 
-is True if and only if ``objectA`` and ``objectB`` are of the compatible Types and have the same content, except for ``path``.
+exhaustively compares content, except for location ``path``.
+
 If two objects of the same Type share the same ``path``, they are surely identical for the filesystem is always synchronized with memory.
 So the only interesting comparison is between objects whose ``path`` differs.
 
-Meta
-^^^^^^
-Inherits its Equality Protocol directly from Python ``dict``.
-
-Table
-^^^^^^
-``TableA == TableB`` is ``True`` if and only if both are (derived from) Tables and ``TableA.pd.equals(TableB.pd)``.
-``TableA == MatrixB`` is ``True`` if and only if ``MatrixB`` equals ``TableA.pd`` or ``TableA.np`` or ``TableA.tc``.
+This is straightforward, but we should highlight some fine details of *DataBase* comparison.
 
 *DataBase*
-^^^^^^^^^^^^
-Two *DataBase* objects are equal if and only if their ``meta`` is equal and their ``namedTables`` are equal,
-and their ``names()`` are equal. This is *not* the same as::
+%%%%%%%%%%%%%
+Two *DataBase* objects are equal if and only if their ``.meta`` is equal, their ``.namedTables`` are equal,
+and their ``.names()`` are equal. This is **not** the same as::
 
     dataBaseA.meta == dataBaseB.meta and dataBaseA.namedTables == dataBaseB.namedTables
 
 because ``NamedTuple`` equality does not compare field names.
 
-In short, two *DataBase* objects are equal if and only if they contain identical information.
-They need not be of the same Type, nor even share ``dataBaseA.NamedTables is dataBaseB.NamedTables``.
+Two equal *DataBase* objects need not be of the same Type, nor even share ``dataBaseA.NamedTables is dataBaseB.NamedTables``.
+They are equal if and only if their contents are equal.
+

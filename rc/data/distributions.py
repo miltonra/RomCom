@@ -39,7 +39,7 @@ class PDF(Table):
         """ Compare ``self`` to ``pdf``, returning the ratio.
 
         Args:
-            path: The ``Path`` to this Table, overwritten if existing.
+            path: The Path to this Table, overwritten if existing.
             pdf: The ``PDF`` to compare to.
 
         Returns: The ratio of ``self / pdf``, stored in ``path``.
@@ -52,7 +52,7 @@ class PDF(Table):
         """ Create a ``PDF`` Table at ``path``.
 
         Args:
-            path: The ``Path`` to this Table, overwritten if existing.
+            path: The Path to this Table, overwritten if existing.
             design: The ``CoordDesign | PointDesign`` to work from.
 
         Returns: The ``PDF`` created.
@@ -66,7 +66,7 @@ class PointPDF(PDF):
         """ Create an independent ``PointPDF`` from ``coordPDF``.
 
         Args:
-            path: The ``Path`` to this Table, overwritten if existing.
+            path: The Path to this Table, overwritten if existing.
             coordPDF: The ``CoordPDF`` describing rationality.
 
         Returns: The rational ``PointPDF`` created.
@@ -106,7 +106,7 @@ class CoordPDF(PDF):
         """ Create a uniform version of ``coordPDF``.
 
         Args:
-            path: The ``Path`` to this Table, overwritten if existing.
+            path: The Path to this Table, overwritten if existing.
             coordPDF: The ``CoordPDF`` to make uniform.
 
         Returns: The uniform ``CoordPDF`` created.
@@ -133,7 +133,7 @@ class CoordPDF(PDF):
 
 class PointStats(Table):
 
-    readOptions: MetaData = Table.readOptions | {'index_col': [0, 1], 'header': [0, 1]}
+    readOptions: MetaData = Table.readOptions | {'index_col': [0, 1], 'head': [0, 1]}
     """ File read options passed directly to
     `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
 
@@ -145,7 +145,7 @@ class PointStats(Table):
         """ The empirical statistics of a PointDesign per categorical points.
 
         Args:
-            path: The ``Path`` to this Table, overwritten if existing.
+            path: The Path to this Table, overwritten if existing.
             design: The ``PointDesign`` to work from.
 
         Returns: The empirical ``PointStats`` calculated from ``design``.
@@ -166,7 +166,7 @@ class PointStats(Table):
 
 class CoordStats(Table):
 
-    readOptions: MetaData = Table.readOptions | {'header': [0, 1]}
+    readOptions: MetaData = Table.readOptions | {'head': [0, 1]}
     """ File read options passed directly to
     `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
 
@@ -178,7 +178,7 @@ class CoordStats(Table):
         """ Compare ``self`` to ``stats``, returning the difference.
 
         Args:
-            path: The ``Path`` to this Table, overwritten if existing.
+            path: The Path to this Table, overwritten if existing.
             stats: The ``Stats`` to compare to.
 
         Returns: The difference ``self - stats``, stored in ``path``.
@@ -190,7 +190,7 @@ class CoordStats(Table):
         """ The statistics of a ``PointPDF`` and ``PointStats`` per categorical coord.
 
         Args:
-            path: The ``Path`` to this Table, overwritten if existing.
+            path: The Path to this Table, overwritten if existing.
             pointPDF: The ``PointPDF`` to work from.
             pointStats: The ``PointStats`` to work from.
 

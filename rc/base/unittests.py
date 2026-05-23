@@ -64,6 +64,9 @@ class TestCase(ut.TestCase):
         self.assertNotEqual(created, read)
         read = Table(Test.folder() / 'created')
         self.assertEqual(created, read)
+        collapse = Table.conjoinHeads(src=created.path, dst=Test.folder() / 'collapsed')
+        print(created.pl)
+        print(collapse.pl)
 
     def test_DataBase(self):
 
@@ -79,7 +82,7 @@ class TestCase(ut.TestCase):
 
             Tables: NamedTables[type[Table]] = NamedTables(**{name: Table for name in NamedTables._fields})
             """ Class attribute of the form ``NamedTables(**{names[i]: Table[i], ...})``,
-            where ``Table[i]`` is a Type which SubClasses ``Table``. Must be overridden."""
+            where ``Table[i]`` is a Type which SubClasses Table. Must be overridden."""
 
             defaultMeta: MetaData = {'Tables': {name: TableType.__name__
                                                 for name, TableType in Tables._asdict().items()}}

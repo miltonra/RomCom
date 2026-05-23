@@ -47,7 +47,7 @@ Constants
 ^^^^^^^^^^^
 
 Constancy in RomCom is determined by scope, not name.
-Every namespace or classAttribute in RomCom is a constant which must not be modified.
+Every namespace attribute or classAttribute in RomCom is a constant which must not be modified.
 Bespoke constants should be implemented by SubClassing, leaving the RomCom parent unmodified.
 An UpperCamelCase constant (e.g. ModuleAttribute or ClassAttribute) refers to a Class.
 A lowerCamelCase constant (e.g. moduleAttribute or classAttribute) does not.
@@ -57,7 +57,7 @@ A lowerCamelCase constant (e.g. moduleAttribute or classAttribute) does not.
 ^^^^^^^^^^^
     In the context of object-oriented programming, a protocol is an informal interface, defined only in documentation and not in code. [The Lizard Book pp.402]
 
-A *Protocol* documents an interface a Class supports via undocumented :term:`dunder methods`.
+A *Protocol* is an *AbstractClass* which documents an interface implemented using undocumented :term:`dunder methods`.
 *Protocols* are pure documentation in code, and are essentially meaningless outside a Class definition.
 *Protocols* are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python *BaseExceptions*, in fact),
 They are named in *UpperCamelCaseP*, which is UpperCamelCase with a big P at the end which stands for *Protocol* and avoids tedious naming conflicts.

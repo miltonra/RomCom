@@ -10,15 +10,19 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
     :sorted:
 
     *Protocol*
-        Documentation in code, detailing the interface a Class supports via undocumented :term:`dunder methods`.
-        They are named in *UpperCamelCaseP*, which is UpperCamelCase with a big P at the end which stands for *Protocol* and avoids tedious naming conflicts.
+    CRUD Protocols
+    NameP
+    IndexP
+    EqualsP
+        Documentation in code, detailing the interface of a RomCom software object.
+        See :doc:`api/rc/base/index` :ref:`Protocols <baseProtocols>`.
 
     dunder methods
         Special methods (also known as magic methods) whose names are surrounded by double underscores (dunders).
-        The best know example is Python's Class constructor ``__init__(self, **kwargs)``.
+        The best known example is Python's Class constructor ``__init__(self, **kwargs)``.
 
     CRUD
-        Create, Read, Update, Delete. The usual lifecycle for software objects stored on a filesystem.
+        Create, Read, Update, Delete. The conventional lifecycle for software objects stored on a filesystem.
 
     folder
         directory.
@@ -29,27 +33,21 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
     SD
         Standard Deviation.
 
+    ecosystem
     ``pl``
     ``Pl``
-        The polars package ``polars``.
-
-    pl.DataFrame
-        A sophisticated and flexible ``.csv`` viewer, used to store and manipulate Tables in RomCom.
-        For a full description, see the `polars documentation <https://docs.pola.rs/user-guide/concepts/data-types-and-structures/#dataframe>`_.
-
     ``np``
     ``Np``
-        The NumPy package ``numpy``.
-
     ``tc``
     ``Tc``
-        The PyTorch package ``torch``.
+        See :ref:`ecosystem <ecosystem>`.
 
+    Store
     MetaData
-        ``Mapping[str, Any]``.
-
+    Meta
     Table
-        Consult :doc:`base <base>`.
+    DataBase
+        Base Classes for all RomCom software objects. See :doc:`api/rc/base/index` :ref:`Classes <baseClasses>`.
 
     Categorical Input
     Discrete Input
@@ -58,3 +56,4 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
 
     model
         An imprecise term for a Class which furnishes core functionality.
+

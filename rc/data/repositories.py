@@ -50,7 +50,7 @@ from rc.data.normalizers import *
 #         return self._meta['K'] + 1
 #
 #     def __getitem__(self, fold: int | slice) -> Path | tuple[Path, ...]:
-#         """ Indexer returns the ``Path`` (s) to the Folds indexed or sliced by ``fold``. """
+#         """ Indexer returns the Path (s) to the Folds indexed or sliced by ``fold``. """
 #         if isinstance(fold, int):
 #             return self.path  if fold == 0 else self.path / f'{abs(fold)}'
 #         else:

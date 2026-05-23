@@ -38,7 +38,7 @@ The top row is introductory narrative, the second row basic usage, the third row
         :link: pages/base
         :link-type: doc
 
-        Foundational type, storage and access facilities
+        Foundational type and storage facilities
 
     .. grid-item-card::  :octicon:`file` data
         :link: pages/data
@@ -104,7 +104,6 @@ The top row is introductory narrative, the second row basic usage, the third row
     base <pages/base>
     data <pages/data>
     tasks <pages/tasks>
-    GLR <pages/glr>
     GPR <pages/gpr>
     GSA <pages/gsa>
     ROM <pages/rom>
