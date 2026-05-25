@@ -1,0 +1,6 @@
+<map id="inheritancebdcad20e2d" name="inheritancebdcad20e2d">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,32"/>
+<area shape="rect" id="node3" title="Base Class for any stored Class. Users are not expected to SubClass this Class directly." alt="" coords="125,5,197,32"/>
+<area shape="rect" id="node2" title="``NamedTables(NamedTuple)`` in a folder alongside Meta. Abstract BaseClass for any model." alt="" coords="245,5,325,32"/>
+<area shape="rect" id="node5" title="Normalizer of a Design." alt="" coords="576,5,706,32"/>
+</map>

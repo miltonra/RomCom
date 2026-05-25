@@ -1,0 +1,7 @@
+<map id="inheritancecd1b659877" name="inheritancecd1b659877">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,32"/>
+<area shape="rect" id="node5" title="Base Class for any stored Class. Users are not expected to SubClass this Class directly." alt="" coords="125,5,197,32"/>
+<area shape="rect" id="node2" title="The familiar user format of a Design which has many axes (columns), and two header rows." alt="" coords="485,5,583,32"/>
+<area shape="rect" id="node3" title="A Design of user data, tabulating continuous inputs, categorical inputs, and outputs." alt="" coords="365,5,437,32"/>
+<area shape="rect" id="node4" title="Concrete Class encapsulating a ``Pl.DataFrame`` backed by a ``.csv`` file." alt="" coords="245,5,317,32"/>
+</map>

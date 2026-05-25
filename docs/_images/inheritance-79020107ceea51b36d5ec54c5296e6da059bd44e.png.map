@@ -1,0 +1,4 @@
+<map id="inheritance0938b9eac2" name="inheritance0938b9eac2">
+<area shape="rect" id="node1" title="``Store.delete(path)`` destroys everything in its ``path``." alt="" coords="125,29,197,56"/>
+<area shape="rect" id="node2" title="The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods." alt="" coords="5,29,77,56"/>
+</map>

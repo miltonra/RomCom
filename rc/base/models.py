@@ -297,7 +297,7 @@ class Table(Store):
     readOptions: MetaData = {}
     """ File read options passed directly to `Pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__."""
 
-    writeOptions: MetaData = {}
+    writeOptions: MetaData = {'include_bom': True}
     """ File write options passed directly to `Pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__."""
 
     class IndexP(IndexP):
@@ -330,6 +330,7 @@ class Table(Store):
     def heads(self, value: Iterable[str]):
         """ The column heads of ``self.pl``."""
         self._pl.columns = list(value)
+        self()
 
     @property
     def pl(self) -> Pl.DataFrame:
@@ -384,10 +385,10 @@ class Table(Store):
         elif isinstance(index, Iterable):
             if not (isinstance(columns, tuple) and len(columns) == len(index)):
                 raise IndexError(f'Expected a tuple of {len(index)} tables, not {len(columns)}.')
-            columns = self._pl.with_columns(**{self._pl.columns[i]: pl.lit(columns[i])
+            columns = self._pl.with_columns(**{self.heads[i]: pl.lit(columns[i])
                                                for i in range(len(index))})
         elif isinstance(columns, tuple):
-            return self.__setitem__(self._pl.columns[index], columns)
+            return self.__setitem__(self.heads[index], columns)
         else:
             return NotImplemented
         self(columns)
@@ -429,6 +430,7 @@ class Table(Store):
             self._pl = pl.from_numpy(update)
         elif isinstance(update, Tc.Matrix):
             self._pl = pl.from_torch(update)
+        self._pl = self._pl.with_columns(pl.col(pl.String).cast(pl.Categorical))
         self._pl.write_csv(self._path, **self.writeOptions)
         return self
 
@@ -492,21 +494,26 @@ class Table(Store):
         Returns: The Table now stored at ``dst``.
         """
         src = cls.extAppend(src)
-        heads = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'n_rows': headcount})).fill_null(2*cls.con)
+        heads = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'n_rows': headcount})
+                            ).fill_null(2*cls.con)
         src = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'skip_rows': headcount}))
-        heads = [cls.con.join(map(str, heads[head].to_list())) for head in heads.columns]
+        heads = [cls.con + cls.con.join(map(str, heads[head].to_list())) + cls.con for head in heads.columns]
         src = pl.DataFrame(src, heads).drop([col for col in heads[1:] if 2*cls.con in col])
+        src.columns = [head[1:-1] for head in src.columns]
         return cls.create(dst, src)
 
     @classmethod
     def unjoinHeads(cls, src: Table, dst: PathLike) -> Path:
         """ Explode ``src.heads`` into multi-level headed  ``dst.csv``, overwriting.
         Explosion is from the left, so ``a│b│c`` becomes the 3-level header ``(a,b,c)``.
+        The first column is presumed to be an index.
+        Every other column must produce the same headcount (number of levels).
 
         Args:
             src: The source Table.
             dst: The destination Path, overwritten if existing. A ``.csv`` extension is implicitly appended.
         Returns: ``dst``, now containing the unjoined ``dst.csv``.
+        Raises: IndexError if ``src.heads`` cannot be unjoined due to inconsistent headcounts (levels).
         """
         heads = [head.split(cls.con) for head in src.heads]
         if len(heads) > 1:
@@ -515,10 +522,10 @@ class Table(Store):
                 raise IndexError(f'Cannot unjoin heads: Expected all heads except the first '
                                  f'to have the same number of levels, but got {headcount}.')
             heads[0] += [None] * (headcount.pop() - len(heads[0]))
-        heads = pl.DataFrame(list(zip(*heads)))
+        heads = pl.DataFrame(heads)
         with open(cls.extAppend(dst), "w", newline="", encoding="utf-8") as file:
-            heads.write_csv(file, **(cls.writeOptions | {'header': False}))
-            src.pl.write_csv(file, **(cls.writeOptions | {'header': False}))
+            heads.write_csv(file, **(cls.writeOptions | {'include_header': False}))
+            src.pl.write_csv(file, **(cls.writeOptions | {'include_header': False}))
         return Path(dst)
 
 

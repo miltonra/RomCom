@@ -36,55 +36,74 @@ class Design(Table):
     class CreateP(CreateP):
         """ Creates a new instance of ``cls`` at ``path`` from ``design: PointDesign | CoordDesign``. """
 
-    outputAxis: str = 'ο'
-    """ The label used to denote the output axis in a PointDesign. """
+    axisLexicon: dict[str,str] = {'index': 'n',
+                                  'input': 'x', 'in': 'x', 'continuous': 'x', 'float': 'x',
+                                  'outputaxis': 'o', 'outputindex': 'o', 'outputcategory': 'o',
+                                  'category': 'i', 'cat': 'i', 'discrete': 'i', 'int': 'i', 'str': 'i',
+                                  'output': 'y', 'out':'y', 'map': 'y', 'func':'y', }
+    """ The lexicon of axisTypes. """
 
-    @classmethod
-    def validate(cls, axis: str) -> str:
-        """ The axisType of the given ``axis``.
+    axisTypes: list[str] = list(dict.fromkeys(axisLexicon.values()))
+    """ The axisTypes in any Design, ordered from left to right. """
+
+    def __init__(self, path: PathLike, table: Self | Pl.DataFrame | None = None):
+        """ Construct ``self`` from a ``.csv`` file or ``Pl.DataFrame``.
 
         Args:
-            axis: A ``str`` axisType, such as ``'x', 'i', 'y', 'continuous', 'discrete', 'output', etc.
-
-        Returns: ``axisType in 'x', 'i', 'y', '?'``. ``'?'`` is returned if ``axis`` is not recognized.
-
+            path: The Path (file) to store ``self``. A ``.csv`` extension is implicitly appended.
+            table: The ``Table | Pl.DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
+                otherwise ``self`` is stored in ``path`` (which is overwritten if existing).
         """
-        match axis.lower():
-            case 'x' | 'x│' | 'input' | 'in' | 'continuous' | 'float' :
-                return 'x│'
-            case 'i' | 'i│' | 'category' | 'cat' | 'discrete' | 'int' | 'str' :
-                return 'i│'
-            case 'y' | 'y│' | 'output' | 'out'| 'map' | 'func' :
-                return 'y│'
-        return '?│'
+        super().__init__(path)
+        if table is None:
+            self(pl.read_csv(self._path, **self.readOptions))
+        else:
+            self(table)
 
-    @classmethod
-    @abstractmethod
-    def create(cls, path: PathLike, design: Design) -> Self:
+    def create(cls, path: PathLike, table: Table) -> Tuple[Table, dict[str,int]]:
         """ Create a ``Design`` at ``path``.
 
         Args:
             path: The Path to store this Table, overwritten if existing.
                 A ``.csv`` extension is automatically appended.
-            design: The ``CoordDesign | PointDesign`` to reformat if necessary and store in ``path``.
-        Returns: The ``Design`` created.
+            table: The ``Table`` to reformat and store in ``path``.
+        Returns: The ``Table`` created.
         """
-        result = design.pl.rename({design.pl.columns[0]: 'n│'})
+        heads = table.heads
+        heads[0] = 'n' + cls.con
+        heads = [head.split(cls.con,1) for head in heads]
+        heads = [cls.axisLexicon.get(head[0].lower(), head[0]) + cls.con + head[1] for head in heads]
+        df = table.pl.rename(dict(zip(table.heads, heads)))
+        heads = {axisType: [head for head in heads if head[0] == axisType] for axisType in cls.axisTypes}
+        if y := heads.pop('y', []):
+            if len(heads['o']) > 0:
+                # Only accept first output column
+                df = df.with_columns(*[head for axisType in heads.keys() for head in heads[axisType]]
+                                     , pl.col(y[0]).alias('y'))
+            else:
+                df = df.unpivot(y, index=[head for axisType in heads.keys() for head in heads[axisType]],
+                                variable_name='o', value_name='y')
+                heads['o'] = ['o']
+                df = df.select(*[head for axisType in heads.keys() for head in heads[axisType]],
+                               pl.col('y'))
+        else:
+            raise ValueError('Design must have at least one output axis.')
+
+        return (Table(Table.mkdir(path), df),
+                {axisType: len(heads.get(axisType,[])) for axisType in cls.axisTypes})
 
 class PointDesign(Design):
-    """ The internal format of ``Design``, which is thin (has few columns), and only one header row.
+    """ The internal format of ``Design``, which is narrow.
     Categorical axes are concatenated into a single column of categorical points."""
 
     @classmethod
     def create(cls, path: PathLike, design: Design) -> Self:
+        coordDesign = super().create(path, design)
         match design:
             case PointDesign():
-                # If already a PointDesign, just ensure the first column head.
-                pointDesign = design.pl.rename({design.pl.columns[0]: 'n│'})
+                return cls(path)
             case CoordDesign():
                 # Reformat the CoordDesign to a PointDesign.
-                coordDesign = design.pl.rename({design.pl.columns[0]: 'n│'})
-                coordDesign = coordDesign.rename(cls.axisType, strict=False)
                 # Strip out the ``inputAxes`` from ``design``.
                 inputAxes = {'x│': None, 'i│': None}
                 for key in inputAxes.keys():

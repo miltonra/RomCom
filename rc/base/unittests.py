@@ -64,9 +64,11 @@ class TestCase(ut.TestCase):
         self.assertNotEqual(created, read)
         read = Table(Test.folder() / 'created')
         self.assertEqual(created, read)
-        collapse = Table.conjoinHeads(src=created.path, dst=Test.folder() / 'collapsed')
+        conjoined = Table.conjoinHeads(src=created.path, dst=Test.folder() / 'conjoined')
+        conjoined.heads = [conjoined.heads[0][0]] + conjoined.heads[1:]
+        unjoined = Table.unjoinHeads(src=conjoined, dst=Test.folder() / 'unjoined')
         print(created.pl)
-        print(collapse.pl)
+        print(conjoined.pl)
 
     def test_DataBase(self):
 

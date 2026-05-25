@@ -1,0 +1,1160 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>base.models.Store.delete &#8212; RomCom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pydata-custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+
+    <script src="../../../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/api/rc/base/models/Store.delete';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../../../_static/MattLogo2.png"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="base.models.Meta" href="Meta.html" />
+    <link rel="prev" title="base.models.Store.copy" href="Store.copy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.0" />
+  
+    
+    <script src="../../../../../_static/searchtools.js"></script>
+    <script src="../../../../../_static/language_data.js"></script>
+    <script src="../../../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/MattLogo2.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <img src="../../../../../_static/MattLogo2.svg" class="logo__image only-dark pst-js-only" alt="RomCom - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../plan.html">
+    Plan
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../base.html">
+    base
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../data.html">
+    data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../tasks.html">
+    tasks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../rom.html">
+    ROM
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../glr.html">
+    GLR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../genindex.html">
+    Index
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/miltonra/RomCom" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../plan.html">
+    Plan
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../base.html">
+    base
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../data.html">
+    data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../tasks.html">
+    tasks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../rom.html">
+    ROM
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../glr.html">
+    GLR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../genindex.html">
+    Index
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/miltonra/RomCom" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base.models.Store.delete"><code class="docutils literal notranslate"><span class="pre">base.models.Store.delete()</span></code></a></li>
+</ul>
+  </nav></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">base</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../definitions/index.html">base.definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/Protocol.html">base.definitions.Protocol</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../definitions/IndexP.html">base.definitions.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../definitions/IndexP.Index.html">base.definitions.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/EqualsP.html">base.definitions.EqualsP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/CreateP.html">base.definitions.CreateP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/ReadP.html">base.definitions.ReadP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/UpdateP.html">base.definitions.UpdateP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/DeleteP.html">base.definitions.DeleteP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/CopyP.html">base.definitions.CopyP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/NameP.html">base.definitions.NameP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/zero.html">base.definitions.zero</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/PathLike.html">base.definitions.PathLike</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/Pl.html">base.definitions.Pl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/Np.html">base.definitions.Np</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../definitions/Tc.html">base.definitions.Tc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">base.models</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="MetaData.html">base.models.MetaData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Matrix.html">base.models.Matrix</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="Store.html">base.models.Store</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Store.ext.html">base.models.Store.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.CreateP.html">base.models.Store.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.ReadP.html">base.models.Store.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.UpdateP.html">base.models.Store.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.DeleteP.html">base.models.Store.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.CopyP.html">base.models.Store.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.NameP.html">base.models.Store.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.path.html">base.models.Store.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.extAppend.html">base.models.Store.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.mkdir.html">base.models.Store.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.create.html">base.models.Store.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Store.copy.html">base.models.Store.copy</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">base.models.Store.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="Meta.html">base.models.Meta</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="Meta.ext.html">base.models.Meta.ext</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="Meta.IndexP.html">base.models.Meta.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="Meta.IndexP.Index.html">base.models.Meta.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.EqualsP.html">base.models.Meta.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.CreateP.html">base.models.Meta.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.ReadP.html">base.models.Meta.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.UpdateP.html">base.models.Meta.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.DeleteP.html">base.models.Meta.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.CopyP.html">base.models.Meta.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.create.html">base.models.Meta.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.copy.html">base.models.Meta.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.NameP.html">base.models.Meta.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.path.html">base.models.Meta.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.extAppend.html">base.models.Meta.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.mkdir.html">base.models.Meta.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Meta.delete.html">base.models.Meta.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="Table.html">base.models.Table</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="Table.ext.html">base.models.Table.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.con.html">base.models.Table.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.readOptions.html">base.models.Table.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.writeOptions.html">base.models.Table.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="Table.IndexP.html">base.models.Table.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="Table.IndexP.Index.html">base.models.Table.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.EqualsP.html">base.models.Table.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.CreateP.html">base.models.Table.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.ReadP.html">base.models.Table.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.UpdateP.html">base.models.Table.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.DeleteP.html">base.models.Table.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.CopyP.html">base.models.Table.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.heads.html">base.models.Table.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.pl.html">base.models.Table.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.np.html">base.models.Table.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.tc.html">base.models.Table.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.broadcast_to.html">base.models.Table.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.create.html">base.models.Table.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.copy.html">base.models.Table.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.conjoinHeads.html">base.models.Table.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.unjoinHeads.html">base.models.Table.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.NameP.html">base.models.Table.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.path.html">base.models.Table.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.extAppend.html">base.models.Table.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.mkdir.html">base.models.Table.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Table.delete.html">base.models.Table.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="DataBase.html">base.models.DataBase</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.NamedTables.html">base.models.DataBase.NamedTables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.Tables.html">base.models.DataBase.tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.defaultMeta.html">base.models.DataBase.defaultMeta</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="DataBase.IndexP.html">base.models.DataBase.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="DataBase.IndexP.Index.html">base.models.DataBase.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.EqualsP.html">base.models.DataBase.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.CreateP.html">base.models.DataBase.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.ReadP.html">base.models.DataBase.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.UpdateP.html">base.models.DataBase.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.DeleteP.html">base.models.DataBase.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.CopyP.html">base.models.DataBase.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.meta.html">base.models.DataBase.meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.names.html">base.models.DataBase.names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.defaults.html">base.models.DataBase.defaults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.create.html">base.models.DataBase.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.copy.html">base.models.DataBase.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.delete.html">base.models.DataBase.delete</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.ext.html">base.models.DataBase.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.NameP.html">base.models.DataBase.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.path.html">base.models.DataBase.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.extAppend.html">base.models.DataBase.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DataBase.mkdir.html">base.models.DataBase.mkdir</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../data/index.html">data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../data/benchmarks/index.html">data.benchmarks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../data/benchmarks/ishigami.html">data.benchmarks.ishigami</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../data/benchmarks/sobolG.html">data.benchmarks.sobolG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../data/benchmarks/oakley2004_5.html">data.benchmarks.oakley2004_5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../data/benchmarks/oakley2004.html">data.benchmarks.oakley2004</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../data/benchmarks/Scalar.html">data.benchmarks.Scalar</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/benchmarks/Vector.html">data.benchmarks.Vector</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/benchmarks/Vector.concat.html">data.benchmarks.Vector.concat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/benchmarks/Vector.meta.html">data.benchmarks.Vector.meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/benchmarks/Vector.subVector.html">data.benchmarks.Vector.subVector</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../data/benchmarks/linspace.html">data.benchmarks.linspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../data/benchmarks/categorized.html">data.benchmarks.categorized</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../data/designs/index.html">data.designs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/designs/Design.html">data.designs.Design</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.CreateP.html">data.designs.Design.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.outputAxis.html">data.designs.Design.outputAxis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.validate.html">data.designs.Design.validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.create.html">data.designs.Design.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.ext.html">data.designs.Design.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.con.html">data.designs.Design.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.readOptions.html">data.designs.Design.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.writeOptions.html">data.designs.Design.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/designs/Design.IndexP.html">data.designs.Design.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/designs/Design.IndexP.Index.html">data.designs.Design.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.EqualsP.html">data.designs.Design.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.ReadP.html">data.designs.Design.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.UpdateP.html">data.designs.Design.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.DeleteP.html">data.designs.Design.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.CopyP.html">data.designs.Design.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.heads.html">data.designs.Design.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.pl.html">data.designs.Design.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.np.html">data.designs.Design.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.tc.html">data.designs.Design.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.broadcast_to.html">data.designs.Design.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.copy.html">data.designs.Design.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.conjoinHeads.html">data.designs.Design.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.unjoinHeads.html">data.designs.Design.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.NameP.html">data.designs.Design.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.path.html">data.designs.Design.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.extAppend.html">data.designs.Design.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.mkdir.html">data.designs.Design.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/Design.delete.html">data.designs.Design.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/designs/PointDesign.html">data.designs.PointDesign</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.create.html">data.designs.PointDesign.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.CreateP.html">data.designs.PointDesign.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.outputAxis.html">data.designs.PointDesign.outputAxis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.validate.html">data.designs.PointDesign.validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.ext.html">data.designs.PointDesign.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.con.html">data.designs.PointDesign.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.readOptions.html">data.designs.PointDesign.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.writeOptions.html">data.designs.PointDesign.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/designs/PointDesign.IndexP.html">data.designs.PointDesign.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/designs/PointDesign.IndexP.Index.html">data.designs.PointDesign.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.EqualsP.html">data.designs.PointDesign.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.ReadP.html">data.designs.PointDesign.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.UpdateP.html">data.designs.PointDesign.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.DeleteP.html">data.designs.PointDesign.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.CopyP.html">data.designs.PointDesign.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.heads.html">data.designs.PointDesign.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.pl.html">data.designs.PointDesign.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.np.html">data.designs.PointDesign.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.tc.html">data.designs.PointDesign.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.broadcast_to.html">data.designs.PointDesign.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.copy.html">data.designs.PointDesign.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.conjoinHeads.html">data.designs.PointDesign.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.unjoinHeads.html">data.designs.PointDesign.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.NameP.html">data.designs.PointDesign.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.path.html">data.designs.PointDesign.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.extAppend.html">data.designs.PointDesign.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.mkdir.html">data.designs.PointDesign.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/PointDesign.delete.html">data.designs.PointDesign.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/designs/CoordDesign.html">data.designs.CoordDesign</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.readOptions.html">data.designs.CoordDesign.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.create.html">data.designs.CoordDesign.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.CreateP.html">data.designs.CoordDesign.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.outputAxis.html">data.designs.CoordDesign.outputAxis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.validate.html">data.designs.CoordDesign.validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.ext.html">data.designs.CoordDesign.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.con.html">data.designs.CoordDesign.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.writeOptions.html">data.designs.CoordDesign.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/designs/CoordDesign.IndexP.html">data.designs.CoordDesign.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/designs/CoordDesign.IndexP.Index.html">data.designs.CoordDesign.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.EqualsP.html">data.designs.CoordDesign.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.ReadP.html">data.designs.CoordDesign.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.UpdateP.html">data.designs.CoordDesign.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.DeleteP.html">data.designs.CoordDesign.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.CopyP.html">data.designs.CoordDesign.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.heads.html">data.designs.CoordDesign.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.pl.html">data.designs.CoordDesign.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.np.html">data.designs.CoordDesign.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.tc.html">data.designs.CoordDesign.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.broadcast_to.html">data.designs.CoordDesign.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.copy.html">data.designs.CoordDesign.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.conjoinHeads.html">data.designs.CoordDesign.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.unjoinHeads.html">data.designs.CoordDesign.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.NameP.html">data.designs.CoordDesign.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.path.html">data.designs.CoordDesign.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.extAppend.html">data.designs.CoordDesign.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.mkdir.html">data.designs.CoordDesign.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/designs/CoordDesign.delete.html">data.designs.CoordDesign.delete</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../data/distributions/index.html">data.distributions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/distributions/PDF.html">data.distributions.PDF</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.readOptions.html">data.distributions.PDF.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.CreateP.html">data.distributions.PDF.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.compare.html">data.distributions.PDF.compare</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.create.html">data.distributions.PDF.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.ext.html">data.distributions.PDF.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.con.html">data.distributions.PDF.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.writeOptions.html">data.distributions.PDF.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/distributions/PDF.IndexP.html">data.distributions.PDF.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/distributions/PDF.IndexP.Index.html">data.distributions.PDF.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.EqualsP.html">data.distributions.PDF.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.ReadP.html">data.distributions.PDF.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.UpdateP.html">data.distributions.PDF.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.DeleteP.html">data.distributions.PDF.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.CopyP.html">data.distributions.PDF.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.heads.html">data.distributions.PDF.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.pl.html">data.distributions.PDF.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.np.html">data.distributions.PDF.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.tc.html">data.distributions.PDF.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.broadcast_to.html">data.distributions.PDF.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.copy.html">data.distributions.PDF.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.conjoinHeads.html">data.distributions.PDF.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.unjoinHeads.html">data.distributions.PDF.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.NameP.html">data.distributions.PDF.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.path.html">data.distributions.PDF.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.extAppend.html">data.distributions.PDF.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.mkdir.html">data.distributions.PDF.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PDF.delete.html">data.distributions.PDF.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/distributions/PointPDF.html">data.distributions.PointPDF</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.independent.html">data.distributions.PointPDF.independent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.create.html">data.distributions.PointPDF.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.readOptions.html">data.distributions.PointPDF.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.CreateP.html">data.distributions.PointPDF.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.compare.html">data.distributions.PointPDF.compare</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.ext.html">data.distributions.PointPDF.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.con.html">data.distributions.PointPDF.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.writeOptions.html">data.distributions.PointPDF.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/distributions/PointPDF.IndexP.html">data.distributions.PointPDF.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/distributions/PointPDF.IndexP.Index.html">data.distributions.PointPDF.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.EqualsP.html">data.distributions.PointPDF.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.ReadP.html">data.distributions.PointPDF.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.UpdateP.html">data.distributions.PointPDF.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.DeleteP.html">data.distributions.PointPDF.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.CopyP.html">data.distributions.PointPDF.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.heads.html">data.distributions.PointPDF.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.pl.html">data.distributions.PointPDF.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.np.html">data.distributions.PointPDF.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.tc.html">data.distributions.PointPDF.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.broadcast_to.html">data.distributions.PointPDF.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.copy.html">data.distributions.PointPDF.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.conjoinHeads.html">data.distributions.PointPDF.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.unjoinHeads.html">data.distributions.PointPDF.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.NameP.html">data.distributions.PointPDF.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.path.html">data.distributions.PointPDF.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.extAppend.html">data.distributions.PointPDF.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.mkdir.html">data.distributions.PointPDF.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointPDF.delete.html">data.distributions.PointPDF.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/distributions/CoordPDF.html">data.distributions.CoordPDF</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.uniform.html">data.distributions.CoordPDF.uniform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.create.html">data.distributions.CoordPDF.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.readOptions.html">data.distributions.CoordPDF.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.CreateP.html">data.distributions.CoordPDF.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.compare.html">data.distributions.CoordPDF.compare</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.ext.html">data.distributions.CoordPDF.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.con.html">data.distributions.CoordPDF.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.writeOptions.html">data.distributions.CoordPDF.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/distributions/CoordPDF.IndexP.html">data.distributions.CoordPDF.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/distributions/CoordPDF.IndexP.Index.html">data.distributions.CoordPDF.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.EqualsP.html">data.distributions.CoordPDF.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.ReadP.html">data.distributions.CoordPDF.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.UpdateP.html">data.distributions.CoordPDF.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.DeleteP.html">data.distributions.CoordPDF.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.CopyP.html">data.distributions.CoordPDF.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.heads.html">data.distributions.CoordPDF.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.pl.html">data.distributions.CoordPDF.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.np.html">data.distributions.CoordPDF.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.tc.html">data.distributions.CoordPDF.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.broadcast_to.html">data.distributions.CoordPDF.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.copy.html">data.distributions.CoordPDF.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.conjoinHeads.html">data.distributions.CoordPDF.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.unjoinHeads.html">data.distributions.CoordPDF.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.NameP.html">data.distributions.CoordPDF.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.path.html">data.distributions.CoordPDF.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.extAppend.html">data.distributions.CoordPDF.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.mkdir.html">data.distributions.CoordPDF.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordPDF.delete.html">data.distributions.CoordPDF.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/distributions/PointStats.html">data.distributions.PointStats</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.readOptions.html">data.distributions.PointStats.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.CreateP.html">data.distributions.PointStats.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.create.html">data.distributions.PointStats.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.ext.html">data.distributions.PointStats.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.con.html">data.distributions.PointStats.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.writeOptions.html">data.distributions.PointStats.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/distributions/PointStats.IndexP.html">data.distributions.PointStats.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/distributions/PointStats.IndexP.Index.html">data.distributions.PointStats.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.EqualsP.html">data.distributions.PointStats.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.ReadP.html">data.distributions.PointStats.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.UpdateP.html">data.distributions.PointStats.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.DeleteP.html">data.distributions.PointStats.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.CopyP.html">data.distributions.PointStats.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.heads.html">data.distributions.PointStats.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.pl.html">data.distributions.PointStats.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.np.html">data.distributions.PointStats.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.tc.html">data.distributions.PointStats.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.broadcast_to.html">data.distributions.PointStats.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.copy.html">data.distributions.PointStats.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.conjoinHeads.html">data.distributions.PointStats.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.unjoinHeads.html">data.distributions.PointStats.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.NameP.html">data.distributions.PointStats.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.path.html">data.distributions.PointStats.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.extAppend.html">data.distributions.PointStats.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.mkdir.html">data.distributions.PointStats.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/PointStats.delete.html">data.distributions.PointStats.delete</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/distributions/CoordStats.html">data.distributions.CoordStats</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.readOptions.html">data.distributions.CoordStats.readOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.CreateP.html">data.distributions.CoordStats.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.diff.html">data.distributions.CoordStats.diff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.create.html">data.distributions.CoordStats.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.ext.html">data.distributions.CoordStats.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.con.html">data.distributions.CoordStats.con</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.writeOptions.html">data.distributions.CoordStats.writeOptions</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/distributions/CoordStats.IndexP.html">data.distributions.CoordStats.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/distributions/CoordStats.IndexP.Index.html">data.distributions.CoordStats.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.EqualsP.html">data.distributions.CoordStats.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.ReadP.html">data.distributions.CoordStats.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.UpdateP.html">data.distributions.CoordStats.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.DeleteP.html">data.distributions.CoordStats.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.CopyP.html">data.distributions.CoordStats.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.heads.html">data.distributions.CoordStats.heads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.pl.html">data.distributions.CoordStats.pl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.np.html">data.distributions.CoordStats.np</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.tc.html">data.distributions.CoordStats.tc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.broadcast_to.html">data.distributions.CoordStats.broadcast_to</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.copy.html">data.distributions.CoordStats.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.conjoinHeads.html">data.distributions.CoordStats.conjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.unjoinHeads.html">data.distributions.CoordStats.unjoinHeads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.NameP.html">data.distributions.CoordStats.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.path.html">data.distributions.CoordStats.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.extAppend.html">data.distributions.CoordStats.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.mkdir.html">data.distributions.CoordStats.mkdir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/distributions/CoordStats.delete.html">data.distributions.CoordStats.delete</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../data/normalizers/index.html">data.normalizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.html">data.normalizers.IndependentNormalizer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.html">data.normalizers.IndependentNormalizer.NamedTables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.design.html">data.normalizers.IndependentNormalizer.NamedTables.design</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.empiricalPDF.html">data.normalizers.IndependentNormalizer.NamedTables.empiricalPDF</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.coordPDF.html">data.normalizers.IndependentNormalizer.NamedTables.coordPDF</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.pointPDF.html">data.normalizers.IndependentNormalizer.NamedTables.pointPDF</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.ratioPDF.html">data.normalizers.IndependentNormalizer.NamedTables.ratioPDF</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.pointStats.html">data.normalizers.IndependentNormalizer.NamedTables.pointStats</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.coordStats.html">data.normalizers.IndependentNormalizer.NamedTables.coordStats</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.empiricalStats.html">data.normalizers.IndependentNormalizer.NamedTables.empiricalStats</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NamedTables.diffStats.html">data.normalizers.IndependentNormalizer.NamedTables.diffStats</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.Tables.html">data.normalizers.IndependentNormalizer.tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.defaultMeta.html">data.normalizers.IndependentNormalizer.defaultMeta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.CreateP.html">data.normalizers.IndependentNormalizer.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.create.html">data.normalizers.IndependentNormalizer.create</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.IndexP.html">data.normalizers.IndependentNormalizer.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.IndexP.Index.html">data.normalizers.IndependentNormalizer.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.EqualsP.html">data.normalizers.IndependentNormalizer.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.ReadP.html">data.normalizers.IndependentNormalizer.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.UpdateP.html">data.normalizers.IndependentNormalizer.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.DeleteP.html">data.normalizers.IndependentNormalizer.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.CopyP.html">data.normalizers.IndependentNormalizer.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.meta.html">data.normalizers.IndependentNormalizer.meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.names.html">data.normalizers.IndependentNormalizer.names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.defaults.html">data.normalizers.IndependentNormalizer.defaults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.copy.html">data.normalizers.IndependentNormalizer.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.delete.html">data.normalizers.IndependentNormalizer.delete</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.ext.html">data.normalizers.IndependentNormalizer.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.NameP.html">data.normalizers.IndependentNormalizer.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.path.html">data.normalizers.IndependentNormalizer.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.extAppend.html">data.normalizers.IndependentNormalizer.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/IndependentNormalizer.mkdir.html">data.normalizers.IndependentNormalizer.mkdir</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.html">data.normalizers.UniformNormalizer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.NamedTables.html">data.normalizers.UniformNormalizer.NamedTables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.Tables.html">data.normalizers.UniformNormalizer.tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.create.html">data.normalizers.UniformNormalizer.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.defaultMeta.html">data.normalizers.UniformNormalizer.defaultMeta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.CreateP.html">data.normalizers.UniformNormalizer.CreateP</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.IndexP.html">data.normalizers.UniformNormalizer.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.IndexP.Index.html">data.normalizers.UniformNormalizer.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.EqualsP.html">data.normalizers.UniformNormalizer.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.ReadP.html">data.normalizers.UniformNormalizer.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.UpdateP.html">data.normalizers.UniformNormalizer.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.DeleteP.html">data.normalizers.UniformNormalizer.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.CopyP.html">data.normalizers.UniformNormalizer.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.meta.html">data.normalizers.UniformNormalizer.meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.names.html">data.normalizers.UniformNormalizer.names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.defaults.html">data.normalizers.UniformNormalizer.defaults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.copy.html">data.normalizers.UniformNormalizer.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.delete.html">data.normalizers.UniformNormalizer.delete</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.ext.html">data.normalizers.UniformNormalizer.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.NameP.html">data.normalizers.UniformNormalizer.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.path.html">data.normalizers.UniformNormalizer.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.extAppend.html">data.normalizers.UniformNormalizer.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/UniformNormalizer.mkdir.html">data.normalizers.UniformNormalizer.mkdir</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/normalizers/Normalizer.html">data.normalizers.Normalizer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.NamedTables.html">data.normalizers.Normalizer.NamedTables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.CreateP.html">data.normalizers.Normalizer.CreateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.create.html">data.normalizers.Normalizer.create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.Tables.html">data.normalizers.Normalizer.tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.defaultMeta.html">data.normalizers.Normalizer.defaultMeta</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/normalizers/Normalizer.IndexP.html">data.normalizers.Normalizer.IndexP</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/normalizers/Normalizer.IndexP.Index.html">data.normalizers.Normalizer.IndexP.Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.EqualsP.html">data.normalizers.Normalizer.EqualsP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.ReadP.html">data.normalizers.Normalizer.ReadP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.UpdateP.html">data.normalizers.Normalizer.UpdateP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.DeleteP.html">data.normalizers.Normalizer.DeleteP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.CopyP.html">data.normalizers.Normalizer.CopyP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.meta.html">data.normalizers.Normalizer.meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.names.html">data.normalizers.Normalizer.names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.defaults.html">data.normalizers.Normalizer.defaults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.copy.html">data.normalizers.Normalizer.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.delete.html">data.normalizers.Normalizer.delete</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.ext.html">data.normalizers.Normalizer.ext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.NameP.html">data.normalizers.Normalizer.NameP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.path.html">data.normalizers.Normalizer.path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.extAppend.html">data.normalizers.Normalizer.extAppend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/normalizers/Normalizer.mkdir.html">data.normalizers.Normalizer.mkdir</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../data/repositories/index.html">data.repositories</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../data/samples/index.html">data.samples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/samples/DOE.html">data.samples.DOE</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/samples/DOE.latin_hypercube.html">data.samples.DOE.latin_hypercube</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/samples/DOE.full_factorial.html">data.samples.DOE.full_factorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/samples/DOE.space_filling_test.html">data.samples.DOE.space_filling_test</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/samples/GaussianNoise.html">data.samples.GaussianNoise</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../data/samples/GaussianNoise.Variance.html">data.samples.GaussianNoise.Variance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../data/samples/GaussianNoise.Variance.matrix.html">data.samples.GaussianNoise.Variance.matrix</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../data/samples/GaussianNoise.Variance.meta.html">data.samples.GaussianNoise.Variance.meta</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../data/samples/Function.html">data.samples.Function</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../data/samples/Function.repo.html">data.samples.Function.repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/samples/Function.collection.html">data.samples.Function.collection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data/samples/Function.un_rotate_folds.html">data.samples.Function.un_rotate_folds</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../data/samples/permute_axes.html">data.samples.permute_axes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../data/samples/PCA.html">data.samples.PCA</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../api.html" class="nav-link">rc</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">base</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">base.models</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="Store.html" class="nav-link">base.models.Store</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">base.models.Store.delete</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="rc-base-models-store-delete">
+<h1>base.models.Store.delete<a class="headerlink" href="#rc-base-models-store-delete" title="Link to this heading">§</a></h1>
+<dl class="py method">
+<dt class="sig sig-object py" id="base.models.Store.delete">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">base.models.Store.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base.models.Store.delete" title="Link to this definition">§</a></dt>
+<dd><p>Delete any file or folder at <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>base.definitions.Path</em>) – The Path to delete.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>base.definitions.Path</p>
+</dd>
+</dl>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">path</span></code>, which no longer exists.</p>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Store.copy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">base.models.Store.copy</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Meta.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">base.models.Meta</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2027, Robert A. Milton.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

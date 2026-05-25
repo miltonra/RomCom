@@ -1,0 +1,4 @@
+<map id="inheritancec21f7729e2" name="inheritancec21f7729e2">
+<area shape="rect" id="node1" title="Creates a new Table at ``path`` from ``data: Matrix | Table``." alt="" coords="125,29,197,56"/>
+<area shape="rect" id="node2" title="The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods." alt="" coords="5,29,77,56"/>
+</map>
