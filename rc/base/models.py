@@ -267,7 +267,7 @@ class Meta(Store, dict):
         return cls.create(dst, **src)
 
 
-Matrix: TypeAlias = DataFrame | Np.Matrix | Tc.Matrix
+TableData: TypeAlias = DataFrame | Np.Matrix | Tc.Matrix
 """ = ``DataFrame | Np.Matrix | Tc.Matrix``. Types which a DataBase Table accepts."""
 
 
@@ -307,7 +307,7 @@ class Table(Store):
         """ ``self == other`` compares ``self.pl``, ``self.np`` or ``self.tc`` matching the the type of ``other``. """
 
     class CreateP(CreateP):
-        """ Creates a new Table at ``path`` from ``data: Matrix | Table``. """
+        """ Creates a new Table at ``path`` from ``data: TableData | Table``. """
 
     class ReadP(ReadP):
         pass
@@ -376,7 +376,7 @@ class Table(Store):
         """ Indexer returns the column(s) named or sliced by ``index``. """
         return self._pl[:, index]     # int or slice
 
-    def __setitem__(self, index: IndexP.Index, columns: Table | Matrix | tuple[Table | Matrix, ...]):
+    def __setitem__(self, index: IndexP.Index, columns: Table | TableData | tuple[Table | TableData, ...]):
         """ Indexer sets the Table (s) named or sliced by ``index``."""
         if isinstance(index, str):
             columns = self._pl.with_columns(**{index : pl.lit(columns)})
@@ -393,7 +393,7 @@ class Table(Store):
             return NotImplemented
         self(columns)
 
-    def __eq__(self, other: Self | Matrix) -> bool:
+    def __eq__(self, other: Self | TableData) -> bool:
         """ Equality of ``self`` and ``other``.
 
         Args:
@@ -414,7 +414,7 @@ class Table(Store):
             case _:
                 return NotImplemented
 
-    def __call__(self, update: Self | Matrix | None = None) -> Self:
+    def __call__(self, update: Self | TableData | None = None) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
@@ -449,7 +449,7 @@ class Table(Store):
             self(table)
 
     @classmethod
-    def create(cls, path: PathLike, data: Self | Matrix, **kwargs: Any) -> Self:
+    def create(cls, path: PathLike, data: Self | TableData, **kwargs: Any) -> Self:
         """ Create a Table at ``path``, overwriting.
 
         Args:
@@ -538,11 +538,11 @@ class DataBase(Store):
 
             class NamedTables(NamedTuple):
 
-                names[i]: Table | Matrix = defaults[names[i]].pl
+                names[i]: Table | TableData = defaults[names[i]].pl
                 \"\"\" Normally a DataFrame. If no default is appropriate, use the Table Type\"\"\"
                 ...
 
-                def __call__(self, name: str) -> Table | Matrix | MetaData:
+                def __call__(self, name: str) -> Table | TableData | MetaData:
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
@@ -555,9 +555,9 @@ class DataBase(Store):
 
     class NamedTables(NamedTuple):
         """ Must be overridden. """
-        NotImplemented: Table | Matrix = Table
+        NotImplemented: Table | TableData = Table
 
-        def __call__(self, name: str) -> Table | Matrix | MetaData:
+        def __call__(self, name: str) -> Table | TableData | MetaData:
             """ Returns the Table named ``name``."""
             return getattr(self, name)
 
@@ -620,7 +620,7 @@ class DataBase(Store):
         else:
             return self._tables[index]     # int or slice
 
-    def __setitem__(self, index: IndexP.Index, tables: Table | Matrix | tuple[Table | Matrix, ...]):
+    def __setitem__(self, index: IndexP.Index, tables: Table | TableData | tuple[Table | TableData, ...]):
         """ Indexer sets the Table (s) named or sliced by ``index``."""
         if isinstance(index, str):
             tables = {index: tables}
@@ -637,7 +637,7 @@ class DataBase(Store):
             return NotImplemented
         self(**tables)
 
-    def __call__(self, **tables: Table | Matrix) -> Self:
+    def __call__(self, **tables: Table | TableData) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
