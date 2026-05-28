@@ -34,38 +34,34 @@ class Design(Table):
     """ A Design of user data, tabulating continuous inputs, categorical inputs, and outputs."""
 
     class CreateP(CreateP):
-        """ Creates a new instance of ``cls`` at ``path`` from ``design: PointDesign | CoordDesign``. """
+        """ Creates a new instance of ``cls`` at ``path`` from a Table. """
 
     axisLexicon: dict[str,str] = {'index': 'n',
                                   'input': 'x', 'in': 'x', 'continuous': 'x', 'float': 'x',
-                                  'outputaxis': 'o', 'outputindex': 'o', 'outputcategory': 'o',
                                   'category': 'i', 'cat': 'i', 'discrete': 'i', 'int': 'i', 'str': 'i',
+                                  'outputaxis': 'o', 'outputindex': 'o', 'outputcategory': 'o',
                                   'output': 'y', 'out':'y', 'map': 'y', 'func':'y', }
     """ The lexicon of axisTypes. """
 
     axisTypes: list[str] = list(dict.fromkeys(axisLexicon.values()))
     """ The axisTypes in any Design, ordered from left to right. """
 
-    def __init__(self, path: PathLike, table: Self | Pl.DataFrame | None = None):
-        """ Construct ``self`` from a ``.csv`` file or ``Pl.DataFrame``.
+    def __call__(self, update: Self | Matrix | None = None) -> Self:
+        """ Update and store ``self``, overwriting.
 
         Args:
-            path: The Path (file) to store ``self``. A ``.csv`` extension is implicitly appended.
-            table: The ``Table | Pl.DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
-                otherwise ``self`` is stored in ``path`` (which is overwritten if existing).
-        """
-        super().__init__(path)
-        if table is None:
-            self(pl.read_csv(self._path, **self.readOptions))
-        else:
-            self(table)
+            update: The data updates.
 
-    def create(cls, path: PathLike, table: Table) -> Tuple[Table, dict[str,int]]:
+        Returns: ``self``.
+        """
+
+
+    def create(cls, path: PathLike, table: Table) -> Design:
         """ Create a ``Design`` at ``path``.
 
         Args:
             path: The Path to store this Table, overwritten if existing.
-                A ``.csv`` extension is automatically appended.
+                A ``.csv`` extension is implicitly appended.
             table: The ``Table`` to reformat and store in ``path``.
         Returns: The ``Table`` created.
         """
@@ -73,7 +69,7 @@ class Design(Table):
         heads[0] = 'n' + cls.con
         heads = [head.split(cls.con,1) for head in heads]
         heads = [cls.axisLexicon.get(head[0].lower(), head[0]) + cls.con + head[1] for head in heads]
-        df = table.pl.rename(dict(zip(table.heads, heads)))
+        df = table.df.rename(dict(zip(table.heads, heads)))
         heads = {axisType: [head for head in heads if head[0] == axisType] for axisType in cls.axisTypes}
         if y := heads.pop('y', []):
             if len(heads['o']) > 0:
@@ -83,14 +79,65 @@ class Design(Table):
             else:
                 df = df.unpivot(y, index=[head for axisType in heads.keys() for head in heads[axisType]],
                                 variable_name='o', value_name='y')
-                heads['o'] = ['o']
-                df = df.select(*[head for axisType in heads.keys() for head in heads[axisType]],
-                               pl.col('y'))
         else:
             raise ValueError('Design must have at least one output axis.')
 
         return (Table(Table.mkdir(path), df),
                 {axisType: len(heads.get(axisType,[])) for axisType in cls.axisTypes})
+
+
+class Design0(Table):
+    """ A Design of user data with 0 categorical inputs."""
+
+    axisLexicon: dict[str,str] = {'index': 'n',
+                                  'input': 'x', 'in': 'x', 'continuous': 'x', 'float': 'x',
+                                  'category': 'i', 'cat': 'i', 'discrete': 'i', 'int': 'i', 'str': 'i',
+                                  'outputaxis': 'o', 'outputindex': 'o', 'outputcategory': 'o',
+                                  'output': 'y', 'out':'y', 'map': 'y', 'func':'y', }
+    """ The lexicon of axisTypes. """
+
+    axisTypes: list[str] = list(dict.fromkeys(axisLexicon.values()))
+    """ The axisTypes in any Design, ordered from left to right. """
+
+    def __call__(self, update: Self | Matrix | None = None) -> Self:
+        """ Update and store ``self``, overwriting.
+
+        Args:
+            update: The data updates.
+
+        Returns: ``self``.
+        """
+
+
+    def create(cls, path: PathLike, table: Table) -> Design:
+        """ Create a ``Design`` at ``path``.
+
+        Args:
+            path: The Path to store this Table, overwritten if existing.
+                A ``.csv`` extension is implicitly appended.
+            table: The ``Table`` to reformat and store in ``path``.
+        Returns: The ``Table`` created.
+        """
+        heads = table.heads
+        heads[0] = 'n' + cls.con
+        heads = [head.split(cls.con,1) for head in heads]
+        heads = [cls.axisLexicon.get(head[0].lower(), head[0]) + cls.con + head[1] for head in heads]
+        df = table.df.rename(dict(zip(table.heads, heads)))
+        heads = {axisType: [head for head in heads if head[0] == axisType] for axisType in cls.axisTypes}
+        if y := heads.pop('y', []):
+            if len(heads['o']) > 0:
+                # Only accept first output column
+                df = df.with_columns(*[head for axisType in heads.keys() for head in heads[axisType]]
+                                     , pl.col(y[0]).alias('y'))
+            else:
+                df = df.unpivot(y, index=[head for axisType in heads.keys() for head in heads[axisType]],
+                                variable_name='o', value_name='y')
+        else:
+            raise ValueError('Design must have at least one output axis.')
+
+        return (Table(Table.mkdir(path), df),
+                {axisType: len(heads.get(axisType,[])) for axisType in cls.axisTypes})
+
 
 class PointDesign(Design):
     """ The internal format of ``Design``, which is narrow.

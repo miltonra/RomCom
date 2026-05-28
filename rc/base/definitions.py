@@ -53,6 +53,10 @@ PathLike: TypeAlias = Path | str
 """ = ``Path | str``. Class attribute aliasing valid Types for specifying the ``path`` to a Store."""
 
 
+DataFrame: TypeAlias = pl.DataFrame
+""" = ``pl.DataFrame`` """
+
+
 class Protocol(BaseException):
     """ The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods."""
     def __init__(self, *args, **kwargs):
@@ -64,6 +68,7 @@ class Protocol(BaseException):
 
 class IndexP(Protocol):
     """ ``self[key]`` is not implemented. Override ``__getitem__(self, key)``, ``__setitem__(self, key, value)`` and ``__len__(self)``. """
+
     Index: TypeAlias = str | int | Iterable[str | int] | slice
     """ = ``str | int | Iterable[str | int] | slice``. Types of index supported by ``IndexP``. """
 
@@ -88,18 +93,6 @@ class CopyP(Protocol):
 class NameP(Protocol):
     """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
 
-
-
-class Pl:
-    """ Extended Polars types and constants. This Class should never be instantiated or SubClassed.
-
-    Attributes:
-        DataFrame = pl.DataFrame
-    """
-    DataFrame = pl.DataFrame    #: :meta private:
-
-    def __init__(self):
-        raise NotImplementedError('Abstract Class, do not instantiate.')
 
 
 class Np:

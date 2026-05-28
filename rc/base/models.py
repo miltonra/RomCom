@@ -267,12 +267,12 @@ class Meta(Store, dict):
         return cls.create(dst, **src)
 
 
-Matrix: TypeAlias = Pl.DataFrame | Np.Matrix | Tc.Matrix
-""" = ``Pl.DataFrame | Np.Matrix | Tc.Matrix``. Types which a DataBase Table accepts."""
+Matrix: TypeAlias = DataFrame | Np.Matrix | Tc.Matrix
+""" = ``DataFrame | Np.Matrix | Tc.Matrix``. Types which a DataBase Table accepts."""
 
 
 class Table(Store):
-    """ Concrete Class encapsulating a ``Pl.DataFrame`` backed by a ``.csv`` file.
+    """ Concrete Class encapsulating a DataFrame backed by a ``.csv`` file.
 
     This Class may be usefully overridden to provide bespoke read and write options for
     file operations. SubClasses should follow the template (copy and paste it)::
@@ -281,11 +281,11 @@ class Table(Store):
 
             readOptions: MetaData = Table.readOptions | {'myOption': 'myValue'}
             \"\"\" File read options passed directly to
-            `Pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__.\"\"\"
+            `pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__.\"\"\"
 
             writeOptions: MetaData = Table.writeOptions | {'myOption': 'myValue'}
             \"\"\" File write options passed directly to
-            `Pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__.\"\"\"
+            `pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__.\"\"\"
     """
 
     ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects. Defaults to ``.csv``.
@@ -295,10 +295,10 @@ class Table(Store):
     Defaults to ``│``."""
 
     readOptions: MetaData = {}
-    """ File read options passed directly to `Pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__."""
+    """ File read options passed directly to `pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__."""
 
     writeOptions: MetaData = {'include_bom': True}
-    """ File write options passed directly to `Pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__."""
+    """ File write options passed directly to `pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__."""
 
     class IndexP(IndexP):
         """ ``self[columns]`` accesses Table columns by ``str | int | Iterable | slice``. ``len(self)`` counts the columns."""
@@ -333,8 +333,8 @@ class Table(Store):
         self()
 
     @property
-    def pl(self) -> Pl.DataFrame:
-        """ The ``Pl.DataFrame`` stored in ``self``."""
+    def df(self) -> DataFrame:
+        """ The DataFrame stored in ``self``."""
         return self._pl
 
     @property
@@ -372,7 +372,7 @@ class Table(Store):
         """ Counts the columns in ``self``. """
         return self._pl.width
 
-    def __getitem__(self, index: IndexP.Index) -> Pl.DataFrame:
+    def __getitem__(self, index: IndexP.Index) -> DataFrame:
         """ Indexer returns the column(s) named or sliced by ``index``. """
         return self._pl[:, index]     # int or slice
 
@@ -405,7 +405,7 @@ class Table(Store):
         match other:
             case Table():
                 return self._pl.equals(other._pl)
-            case Pl.DataFrame():
+            case DataFrame():
                 return self._pl.equals(other)
             case Np.Matrix():
                 return np.array_equal(self.np, other)
@@ -424,7 +424,7 @@ class Table(Store):
         """
         if isinstance(update, Table):
             self._pl = update._pl
-        elif isinstance(update, Pl.DataFrame):
+        elif isinstance(update, DataFrame):
             self._pl = update
         elif isinstance(update, Np.Matrix):
             self._pl = pl.from_numpy(update)
@@ -434,12 +434,12 @@ class Table(Store):
         self._pl.write_csv(self._path, **self.writeOptions)
         return self
 
-    def __init__(self, path: PathLike, table: Self | Pl.DataFrame | None = None):
-        """ Construct ``self`` from a ``.csv`` file or ``Pl.DataFrame``.
+    def __init__(self, path: PathLike, table: Self | DataFrame | None = None):
+        """ Construct ``self`` from a ``.csv`` file or DataFrame.
 
         Args:
             path: The Path (file) to store ``self``. A ``.csv`` extension is implicitly appended.
-            table: The ``Table | Pl.DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
+            table: The ``Table | DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
                 otherwise ``self`` is stored in ``path`` (which is overwritten if existing).
         """
         super().__init__(path)
@@ -456,11 +456,11 @@ class Table(Store):
             path: The Path to store this Table, overwritten if existing.
                 A ``.csv`` extension is implicitly appended.
             data: The table to store.
-            **kwargs: KeywordArguments passed directly to `Pl.DataFrame(...)`_.
+            **kwargs: KeywordArguments passed directly to `DataFrame()`_.
 
         Returns: The Table created.
 
-        .. Pl.DataFrame(...): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
+        .. DataFrame(): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
         """
         data = pl.DataFrame(data._pl if isinstance(data, Table) else data, **kwargs)
         return cls(cls.mkdir(path), data)
@@ -525,7 +525,7 @@ class Table(Store):
         heads = pl.DataFrame(heads)
         with open(cls.extAppend(dst), "w", newline="", encoding="utf-8") as file:
             heads.write_csv(file, **(cls.writeOptions | {'include_header': False}))
-            src.pl.write_csv(file, **(cls.writeOptions | {'include_header': False}))
+            src.df.write_csv(file, **(cls.writeOptions | {'include_header': False}))
         return Path(dst)
 
 
@@ -539,7 +539,7 @@ class DataBase(Store):
             class NamedTables(NamedTuple):
 
                 names[i]: Table | Matrix = defaults[names[i]].pl
-                \"\"\" Normally a ``Pl.DataFrame``. If no default is appropriate, use the Table Type\"\"\"
+                \"\"\" Normally a DataFrame. If no default is appropriate, use the Table Type\"\"\"
                 ...
 
                 def __call__(self, name: str) -> Table | Matrix | MetaData:
@@ -650,7 +650,7 @@ class DataBase(Store):
             self._tables(name)(table)
         return self
 
-    def __init__(self, path: PathLike, **tables: Table | Pl.DataFrame):
+    def __init__(self, path: PathLike, **tables: Table | DataFrame):
         """ Read the DataBase in ``path``.
         Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's Table is not read, just updated.
         Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.
@@ -684,12 +684,12 @@ class DataBase(Store):
         return cls.NamedTables._fields
 
     @classmethod    # Class Property
-    def defaults(cls) -> dict[str, Pl.DataFrame]:
-        """ ``{names[i]: Pl.DataFrame[i], ...}`` of default tables for this ``Tables`` Class."""
+    def defaults(cls) -> dict[str, DataFrame]:
+        """ ``{names[i]: DataFrame[i], ...}`` of default tables for this ``Tables`` Class."""
         return cls.NamedTables._field_defaults
 
     @classmethod
-    def create(cls, path: PathLike, **tables_and_meta: Table | Pl.DataFrame | MetaData) -> Self:
+    def create(cls, path: PathLike, **tables_and_meta: Table | DataFrame | MetaData) -> Self:
         """ Create a DataBase in ``path``.
 
         Args:

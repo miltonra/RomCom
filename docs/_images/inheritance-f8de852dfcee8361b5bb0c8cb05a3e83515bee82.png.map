@@ -1,4 +1,0 @@
-<map id="inheritanced1c135a14f" name="inheritanced1c135a14f">
-<area shape="rect" id="node1" title="The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods." alt="" coords="5,29,77,56"/>
-<area shape="rect" id="node2" title="``self(**tables)`` updates and writes ``NamedTables`` (``self.meta(**updates)`` updates Meta." alt="" coords="125,29,198,56"/>
-</map>

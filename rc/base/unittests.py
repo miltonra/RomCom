@@ -67,8 +67,8 @@ class TestCase(ut.TestCase):
         conjoined = Table.conjoinHeads(src=created.path, dst=Test.folder() / 'conjoined')
         conjoined.heads = [conjoined.heads[0][0]] + conjoined.heads[1:]
         unjoined = Table.unjoinHeads(src=conjoined, dst=Test.folder() / 'unjoined')
-        print(created.pl)
-        print(conjoined.pl)
+        print(created.df)
+        print(conjoined.df)
 
     def test_DataBase(self):
 

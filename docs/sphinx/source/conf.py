@@ -22,6 +22,10 @@
 
 import os
 import sys
+
+from sphinx.ext import autodoc
+from sphinx.ext.autodoc import typehints
+
 sys.path.insert(0, os.path.abspath('../'))
 
 # -- Project information -----------------------------------------------------
@@ -40,9 +44,17 @@ modindex_common_prefix = ['rc.']
 
 # -- Extensions --------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-the-python-domain
-extensions = ['sphinx.ext.viewcode', 'sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'autoapi.extension',
+extensions = ['sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'autoapi.extension',
               "sphinx.ext.mathjax", 'sphinx_copybutton', 'sphinxarg.ext', 'sphinx.ext.inheritance_diagram',
-              'sphinx.ext.graphviz', 'sphinx_design', ]
+              'sphinx.ext.graphviz', 'sphinx_design', 'sphinx.ext.viewcode', 'sphinx_autodoc_typehints', ]
+
+# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
+napoleon_use_param = True
+autodoc_typehints = 'description'
+autodoc_type_aliases = {
+    'Path': 'Path', 'DataFrame': 'DataFrame', 'Matrix': 'Matrix'
+}
+
 
 # https://sphinx-autoapi.readthedocs.io/en/latest/index.html
 autoapi_dirs = ['../../../rc']
@@ -61,9 +73,6 @@ autoapi_options = [
 autoapi_keep_files = True
 autoapi_python_class_content = 'both'
 
-# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
-autodoc_typehints = 'description'
-
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-warning-control
 suppress_warnings = []
 
@@ -75,11 +84,11 @@ html_logo = '_static/MattLogo2.svg'
 html_favicon = '_static/MattLogo2.png'
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {'header_links_before_dropdown': 12, 'header_dropdown_text': 'Extras',
-                      'secondary_sidebar_items': {"**": []}, 'navigation_depth': 5,
+                      'navigation_depth': 5,
                       "github_url": "https://github.com/miltonra/RomCom",
                       }
 html_static_path = ['_static']
 html_show_sourcelink = False
-html_sidebars = {
-    "**": ["page-toc", "sidebar-nav-bs"]
-}
+# html_sidebars = {
+#     "**": ["page-toc", "sidebar-nav-bs"]
+# }

@@ -1,4 +1,0 @@
-<map id="inheritancebca88e905e" name="inheritancebca88e905e">
-<area shape="rect" id="node1" title="The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods." alt="" coords="5,29,77,56"/>
-<area shape="rect" id="node2" title="``cls(path)`` reads from ``path``." alt="" coords="125,29,197,56"/>
-</map>

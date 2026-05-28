@@ -1,3 +1,5 @@
+:html_theme.sidebar_secondary.remove:
+
 {% if obj.display %}
    {% if is_own_page %}
 {{ obj.id }}
@@ -8,9 +10,6 @@
    {% if obj.is_type_alias() %}
       {% if obj.value %}
 
-   .. module:: {{ obj.include_path.split("/")[3:6]|join(".") }}
-
-   :canonical: {{ obj.value }}
       {% endif %}
    {% else %}
       {% if obj.annotation is not none %}

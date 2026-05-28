@@ -23,16 +23,10 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 from rc.base import *
 
-apiReplacements = {}
-    # {r'rc\.base\.definitions\.': r'', r'rc\.base\.models\.': '',
-    #                r'rc\.base\.': r'',
-    #                r'rc\.data\.benchmarks\.': r'', r'rc\.data\.formats\.': '',
-    #                r'rc\.data\.models\.': '', r'rc\.data\.samples\.': r'',
-    #                r'rc\.data\.': '',
-    #                }
+apiReplacements = {r'rc\.base\.definitions\.': r'',}
 
 
-pagesReplacements = {r'rc\.base': r'base',r'rc\.data': r'data'}
+pagesReplacements = {r'rc\.base': r'base', r'rc\.data': r'data'}
 
 _here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/
 docs = _here.parent

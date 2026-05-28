@@ -1,4 +1,0 @@
-<map id="inheritance09fa8666c9" name="inheritance09fa8666c9">
-<area shape="rect" id="node3" title="Base class for protocol classes." alt="" coords="125,5,197,32"/>
-<area shape="rect" id="node2" title="``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``." alt="" coords="245,5,317,32"/>
-</map>

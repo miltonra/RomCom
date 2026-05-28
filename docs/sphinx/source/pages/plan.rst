@@ -1,4 +1,3 @@
-
 Plan
 =============================
 
@@ -8,7 +7,7 @@ Form
 Structure
 ^^^^^^^^^^
 
-    All right everyone, line up alphabetically according to your height. [Casey Stengel]
+    All right everyone, line up alphabetically according to your height.    [Casey Stengel]
 
 The RomCom library is a functional hierarchy of namespaces, organised by package, then module.
 It is also ordered alphabetically.
@@ -38,7 +37,7 @@ RomCom is object-oriented and explicitly statically typed.
 As with all questions of Python style, this is mainly but not entirely true.
 
     A foolish consistency is the hobgoblin of little minds.
-    [`PEP 8 <https://peps.python.org/pep-0008/>`__, second paragraph]
+        [`PEP 8 <https://peps.python.org/pep-0008/>`__, second paragraph]
 
 The rules and conventions of RomCom will flex when needs must.
 **The sole purpose of type, structure and protocol in RomCom is to document RomCom's intention**, not to legislate usage.
