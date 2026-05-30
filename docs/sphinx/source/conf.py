@@ -50,7 +50,7 @@ extensions = ['sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'autoapi.extension',
 
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 napoleon_use_param = True
-autodoc_typehints = 'description'
+autodoc_typehints = 'signature'
 autodoc_type_aliases = {
     'Path': 'Path', 'DataFrame': 'DataFrame', 'Matrix': 'Matrix'
 }

@@ -44,14 +44,14 @@ class TestCase(ut.TestCase):
     def test_Table(self):
         try:
             empty = Table.create(Test.folder() / 'empty')
-            raise Exception('Table.create should not create an empty MetaData object')
+            raise Exception('Table.create should not create an empty Table object')
         except Exception:
             pass
         created = Table.create(Test.folder() / 'created', np.zeros((1, 1)))
         for i in range(2):
             value = np.ones((1, 1)) * i
             shouldBe = self.assertNotEqual if i else self.assertEqual
-            shouldBe(created, pl.DataFrame(value))
+            shouldBe(created, DataFrame(value))
             shouldBe(created, value)
             shouldBe(created, tc.tensor(value))
         read = Table(Test.folder() / 'created')
@@ -59,7 +59,7 @@ class TestCase(ut.TestCase):
         copied = Table.copy(src=read, dst=Test.folder() / 'copied')
         mangled = Table.copy(src=copied, dst=Test.folder() / 'mangled')
         mangled.delete(mangled.path)
-        created(tc.tensor([[1,2,5],[3,4,6]]))
+        created(tc.tensor([[1.0,2.0,5.0],[3.0,4.0,6.0]]))
         created[:-1] = tc.tensor([0,0]), tc.tensor([1,1])
         self.assertNotEqual(created, read)
         read = Table(Test.folder() / 'created')
@@ -67,18 +67,31 @@ class TestCase(ut.TestCase):
         conjoined = Table.conjoinHeads(src=created.path, dst=Test.folder() / 'conjoined')
         conjoined.heads = [conjoined.heads[0][0]] + conjoined.heads[1:]
         unjoined = Table.unjoinHeads(src=conjoined, dst=Test.folder() / 'unjoined')
-        print(created.df)
-        print(conjoined.df)
+        typed = Table.create(Test.folder() / 'typed', DataFrame({'n': [1,2,3],
+                                                                 'name': ["Alice", "Bob", "Charlie"],
+                                                                 'age': [10,20,30],
+                                                                 'BMI': [1.0,2.0,3.0],
+                                                                 'bool': [True, True, False]}))
+        print(typed)
+        print(typed.df)
+        print(typed.np)
+        print(typed.tc)
+        df = pl.DataFrame(typed.df, orient='row')
+        print(df)
+        self.assertEqual(typed, typed)
+        self.assertEqual(typed, df)
+        self.assertEqual(typed, typed.np)
+        self.assertEqual(typed, typed.tc)
 
     def test_DataBase(self):
 
         class MyDataBase(DataBase):
 
             class NamedTables(NamedTuple):
-                zero: Table | Matrix | MetaData = pl.DataFrame(np.atleast_2d(0.0))
-                one: Table | Matrix | MetaData = pl.DataFrame(np.ones((1, 1)))
+                zero: Table | TableData | MetaData = DataFrame(np.atleast_2d(0.0))
+                one: Table | TableData | MetaData = DataFrame(np.ones((1, 1)))
 
-                def __call__(self, name: str) -> Table | Matrix | MetaData:
+                def __call__(self, name: str) -> Table | TableData | MetaData:
                     """ Returns the Table named ``name``."""
                     return getattr(self, name)
 
@@ -93,8 +106,8 @@ class TestCase(ut.TestCase):
         created = MyDataBase.create(Test.folder() / 'created', zero = np.zeros((1, 1)), one = np.ones((1, 1)))
         for i in range(2):
             value = np.ones((1, 1)) * i
-            self.assertEqual(created[i], pl.DataFrame(value))
-            self.assertNotEqual(created[abs(i-1)], pl.DataFrame(value))
+            self.assertEqual(created[i], DataFrame(value))
+            self.assertNotEqual(created[abs(i-1)], DataFrame(value))
             self.assertEqual(created[i], value)
             self.assertNotEqual(created[abs(i-1)], value)
             self.assertEqual(created[i], tc.tensor(value))

@@ -16,6 +16,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """ Abstract and concrete BaseClasses for RomCom models."""
+import pylab as pl
 
 from .definitions import *
 from shutil import copyfile, copytree, rmtree
@@ -29,6 +30,9 @@ class Store(ABC):
     """Class attribute specifying the file extension terminating ``self.path``. 
     Override if and only if the derived Class must be stored in a file.
     Otherwise, ``cls.ext == ''`` and the derived Class is stored in a folder."""
+
+    class NameP(Protocol):
+        """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
 
     class CreateP(CreateP):
         """ ``Store.create(path)`` destroys everything in its ``path``. """
@@ -44,9 +48,6 @@ class Store(ABC):
 
     class CopyP(CopyP):
         """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything in ``src``. """
-
-    class NameP(Protocol):
-        """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
 
     @property
     def path(self) -> Path:
@@ -82,7 +83,7 @@ class Store(ABC):
         Args:
             path: The Path to ``self``. Do not include an extension.
         """
-        self._path = self.extAppend(path)
+        self._path = self.extAppend(self.mkdir(path))
 
     @classmethod
     def extAppend(cls, path: PathLike) -> Path:
@@ -116,7 +117,7 @@ class Store(ABC):
 
     @classmethod
     @abstractmethod
-    def create(cls, path: PathLike, **kwargs: Any) -> Self | Path:
+    def create(cls, path: PathLike, **kwargs: Any) -> Path:
         """ Create a folder (and its parents) if it doesn't already exist.
 
         Overrides should create and return an instance of ``cls``.
@@ -134,7 +135,7 @@ class Store(ABC):
 
     @classmethod
     @abstractmethod
-    def copy(cls, src: PathLike, dst: PathLike) -> Self | Path:
+    def copy(cls, src: PathLike, dst: PathLike) -> Path:
         """ Copy ``src`` to ``dst``, overwriting only files in common.
 
         Overrides should copy an instance of ``cls`` called ``src`` to ``Store.create(dst)``
@@ -174,12 +175,10 @@ class Store(ABC):
         return path
 
 
-MetaData: TypeAlias = Mapping[str, Any]
-""" = ``Mapping[str, Any]``. Type for passing metadata such as options or ``**kwargs``. """
-
-
 class Meta(Store, dict):
-    """ Concrete Class encapsulating metadata stored in a ``.json`` file."""
+    """ Concrete Class encapsulating metadata stored in a ``.json`` file.
+    The place to store kwargs and options of all Types.
+    """
 
     ext: str = '.json'  #: ext: Class attribute specifying the file extension of Meta instances.
 
@@ -217,7 +216,7 @@ class Meta(Store, dict):
             dump(self, file, indent=4)
         return self
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: str, value: Any):
         """ Act as a ``dict``, then write to ``.json``."""
         super().__setitem__(key, value)
         self()
@@ -251,7 +250,7 @@ class Meta(Store, dict):
         Raises: TypeError if ``data`` is empty.
         """
         if not data: raise ValueError("Meta cannot be created with no data")
-        return cls(cls.mkdir(path), **data)
+        return cls(path, **data)
 
     @classmethod
     def copy(cls, src: Self, dst: PathLike) -> Self:
@@ -265,10 +264,6 @@ class Meta(Store, dict):
         Returns: The Meta now stored at ``dst.json``.
         """
         return cls.create(dst, **src)
-
-
-TableData: TypeAlias = DataFrame | Np.Matrix | Tc.Matrix
-""" = ``DataFrame | Np.Matrix | Tc.Matrix``. Types which a DataBase Table accepts."""
 
 
 class Table(Store):
@@ -301,7 +296,7 @@ class Table(Store):
     """ File write options passed directly to `pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__."""
 
     class IndexP(IndexP):
-        """ ``self[columns]`` accesses Table columns by ``str | int | Iterable | slice``. ``len(self)`` counts the columns."""
+        """ ``self[columns]`` accesses Table columns by IndexLike ``index``. ``len(self)`` counts the columns."""
 
     class EqualsP(EqualsP):
         """ ``self == other`` compares ``self.pl``, ``self.np`` or ``self.tc`` matching the the type of ``other``. """
@@ -323,29 +318,28 @@ class Table(Store):
 
     @property
     def heads(self) -> list[str]:
-        """ The column heads of ``self.pl``."""
-        return self._pl.columns
+        """ The column heads of ``self``, alias ``self.df.columns``."""
+        return self._df.columns
 
     @heads.setter
     def heads(self, value: Iterable[str]):
-        """ The column heads of ``self.pl``."""
-        self._pl.columns = list(value)
+        self._df.columns = list(value)
         self()
 
     @property
     def df(self) -> DataFrame:
         """ The DataFrame stored in ``self``."""
-        return self._pl
+        return self._df
 
     @property
     def np(self) -> Np.Matrix:
         """ The ``Np.Matrix`` stored in ``self``."""
-        return self._pl.to_numpy()
+        return self._df.with_columns(pl.col(Category).cast(pl.Int32)).to_numpy()
 
     @property
     def tc(self) -> Tc.Matrix:
         """ The ``Tc.Matrix`` stored in ``self``."""
-        return self._pl.to_torch()
+        return self._df.with_columns(pl.col(Category).cast(pl.Int32)).to_torch()
 
     def broadcast_to(self, target_shape: tuple[int, int], is_diagonal: bool = True) -> Self:
         """ Broadcast ``self``.
@@ -362,7 +356,7 @@ class Table(Store):
         try:
             data = np.array(np.broadcast_to(self.np, target_shape))
         except ValueError:
-            raise IndexError(f'{repr(self)} has shape {self._pl.shape} '
+            raise IndexError(f'{repr(self)} has shape {self._df.shape} '
                              f'which cannot be broadcast to {target_shape}.')
         if is_diagonal and target_shape[0] > 1:
             data = np.diag(np.diagonal(data))
@@ -370,22 +364,22 @@ class Table(Store):
 
     def __len__(self) -> int:
         """ Counts the columns in ``self``. """
-        return self._pl.width
+        return self._df.width
 
-    def __getitem__(self, index: IndexP.Index) -> DataFrame:
+    def __getitem__(self, index: IndexLike) -> DataFrame:
         """ Indexer returns the column(s) named or sliced by ``index``. """
-        return self._pl[:, index]     # int or slice
+        return self._df[:, index]     # int or slice
 
-    def __setitem__(self, index: IndexP.Index, columns: Table | TableData | tuple[Table | TableData, ...]):
+    def __setitem__(self, index: IndexLike, columns: Table | TableData | tuple[Table | TableData, ...]):
         """ Indexer sets the Table (s) named or sliced by ``index``."""
         if isinstance(index, str):
-            columns = self._pl.with_columns(**{index : pl.lit(columns)})
+            columns = self._df.with_columns(**{index : pl.lit(columns)})
         elif isinstance(index, int):
-            columns = self._pl.with_columns(**{self._pl.columns[index] : pl.lit(columns)})
+            columns = self._df.with_columns(**{self._df.columns[index] : pl.lit(columns)})
         elif isinstance(index, Iterable):
             if not (isinstance(columns, tuple) and len(columns) == len(index)):
                 raise IndexError(f'Expected a tuple of {len(index)} tables, not {len(columns)}.')
-            columns = self._pl.with_columns(**{self.heads[i]: pl.lit(columns[i])
+            columns = self._df.with_columns(**{self.heads[i]: pl.lit(columns[i])
                                                for i in range(len(index))})
         elif isinstance(columns, tuple):
             return self.__setitem__(self.heads[index], columns)
@@ -404,9 +398,9 @@ class Table(Store):
         """
         match other:
             case Table():
-                return self._pl.equals(other._pl)
+                return self._df.equals(other._df)
             case DataFrame():
-                return self._pl.equals(other)
+                return self._df.equals(other)
             case Np.Matrix():
                 return np.array_equal(self.np, other)
             case Tc.Matrix():
@@ -423,15 +417,16 @@ class Table(Store):
         Returns: ``self``.
         """
         if isinstance(update, Table):
-            self._pl = update._pl
+            self._df = update._df
         elif isinstance(update, DataFrame):
-            self._pl = update
-        elif isinstance(update, Np.Matrix):
-            self._pl = pl.from_numpy(update)
-        elif isinstance(update, Tc.Matrix):
-            self._pl = pl.from_torch(update)
-        self._pl = self._pl.with_columns(pl.col(pl.String).cast(pl.Categorical))
-        self._pl.write_csv(self._path, **self.writeOptions)
+            self._df = update
+        else:
+            self._df = DataFrame(update, orient='row')
+        self._df = self._df.with_columns(pl.col(pl.Float16, pl.Float32, pl.Float64).cast(Float))
+        self._df = self._df.with_columns(pl.col(pl.Int8, pl.Int16, pl.Int32, pl.Int64,
+                                                pl.Int128, pl.Boolean).cast(String))
+        self._df = self._df.with_columns(pl.col(String).cast(Category))
+        self._df.write_csv(self._path, **self.writeOptions)
         return self
 
     def __init__(self, path: PathLike, table: Self | DataFrame | None = None):
@@ -462,8 +457,8 @@ class Table(Store):
 
         .. DataFrame(): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
         """
-        data = pl.DataFrame(data._pl if isinstance(data, Table) else data, **kwargs)
-        return cls(cls.mkdir(path), data)
+        data = DataFrame(data._df if isinstance(data, Table) else data, **kwargs)
+        return cls(path, data)
 
     @classmethod
     def copy(cls, src: Self, dst: PathLike) -> Self:
@@ -498,7 +493,7 @@ class Table(Store):
                             ).fill_null(2*cls.con)
         src = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'skip_rows': headcount}))
         heads = [cls.con + cls.con.join(map(str, heads[head].to_list())) + cls.con for head in heads.columns]
-        src = pl.DataFrame(src, heads).drop([col for col in heads[1:] if 2*cls.con in col])
+        src = DataFrame(src, heads).drop([col for col in heads[1:] if 2*cls.con in col])
         src.columns = [head[1:-1] for head in src.columns]
         return cls.create(dst, src)
 
@@ -522,7 +517,7 @@ class Table(Store):
                 raise IndexError(f'Cannot unjoin heads: Expected all heads except the first '
                                  f'to have the same number of levels, but got {headcount}.')
             heads[0] += [None] * (headcount.pop() - len(heads[0]))
-        heads = pl.DataFrame(heads)
+        heads = DataFrame(heads)
         with open(cls.extAppend(dst), "w", newline="", encoding="utf-8") as file:
             heads.write_csv(file, **(cls.writeOptions | {'include_header': False}))
             src.df.write_csv(file, **(cls.writeOptions | {'include_header': False}))
@@ -532,24 +527,25 @@ class Table(Store):
 class DataBase(Store):
     """ ``NamedTables(NamedTuple)`` in a folder alongside Meta. Abstract BaseClass for any model.
 
-    DataBase SubClasses must be implemented according to the template (copy and paste it)::
+    *DataBase* SubClasses must be implemented according to the template (copy and paste it)::
 
-        class MyDataBase(DataBase):
+        class MyDataBase(DataBase):                                                                                 [EDIT]
 
             class NamedTables(NamedTuple):
 
-                names[i]: Table | TableData = defaults[names[i]].pl
-                \"\"\" Normally a DataFrame. If no default is appropriate, use the Table Type\"\"\"
+                names[i]: Table | TableData = defaults[names[i]]                                                    [EDIT]
+                \"\"\" Normally a DataFrame. If no default is appropriate, use the TableType.\"\"\"                 [EDIT]
                 ...
 
                 def __call__(self, name: str) -> Table | TableData | MetaData:
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
-            Tables: NamedTables[type[Table], ...] = NamedTables()
-            \"\"\" The ``NamedTables`` of Table Types, to communicate ``readOptions, writeOptions``.\"\"\"
+            Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})    [EDIT]
+            \"\"\" The ``NamedTables`` of TableTypes, to communicate ``readOptions, writeOptions``.\"\"\"
 
-            defaultMeta: MetaData = {'Tables': {name: TableType.__name__ for name, TableType in Tables._asdict().items()}}
+            defaultMeta: MetaData = {'Tables': {name: TableType.__name__
+                                                for name, TableType in Tables._asdict().items()}, }                 [EDIT]
             \"\"\" Class default ``self.meta``.\"\"\"
     """
 
@@ -563,14 +559,14 @@ class DataBase(Store):
 
 
     Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})
-    """ Class attribute of the form ``NamedTables(**{names[i]: Type[i], ...})``, 
-    where ``Type[i]`` is a SubClass of Table. Must be overridden."""
+    """ Class attribute of the form ``NamedTables(**{names[i]: TableTypes[i], ...})``, 
+    where ``TableTypes[i]`` is a SubClass of Table. Must be overridden."""
 
     defaultMeta: MetaData = {'Tables': {name: TableType.__name__ for name, TableType in Tables._asdict().items()}}
     """ Class attribute. Should be overridden."""
 
     class IndexP(IndexP):
-        """ ``self[index]`` accesses ``NamedTables`` by ``str | int | Iterable | slice``. """
+        """ ``self[index]`` accesses ``NamedTables`` by IndexLike ``index``.  ``len(self)`` counts the Tables."""
 
     class EqualsP(EqualsP):
         """ ``self == other`` compares Meta and ``tables`` between two DataBases. """
@@ -611,7 +607,7 @@ class DataBase(Store):
         """ Counts the Tables in ``self``. """
         return len(self._tables)
 
-    def __getitem__(self, index: IndexP.Index) -> Table | tuple[Table, ...]:
+    def __getitem__(self, index: IndexLike) -> Table | tuple[Table, ...]:
         """ Indexer returns the Table (s) named or sliced by ``index``. """
         if isinstance(index, str):
             return self._tables(index)
@@ -620,7 +616,7 @@ class DataBase(Store):
         else:
             return self._tables[index]     # int or slice
 
-    def __setitem__(self, index: IndexP.Index, tables: Table | TableData | tuple[Table | TableData, ...]):
+    def __setitem__(self, index: IndexLike, tables: Table | TableData | tuple[Table | TableData, ...]):
         """ Indexer sets the Table (s) named or sliced by ``index``."""
         if isinstance(index, str):
             tables = {index: tables}
@@ -651,7 +647,7 @@ class DataBase(Store):
         return self
 
     def __init__(self, path: PathLike, **tables: Table | DataFrame):
-        """ Read the DataBase in ``path``.
+        """ Read the *DataBase* in ``path``.
         Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's Table is not read, just updated.
         Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.
 
@@ -667,9 +663,9 @@ class DataBase(Store):
         try:
             self._meta = Meta(self._meta_in(path))
             self._tables = self.NamedTables(**{name:
-                                                    TableType.create(path / name, tables[name])
+                                                    TableType.create(self._path / name, tables[name])
                                                     if name in tables and tables[name] is not None
-                                                    else TableType(path / name)
+                                                    else TableType(self._path / name)
                                                for name, TableType in self.Tables._asdict().items()})
         except FileNotFoundError as error:
             print(f'DataBase "{self}" is trying to read a non-existent Table. Did your script mean to call '
@@ -690,15 +686,15 @@ class DataBase(Store):
 
     @classmethod
     def create(cls, path: PathLike, **tables_and_meta: Table | DataFrame | MetaData) -> Self:
-        """ Create a DataBase in ``path``.
+        """ Create a *DataBase* in ``path``.
 
         Args:
-            path: The folder to store the DataBase in. Need not exist,
+            path: The folder to store the *DataBase* in. Need not exist,
                 any existing ``Tables`` will be overwritten if it does.
             **tables_and_meta: Data to update ``cls.defaults()``, in the form ``names[i]=tables[i]``,
                 and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.
 
-        Returns: The DataBase created.
+        Returns: The *DataBase* created.
         """
         Meta.create(cls._meta_in(path), **(cls.defaultMeta | (tables_and_meta.pop('meta', {}))))
         return cls(path, **(cls.defaults() | tables_and_meta))
@@ -708,21 +704,21 @@ class DataBase(Store):
         """ Copy ``src`` to ``dst``, overwriting any files in common.
 
         Args:
-            src: The source DataBase.
+            src: The source *DataBase*.
             dst: The destination Path, which may or may not exist.
 
-        Returns: The DataBase now stored in ``dst``.
+        Returns: The *DataBase* now stored in ``dst``.
         """
         return cls.create(dst, meta=src.meta, **src._tables._asdict())
 
     @classmethod
     def delete(cls, path: PathLike, ignoreErrors: bool=False) -> Path:
-        """ Delete all DataBase files in ``path``, retaining ``path`` and any other files it contains.
+        """ Delete all *DataBase* files in ``path``, retaining ``path`` and any other files it contains.
 
         If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
 
         Args:
-            path: Path to the DataBase to delete.
+            path: Path to the *DataBase* to delete.
             ignoreErrors: Whether to raise any ``FileNotFoundError`` s encountered.
         Returns: ``path``, which still exists.
         Raises: FileNotFoundError if ``path`` is not a folder, regardless of ``ignoreErrors``.

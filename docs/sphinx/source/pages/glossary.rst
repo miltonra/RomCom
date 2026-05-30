@@ -35,25 +35,39 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
 
     ecosystem
     ``pl``
-    ``Pl``
     ``np``
-    ``Np``
     ``tc``
-    ``Tc``
         See :ref:`ecosystem <ecosystem>`.
 
     Store
-    MetaData
     Meta
     Table
     DataBase
-        Base Classes for all RomCom software objects. See :doc:`api/rc/base/index` :ref:`Classes <baseClasses>`.
+        BaseClasses for all RomCom software objects. See :doc:`api/rc/base/index` :ref:`models <baseModels>`.
+
+    ReturnType
+    ArgumentType
+    Path
+    PathLike
+    IndexP.Index
+    IndexLike
+    DataFrame
+    Category
+    ``Np``
+    ``Tc``
+    MetaData
+    TableData
+        Types supported by RomCom's :doc:`api/rc/base/index` :ref:`baseModels`.
+        See :doc:`api/rc/base/index` :ref:`baseTypes`.
 
     Categorical Input
     Discrete Input
-        An input variable whose value is one of a finite set of discrete values of Type ``int | str | bool``,
-        which will be interpreted as ``str`` for generality
+        An input variable whose value is one of a finite set of discrete values of Type ``int | str | bool``.
+        RomCom Types any such data as :term:`Category`.
 
     model
         An imprecise term for a Class which furnishes core functionality.
+
+    kwargs
+        Keyword arguments, an object of Type :term:`MetaData`.
 

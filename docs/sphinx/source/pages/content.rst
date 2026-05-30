@@ -1,66 +1,70 @@
 
 Content
 -------------
+    We hold empty names.
+        [The Name of the Rose]
+
 
 Names
 ^^^^^^^^^^^^
-
 RomCom views any Python entity as falling into one of three categories, each with its own naming convention.
 
-namespace
+namespaces
 +++++++++++++
-Packages and modules are referred to in lowercase (abbreviations or single words).
+These are packages and modules, which have lowercase names (abbreviations or single words).
 
-Class
+.. _planClasses:
+Classes
 ++++++++++++++
-Classes and Types are referred to in UpperCamelCase. The documentation italicizes *AbstractClasses* --
+Classes and Types have UpperCamelCase names. The documentation italicizes *AbstractClasses* --
 i.e those not instantiable as objects.
 
-.. _object:
-object
+.. _planobjects:
+objects
 +++++++++++++
-Anything which is neither namespace nor Class is referred to in lowerCamelCase.
+Anything which is neither namespace nor Class has a lowerCamelCase name.
 This includes classInstances, classAttributes and instanceAttributes.
 
 
 Objects
 ^^^^^^^^^
+RomCom :ref:`<planobjects>` may be exhaustively classified as
 
-Any `object`_ may be further classified as
-
-method
+methods
 ++++++++++++++
-A Python function.
+Python functions, either moduleMethods, classMethods or instanceMethods.
 
-property
+properties
 +++++++++++++
-A method which gets or sets a private attribute of a classInstance. Often read-only,
-if not, setting the property has side effects. There are no classProperties in RomCom,
-because Python does not support them.
+Python properties which get or set an instanceAttribute. If a property is not read-only,
+you should assume that setting it has side effects. All RomCom properties are instanceProperties,
+because Python does not (as yet properly) support classMethods.
 
-attribute
+attributes
 +++++++++++++
-Any object which not a Python Function. Data, so far as we are concerned.
+Any :ref:`planobjects` which are neither method nor property. In other words, data.
 
 
 Constants
 ^^^^^^^^^^^
-
 Constancy in RomCom is determined by scope, not name.
-Every namespace attribute or classAttribute in RomCom is a constant which must not be modified.
-Bespoke constants should be implemented by SubClassing, leaving the RomCom parent unmodified.
-An UpperCamelCase constant (e.g. ModuleAttribute or ClassAttribute) refers to a Class.
-A lowerCamelCase constant (e.g. moduleAttribute or classAttribute) does not.
+Every moduleAttribute or classAttribute in RomCom is a constant which must not be modified.
+Constants should only be tailored by SubClassing, leaving the RomCom parent unmodified.
+Any UpperCamelCase constants (e.g. ModuleAttribute or ClassAttribute) refer to :ref:`planClasses`.
+Any lowerCamelCase constants (e.g. moduleAttribute or classAttribute) refer to :ref:`planobjects`.
+
 
 .. _Protocols:
 *Protocols*
 ^^^^^^^^^^^
-    In the context of object-oriented programming, a protocol is an informal interface, defined only in documentation and not in code. [The Lizard Book pp.402]
+    In the context of object-oriented programming, a protocol is an informal interface, defined only in documentation and not in code.
+        [The Lizard Book pp.402]
 
 A *Protocol* is an *AbstractClass* which documents an interface implemented using undocumented :term:`dunder methods`.
 *Protocols* are pure documentation in code, and are essentially meaningless outside a Class definition.
 *Protocols* are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python *BaseExceptions*, in fact),
 They are named in *UpperCamelCaseP*, which is UpperCamelCase with a big P at the end which stands for *Protocol* and avoids tedious naming conflicts.
+
 
 .. _ecosystem:
 Ecosystem
@@ -71,7 +75,7 @@ Users may struggle if they are unacquainted with the key Python libraries suppor
 
 RomCom cannot live without
 
-* `polars <https://https://pola.rs/>`__ for high-level data representation. Referred to as ``pl`` or ``Pl``.
+* `polars <https://https://pola.rs/>`__ for high-level data representation. Referred to as ``pl``.
 * `numpy <https://numpy.org/>`__ for intermediation. Referred to as ``np`` or ``Np``.
 * `torch <https://pytorch.org/>`__ for numerical methods. Referred to as ``tc`` or ``Tc``.
 
