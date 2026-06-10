@@ -1,5 +1,4 @@
-
-Data Representation
+data
 ==================================
 
 Recall from :doc:`plan` that RomCom is an alphabetically ordered hierarchy.

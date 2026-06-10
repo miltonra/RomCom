@@ -60,8 +60,8 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
         Types supported by RomCom's :doc:`api/rc/base/index` :ref:`baseModels`.
         See :doc:`api/rc/base/index` :ref:`baseTypes`.
 
-    Categorical Input
-    Discrete Input
+    categorical input
+    discrete input
         An input variable whose value is one of a finite set of discrete values of Type ``int | str | bool``.
         RomCom Types any such data as :term:`Category`.
 
@@ -71,3 +71,11 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
     kwargs
         Keyword arguments, an object of Type :term:`MetaData`.
 
+    NaN
+        Not a Number. A special floating-point value which is not equal to itself.
+
+    null
+        Represents the absence of a value. ``None`` in Python.
+
+    decimal fraction
+        Any number with digits, possibly zero, after the decimal point. ``2.0`` is a decimal fraction, but ``2.`` is not.

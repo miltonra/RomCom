@@ -20,16 +20,6 @@
 from rc.base import *
 
 
-#: Slice for ``n`` (row index) in a Point Design
-n: int = 0
-
-#: Slice for ``x`` (continuous inputs) in a PointDesign.
-x: tuple[slice, slice] = (slice(None, None), slice(1, -2))
-
-#: Slice for ``y`` (outputs) in a PointDesign.
-y: tuple[slice, slice] = (slice(None, None), slice(-1, None))
-
-
 class Design(Table):
     """ A Design of user data, tabulating continuous inputs, categorical inputs, and outputs."""
 
@@ -46,34 +36,64 @@ class Design(Table):
     axisTypes: list[str] = list(dict.fromkeys(axisLexicon.values()))
     """ The axisTypes in any Design, ordered from left to right. """
 
-    def __call__(self, update: Self | Matrix | None = None) -> Self:
-        """ Update and store ``self``, overwriting.
+    @property
+    def M(self) -> int:
+        """ Counts the number of continuous inputs. """
+        return self._M
 
-        Args:
-            update: The data updates.
+    @property
+    def n(self) -> tuple[slice, slice]:
+        return slice(None, None), slice(None, 1)
 
-        Returns: ``self``.
-        """
+    @property
+    def x(self) -> tuple[slice, slice]:
+        return slice(None, None), slice(1, self._M + 1)
 
+    @property
+    def i(self) -> tuple[slice, slice]:
+        return slice(None, None), slice(self._M + 1, -2)
 
-    def create(cls, path: PathLike, table: Table) -> Design:
-        """ Create a ``Design`` at ``path``.
+    @property
+    def o(self) -> tuple[slice, slice]:
+        return slice(None, None), slice(-2, -1)
 
-        Args:
-            path: The Path to store this Table, overwritten if existing.
-                A ``.csv`` extension is implicitly appended.
-            table: The ``Table`` to reformat and store in ``path``.
-        Returns: The ``Table`` created.
-        """
+    @property
+    def y(self) -> tuple[slice, slice]:
+        return slice(None, None), slice(None, -1)
+
+    @abstractmethod
+    def __call__(self, update: Self | TableData | None = None) -> Self:
+        super().__call__(update)
+        schema = self._df.schema
+        assert schema.index('n') == 0
+        assert schema['n'] == Category
+        assert schema.index('y') == len(schema) - 1
+        assert schema['y'] == Float
+        assert schema.index('o') == len(schema) - 2
+        assert schema['o'] == Category
+        types=[]
+        for startswith, _type in {'x│': Float, 'i│': Category, }.items():
+            self._M = len(types)
+            types = [_type for head, _type in schema.items() if head.startswith(startswith)]
+            assert set(types) == {_type}, (f'Axes starting with {startswith} '
+                                           f'have Types {set(types)}) instead of {_type}.')
+        assert len(schema) == 1 + self._M + len(types) + 2, ('There are self._M Float x-axes '
+                                                             '{len(types)} i-axes '
+                                                             'but len(schema) columns in this Design.')
+        return self
+
+    @classmethod
+    def create(cls, path: PathLike, tableData: Self | TableData, **kwargs: Any) -> Self:
+        table = Table.create(path, tableData, **kwargs)
         heads = table.heads
-        heads[0] = 'n' + cls.con
+        heads[0] = 'n'
         heads = [head.split(cls.con,1) for head in heads]
         heads = [cls.axisLexicon.get(head[0].lower(), head[0]) + cls.con + head[1] for head in heads]
         df = table.df.rename(dict(zip(table.heads, heads)))
         heads = {axisType: [head for head in heads if head[0] == axisType] for axisType in cls.axisTypes}
         if y := heads.pop('y', []):
             if len(heads['o']) > 0:
-                # Only accept first output column
+                # Only accept first output axis
                 df = df.with_columns(*[head for axisType in heads.keys() for head in heads[axisType]]
                                      , pl.col(y[0]).alias('y'))
             else:
@@ -81,63 +101,45 @@ class Design(Table):
                                 variable_name='o', value_name='y')
         else:
             raise ValueError('Design must have at least one output axis.')
+        return cls(table.path, df)
 
-        return (Table(Table.mkdir(path), df),
-                {axisType: len(heads.get(axisType,[])) for axisType in cls.axisTypes})
+    @classmethod
+    def yPivot(cls, src: Self, dst: Path, **kwargs) -> Table:
+        """ Create a Table at ``dst`` consisting of the ``src`` Design with 'y' values pivoted on the 'o' axis.
+
+        Args:
+            src: The Design to pivot.
+            dst: The Path to store this Table, overwritten if existing.
+            **kwargs: KeywordArguments passed directly to `DataFrame()`_.
+
+        Returns: A Table with no 'o' axis but several output axes in place of the 'y' axis.
+
+        .. DataFrame(): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
+        """
+        return Table.create(dst,src.df.pivot('o', values='y'), **kwargs)
 
 
 class Design0(Table):
     """ A Design of user data with 0 categorical inputs."""
 
-    axisLexicon: dict[str,str] = {'index': 'n',
-                                  'input': 'x', 'in': 'x', 'continuous': 'x', 'float': 'x',
-                                  'category': 'i', 'cat': 'i', 'discrete': 'i', 'int': 'i', 'str': 'i',
-                                  'outputaxis': 'o', 'outputindex': 'o', 'outputcategory': 'o',
-                                  'output': 'y', 'out':'y', 'map': 'y', 'func':'y', }
-    """ The lexicon of axisTypes. """
+    def __call__(self, update: Self | TableData | None = None) -> Self:
+        super().__call__(update)
+        assert len(self) == 1 + self._M + 0 + 2
+        return self
 
-    axisTypes: list[str] = list(dict.fromkeys(axisLexicon.values()))
-    """ The axisTypes in any Design, ordered from left to right. """
+class Design1(Table):
+    """ A Design of user data with 1 categorical input."""
 
-    def __call__(self, update: Self | Matrix | None = None) -> Self:
-        """ Update and store ``self``, overwriting.
+    def __call__(self, update: Self | TableData | None = None) -> Self:
+        uncheckable = not hasattr(self, '_M')
+        super().__call__(update)
+        assert uncheckable or (len(self) == 1 + self._M + 1 + 2)
+        return self
 
-        Args:
-            update: The data updates.
-
-        Returns: ``self``.
-        """
-
-
-    def create(cls, path: PathLike, table: Table) -> Design:
-        """ Create a ``Design`` at ``path``.
-
-        Args:
-            path: The Path to store this Table, overwritten if existing.
-                A ``.csv`` extension is implicitly appended.
-            table: The ``Table`` to reformat and store in ``path``.
-        Returns: The ``Table`` created.
-        """
-        heads = table.heads
-        heads[0] = 'n' + cls.con
-        heads = [head.split(cls.con,1) for head in heads]
-        heads = [cls.axisLexicon.get(head[0].lower(), head[0]) + cls.con + head[1] for head in heads]
-        df = table.df.rename(dict(zip(table.heads, heads)))
-        heads = {axisType: [head for head in heads if head[0] == axisType] for axisType in cls.axisTypes}
-        if y := heads.pop('y', []):
-            if len(heads['o']) > 0:
-                # Only accept first output column
-                df = df.with_columns(*[head for axisType in heads.keys() for head in heads[axisType]]
-                                     , pl.col(y[0]).alias('y'))
-            else:
-                df = df.unpivot(y, index=[head for axisType in heads.keys() for head in heads[axisType]],
-                                variable_name='o', value_name='y')
-        else:
-            raise ValueError('Design must have at least one output axis.')
-
-        return (Table(Table.mkdir(path), df),
-                {axisType: len(heads.get(axisType,[])) for axisType in cls.axisTypes})
-
+    @classmethod
+    def create(cls, path: PathLike, tableData: Self | TableData, **kwargs: Any) -> Self:
+        pass
+        
 
 class PointDesign(Design):
     """ The internal format of ``Design``, which is narrow.

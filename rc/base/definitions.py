@@ -49,31 +49,39 @@ zero: float = 1.0E-64
 
 
 Int: TypeAlias = pl.Int32
-"""Alias pl.Int32. The Type of every ``int``."""
+"""Alias ``pl.Int32``. The Type of every ``int``."""
+
+
+Ints: tuple[Type, ...] = (pl.Int8, pl.Int16, pl.Int32, pl.Int64, pl.Int128,)
+"""Every Type of ``int``."""
 
 
 Float: TypeAlias = pl.Float32
-"""Alias pl.Float32. The Type of every ``float``."""
+"""Alias ``pl.Float32``. The Type of every ``float``."""
+
+
+Floats: tuple[Type, ...] = (pl.Float16, pl.Float32, pl.Float64,)
+"""Every Type of ``float``."""
 
 
 String: TypeAlias = pl.String
-"""Alias pl.String."""
+"""Alias ``pl.String``."""
 
 
 PathLike: TypeAlias = Path | str
-"""Alias ``Path | str``. ArgumentType of the ``path`` to a Store."""
+"""Alias ``Path | str | ``. ArgumentType of the ``path`` to a Store."""
 
 
 IndexLike: TypeAlias = str | int | Iterable[str | int] | slice
-"""Alias ``str | int | Iterable[str | int] | slice``. ArgumentType of the IndexP *Protocol*."""
+"""Alias ``str | int | Iterable[str | int] | slice``. ArgumentType of the *IndexP Protocol*."""
 
 
 DataFrame: TypeAlias = pl.DataFrame
-"""Alias ``pl.DataFrame`` """
+"""Alias ``pl.DataFrame``. """
 
 
 Category: TypeAlias = pl.Categorical
-"""Alias ``pl.Categorical`` """
+"""Alias `pl.Categorical <https://docs.pola.rs/user-guide/expressions/categorical-data-and-enums/#data-type-categorical>`__."""
 
 
 MetaData: TypeAlias = Mapping[str, Any]
@@ -97,8 +105,8 @@ class NameP(Protocol):
 class IndexP(Protocol):
     """ ``self[key: IndexLike]`` is not implemented. Override ``__getitem__(self, key)``, ``__setitem__(self, key, value)`` and ``__len__(self)``. """
 
-    Index: TypeAlias = Tuple[int, ...]
-    """Alias ``Tuple[int, ...]``. Return Type of the IndexP *Protocol*."""
+    Index: TypeAlias = tuple[int, ...]
+    """Alias ``tuple[int, ...]``. Return Type of the IndexP *Protocol*."""
 
 
 class EqualsP(Protocol):

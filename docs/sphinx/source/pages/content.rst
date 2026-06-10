@@ -9,6 +9,7 @@ Names
 ^^^^^^^^^^^^
 RomCom views any Python entity as falling into one of three categories, each with its own naming convention.
 
+.. _plannamespaces:
 namespaces
 +++++++++++++
 These are packages and modules, which have lowercase names (abbreviations or single words).
@@ -16,7 +17,7 @@ These are packages and modules, which have lowercase names (abbreviations or sin
 .. _planClasses:
 Classes
 ++++++++++++++
-Classes and Types have UpperCamelCase names. The documentation italicizes *AbstractClasses* --
+Classes and Types have UpperCamelCase names. RomCom documentation italicizes *AbstractClasses* --
 i.e those not instantiable as objects.
 
 .. _planobjects:
@@ -28,7 +29,7 @@ This includes classInstances, classAttributes and instanceAttributes.
 
 Objects
 ^^^^^^^^^
-RomCom :ref:`<planobjects>` may be exhaustively classified as
+RomCom :ref:`planobjects` may be exhaustively classified as
 
 methods
 ++++++++++++++
@@ -50,6 +51,7 @@ Constants
 Constancy in RomCom is determined by scope, not name.
 Every moduleAttribute or classAttribute in RomCom is a constant which must not be modified.
 Constants should only be tailored by SubClassing, leaving the RomCom parent unmodified.
+Any lowercase constants (e.g. pl, or base) refer to :ref:`plannamespaces`.
 Any UpperCamelCase constants (e.g. ModuleAttribute or ClassAttribute) refer to :ref:`planClasses`.
 Any lowerCamelCase constants (e.g. moduleAttribute or classAttribute) refer to :ref:`planobjects`.
 

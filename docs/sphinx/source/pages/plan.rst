@@ -61,7 +61,7 @@ Guide
 Learning RomCom means getting to know the :doc:`api/rc/base/index`, :doc:`api/rc/data/index`, and :doc:`api/rc/tasks/index` packages.
 These should suffice to perform many common tasks.
 
-Mastering RomCom means getting to know the :doc:`api/rc/gpr/index`, :doc:`api/rc/gsa/index`, and :doc:`api/rc/rom/index` packages which do the heavy maths.
+Mastering RomCom means getting to know the :doc:`api/rc/gpr/index`, :doc:`api/rc/gsa/index`, and :doc:`api/rc/rom/index` packages which do the heavy math.
 These can be leveraged to tailor RomCom to your every whim.
 
 Supplementary to mastery of RomCom is the :doc:`api/rc/glr/index` package.

@@ -40,22 +40,22 @@ Table
 A concrete *Store*, consisting of a :ref:`baseDataFrame` stored in a ``.csv`` file.
 
 Tables are copied from ``.csv`` or created from :ref:`baseTableData`, and may be updated from :ref:`baseTableData`.
-These operations are governed by CRUD :ref:`baseProtocols` described below.
+These operations are governed by :term:`CRUD` :ref:`baseProtocols` described below.
 
 The :ref:`baseTableData` held in any Table ``object`` is accessed in the desired :ref:`ecosystem <ecosystem>`
 format as the property ``object.df``, ``object.np``, or ``object.tc``.
 
-Every Table begins with a single row of column ``Table.heads``.
+Every Table begins with a single row of ``Table.heads``, which are column names (alias ``DataFrame.columns``).
 Heads may join levels of categorization using the conjunction ``Table.con = │``.
 This strange character is the utf8 Box Drawing Light Vertical (U+2502), which is unlikely to occur in user data.
 Multi-row heads must be conjoined using ``Table.conjoinHeads(src, dst, headcount)`` upon entry.
 
-The Table body below ``Table.heads`` contains data of just three Types: ``Category``, ``float`` and ``null``.
-Any data of Type ``int | str | bool`` in a Table body is cast to :ref:`baseCategory` when first encountered.
-All decimal fractions and ``NaN`` (Not a Number) are of Type ``float``.
-Any missing entries are of Type ``null``.
+The Table body below ``Table.heads`` contains data of just three Types: :ref:`baseCategory`, :doc:`Float <api/rc/base/definitions/Float>` and :term:`null`.
+Any data of Type ``int | str | bool`` in a Table body is cast to ``Category`` when first encountered.
+Any :term:`decimal fraction` or :term:`NaN` is cast to ``Float``.
+Missing data is represented by ``null``.
 
-RomCom is replete with SubClasses of ``Table`` fulfilling specific needs.
+RomCom is replete with SubClasses of Table fulfilling specific needs.
 For example, ``DesignMatrix`` is a concrete subclass of Table designed to hold training data.
 
 The classAttributes ``Table.readOptions`` and ``Table.writeOptions`` govern ``.csv`` file options.
@@ -88,7 +88,10 @@ Reflecting its programmatic content, an ``object`` of type ``MyDataBase`` instan
 .. image:: resources/DataBase.1.png
     :scale: 60%
 
-|
+
+The  :term:`CRUD` :ref:`baseProtocols` are implemented so that a *DataBase* may safely reside
+alongside other files (or folders) in ``self.path`` and its parents without affecting them.
+
 Most models in RomCom are some Type of concrete *Database*.
 
 
@@ -106,14 +109,14 @@ RomCom Types abide by the principle
 
 Rom Com methods send ReturnTypes and accept ArgumentTypes.
 
-Path
-+++++++++++++++++
+Path and PathLike
++++++++++++++++++++
 Files and folders are of ReturnType Path (alias ``Pathlib.Path``) and ArgumentType PathLike (alias ``str | Path``).
 
 .. _baseIndex:
-Index
-+++++++++++++++++
-Elements are Indexed by ReturnType :ref:`IndexP.Index <baseIndex>` (alias ``Tuple[int]``) and
+IndexP.Index and IndexLike
+++++++++++++++++++++++++++++
+Elements are Indexed by ReturnType :doc:`IndexP.Index <api/rc/base/definitions/IndexP.Index>` (alias ``tuple[int]``) and
 ArgumentType IndexLike (alias ``str | int | Iterable[str | int] | slice``.
 
 .. _baseDataFrame:
@@ -132,6 +135,7 @@ Np and Tc Tensors
 ++++++++++++++++++++
 *Np* and *Tc* are *AbstractClasses* extending Types to NumPy (``np``) and PyTorch (``tc``),
 such as ``Np.Tensor=np.ndarray`` , ``Tc.Tensor`` , ``Np.Matrix`` , ``Tc.Matrix`` , ``Np.Vector`` , ``Tc.Vector``.
+These are to express intention when heavy math is being done.
 
 .. _baseMetaData:
 MetaData
@@ -169,8 +173,7 @@ This enables expressions such as::
         if index in object: print('is always True')
 
 where ``index`` must be of ArgumentType :ref:`IndexLike <baseIndex>`.
-When ``index`` is Iterable, ``values`` must be a ``tuple[Table | TableData, ...]`` of corresponding ``len``.
-The ArgumentType of ``index`` is IndexLike
+When ``index`` is Iterable, ``values`` must be a ``tuple[Table | TableData,...]`` of corresponding ``len``.
 
 *IndexP* is conceptually identical to a Python `sequence <https://docs.python.org/3/glossary.html#term-sequence>`__.
 
@@ -182,11 +185,11 @@ Meta
 
 Table
 %%%%%%%
-*IndexP* refers to ``table.heads``, so ``len(table)`` is its width (complementing ``len(table.pl)`` its height).
+*IndexP* refers to ``table.heads`` by column name, so ``len(table)`` is its width (complementing ``len(table.pl)`` its height).
 
 *DataBase*
 %%%%%%%%%%%%%
-*IndexP* refers to ``database.namedTables``.
+*IndexP* refers to ``database.namedTables`` by name.
 
 *EqualsP*
 +++++++++++++++++
@@ -198,7 +201,7 @@ which exhaustively compares all content except for ``path``.
 If two objects of the same Type share the same location, they are surely identical for the filesystem is always synchronized with memory.
 So the only interesting comparison is between objects whose ``path`` differs.
 
-This is straightforward, but we shall highlight some pedantry
+This is straightforward, but we may as well highlight some pedantry
 
 *DataBase*
 %%%%%%%%%%%%%
@@ -207,7 +210,7 @@ and their ``.names()`` are equal. This is **not** the same as::
 
     dataBaseA.meta == dataBaseB.meta and dataBaseA.namedTables == dataBaseB.namedTables
 
-because `NamedTuple <https://typing.python.org/en/latest/spec/namedtuples.html>`_ equality does not compare field names.
+because `NamedTuple <https://typing.python.org/en/latest/spec/namedtuples.html>`_ equality does not compare names.
 
 Two equal *DataBase* objects need not be of the same Type, nor share ``dataBaseA.NamedTables is dataBaseB.NamedTables``.
 They are equal if and only if their **contents** are equal, regardless of their own Types.
@@ -215,10 +218,13 @@ They are equal if and only if their **contents** are equal, regardless of their 
 *CreateP*
 +++++++++++++++++
 Every derived ``Class(Store)`` possesses a ``Class.create(path)`` classMethod
-returning an ``object`` of type ``Class`` created in ``path`` selectively (without affecting other files in ``path``).
-So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parents.
+returning an ``object`` of type ``Class`` created in ``path``.
+
 Because *Store* considers itself *SuperClass* to all files and folders,
-``Store.create(path)`` deletes everything in its ``path`` before (re-)creating it.
+``Store.create(path)`` deletes everything in its ``path`` before (re-)creating it. Which can be useful.
+
+Every derived ``Class(Store)`` implements *CreateP* selectively, preserving other files in ``path`` intact and unaffected.
+``DataBase.create(path, tableData_and_metaData)`` will not harm any files (or folders) in ``path`` and its parents.
 
 *ReadP*
 +++++++++++++++++
@@ -229,13 +235,23 @@ defined in ``Class.__init__(path)``.
 +++++++++++++++++
 Every ``object`` of derived ``Class(Store)`` is updated in place and written in ``object.path`` by the
 function ``object(**kwargs)`` defined in ``__call__(self, **kwargs)``.
-SubClasses frequently override ``__call__(self,**kwargs)`` to perform some calibration or optimization before writing.
+SubClasses frequently override ``__call__(self,**kwargs)`` to perform some calibration or optimization before updating.
 
 *DeleteP*
 +++++++++++++++++
-Every class derived from *Store* has a ``delete(path)`` classMethod
-which deletes a *Store* in ``path`` selectively  (leaving all other files intact).
-So any *DataBase* may safely reside alongside other files (or folders) in ``path`` and its parent folders.
+Every class derived from *Store* has a ``delete(path)`` classMethod which deletes a *Store*.
+
 Because *Store* considers itself *SuperClass* to all files and folders,
-``Store.create(path)`` deletes everything in its ``path`` before (re-)creating it.
+``Store.delete(path)`` deletes everything in its ``path`` before (re-)creating it. Which can be useful.
+
+Every derived ``Class(Store)`` implements *DeleteP* selectively, preserving other files in ``path`` intact and unaffected.
+So ``DataBase.delete(path)`` preserves all other files (or folders) in ``path`` and its parents, unlike ``Store.delete``.
+
+*CreateP*
++++++++++++++++++
+Every derived ``Class(Store)`` possesses a ``Class.copy(src: Class, dst: PathLike)`` classMethod
+returning a copy of ``src`` created in ``dst``.
+
+``Class.copy(src, dst)`` is entirely selective. The operation neither affects nor is affected by
+any extraneous files (or folders) in ``src.path`` and ``dst`` and their parents.
 

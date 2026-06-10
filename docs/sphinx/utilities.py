@@ -57,7 +57,7 @@ def _clean():
     _empty(docs, preserve=['sphinx', '.nojekyll'], confirm=False)
 
 
-def _tidyfile(filename: Path, replacements: Dict[str, Any]):
+def _tidyfile(filename: Path, replacements: tuple[str, Any]):
     """ Tidy a ``.html`` file.
 
     Args:
@@ -73,7 +73,7 @@ def _tidyfile(filename: Path, replacements: Dict[str, Any]):
         f.truncate()
 
 
-def _tidy(folder: Path, replacements: Dict[str, str]):
+def _tidy(folder: Path, replacements: tuple[str, str]):
     """ Recursively tidy all ``.html`` files in the given folder, and subfolders.
 
     Args:

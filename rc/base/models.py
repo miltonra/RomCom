@@ -302,7 +302,7 @@ class Table(Store):
         """ ``self == other`` compares ``self.pl``, ``self.np`` or ``self.tc`` matching the the type of ``other``. """
 
     class CreateP(CreateP):
-        """ Creates a new Table at ``path`` from ``data: TableData | Table``. """
+        """ Creates a new Table at ``path`` from ``tableData: TableData | Table``. """
 
     class ReadP(ReadP):
         pass
@@ -354,13 +354,13 @@ class Table(Store):
             IndexError: If broadcasting is impossible.
         """
         try:
-            data = np.array(np.broadcast_to(self.np, target_shape))
+            tableData = np.array(np.broadcast_to(self.np, target_shape))
         except ValueError:
             raise IndexError(f'{repr(self)} has shape {self._df.shape} '
                              f'which cannot be broadcast to {target_shape}.')
         if is_diagonal and target_shape[0] > 1:
-            data = np.diag(np.diagonal(data))
-        return self(data)
+            tableData = np.diag(np.diagonal(tableData))
+        return self(tableData)
 
     def __len__(self) -> int:
         """ Counts the columns in ``self``. """
@@ -412,7 +412,7 @@ class Table(Store):
         """ Update and store ``self``, overwriting.
 
         Args:
-            update: The data updates.
+            update: The tableData updates.
 
         Returns: ``self``.
         """
@@ -422,9 +422,8 @@ class Table(Store):
             self._df = update
         else:
             self._df = DataFrame(update, orient='row')
-        self._df = self._df.with_columns(pl.col(pl.Float16, pl.Float32, pl.Float64).cast(Float))
-        self._df = self._df.with_columns(pl.col(pl.Int8, pl.Int16, pl.Int32, pl.Int64,
-                                                pl.Int128, pl.Boolean).cast(String))
+        self._df = self._df.with_columns(pl.col(*Floats).cast(Float))
+        self._df = self._df.with_columns(pl.col(pl.Boolean, *Ints).cast(String))
         self._df = self._df.with_columns(pl.col(String).cast(Category))
         self._df.write_csv(self._path, **self.writeOptions)
         return self
@@ -444,21 +443,21 @@ class Table(Store):
             self(table)
 
     @classmethod
-    def create(cls, path: PathLike, data: Self | TableData, **kwargs: Any) -> Self:
+    def create(cls, path: PathLike, tableData: Self | TableData, **kwargs: Any) -> Self:
         """ Create a Table at ``path``, overwriting.
 
         Args:
             path: The Path to store this Table, overwritten if existing.
                 A ``.csv`` extension is implicitly appended.
-            data: The table to store.
+            tableData: The table to store.
             **kwargs: KeywordArguments passed directly to `DataFrame()`_.
 
         Returns: The Table created.
 
         .. DataFrame(): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
         """
-        data = DataFrame(data._df if isinstance(data, Table) else data, **kwargs)
-        return cls(path, data)
+        tableData = DataFrame(tableData._df if isinstance(tableData, Table) else tableData, **kwargs)
+        return cls(path, tableData)
 
     @classmethod
     def copy(cls, src: Self, dst: PathLike) -> Self:
@@ -685,19 +684,19 @@ class DataBase(Store):
         return cls.NamedTables._field_defaults
 
     @classmethod
-    def create(cls, path: PathLike, **tables_and_meta: Table | DataFrame | MetaData) -> Self:
+    def create(cls, path: PathLike, **tableData_and_metaData: Table | DataFrame | MetaData) -> Self:
         """ Create a *DataBase* in ``path``.
 
         Args:
             path: The folder to store the *DataBase* in. Need not exist,
                 any existing ``Tables`` will be overwritten if it does.
-            **tables_and_meta: Data to update ``cls.defaults()``, in the form ``names[i]=tables[i]``,
+            **tableData_and_metaData: Data to update ``cls.defaults()``, in the form ``names[i]=tables[i]``,
                 and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.
 
         Returns: The *DataBase* created.
         """
-        Meta.create(cls._meta_in(path), **(cls.defaultMeta | (tables_and_meta.pop('meta', {}))))
-        return cls(path, **(cls.defaults() | tables_and_meta))
+        Meta.create(cls._meta_in(path), **(cls.defaultMeta | (tableData_and_metaData.pop('meta', {}))))
+        return cls(path, **(cls.defaults() | tableData_and_metaData))
 
     @classmethod
     def copy(cls, src: Self, dst: PathLike) -> Self:
