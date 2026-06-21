@@ -35,14 +35,15 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
 
     ecosystem
     ``pl``
+    ``df``
     ``np``
     ``tc``
         See :ref:`ecosystem <ecosystem>`.
 
-    Store
+    *Store*
     Meta
     Table
-    DataBase
+    *DataBase*
         BaseClasses for all RomCom software objects. See :doc:`api/rc/base/index` :ref:`models <baseModels>`.
 
     ReturnType
@@ -79,3 +80,26 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
 
     decimal fraction
         Any number with digits, possibly zero, after the decimal point. ``2.0`` is a decimal fraction, but ``2.`` is not.
+
+    percentage
+        Any ``str`` whose rightmost character is ``%``.
+
+    Schema
+        A `NamedTuple <https://typing.python.org/en/latest/spec/namedtuples.html>`_ enumerating the Tables housed by a :term:`*DataBase*` Type.
+
+    schema
+        A specification of the structure of a :term:`Table` (as a ``dict[str, Type]``),
+        or a :term:`DataBase` (as a Schema).
+
+    experiment
+        The data you wish RomCom to analyse. RomCom sees any experiment as a :term:`*Design*`
+
+    *Design*
+        A Type of :term:`Table` with a validated :term:`schema` designed to represent experiments.
+        See :ref:`dataDesigns`.
+
+    axis
+        A column in a :term:`experiment` or :term:`*Design*`.
+
+    axisType
+        A label which identifies the role of an axis in an :term:`experiment`. See :ref:`dataAxes`.

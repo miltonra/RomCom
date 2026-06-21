@@ -72,12 +72,7 @@ class TestCase(ut.TestCase):
                                                                  'age': [10,20,30],
                                                                  'BMI': [1.0,2.0,3.0],
                                                                  'bool': [True, True, False]}))
-        print(typed)
-        print(typed.df)
-        print(typed.np)
-        print(typed.tc)
         df = pl.DataFrame(typed.df, orient='row')
-        print(df)
         self.assertEqual(typed, typed)
         self.assertEqual(typed, df)
         self.assertEqual(typed, typed.np)
@@ -87,7 +82,7 @@ class TestCase(ut.TestCase):
 
         class MyDataBase(DataBase):
 
-            class NamedTables(NamedTuple):
+            class Schema(NamedTuple):
                 zero: Table | TableData | MetaData = DataFrame(np.atleast_2d(0.0))
                 one: Table | TableData | MetaData = DataFrame(np.ones((1, 1)))
 
@@ -95,12 +90,12 @@ class TestCase(ut.TestCase):
                     """ Returns the Table named ``name``."""
                     return getattr(self, name)
 
-            Tables: NamedTables[type[Table]] = NamedTables(**{name: Table for name in NamedTables._fields})
-            """ Class attribute of the form ``NamedTables(**{names[i]: Table[i], ...})``,
+            schema: Schema[type[Table]] = Schema(**{name: Table for name in Schema._fields})
+            """ Class attribute of the form ``Schema(**{names[i]: Table[i], ...})``,
             where ``Table[i]`` is a Type which SubClasses Table. Must be overridden."""
 
-            defaultMeta: MetaData = {'Tables': {name: TableType.__name__
-                                                for name, TableType in Tables._asdict().items()}}
+            defaultMeta: MetaData = {'schema': {name: TableType.__name__
+                                                for name, TableType in schema._asdict().items()}}
 
         empty = MyDataBase.create(Test.folder() / 'default')
         created = MyDataBase.create(Test.folder() / 'created', zero = np.zeros((1, 1)), one = np.ones((1, 1)))

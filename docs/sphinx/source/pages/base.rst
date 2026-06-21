@@ -3,7 +3,7 @@ base
 Recall from :doc:`plan` that RomCom is an alphabetically ordered hierarchy.
 The functional foundation of RomCom is the  beginning of its alphabet -- the :doc:`api/rc/base/index` package.
 
-These foundations are so pervasive that wildcard imports expose them internally.
+This foundation is so pervasive that wildcard imports expose it internally.
 In other words, the :doc:`api/rc/index` namespace includes all names in :doc:`api/rc/base/index` modules without
 any (package or module) qualification.
 
@@ -42,18 +42,22 @@ A concrete *Store*, consisting of a :ref:`baseDataFrame` stored in a ``.csv`` fi
 Tables are copied from ``.csv`` or created from :ref:`baseTableData`, and may be updated from :ref:`baseTableData`.
 These operations are governed by :term:`CRUD` :ref:`baseProtocols` described below.
 
-The :ref:`baseTableData` held in any Table ``object`` is accessed in the desired :ref:`ecosystem <ecosystem>`
-format as the property ``object.df``, ``object.np``, or ``object.tc``.
+The :ref:`baseTableData` held in ``table: Table`` is accessed in the desired :ref:`ecosystem <ecosystem>`
+format as the property ``table.df``, ``table.np``, or ``table.tc``.
 
-Every Table begins with a single row of ``Table.heads``, which are column names (alias ``DataFrame.columns``).
+Every Table begins with a single row of ``table.heads``, which are column names (alias ``DataFrame.columns``).
 Heads may join levels of categorization using the conjunction ``Table.con = │``.
 This strange character is the utf8 Box Drawing Light Vertical (U+2502), which is unlikely to occur in user data.
 Multi-row heads must be conjoined using ``Table.conjoinHeads(src, dst, headcount)`` upon entry.
 
-The Table body below ``Table.heads`` contains data of just three Types: :ref:`baseCategory`, :doc:`Float <api/rc/base/definitions/Float>` and :term:`null`.
+The Table body below ``table.heads`` contains data of just two Types: :ref:`baseCategory` and :doc:`Float <api/rc/base/definitions/Float>`.
 Any data of Type ``int | str | bool`` in a Table body is cast to ``Category`` when first encountered.
 Any :term:`decimal fraction` or :term:`NaN` is cast to ``Float``.
-Missing data is represented by ``null``.
+Any :term:`percentage` is stripped of its rightmost ``%`` character, cast to ``Float`` and divided by 100.
+Missing data is represented by ``null``, whose Type is effectively embraces both ``Category`` and ``Float``.
+Every column must be of homogeneous Type: either all ``Category`` (including ``null``) or all ``Float`` (including ``null`` and ``NaN``).
+
+The ``table.schema`` is a ``dict[str, Type]`` mapping column names (``table.heads``) to their Types (``Category`` or ``Float``).
 
 RomCom is replete with SubClasses of Table fulfilling specific needs.
 For example, ``DesignMatrix`` is a concrete subclass of Table designed to hold training data.
@@ -61,28 +65,29 @@ For example, ``DesignMatrix`` is a concrete subclass of Table designed to hold t
 The classAttributes ``Table.readOptions`` and ``Table.writeOptions`` govern ``.csv`` file options.
 These constants should only be tailored by SubClassing.
 
+.. _baseDataBase:
 *DataBase*
 ^^^^^^^^^^^^
-An abstract *Store*, containing NamedTables
+An abstract *Store*, housing a Schema
 (a `NamedTuple <https://typing.python.org/en/latest/spec/namedtuples.html>`_ of Tables) with Meta.
 
-The NamedTables of any *DataBase* ``object`` is the property ``object.namedTables``,
-its Meta the property ``object.meta``.
+The data any *DataBase* ``object`` is the property ``object.tables: Schema[Table, ...]`` and
+its Meta the property ``object.meta: MetaData``.
 
-Any concrete SubClass such as ``MyDataBase`` must define ``MyDataBase.NamedTables(NamedTuple)``
+Any concrete SubClass such as ``MyDataBase`` must define ``MyDataBase.Schema(NamedTuple)``
 which indexes ``MyDataBase.defaults()`` by ``MyDataBase.names()``.
 
-For example, ``MyDataBase`` may define ``MyDataBase.NamedTables(NamedTuple)`` as::
+For example, ``MyDataBase`` may define ``MyDataBase.Schema(NamedTuple)`` as::
 
     class MyDataBase(DataBase)
-        NamedTables(NamedTuple)
+        Schema(NamedTuple)
             zero: Table | TableData | type[Table] = DataFrame([0])
             one: Table | TableData | type[Table] = DataFrame([1])
 
-        Tables: NamedTables[type[Table], ...] = NamedTables(zero=Table, one=Table)
+        schema: Schema[type[Table], ...] = Schema(zero=Table, one=Table)
 
 The last line is required to tell MyDataBase what TableTypes to expect.
-In this way, ``Tables`` encapsulates ``Table.readOptions``, ``Table.writeOptions``, and possibly other functionality.
+In this way, ``schema`` communicates ``Table.readOptions``, ``Table.writeOptions``, and possibly other functionality.
 Reflecting its programmatic content, an ``object`` of type ``MyDataBase`` instantiated with ``path`` would appear on the filesystem as
 
 .. image:: resources/DataBase.1.png
@@ -212,7 +217,7 @@ and their ``.names()`` are equal. This is **not** the same as::
 
 because `NamedTuple <https://typing.python.org/en/latest/spec/namedtuples.html>`_ equality does not compare names.
 
-Two equal *DataBase* objects need not be of the same Type, nor share ``dataBaseA.NamedTables is dataBaseB.NamedTables``.
+Two equal *DataBase* objects need not be of the same Type, nor share ``dataBaseA.Schema is dataBaseB.Schema``.
 They are equal if and only if their **contents** are equal, regardless of their own Types.
 
 *CreateP*

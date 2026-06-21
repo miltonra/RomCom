@@ -15,13 +15,13 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-""" Design Matrix formats. """
+""" Design Tables (Matrices). """
 
 from rc.base import *
 
 
 class Design(Table):
-    """ A Design of user data, tabulating continuous inputs, categorical inputs, and outputs."""
+    """ A Design of user data, tabulating continuous inputs, categorical inputs, and unpivoted outputs."""
 
     class CreateP(CreateP):
         """ Creates a new instance of ``cls`` at ``path`` from a Table. """
@@ -36,59 +36,101 @@ class Design(Table):
     axisTypes: list[str] = list(dict.fromkeys(axisLexicon.values()))
     """ The axisTypes in any Design, ordered from left to right. """
 
+    class AxisVerifier(NamedTuple):
+        """ A NamedTuple for verifying axes in a Design. Used exclusively by the ``__call__()`` method."""
+        axes: int | list[str] | dict[str, type]     #: The axes to verify.
+        Type: type = Category | Float   #: The Type of data accepted by this axisType.
+
+    class Slice(NamedTuple):
+        """ A pair of ``slices``, to slice TableData."""
+        rows: slice = slice(None, None) #: Rows are the first tensor rank
+        axes: slice = slice(None, 1)   #: Axes are the second tensor rank
+
     @property
     def M(self) -> int:
         """ Counts the number of continuous inputs. """
         return self._M
 
     @property
-    def n(self) -> tuple[slice, slice]:
-        return slice(None, None), slice(None, 1)
+    def n(self) -> Slice:
+        return self.Slice()
 
     @property
-    def x(self) -> tuple[slice, slice]:
-        return slice(None, None), slice(1, self._M + 1)
+    def x(self) -> Slice:
+        return self.Slice(axes=slice(1, self._M + 1))
 
     @property
-    def i(self) -> tuple[slice, slice]:
-        return slice(None, None), slice(self._M + 1, -2)
+    def i(self) -> Slice:
+        return self.Slice(axes=slice(self._M + 1, -2))
 
     @property
-    def o(self) -> tuple[slice, slice]:
-        return slice(None, None), slice(-2, -1)
+    def o(self) -> Slice:
+        return self.Slice(axes=slice(-2, -1))
 
     @property
-    def y(self) -> tuple[slice, slice]:
-        return slice(None, None), slice(None, -1)
+    def y(self) -> Slice:
+        return self.Slice(axes=slice(-1, None))
 
-    @abstractmethod
-    def __call__(self, update: Self | TableData | None = None) -> Self:
-        super().__call__(update)
-        schema = self._df.schema
-        assert schema.index('n') == 0
-        assert schema['n'] == Category
-        assert schema.index('y') == len(schema) - 1
-        assert schema['y'] == Float
-        assert schema.index('o') == len(schema) - 2
-        assert schema['o'] == Category
-        types=[]
-        for startswith, _type in {'x│': Float, 'i│': Category, }.items():
-            self._M = len(types)
-            types = [_type for head, _type in schema.items() if head.startswith(startswith)]
-            assert set(types) == {_type}, (f'Axes starting with {startswith} '
-                                           f'have Types {set(types)}) instead of {_type}.')
-        assert len(schema) == 1 + self._M + len(types) + 2, ('There are self._M Float x-axes '
-                                                             '{len(types)} i-axes '
-                                                             'but len(schema) columns in this Design.')
+    def yPivot(self, path: Path, yAxisPrefix: str = f'y{Table.con}', **kwargs) -> Table:
+        """ Create a Table at ``path`` consisting of ``self`` with 'y' values pivoted on the 'o' axis.
+
+        Args:
+            path: The Path to store this Table, overwritten if existing.
+            yAxisPrefix: The prefix of the new 'y' axes, to appear before the 'o' axis values.
+                The default is 'y│', pass to ``''`` for no prefix.
+            **kwargs: KeywordArguments passed directly to `DataFrame()`_.
+
+        Returns: A Table with no 'o' axis but several output axes in place of the 'y' axis.
+
+        .. DataFrame(): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
+        """
+        return Table.create(path, (self._df.with_columns((pl.lit(yAxisPrefix) + pl.col('o')).alias('o'))
+                                   .pivot('o', values='y')), **kwargs)
+
+    def __call__(self, update: Self | TableData | None = None, write_csv: bool = True) -> Self:
+        super().__call__(update, write_csv=False)
+        schema = self.schema
+        # Verify singleton axisTypes
+        verify = {'n': self.AxisVerifier(axes=0, Type=Category),
+                 'o': self.AxisVerifier(axes=len(schema) - 2, Type=Category),
+                 'y': self.AxisVerifier(axes=len(schema) - 1, Type=Float),}
+        actual = {axisType: self.AxisVerifier(axes=index, Type=_type)
+                      for index, (axisType, _type) in enumerate(schema.items()) if axisType in verify}
+        for axisType, correct in verify.items():
+            assert actual[axisType].axes == correct.axes, f'Axis {actual[axisType].axes} should be {axisType}'
+            if actual[axisType].Type != correct.Type:
+                self._df = self._df.with_columns(pl.col(axisType).cast(String).cast(correct.Type))
+        # Verify non-singleton axisTypes
+        verify = {'x': self.AxisVerifier(axes={}, Type=Float),
+                  'i': self.AxisVerifier(axes={}, Type=Category),}
+        for axisType, correct in verify.items():
+            correct.axes.update({head: _type for head, _type in schema.items() if head.startswith(axisType)})
+            incorrect = [head for head, _type in correct.axes.items() if _type != correct.Type]
+            if incorrect:
+                self._df = self._df.with_columns(pl.col(incorrect).cast(String).cast(correct.Type))
+            verify[axisType] = list(correct.axes.keys())
+        self._M = len(verify['x'])
+        #
+        heads = self.heads
+        assert heads[1] == verify['x'][0], f'Axis[1] should be an x-axis'
+        if verify['i']:
+            assert heads.index(verify['i'][0]) == heads.index(verify['x'][-1]) + 1, \
+                f'i-axes should immediately follow x-axes'
+            assert heads[-3] == verify['i'][-1], f'Axis[-3] should be an i-axis'
+        else:
+            assert heads[-3] == verify['x'][-1], f'Axis[-3] should be an x-axis'
+        #
+        if write_csv:
+            self._df.write_csv(self._path, **self.writeOptions)
         return self
 
     @classmethod
-    def create(cls, path: PathLike, tableData: Self | TableData, **kwargs: Any) -> Self:
+    def create(cls, path: PathLike, tableData: Table | TableData, **kwargs: Any) -> Self:
         table = Table.create(path, tableData, **kwargs)
-        heads = table.heads
-        heads[0] = 'n'
-        heads = [head.split(cls.con,1) for head in heads]
-        heads = [cls.axisLexicon.get(head[0].lower(), head[0]) + cls.con + head[1] for head in heads]
+        heads = table.heads[1:]
+        heads = [cls.axisLexicon.get(left.lower(), left.lower()) + con + right
+                 for head in heads for left, con, right in [head.partition(cls.con)]]
+        heads.insert(0, 'n')
         df = table.df.rename(dict(zip(table.heads, heads)))
         heads = {axisType: [head for head in heads if head[0] == axisType] for axisType in cls.axisTypes}
         if y := heads.pop('y', []):
@@ -98,134 +140,71 @@ class Design(Table):
                                      , pl.col(y[0]).alias('y'))
             else:
                 df = df.unpivot(y, index=[head for axisType in heads.keys() for head in heads[axisType]],
-                                variable_name='o', value_name='y')
+                                variable_name='o', value_name='y').with_columns(pl.col('o').str.slice(2))
         else:
             raise ValueError('Design must have at least one output axis.')
         return cls(table.path, df)
 
-    @classmethod
-    def yPivot(cls, src: Self, dst: Path, **kwargs) -> Table:
-        """ Create a Table at ``dst`` consisting of the ``src`` Design with 'y' values pivoted on the 'o' axis.
 
-        Args:
-            src: The Design to pivot.
-            dst: The Path to store this Table, overwritten if existing.
-            **kwargs: KeywordArguments passed directly to `DataFrame()`_.
-
-        Returns: A Table with no 'o' axis but several output axes in place of the 'y' axis.
-
-        .. DataFrame(): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
-        """
-        return Table.create(dst,src.df.pivot('o', values='y'), **kwargs)
-
-
-class Design0(Table):
+class Design0(Design):
     """ A Design of user data with 0 categorical inputs."""
 
-    def __call__(self, update: Self | TableData | None = None) -> Self:
-        super().__call__(update)
-        assert len(self) == 1 + self._M + 0 + 2
+    def __call__(self, update: Self | TableData | None = None, write_csv: bool = True) -> Self:
+        super().__call__(update, write_csv)
+        assert len(self) == 1 + self._M + 0 + 2, (f'Too many input axes: '
+                                                  f'{len(self)-3} provided when self.M={self._M}')
         return self
 
-class Design1(Table):
-    """ A Design of user data with 1 categorical input."""
 
-    def __call__(self, update: Self | TableData | None = None) -> Self:
-        uncheckable = not hasattr(self, '_M')
-        super().__call__(update)
-        assert uncheckable or (len(self) == 1 + self._M + 1 + 2)
+class Design1(Design):
+    """ A conjoined Design of user data with 1 categorical input."""
+
+    def __call__(self, update: Self | TableData | None = None, write_csv: bool = True) -> Self:
+        super().__call__(update, write_csv)
+        assert len(self) == 1 + self._M + 1 + 2, (f'Too many input axes: '
+                                                  f'{len(self)-4} provided when self.M={self._M}')
         return self
 
     @classmethod
-    def create(cls, path: PathLike, tableData: Self | TableData, **kwargs: Any) -> Self:
-        pass
-        
-
-class PointDesign(Design):
-    """ The internal format of ``Design``, which is narrow.
-    Categorical axes are concatenated into a single column of categorical points."""
-
-    @classmethod
-    def create(cls, path: PathLike, design: Design) -> Self:
-        coordDesign = super().create(path, design)
-        match design:
-            case PointDesign():
-                return cls(path)
-            case CoordDesign():
-                # Reformat the CoordDesign to a PointDesign.
-                # Strip out the ``inputAxes`` from ``design``.
-                inputAxes = {'x│': None, 'i│': None}
-                for key in inputAxes.keys():
-                    inputAxes[key] = coordDesign.get(key)
-                    if inputAxes[key] is not None: coordDesign.drop(columns=key, level=0, inplace=True)
-                coordDesign.columns = coordDesign.columns.droplevel(0)
-                # Return the categorical inputs to ``design``.
-                if inputAxes['i│'] is not None:
-                    pointCoord = cls.coordSeparator.join(['ο'] + inputAxes['i│'].columns.to_list())
-                    coordDesign[pointCoord] = inputAxes['i│'].astype(str).agg(cls.coordSeparator.join, axis=1)
-                    pointDesign = coordDesign.reset_index(names='n│').melt(id_vars=['n│', pointCoord],
-                                                                          var_name='ο',
-                                                                          value_name='y│',
-                                                                          ignore_index=True).dropna()
-                    pointDesign[pointCoord] = (pointDesign
-                                              ['ο'].astype(str) + cls.coordSeparator +
-                                               pointDesign[pointCoord])
-                    pointDesign.drop(columns=['ο'], inplace=True)
-                else:
-                    pointCoord = 'ο'
-                    pointDesign = coordDesign.reset_index(names='n│').melt(id_vars=['n│'], var_name='ο',
-                                                                          value_name='y│',
-                                                                          ignore_index=True).dropna()
-                # Return the continuous inputs to ``design``.
-                if inputAxes['x│'] is not None:
-                    columns = ['n│'] + inputAxes['x│'].columns.to_list() + [pointCoord, 'y│']
-                    pointDesign = pointDesign.join(inputAxes['x│'], on='n│', how='left').reindex(columns=columns)
-            case _:
-                raise NotImplementedError(f'I do not know how to create a PointDesign from {type(design)}')
-        return cls(cls.mkdir(path), pointDesign)
+    def create(cls, path: PathLike, tableData: Table | TableData, **kwargs: Any) -> Self:
+        d = Design.create(path, tableData, **kwargs)
+        cats = d.heads[d.i.axes]
+        assert cats, f'Cannot create Design1 from TableData with no i-axes. Use Design0.create() instead.'
+        # join d
+        head = cls.con.join(cats[0:1] + [cat[2:] for cat in cats[1:]])
+        update = d.df.with_columns(pl.concat_str([pl.col(cat) for cat in cats], separator=cls.con)
+                                   .alias(head))
+        heads = d.heads[0 : d.M + 1] + [head, 'o', 'y']
+        update = update.select(heads)
+        return cls(d.path, update)
 
 
-class CoordDesign(Design):
-    """ The familiar user format of a Design which has many axes (columns), and two header rows.
-    The first header row contains the axisType, the second header row contains the axis."""
+class DesignS(Design):
+    """ An unjoined Design of user data with every possible categorical input."""
 
-    readOptions: MetaData = Table.readOptions | {'header': [0, 1]}
-    """ File read options passed directly to
-    `pd.read_csv <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>`__."""
+    def __call__(self, update: Table | TableData | None = None, write_csv: bool = True) -> Self:
+        super().__call__(update, write_csv)
+        assert set([head.count(self.con)
+                    for head in self.heads[self.i.axes]]) == {1}, f'Category heads contain{self.con}'
+        return self
 
     @classmethod
-    def create(cls, path: PathLike, design: Design) -> Self:
-        match design:
-            case CoordDesign():
-                # Reformat colum labels and categorical coords to strings.
-                coordDesign = design.pd.copy(deep=True).rename(cls.axisType, axis='columns', level=0)
-                if 'i│' in coordDesign.columns.get_level_values(0):
-                    coordDesign['i│'] = coordDesign['i│'].astype(str)
-            case PointDesign():
-                # Reformat the PointDesign to an CoordDesign.
-                pointDesign = design.pd.copy(deep=True).set_index('n│')
-                pointDesign[pointDesign.columns[-2]] = pointDesign[pointDesign.columns[-2]].astype(str)
-                # convert Points to coords.
-                iDesign = pointDesign.iloc[:, -2].apply(lambda point: point.split(cls.coordSeparator))
-                iDesign = pd.DataFrame(iDesign.tolist(), index=pointDesign.index,
-                                       columns=iDesign.name.split(cls.coordSeparator))
-                # convert first categorical variable to output axes.
-                yAxes = iDesign['ο'].drop_duplicates().tolist()
-                yDesign = pd.concat([iDesign['ο'], pointDesign.iloc[:, -1]], axis=1)
-                for yCoord in yAxes:
-                    yDesign[yCoord] = (yDesign['ο'] == yCoord).astype(int) * yDesign.iloc[:, 1]
-                # Collect x, i, and y column groups.
-                coordDesign = pd.concat([pointDesign.iloc[:, :-2].groupby(level=0, sort=False).mean(),
-                                         iDesign.iloc[:, 1:].groupby(level=0, sort=False).first(),
-                                         yDesign.iloc[:, 2:].groupby(level=0, sort=False).sum(), ],
-                                        axis=1)
-                # Label axes correctly.
-                coordDesign.columns = pd.MultiIndex.from_tuples(
-                    [('x│', col) for col in pointDesign.columns[:-2]] +
-                    [('i│', col) for col in iDesign.columns[1:]] +
-                    [('y│', col) for col in yAxes])
-                # Detect NaN.
-                coordDesign['y│'] = coordDesign['y│'].replace(0.0, np.nan)
-            case _:
-                raise NotImplementedError(f'I do not know how to create an CoordDesign from {type(design)}')
-        return cls(cls.mkdir(path), coordDesign)
+    def create(cls, path: PathLike, tableData: Table | TableData, **kwargs: Any) -> Self:
+        d = Design.create(path, tableData, **kwargs)
+        cats = list(d.heads[d.i.axes])
+        if set([head.count(d.con) for head in cats]) == {1}:
+            update = None
+        else:
+            # split d
+            rename = {cat: '_' + cat for cat in cats}
+            update = d.df.rename(rename)
+            cats = {'_' + cat : cat.split(cls.con) for cat in cats}
+            heads = d.heads[0:d.M+1]
+            for old, new in cats.items():
+                newHeads = {f'field_{j}': 'i' + cls.con + cat for j, cat in enumerate(new[1:])}
+                update = (update.with_columns(pl.col(old).cast(String).str.split_exact(cls.con, len(new))
+                                              .alias(cls.con*3)).unnest(cls.con*3).rename(newHeads))
+                heads += newHeads.values()
+            update = update.select(heads + ['o', 'y'])
+        return cls(d.path, update)
+

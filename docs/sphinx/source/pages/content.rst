@@ -77,7 +77,7 @@ Users may struggle if they are unacquainted with the key Python libraries suppor
 
 RomCom cannot live without
 
-* `polars <https://https://pola.rs/>`__ for high-level data representation. Referred to as ``pl``.
+* `polars <https://https://pola.rs/>`__ for high-level data representation. Referred to as ``pl``, its DataFrame ``df``.
 * `numpy <https://numpy.org/>`__ for intermediation. Referred to as ``np`` or ``Np``.
 * `torch <https://pytorch.org/>`__ for numerical methods. Referred to as ``tc`` or ``Tc``.
 

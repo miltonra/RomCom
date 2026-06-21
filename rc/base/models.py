@@ -317,6 +317,11 @@ class Table(Store):
         pass
 
     @property
+    def schema(self) -> dict[str, type[Category | Float]]:
+        """ The DataFrame schema of ``self``, alias ``self.df.schema``."""
+        return self._df.schema
+
+    @property
     def heads(self) -> list[str]:
         """ The column heads of ``self``, alias ``self.df.columns``."""
         return self._df.columns
@@ -408,24 +413,30 @@ class Table(Store):
             case _:
                 return NotImplemented
 
-    def __call__(self, update: Self | TableData | None = None) -> Self:
+    def __call__(self, update: Self | TableData | None = None, write_csv: bool = True) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
             update: The tableData updates.
+            write_csv: Whether to write the updated DataFrame to ``self.path``. Defaults to ``True``.
 
         Returns: ``self``.
         """
-        if isinstance(update, Table):
-            self._df = update._df
-        elif isinstance(update, DataFrame):
-            self._df = update
-        else:
-            self._df = DataFrame(update, orient='row')
-        self._df = self._df.with_columns(pl.col(*Floats).cast(Float))
-        self._df = self._df.with_columns(pl.col(pl.Boolean, *Ints).cast(String))
-        self._df = self._df.with_columns(pl.col(String).cast(Category))
-        self._df.write_csv(self._path, **self.writeOptions)
+        if update is not None:
+            if isinstance(update, Table):
+                self._df = update._df
+            elif isinstance(update, DataFrame):
+                self._df = update
+            else:
+                self._df = DataFrame(update, orient='row')
+            percentages = [head for head, _type in self._df.schema.items() if _type == String
+                           and self._df.select(pl.col(head).drop_nulls().str.ends_with('%').all()).item()]
+            self._df = self._df.with_columns(pl.col(percentages).str.head(-1).cast(Float, strict=False) / 100)
+            self._df = self._df.with_columns(pl.col(*Floats).cast(Float))
+            self._df = self._df.with_columns(pl.col(pl.Boolean, *Ints).cast(String))
+            self._df = self._df.with_columns(pl.col(String).cast(Category))
+        if write_csv:
+            self._df.write_csv(self._path, **self.writeOptions)
         return self
 
     def __init__(self, path: PathLike, table: Self | DataFrame | None = None):
@@ -488,10 +499,11 @@ class Table(Store):
         Returns: The Table now stored at ``dst``.
         """
         src = cls.extAppend(src)
-        heads = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'n_rows': headcount})
+        heads = pl.read_csv(src, **(cls.readOptions | {'has_header': False,'n_rows': headcount})
                             ).fill_null(2*cls.con)
         src = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'skip_rows': headcount}))
-        heads = [cls.con + cls.con.join(map(str, heads[head].to_list())) + cls.con for head in heads.columns]
+        heads = [cls.con.join(map(str, heads[head].to_list())).join((cls.con,)*2) for head in heads.columns]
+        heads[0] = cls.con + heads[0].lstrip(cls.con)
         src = DataFrame(src, heads).drop([col for col in heads[1:] if 2*cls.con in col])
         src.columns = [head[1:-1] for head in src.columns]
         return cls.create(dst, src)
@@ -524,13 +536,13 @@ class Table(Store):
 
 
 class DataBase(Store):
-    """ ``NamedTables(NamedTuple)`` in a folder alongside Meta. Abstract BaseClass for any model.
+    """ ``Schema(NamedTuple)`` in a folder alongside Meta. Abstract BaseClass for any model.
 
     *DataBase* SubClasses must be implemented according to the template (copy and paste it)::
 
         class MyDataBase(DataBase):                                                                                 [EDIT]
 
-            class NamedTables(NamedTuple):
+            class Schema(NamedTuple):
 
                 names[i]: Table | TableData = defaults[names[i]]                                                    [EDIT]
                 \"\"\" Normally a DataFrame. If no default is appropriate, use the TableType.\"\"\"                 [EDIT]
@@ -540,15 +552,15 @@ class DataBase(Store):
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
-            Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})    [EDIT]
-            \"\"\" The ``NamedTables`` of TableTypes, to communicate ``readOptions, writeOptions``.\"\"\"
+            schema: Schema[type[Table], ...] = Schema(**{name: Table for name in Schema._fields})    [EDIT]
+            \"\"\" The ``Schema`` of TableTypes, to communicate ``readOptions, writeOptions``.\"\"\"
 
-            defaultMeta: MetaData = {'Tables': {name: TableType.__name__
-                                                for name, TableType in Tables._asdict().items()}, }                 [EDIT]
+            defaultMeta: MetaData = {'schema': {name: TableType.__name__
+                                                for name, TableType in schema._asdict().items()}, }                 [EDIT]
             \"\"\" Class default ``self.meta``.\"\"\"
     """
 
-    class NamedTables(NamedTuple):
+    class Schema(NamedTuple):
         """ Must be overridden. """
         NotImplemented: Table | TableData = Table
 
@@ -557,15 +569,15 @@ class DataBase(Store):
             return getattr(self, name)
 
 
-    Tables: NamedTables[type[Table], ...] = NamedTables(**{name: Table for name in NamedTables._fields})
-    """ Class attribute of the form ``NamedTables(**{names[i]: TableTypes[i], ...})``, 
+    schema: Schema[type[Table], ...] = Schema(**{name: Table for name in Schema._fields})
+    """ Class attribute of the form ``Schema(**{names[i]: TableTypes[i], ...})``, 
     where ``TableTypes[i]`` is a SubClass of Table. Must be overridden."""
 
-    defaultMeta: MetaData = {'Tables': {name: TableType.__name__ for name, TableType in Tables._asdict().items()}}
+    defaultMeta: MetaData = {'schema': {name: TableType.__name__ for name, TableType in schema._asdict().items()}}
     """ Class attribute. Should be overridden."""
 
     class IndexP(IndexP):
-        """ ``self[index]`` accesses ``NamedTables`` by IndexLike ``index``.  ``len(self)`` counts the Tables."""
+        """ ``self[index]`` accesses ``Schema`` by IndexLike ``index``.  ``len(self)`` counts the Tables."""
 
     class EqualsP(EqualsP):
         """ ``self == other`` compares Meta and ``tables`` between two DataBases. """
@@ -577,7 +589,7 @@ class DataBase(Store):
         pass
 
     class UpdateP(UpdateP):
-        """ ``self(**tables)`` updates and writes ``NamedTables`` (``self.meta(**updates)`` updates Meta."""
+        """ ``self(**tables)`` updates and writes ``Schema`` (``self.meta(**updates)`` updates Meta."""
 
     class DeleteP(DeleteP):
         pass
@@ -586,8 +598,8 @@ class DataBase(Store):
         pass
 
     @property
-    def tables(self) -> NamedTables:
-        """ The ``NamedTables`` currently in ``self``."""
+    def tables(self) -> Schema:
+        """ The ``Schema`` currently in ``self``."""
         return self._tables
 
     @property
@@ -656,16 +668,16 @@ class DataBase(Store):
 
         Raises:
             FileNotFoundError: If ``path`` lacks ``self.meta`` or any member of
-                ``self.Tables.names`` not mentioned in ``**tables``.
+                ``self.names`` not mentioned in ``**tables``.
         """
         super().__init__(path)
         try:
             self._meta = Meta(self._meta_in(path))
-            self._tables = self.NamedTables(**{name:
+            self._tables = self.Schema(**{name:
                                                     TableType.create(self._path / name, tables[name])
                                                     if name in tables and tables[name] is not None
                                                     else TableType(self._path / name)
-                                               for name, TableType in self.Tables._asdict().items()})
+                                               for name, TableType in self.schema._asdict().items()})
         except FileNotFoundError as error:
             print(f'DataBase "{self}" is trying to read a non-existent Table. Did your script mean to call '
                   f'{type(self).__qualname__}.create("{str(self)}") '
@@ -676,12 +688,12 @@ class DataBase(Store):
     @classmethod    # Class Property
     def names(cls) -> tuple[str, ...]:
         """ ``(names[i], ...)`` of table names for this ``Tables`` Class."""
-        return cls.NamedTables._fields
+        return cls.Schema._fields
 
     @classmethod    # Class Property
     def defaults(cls) -> dict[str, DataFrame]:
         """ ``{names[i]: DataFrame[i], ...}`` of default tables for this ``Tables`` Class."""
-        return cls.NamedTables._field_defaults
+        return cls.Schema._field_defaults
 
     @classmethod
     def create(cls, path: PathLike, **tableData_and_metaData: Table | DataFrame | MetaData) -> Self:
