@@ -63,6 +63,10 @@ class Store(ABC):
         """ The name of this Store - i.e. ``self.path.name``."""
         return str(self.path.name)
 
+    def __format__(self, format_spec: str) -> str:
+        """ ``str(self) if format_spec == '!s' else repr(self)`` ."""
+        return str(self) if format_spec == '!s' else repr(self)
+
     @abstractmethod
     def __call__(self, **updates: Any) -> Self:
         """ Update and store ``self``.
@@ -72,7 +76,7 @@ class Store(ABC):
 
         Returns: ``self``.
         """
-        raise NotImplementedError()
+        raise NotImplementedError(f'__call__(self, **updates: Any) -> Self for {type(self)}')
 
     @abstractmethod
     def __init__(self, path: PathLike, **kwargs: Any):
@@ -171,7 +175,7 @@ class Store(ABC):
         if path.is_dir():
             rmtree(path, ignore_errors=True)
         else:
-            path.unlink(missing_ok=False)
+            path.unlink(missing_ok=True)
         return path
 
 
@@ -247,9 +251,9 @@ class Meta(Store, dict):
             **data: The ``MetaData`` to store.
 
         Returns: The Meta created.
-        Raises: TypeError if ``data`` is empty.
+        Raises: AssertionError if ``data`` is empty.
         """
-        if not data: raise ValueError("Meta cannot be created with no data")
+        assert data, f'Meta for {path} cannot be created with no data'
         return cls(path, **data)
 
     @classmethod
@@ -355,13 +359,12 @@ class Table(Store):
 
         Returns: ``self``.
 
-        Raises:
-            IndexError: If broadcasting is impossible.
+        Raises: IndexError if broadcasting is impossible.
         """
         try:
             tableData = np.array(np.broadcast_to(self.np, target_shape))
         except ValueError:
-            raise IndexError(f'{repr(self)} has shape {self._df.shape} '
+            raise IndexError(f'{self} has shape {self._df.shape} '
                              f'which cannot be broadcast to {target_shape}.')
         if is_diagonal and target_shape[0] > 1:
             tableData = np.diag(np.diagonal(tableData))
@@ -382,10 +385,9 @@ class Table(Store):
         elif isinstance(index, int):
             columns = self._df.with_columns(**{self._df.columns[index] : pl.lit(columns)})
         elif isinstance(index, Iterable):
-            if not (isinstance(columns, tuple) and len(columns) == len(index)):
-                raise IndexError(f'Expected a tuple of {len(index)} tables, not {len(columns)}.')
-            columns = self._df.with_columns(**{self.heads[i]: pl.lit(columns[i])
-                                               for i in range(len(index))})
+            assert isinstance(columns, tuple) and len(columns) == len(index), \
+                f'{self} expected a tuple of {len(index)} tables, not {len(columns)}.'
+            columns = self._df.with_columns(**{self.heads[i]: pl.lit(columns[i]) for i in range(len(index))})
         elif isinstance(columns, tuple):
             return self.__setitem__(self.heads[index], columns)
         else:
@@ -399,7 +401,8 @@ class Table(Store):
             other: The other to compare with.
 
         Returns: Not implemented if ``other`` is not of admissible Type.
-            Otherwise returns comparison with ``self.pl``, ``self.np`` or ``self.tc`` matching the type of ``other``.
+            Otherwise returns comparison with ``self.pl``, ``self.np`` or ``self.tc``
+            matching the type of ``other``.
         """
         match other:
             case Table():
@@ -418,25 +421,28 @@ class Table(Store):
 
         Args:
             update: The tableData updates.
-            write_csv: Whether to write the updated DataFrame to ``self.path``. Defaults to ``True``.
+            write_csv: Whether to write the updated ``self.df`` to ``.csv``.
 
         Returns: ``self``.
+        Raises: AssertionError if ``self.schema`` fails verification.
         """
-        if update is not None:
-            if isinstance(update, Table):
+        match update:
+            case None:
+                if write_csv: self._df.write_csv(self._path, **self.writeOptions)
+                return self
+            case Table():
                 self._df = update._df
-            elif isinstance(update, DataFrame):
+            case DataFrame():
                 self._df = update
-            else:
+            case _:
                 self._df = DataFrame(update, orient='row')
-            percentages = [head for head, _type in self._df.schema.items() if _type == String
-                           and self._df.select(pl.col(head).drop_nulls().str.ends_with('%').all()).item()]
-            self._df = self._df.with_columns(pl.col(percentages).str.head(-1).cast(Float, strict=False) / 100)
-            self._df = self._df.with_columns(pl.col(*Floats).cast(Float))
-            self._df = self._df.with_columns(pl.col(pl.Boolean, *Ints).cast(String))
-            self._df = self._df.with_columns(pl.col(String).cast(Category))
-        if write_csv:
-            self._df.write_csv(self._path, **self.writeOptions)
+        percentages = [head for head, _type in self._df.schema.items() if _type == String
+                       and self._df.select(pl.col(head).drop_nulls().str.ends_with('%').all()).item()]
+        self._df = self._df.with_columns(pl.col(percentages).str.head(-1).cast(Float, strict=False) / 100)
+        self._df = self._df.with_columns(pl.col(*Floats).cast(Float))
+        self._df = self._df.with_columns(pl.col(pl.Boolean, *Ints).cast(String))
+        self._df = self._df.with_columns(pl.col(String).cast(Category))
+        if write_csv: self._df.write_csv(self._path, **self.writeOptions)
         return self
 
     def __init__(self, path: PathLike, table: Self | DataFrame | None = None):
@@ -454,21 +460,18 @@ class Table(Store):
             self(table)
 
     @classmethod
-    def create(cls, path: PathLike, tableData: Self | TableData, **kwargs: Any) -> Self:
+    def create(cls, path: PathLike, df: Self | DataFrame) -> Self:
         """ Create a Table at ``path``, overwriting.
 
         Args:
             path: The Path to store this Table, overwritten if existing.
                 A ``.csv`` extension is implicitly appended.
-            tableData: The table to store.
-            **kwargs: KeywordArguments passed directly to `DataFrame()`_.
+            df: The DataFrame to store.
 
         Returns: The Table created.
-
-        .. DataFrame(): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
+        Raises: AssertionError if ``df`` is unacceptable.
         """
-        tableData = DataFrame(tableData._df if isinstance(tableData, Table) else tableData, **kwargs)
-        return cls(path, tableData)
+        return cls(path, getattr(df, 'df', df))
 
     @classmethod
     def copy(cls, src: Self, dst: PathLike) -> Self:
@@ -519,14 +522,12 @@ class Table(Store):
             src: The source Table.
             dst: The destination Path, overwritten if existing. A ``.csv`` extension is implicitly appended.
         Returns: ``dst``, now containing the unjoined ``dst.csv``.
-        Raises: IndexError if ``src.heads`` cannot be unjoined due to inconsistent headcounts (levels).
+        Raises: AssertionError if ``src.heads`` cannot be unjoined due to inconsistent headcounts (levels).
         """
         heads = [head.split(cls.con) for head in src.heads]
         if len(heads) > 1:
             headcount = {len(head) for head in heads[1:]}
-            if len(headcount) > 1:
-                raise IndexError(f'Cannot unjoin heads: Expected all heads except the first '
-                                 f'to have the same number of levels, but got {headcount}.')
+            assert len(headcount) == 1, f'{src} has incompatible headcounts {headcount}.'
             heads[0] += [None] * (headcount.pop() - len(heads[0]))
         heads = DataFrame(heads)
         with open(cls.extAppend(dst), "w", newline="", encoding="utf-8") as file:
@@ -540,23 +541,23 @@ class DataBase(Store):
 
     *DataBase* SubClasses must be implemented according to the template (copy and paste it)::
 
-        class MyDataBase(DataBase):                                                                                 [EDIT]
+        class MyDataBase(DataBase):                                                                       [EDIT]
 
             class Schema(NamedTuple):
 
-                names[i]: Table | TableData = defaults[names[i]]                                                    [EDIT]
-                \"\"\" Normally a DataFrame. If no default is appropriate, use the TableType.\"\"\"                 [EDIT]
+                names[i]: Table | TableData = defaults[names[i]]                                          [EDIT]
+                \"\"\" Normally a DataFrame. If no default is appropriate, use the TableType.\"\"\"       [EDIT]
                 ...
 
                 def __call__(self, name: str) -> Table | TableData | MetaData:
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
-            schema: Schema[type[Table], ...] = Schema(**{name: Table for name in Schema._fields})    [EDIT]
+            schema: Schema[type[Table], ...] = Schema(**{name: Table for name in Schema._fields})         [EDIT]
             \"\"\" The ``Schema`` of TableTypes, to communicate ``readOptions, writeOptions``.\"\"\"
 
             defaultMeta: MetaData = {'schema': {name: TableType.__name__
-                                                for name, TableType in schema._asdict().items()}, }                 [EDIT]
+                                                for name, TableType in schema._asdict().items()}, }       [EDIT]
             \"\"\" Class default ``self.meta``.\"\"\"
     """
 
@@ -634,8 +635,8 @@ class DataBase(Store):
         elif isinstance(index, int):
             tables = {index: tables}
         elif isinstance(index, Iterable):
-            if not (isinstance(tables, tuple) and len(tables) == len(index)):
-                raise IndexError(f'Expected a tuple of {len(index)} tables, not {len(tables)}.')
+            assert isinstance(tables, tuple) and len(tables) == len(index), \
+                f'{self} expected a tuple of {len(index)} tables, not {len(tables)}.'
             index = tuple((self.index()[i] if isinstance(i, int) else i for i in index))
             tables = {index[i]: tables[i] for i in range(len(index))}
         elif isinstance(tables, tuple):
@@ -723,29 +724,23 @@ class DataBase(Store):
         return cls.create(dst, meta=src.meta, **src._tables._asdict())
 
     @classmethod
-    def delete(cls, path: PathLike, ignoreErrors: bool=False) -> Path:
+    def delete(cls, path: PathLike) -> Path:
         """ Delete all *DataBase* files in ``path``, retaining ``path`` and any other files it contains.
 
         If you wish to delete ``path`` entirely, use ``Store.delete(path)`` instead.
 
         Args:
             path: Path to the *DataBase* to delete.
-            ignoreErrors: Whether to raise any ``FileNotFoundError`` s encountered.
         Returns: ``path``, which still exists.
-        Raises: FileNotFoundError if ``path`` is not a folder, regardless of ``ignoreErrors``.
+        Raises: AssertionError if ``path`` is not a folder.
         """
         path = Path(path)
-        if not path.is_dir():
-            raise FileNotFoundError(f'Path {path} is not a folder.')
-        try:
-            Meta.delete(cls._meta_in(path))
-            for name in cls.names():
-                Table.delete(path / name)
-            if not tuple(path.iterdir()):
-                path.rmdir()
-        except FileNotFoundError as error:
-            if not ignoreErrors:
-                raise error
+        assert path.is_dir(), f'Path {path} is not a folder.'
+        Meta.delete(cls._meta_in(path))
+        for name in cls.names():
+            Table.delete(path / name)
+        if not tuple(path.iterdir()):
+            path.rmdir()
         return path
 
     @staticmethod

@@ -21,42 +21,26 @@ from rc.data.designs import *
 class TestCase(ut.TestCase):
 
     def setUp(self):
-        self.table = Table.conjoinHeads(Test.folder() / 'experiment', Test.folder() / 'table')
         self.table0 = Table.conjoinHeads(Test.folder() / 'experiment.0', Test.folder() / 'table.0')
-        self.design = Design.create(Test.folder() / 'design', self.table)
-        self.design0 = Design.create(Test.folder() / 'design.0', self.table0)
+        self.table = Table.conjoinHeads(Test.folder() / 'experiment', Test.folder() / 'table')
 
     # @ut.skip('CoordDesign is not valid')
     def test_Design(self):
-        self.yPivot = Design.yPivot(self.design, Test.folder() / 'yPivot')
-        print(self.yPivot.df)
-        self.assertEqual(self.design, Design.create(Test.folder() / 'design', self.yPivot))
-        self.assertEqual(self.design, Design(Test.folder() / 'design'))
-        self.yPivot0 = Design.yPivot(self.design0, Test.folder() / 'yPivot.0')
-        self.assertEqual(self.design0, Design.create(Test.folder() / 'design.0', self.yPivot0))
-        self.assertEqual(self.design0, Design(Test.folder() / 'design.0'))
-
-    def test_Design0(self):
-        design0 = Design0.create(Test.folder() / 'design.0', self.design0)
-        self.assertEqual(design0, Design0.create(Test.folder() / 'design.0.t', self.table0))
-        self.assertRaises(AssertionError, Design0.create, Test.folder() / 'design.0.d', self.design)
-        self.assertRaises(AssertionError, Design0.create, Test.folder() / 'design.0.d', self.table)
-
-    def test_Design1(self):
-        design1 = Design1.create(Test.folder() / 'design.1', self.design)
-        self.assertEqual(design1, Design1.create(Test.folder() / 'design.1.t', self.table))
-        self.assertRaises(AssertionError, Design1.create, Test.folder() / 'design.1.d', self.design0)
-        self.assertRaises(AssertionError, Design1.create, Test.folder() / 'design.1.d', self.table0)
-
-    def test_DesignS(self):
-        designS = DesignS.create(Test.folder() / 'design.S', self.design)
-        design1 = Design1.create(Test.folder() / 'design.1', self.design)
-        self.assertEqual(designS, DesignS.create(Test.folder() / 'design.S.t', self.table))
-        self.assertEqual(designS, DesignS.create(Test.folder() / 'design.1.S', design1))
-        design1 = Design1.create(Test.folder() / 'design.1', designS)
-        self.assertEqual(designS, DesignS.create(Test.folder() / 'design.1.S', design1))
-        self.assertRaises(AssertionError, DesignS.create, Test.folder() / 'design.S.d', self.design0)
-        self.assertRaises(AssertionError, DesignS.create, Test.folder() / 'design.S.d', self.table0)
+        design0 = Design.create(Test.folder() / 'design.0', self.table0)
+        yPivot0 = design0.yPivot()
+        design = Design.create(Test.folder() / 'design', self.table)
+        yPivot = design.yPivot()
+        self.assertRaises(AssertionError, Design.create, Test.folder() / 'design.0', self.table0, True)
+        designF = Design.create(Test.folder() / 'design', self.table, isFat=True)
+        yPivotF = designF.yPivot()
+        self.assertEqual(design0, Design(Test.folder() / 'design.0'))
+        self.assertEqual(design0, Design.create(Test.folder() / 'design.0', yPivot0))
+        self.assertEqual(design, Design(Test.folder() / 'design'))
+        self.assertEqual(design, Design.create(Test.folder() / 'design', yPivot))
+        self.assertEqual(design, Design.create(Test.folder() / 'design', designF))
+        self.assertEqual(designF, Design(Test.folder() / f'design{Design.extFat}'))
+        self.assertEqual(designF, Design.create(Test.folder() / 'design.y', yPivotF, isFat=True))
+        self.assertEqual(designF, Design.create(Test.folder() / 'design', design, isFat=True))
 
 
 if __name__ == '__main__':

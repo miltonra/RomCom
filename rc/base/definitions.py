@@ -34,6 +34,7 @@ without adornment throughout RomCom. The ``rc.definitions`` namespace includes::
 from typing import *
 from collections.abc import *
 from abc import ABC, abstractmethod
+from enum import Enum, IntEnum
 import polars as pl
 import numpy as np
 import torch as tc
