@@ -18,5 +18,5 @@
 """ Data storage classes. """
 
 from . import benchmarks
-from . import designs
+from . import normalizers
 from . import unittests

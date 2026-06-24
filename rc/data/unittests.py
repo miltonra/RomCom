@@ -29,6 +29,7 @@ class TestCase(ut.TestCase):
     # @ut.skip('CoordDesign is not valid')
     def test_Design(self):
         self.yPivot = Design.yPivot(self.design, Test.folder() / 'yPivot')
+        print(self.yPivot.df)
         self.assertEqual(self.design, Design.create(Test.folder() / 'design', self.yPivot))
         self.assertEqual(self.design, Design(Test.folder() / 'design'))
         self.yPivot0 = Design.yPivot(self.design0, Test.folder() / 'yPivot.0')
