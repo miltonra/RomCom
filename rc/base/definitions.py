@@ -33,6 +33,7 @@ without adornment throughout RomCom. The ``rc.definitions`` namespace includes::
 
 from typing import *
 from collections.abc import *
+from functools import cache, cached_property
 from abc import ABC, abstractmethod
 from enum import Enum, IntEnum
 import polars as pl
@@ -58,6 +59,10 @@ Ints: tuple[Type, ...] = (pl.Int8, pl.Int16, pl.Int32, pl.Int64, pl.Int128,)
 """Every Type of ``int``."""
 
 
+UInts: tuple[Type, ...] = (pl.UInt8, pl.UInt16, pl.UInt32, pl.UInt64, pl.UInt128,)
+"""Every Type of ``uint``."""
+
+
 Float: TypeAlias = pl.Float32
 """Alias ``pl.Float32``. The Type of every ``float``."""
 
@@ -71,7 +76,7 @@ String: TypeAlias = pl.String
 
 
 PathLike: TypeAlias = Path | str
-"""Alias ``Path | str | ``. ArgumentType of the ``path`` to a Store."""
+"""Alias ``Path | str``. ArgumentType of the ``path`` to a Store."""
 
 
 IndexLike: TypeAlias = str | int | Iterable[str | int] | slice
@@ -101,7 +106,7 @@ class Protocol(BaseException):
 
 
 class NameP(Protocol):
-    """``str(self) = str(self.path.name)`` and ``repr(self) = str(self.path)``. """
+    """``str(self) = str(self.path.name)`` and ``format(self) = repr(self) = str(self.path)``. """
 
 
 class IndexP(Protocol):
@@ -186,8 +191,8 @@ class Tc:
         raise NotImplementedError('This Class is not intended to be instantiated or SubClassed.')
 
 
-TableData: TypeAlias = DataFrame | Np.Matrix | Tc.Matrix
-"""Alias ``DataFrame | Np.Matrix | Tc.Matrix``. ArgumentType of a Table."""
+TableData: TypeAlias = Np.Matrix | Tc.Matrix | DataFrame
+"""Alias ``Np.Matrix | Tc.Matrix | DataFrame``. ArgumentType of a Table."""
 
 
 class Test:

@@ -44,7 +44,7 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
     Meta
     Table
     *DataBase*
-        BaseClasses for all RomCom software objects. See :doc:`api/rc/base/index` :ref:`models <baseModels>`.
+        BaseClasses for all RomCom software objects. See :ref:`base models <baseModels>`.
 
     ReturnType
     ArgumentType
@@ -58,8 +58,8 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
     ``Tc``
     MetaData
     TableData
-        Types supported by RomCom's :doc:`api/rc/base/index` :ref:`baseModels`.
-        See :doc:`api/rc/base/index` :ref:`baseTypes`.
+        Types supported by RomCom's :ref:`base models<baseModels>`.
+        See :ref:`base Types<baseTypes>`.
 
     categorical input
     discrete input
@@ -76,30 +76,51 @@ RomCom is, for better or worse, laced with `Python lingo <https://www.fluentpyth
         Not a Number. A special floating-point value which is not equal to itself.
 
     null
-        Represents the absence of a value. ``None`` in Python.
+        Represents an absent value of any Type. ``None`` in Python.
 
     decimal fraction
-        Any number with digits, possibly zero, after the decimal point. ``2.0`` is a decimal fraction, but ``2.`` is not.
-
-    percentage
-        Any ``str`` whose rightmost character is ``%``.
+    float literal
+        A string ending with ``%`` or a number containing a decimal point ``.`` or an exponent ``e`` or  ``E``.
 
     Schema
-        A `NamedTuple <https://typing.python.org/en/latest/spec/namedtuples.html>`_ enumerating the Tables housed by a :term:`*DataBase*` Type.
+        A `NamedTuple <https://typing.python.org/en/latest/spec/namedtuples.html>`_ enumerating the Tables housed by a :term:`DataBase` Type.
 
     schema
         A specification of the structure of a :term:`Table` (as a ``dict[str, Type]``),
         or a :term:`DataBase` (as a Schema).
 
     experiment
-        The data you wish RomCom to analyse. RomCom sees any experiment as a :term:`*Design*`
+        The ``.csv`` you wish RomCom to analyse. RomCom sees any experiment as a :term:`Design`.
+        See :ref:`dataExperiments`.
 
-    *Design*
+    Design
         A Type of :term:`Table` with a validated :term:`schema` designed to represent experiments.
         See :ref:`dataDesigns`.
 
+    head
+        A row of ``str`` column headings.
+
     axis
-        A column in a :term:`experiment` or :term:`*Design*`.
+        A column in an :term:`experiment` or :term:`Design`. Each axis has  a ``str`` :term:`head`.
 
     axisType
-        A label which identifies the role of an axis in an :term:`experiment`. See :ref:`dataAxes`.
+        A ``str`` which identifies the role of an axis in an :term:`experiment`. See :ref:`dataAxes`.
+
+    con
+    conjoin
+    unjoin
+        The con character conjoins levels in a single :term:`head`, or conjoins Category axes a single Category.
+        It is defined as ``Table.con = │``,
+        the utf8 Box Drawing Light Vertical (U+2502) unlikely to occur in user data.
+        Usually pronounced \"given\" (at least in the context of \"conditional\" probability), con means
+
+            word-forming element meaning \"together, with\"
+                [`Online Etymology Dictionary <https://www.etymonline.com/word/con->`__]
+
+        from which we derive \"conjunction\", and \"contingent\" (on a condition).
+
+    pivoted
+    unpivoted
+        When a Table is pivoted on an :term:`axis`, the unique values in that axis become :term:`head` for a set of new axes which replace the original one.
+        The reverse operation, unpivoting replaces a set of axes with one :term:`Category` axis composed of the set :term:`head` and one (:term:`Category` or :term:`Float`) axis composed of the group body.
+        Pivoted tables are short and fat, unpivoted ones tall and thin.

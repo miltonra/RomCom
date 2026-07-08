@@ -65,8 +65,8 @@ class TestCase(ut.TestCase):
         read = Table(Test.folder() / 'created')
         self.assertEqual(created, read)
         conjoined = Table.conjoinHeads(src=created.path, dst=Test.folder() / 'conjoined')
-        conjoined.heads = [conjoined.heads[0][0]] + conjoined.heads[1:]
-        unjoined = Table.unjoinHeads(src=conjoined, dst=Test.folder() / 'unjoined')
+        conjoined.head = [conjoined.head[0][0]] + conjoined.head[1:]
+        unjoined = Table.unjoinHead(src=conjoined, dst=Test.folder() / 'unjoined')
         typed = Table.create(Test.folder() / 'typed', DataFrame({'n': [1,2,3],
                                                                  'name': ["Alice", "Bob", "Charlie"],
                                                                  'age': [10,20,30],

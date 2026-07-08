@@ -2,4 +2,3 @@
 
 .. include:: content.rst
 
-.. include:: internals.rst

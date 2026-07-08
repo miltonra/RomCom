@@ -17,6 +17,7 @@
       {% block subpackages %}
          {% set visible_subpackages = obj.subpackages|selectattr("display")|list %}
          {% if visible_subpackages %}
+
 Packages
 ----------
 
@@ -39,6 +40,7 @@ Packages
       {% block submodules %}
          {% set visible_submodules = obj.submodules|selectattr("display")|list %}
          {% if visible_submodules %}
+
 Modules
 ----------
 
@@ -64,6 +66,7 @@ Modules
             {% set visible_exceptions = visible_children|selectattr("type", "equalto", "exception")|list %}
             {% if visible_exceptions %}
                {% if "exception" in own_page_types or "show-module-summary" in autoapi_options %}
+
 Protocols
 ----------
 
@@ -88,6 +91,7 @@ Protocols
             {% set visible_attributes = visible_children|selectattr("type", "equalto", "data")|list %}
             {% if visible_attributes %}
                {% if "attribute" in own_page_types or "show-module-summary" in autoapi_options %}
+
 Attributes
 ----------
 
@@ -112,6 +116,7 @@ Attributes
             {% set visible_classes = visible_children|selectattr("type", "equalto", "class")|list %}
             {% if visible_classes %}
                {% if "class" in own_page_types or "show-module-summary" in autoapi_options %}
+
 Classes
 -------
 
@@ -136,6 +141,7 @@ Classes
             {% set visible_functions = visible_children|selectattr("type", "equalto", "function")|list %}
             {% if visible_functions %}
                {% if "function" in own_page_types or "show-module-summary" in autoapi_options %}
+
 Methods
 ---------
 

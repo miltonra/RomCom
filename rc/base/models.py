@@ -49,11 +49,11 @@ class Store(ABC):
     class CopyP(CopyP):
         """ ``Store.copy(src, dst)`` deletes everything in ``dst`` before copying everything in ``src``. """
 
-    @property
+    @cached_property
     def path(self) -> Path:
         """ The Path to this Store, without ``cls.ext``.
         File extension is internal, meaning ``self._path = self.path + cls.ext``."""
-        return self._path.with_suffix('') if self.ext else self._path
+        return self._path.with_name(self._path.name[:-len(self.ext)]) if self.ext else self._path
 
     def __repr__(self) -> str:
         """ The Path to this Store."""
@@ -290,7 +290,7 @@ class Table(Store):
     ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects. Defaults to ``.csv``.
 
     con: str = '│'
-    """ Class attribute specifying the connector when collapsing column heads and categorical coords.
+    """ Class attribute specifying the connector when collapsing multi-heads and Categories.
     Defaults to ``│``."""
 
     readOptions: MetaData = {}
@@ -322,16 +322,16 @@ class Table(Store):
 
     @property
     def schema(self) -> dict[str, type[Category | Float]]:
-        """ The DataFrame schema of ``self``, alias ``self.df.schema``."""
+        """ The schema of ``self``, alias ``self.df.schema``."""
         return self._df.schema
 
     @property
-    def heads(self) -> list[str]:
-        """ The column heads of ``self``, alias ``self.df.columns``."""
+    def head(self) -> list[str]:
+        """ The head of ``self``, alias ``self.df.columns``."""
         return self._df.columns
 
-    @heads.setter
-    def heads(self, value: Iterable[str]):
+    @head.setter
+    def head(self, value: Iterable[str]):
         self._df.columns = list(value)
         self()
 
@@ -376,25 +376,35 @@ class Table(Store):
 
     def __getitem__(self, index: IndexLike) -> DataFrame:
         """ Indexer returns the column(s) named or sliced by ``index``. """
+        if isinstance(index, str):
+            index = [_head for _head in self.head if _head.startswith(index)]
         return self._df[:, index]     # int or slice
 
-    def __setitem__(self, index: IndexLike, columns: Table | TableData | tuple[Table | TableData, ...]):
+    def __setitem__(self, index: IndexLike, columns: Np.Matrix | Tc.Matrix | tuple[Np.Vector | Tc.Vector, ...]):
         """ Indexer sets the Table (s) named or sliced by ``index``."""
-        if isinstance(index, str):
-            columns = self._df.with_columns(**{index : pl.lit(columns)})
-        elif isinstance(index, int):
-            columns = self._df.with_columns(**{self._df.columns[index] : pl.lit(columns)})
-        elif isinstance(index, Iterable):
-            assert isinstance(columns, tuple) and len(columns) == len(index), \
-                f'{self} expected a tuple of {len(index)} tables, not {len(columns)}.'
-            columns = self._df.with_columns(**{self.heads[i]: pl.lit(columns[i]) for i in range(len(index))})
-        elif isinstance(columns, tuple):
-            return self.__setitem__(self.heads[index], columns)
-        else:
-            return NotImplemented
+        match index:
+            case str():
+                index = [_head for _head in self.head if _head.startswith(index)]
+                assert len(index) > 0, f'{self} has no column head starting with {index}.'
+                if len(index) == 1:
+                    columns = self._df.with_columns(**{index[0]: pl.lit(columns)})
+                else:
+                    return self.__setitem__(index, columns)
+            case int():
+                columns = self._df.with_columns(**{self._df.columns[index] : pl.lit(columns)})
+            case Iterable():
+                if not isinstance(columns, tuple):
+                    columns = tuple(map(tuple,columns.T))
+                assert len(columns) == len(index), \
+                    f'{self} expected a tuple of {len(index)} tables, not {len(columns)}.'
+                columns = self._df.with_columns(**{self.head[i]: pl.lit(columns[i]) for i in range(len(index))})
+            case slice():
+                return self.__setitem__(self.head[index], columns)
+            case _:
+                raise NotImplementedError(f'{self} does not support indexing by {index}.')
         self(columns)
 
-    def __eq__(self, other: Self | TableData) -> bool:
+    def __eq__(self, other: TableData | Self) -> bool:
         """ Equality of ``self`` and ``other``.
 
         Args:
@@ -416,7 +426,7 @@ class Table(Store):
             case _:
                 return NotImplemented
 
-    def __call__(self, update: Self | TableData | None = None, write_csv: bool = True) -> Self:
+    def __call__(self, update: TableData | Self | None = None, write_csv: bool = True) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
@@ -436,8 +446,8 @@ class Table(Store):
                 self._df = update
             case _:
                 self._df = DataFrame(update, orient='row')
-        percentages = [head for head, _type in self._df.schema.items() if _type == String
-                       and self._df.select(pl.col(head).drop_nulls().str.ends_with('%').all()).item()]
+        percentages = [_head for _head, _type in self._df.schema.items() if _type == String
+                       and self._df.select(pl.col(_head).drop_nulls().str.ends_with('%').all()).item()]
         self._df = self._df.with_columns(pl.col(percentages).str.head(-1).cast(Float, strict=False) / 100)
         self._df = self._df.with_columns(pl.col(*Floats).cast(Float))
         self._df = self._df.with_columns(pl.col(pl.Boolean, *Ints).cast(String))
@@ -445,12 +455,12 @@ class Table(Store):
         if write_csv: self._df.write_csv(self._path, **self.writeOptions)
         return self
 
-    def __init__(self, path: PathLike, table: Self | DataFrame | None = None):
+    def __init__(self, path: PathLike, table: DataFrame | Self | None = None):
         """ Construct ``self`` from a ``.csv`` file or DataFrame.
 
         Args:
             path: The Path (file) to store ``self``. A ``.csv`` extension is implicitly appended.
-            table: The ``Table | DataFrame`` to store. If ``None``, ``self`` is read from ``path``,
+            table: The ``DataFrame | Table`` to store. If ``None``, ``self`` is read from ``path``,
                 otherwise ``self`` is stored in ``path`` (which is overwritten if existing).
         """
         super().__init__(path)
@@ -460,7 +470,7 @@ class Table(Store):
             self(table)
 
     @classmethod
-    def create(cls, path: PathLike, df: Self | DataFrame) -> Self:
+    def create(cls, path: PathLike, df: DataFrame | Self) -> Self:
         """ Create a Table at ``path``, overwriting.
 
         Args:
@@ -489,49 +499,49 @@ class Table(Store):
 
     @classmethod
     def conjoinHeads(cls, src: PathLike, dst: PathLike, headcount: int = 2) -> Self:
-        """ Collapse multi-level headers in ``src`` to single-level ``dst.heads``,
+        """ Conjoin multiple heads in ``src`` to single head ``dst.head``,
         overwriting ``dst`` with a Table.
-        Collapse is top down, so a 3-level header ``(a,b,c)`` becomes the single head ``a│b│c``.
-        The first column is presumed to be an index. Any other column with empty header levels is dropped.
+        Conjoining is top down, so the triple head ``(a,b,c)`` becomes the single head ``a│b│c``.
+        The first column is presumed to be an index. Any other column with an empty head level is dropped.
 
         Args:
             src: The source Path. A ``.csv`` extension is implicitly appended.
             dst: The destination ``Table.path``, overwritten if existing.
                 A ``.csv`` extension is implicitly appended.
-            headcount: Counts the column heads (header rows) in ``src.csv``.
+            headcount: Counts the number of heads in ``src.csv``.
         Returns: The Table now stored at ``dst``.
         """
         src = cls.extAppend(src)
-        heads = pl.read_csv(src, **(cls.readOptions | {'has_header': False,'n_rows': headcount})
+        head = pl.read_csv(src, **(cls.readOptions | {'has_header': False,'n_rows': headcount})
                             ).fill_null(2*cls.con)
         src = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'skip_rows': headcount}))
-        heads = [cls.con.join(map(str, heads[head].to_list())).join((cls.con,)*2) for head in heads.columns]
-        heads[0] = cls.con + heads[0].lstrip(cls.con)
-        src = DataFrame(src, heads).drop([col for col in heads[1:] if 2*cls.con in col])
-        src.columns = [head[1:-1] for head in src.columns]
+        head = [cls.con.join(map(str, head[_head].to_list())).join((cls.con,)*2) for _head in head.columns]
+        head[0] = cls.con + head[0].lstrip(cls.con)
+        src = DataFrame(src, head).drop([col for col in head[1:] if 2*cls.con in col])
+        src.columns = [_head[1:-1] for _head in src.columns]
         return cls.create(dst, src)
 
     @classmethod
-    def unjoinHeads(cls, src: Table, dst: PathLike) -> Path:
-        """ Explode ``src.heads`` into multi-level headed  ``dst.csv``, overwriting.
-        Explosion is from the left, so ``a│b│c`` becomes the 3-level header ``(a,b,c)``.
+    def unjoinHead(cls, src: Table, dst: PathLike) -> Path:
+        """ Unjoin ``src.head`` into multi-headed ``dst.csv``, overwriting.
+        Unjoining is from the left, so ``a│b│c`` becomes the triple head ``(a,b,c)``.
         The first column is presumed to be an index.
-        Every other column must produce the same headcount (number of levels).
+        Every other column must produce the same headcount (number of heads).
 
         Args:
             src: The source Table.
             dst: The destination Path, overwritten if existing. A ``.csv`` extension is implicitly appended.
         Returns: ``dst``, now containing the unjoined ``dst.csv``.
-        Raises: AssertionError if ``src.heads`` cannot be unjoined due to inconsistent headcounts (levels).
+        Raises: AssertionError if ``src.head`` cannot be unjoined due to inconsistent headcount (rows).
         """
-        heads = [head.split(cls.con) for head in src.heads]
-        if len(heads) > 1:
-            headcount = {len(head) for head in heads[1:]}
+        head = [_head.split(cls.con) for _head in src.head]
+        if len(head) > 1:
+            headcount = {len(_head) for _head in head[1:]}
             assert len(headcount) == 1, f'{src} has incompatible headcounts {headcount}.'
-            heads[0] += [None] * (headcount.pop() - len(heads[0]))
-        heads = DataFrame(heads)
+            head[0] += [None] * (headcount.pop() - len(head[0]))
+        head = DataFrame(head)
         with open(cls.extAppend(dst), "w", newline="", encoding="utf-8") as file:
-            heads.write_csv(file, **(cls.writeOptions | {'include_header': False}))
+            head.write_csv(file, **(cls.writeOptions | {'include_header': False}))
             src.df.write_csv(file, **(cls.writeOptions | {'include_header': False}))
         return Path(dst)
 
@@ -545,11 +555,11 @@ class DataBase(Store):
 
             class Schema(NamedTuple):
 
-                names[i]: Table | TableData = defaults[names[i]]                                          [EDIT]
+                names[i]: TableData | Table = defaults[names[i]]                                          [EDIT]
                 \"\"\" Normally a DataFrame. If no default is appropriate, use the TableType.\"\"\"       [EDIT]
                 ...
 
-                def __call__(self, name: str) -> Table | TableData | MetaData:
+                def __call__(self, name: str) -> TableData | Table | MetaData:
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
@@ -563,9 +573,9 @@ class DataBase(Store):
 
     class Schema(NamedTuple):
         """ Must be overridden. """
-        NotImplemented: Table | TableData = Table
+        NotImplemented: TableData | Table = Table
 
-        def __call__(self, name: str) -> Table | TableData | MetaData:
+        def __call__(self, name: str) -> TableData | Table | MetaData:
             """ Returns the Table named ``name``."""
             return getattr(self, name)
 
@@ -621,31 +631,31 @@ class DataBase(Store):
 
     def __getitem__(self, index: IndexLike) -> Table | tuple[Table, ...]:
         """ Indexer returns the Table (s) named or sliced by ``index``. """
-        if isinstance(index, str):
-            return self._tables(index)
-        elif isinstance(index, Iterable):
-            return tuple(self[i] for i in index)
-        else:
-            return self._tables[index]     # int or slice
+        match index:
+            case str():
+                return self._tables(index)
+            case Iterable():
+                return tuple(self[i] for i in index)
+            case _:
+                return self._tables[index]     # int or slice
 
-    def __setitem__(self, index: IndexLike, tables: Table | TableData | tuple[Table | TableData, ...]):
+    def __setitem__(self, index: IndexLike, tables: TableData | Table | tuple[TableData | Table, ...]):
         """ Indexer sets the Table (s) named or sliced by ``index``."""
-        if isinstance(index, str):
-            tables = {index: tables}
-        elif isinstance(index, int):
-            tables = {index: tables}
-        elif isinstance(index, Iterable):
-            assert isinstance(tables, tuple) and len(tables) == len(index), \
-                f'{self} expected a tuple of {len(index)} tables, not {len(tables)}.'
-            index = tuple((self.index()[i] if isinstance(i, int) else i for i in index))
-            tables = {index[i]: tables[i] for i in range(len(index))}
-        elif isinstance(tables, tuple):
-            return self.__setitem__(self.names()[index], tables)
-        else:
-            return NotImplemented
+        match index:
+            case str() | int ():
+                tables = {index: tables}
+            case Iterable():
+                assert isinstance(tables, tuple) and len(tables) == len(index), \
+                    f'{self} expected a tuple of {len(index)} tables, not {len(tables)}.'
+                index = tuple((self.index()[i] if isinstance(i, int) else i for i in index))
+                tables = {index[i]: tables[i] for i in range(len(index))}
+            case slice():
+                return self.__setitem__(self.names()[index], tables)
+            case _:
+                raise NotImplementedError(f'{self} does not support indexing by {index}.')
         self(**tables)
 
-    def __call__(self, **tables: Table | TableData) -> Self:
+    def __call__(self, **tables: TableData | Table) -> Self:
         """ Update and store ``self``, overwriting.
 
         Args:
@@ -658,7 +668,7 @@ class DataBase(Store):
             self._tables(name)(table)
         return self
 
-    def __init__(self, path: PathLike, **tables: Table | DataFrame):
+    def __init__(self, path: PathLike, **tables: DataFrame | Table):
         """ Read the *DataBase* in ``path``.
         Reading is lazy: If ``names[i]`` occurs in ``**tables`` it's Table is not read, just updated.
         Overrides must call ``super(DataBase).__init__(path, **tables)`` as a matter of priority.
@@ -697,7 +707,7 @@ class DataBase(Store):
         return cls.Schema._field_defaults
 
     @classmethod
-    def create(cls, path: PathLike, **tableData_and_metaData: Table | DataFrame | MetaData) -> Self:
+    def create(cls, path: PathLike, **tableData_and_metaData: DataFrame | Table | MetaData) -> Self:
         """ Create a *DataBase* in ``path``.
 
         Args:

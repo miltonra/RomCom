@@ -40,7 +40,16 @@ class TestCase(ut.TestCase):
         self.assertEqual(design, Design.create(Test.folder() / 'design', designF))
         self.assertEqual(designF, Design(Test.folder() / f'design{Design.extFat}'))
         self.assertEqual(designF, Design.create(Test.folder() / 'design.y', yPivotF, isFat=True))
+        print(designF.df)
+        print(Design.create(Test.folder() / 'design.balls', design, isFat=True).df)
         self.assertEqual(designF, Design.create(Test.folder() / 'design', design, isFat=True))
+
+    def test_Stats(self):
+        design = Design.create(Test.folder() / 'design.0', self.table0)
+        stats0 = Stats.create(design)
+        for isFat in (False, True):
+            design = Design.create(Test.folder() / 'design', self.table, isFat=isFat)
+            stats = Stats.create(design)
 
 
 if __name__ == '__main__':

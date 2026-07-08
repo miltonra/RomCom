@@ -64,6 +64,7 @@ def _tidyfile(filename: Path, replacements: tuple[str, Any]):
         filename: The file to tidy
         replacements: A ``dict`` of {old: new} strings to replace in the html files.
     """
+    # print(filename)
     with open(filename, "r+") as f:
         content = f.read()
         for old, new in replacements.items():

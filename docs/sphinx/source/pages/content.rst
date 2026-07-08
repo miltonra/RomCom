@@ -39,7 +39,7 @@ properties
 +++++++++++++
 Python properties which get or set an instanceAttribute. If a property is not read-only,
 you should assume that setting it has side effects. All RomCom properties are instanceProperties,
-because Python does not (as yet properly) support classMethods.
+because Python does not, as yet, properly support classMethods.
 
 attributes
 +++++++++++++
@@ -51,8 +51,11 @@ Constants
 Constancy in RomCom is determined by scope, not name.
 Every moduleAttribute or classAttribute in RomCom is a constant which must not be modified.
 Constants should only be tailored by SubClassing, leaving the RomCom parent unmodified.
-Any lowercase constants (e.g. pl, or base) refer to :ref:`plannamespaces`.
+
+Any lowercase constants (e.g. base or pl) refer to :ref:`plannamespaces`.
+
 Any UpperCamelCase constants (e.g. ModuleAttribute or ClassAttribute) refer to :ref:`planClasses`.
+
 Any lowerCamelCase constants (e.g. moduleAttribute or classAttribute) refer to :ref:`planobjects`.
 
 
@@ -62,11 +65,11 @@ Any lowerCamelCase constants (e.g. moduleAttribute or classAttribute) refer to :
     In the context of object-oriented programming, a protocol is an informal interface, defined only in documentation and not in code.
         [The Lizard Book pp.402]
 
-A *Protocol* is an *AbstractClass* which documents an interface implemented using undocumented :term:`dunder methods`.
-*Protocols* are pure documentation in code, and are essentially meaningless outside a Class definition.
-*Protocols* are implemented in RomCom as (docstring only) ClassAttributes which are Classes themselves (Python *BaseExceptions*, in fact),
+*Protocols* are (docstring only) *ClassAttributes* deriving from *Protocol(BaseException)*.
 They are named in *UpperCamelCaseP*, which is UpperCamelCase with a big P at the end which stands for *Protocol* and avoids tedious naming conflicts.
 
+Each *Protocol* is an *AbstractClass* which documents an interface to a Class.
+The functionality described must be implemented by the Class, often using undocumented :term:`dunder methods`.
 
 .. _ecosystem:
 Ecosystem
