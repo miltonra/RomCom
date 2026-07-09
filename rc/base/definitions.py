@@ -59,10 +59,6 @@ Ints: tuple[Type, ...] = (pl.Int8, pl.Int16, pl.Int32, pl.Int64, pl.Int128,)
 """Every Type of ``int``."""
 
 
-UInts: tuple[Type, ...] = (pl.UInt8, pl.UInt16, pl.UInt32, pl.UInt64, pl.UInt128,)
-"""Every Type of ``uint``."""
-
-
 Float: TypeAlias = pl.Float32
 """Alias ``pl.Float32``. The Type of every ``float``."""
 

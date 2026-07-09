@@ -44,12 +44,14 @@ class TestCase(ut.TestCase):
         print(Design.create(Test.folder() / 'design.balls', design, isFat=True).df)
         self.assertEqual(designF, Design.create(Test.folder() / 'design', design, isFat=True))
 
-    def test_Stats(self):
+    def test_Measure(self):
         design = Design.create(Test.folder() / 'design.0', self.table0)
-        stats0 = Stats.create(design)
+        measure = Measure.create(Test.folder() / 'measure.0', design)
+        yPivot = measure.yPivot()
         for isFat in (False, True):
             design = Design.create(Test.folder() / 'design', self.table, isFat=isFat)
-            stats = Stats.create(design)
+            measure = Measure.create(Test.folder() / 'measure', design)
+            yPivot = measure.yPivot()
 
 
 if __name__ == '__main__':

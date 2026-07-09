@@ -278,13 +278,9 @@ class Table(Store):
 
         class MyTable(Table):
 
-            readOptions: MetaData = Table.readOptions | {'myOption': 'myValue'}
-            \"\"\" File read options passed directly to
-            `pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__.\"\"\"
+            readOptions: MetaData = Table.readOptions | {'myOption': myValue}
 
-            writeOptions: MetaData = Table.writeOptions | {'myOption': 'myValue'}
-            \"\"\" File write options passed directly to
-            `pl.DataFrame.write_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.DataFrame.write_csv.html>`__.\"\"\"
+            writeOptions: MetaData = Table.writeOptions | {'myOption': myValue}
     """
 
     ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects. Defaults to ``.csv``.
@@ -551,23 +547,23 @@ class DataBase(Store):
 
     *DataBase* SubClasses must be implemented according to the template (copy and paste it)::
 
-        class MyDataBase(DataBase):                                                                       [EDIT]
+        class MyDataBase(DataBase):
 
             class Schema(NamedTuple):
 
-                names[i]: TableData | Table = defaults[names[i]]                                          [EDIT]
-                \"\"\" Normally a DataFrame. If no default is appropriate, use the TableType.\"\"\"       [EDIT]
+                names[i]: TableData | Table = defaults[names[i]]
+                \"\"\" Normally a DataFrame. If no value is appropriate, default to the TableType.\"\"\"
                 ...
 
                 def __call__(self, name: str) -> TableData | Table | MetaData:
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
-            schema: Schema[type[Table], ...] = Schema(**{name: Table for name in Schema._fields})         [EDIT]
+            schema: Schema[type[Table], ...] = Schema(**{name: Table for name in Schema._fields})
             \"\"\" The ``Schema`` of TableTypes, to communicate ``readOptions, writeOptions``.\"\"\"
 
             defaultMeta: MetaData = {'schema': {name: TableType.__name__
-                                                for name, TableType in schema._asdict().items()}, }       [EDIT]
+                                                for name, TableType in schema._asdict().items()}, }
             \"\"\" Class default ``self.meta``.\"\"\"
     """
 

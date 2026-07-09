@@ -15,13 +15,13 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-""" Design Tables (Matrices). """
+""" Experiment Designs and Measures. """
 
 from rc.base import *
 
 
 class Abstract(Table):
-    """ Abstract scaffolding for Design and Stats, providing shared tabulation facilites for user data."""
+    """ Abstract scaffolding for Design and Measure, providing shared tabulation facilities for user data."""
 
     class CreateP(CreateP):
         """ Creates a new instance of ``cls`` at ``path`` from a DataFrame or Table. """
@@ -65,25 +65,33 @@ class Abstract(Table):
         """ Counts the y-axes occurring in the l-axis. """
         return self._L
 
-    def yPivot(self, path: PathLike | None = None, yAxisPrefix: str = f'y{Table.con}', **kwargs) -> Table:
+    @property
+    def ls(self) -> list(str):
+        """ Counts the y-axes occurring in the l-axis. """
+        return self._df['l'].unique(maintain_order=True).to_list()
+
+    @property
+    @abstractmethod
+    def y(self) -> Abstract.Slice:
+        raise NotImplementedError
+
+    def yPivot(self, path: PathLike | None = None) -> Table:
         """ Create a Table at ``path`` consisting of ``self`` with 'y' values pivoted on the 'l' axis.
 
         Args:
             path: The Path to store this Table, overwritten if existing.
-            yAxisPrefix: The prefix of the new 'y' axis, to appear before the 'l' axis values.
-                The default is 'y│', so the result is a valid experiment which may be passed directly to
-                ``Design.create()``.
-                Other values, such as ``''`` for no prefix, produce a Table which not a valid experiment.
 
-            **kwargs: KeywordArguments passed directly to `DataFrame()`_.
-
-        Returns: A Table with no 'l' axis but several output axis in place of the 'y' axis.
-
-        .. DataFrame(): https://docs.pola.rs/api/python/dev/reference/dataframe/index.html
+        Returns: A fat Table with no 'l' axis but several output axes in place of the 'y' axes.
         """
-        return Table.create(path if path else self.path.with_suffix(self.path.suffix + self.extPivot),
-                            self._df.with_columns((pl.lit(yAxisPrefix) + pl.col('l')).alias('l'))
-                            .pivot('l', values='y'), **kwargs)
+        if not path: path = self.path.with_suffix(self.path.suffix + self.extPivot)
+        yAxisPrefix = 'y' + Table.con
+        axes = self.head[self.y.axes]
+        rename = ({l: yAxisPrefix + l for l in self.ls} if len(axes) == 1 else
+                  {'_'.join((axis,l)): yAxisPrefix + l + axis[1:] for l in self.ls for axis in axes})
+        columns = self.head[:-len(axes) - 1] + list(rename.values())
+        df = self._df.pivot('l', values=axes, maintain_order=True)
+        df = df.rename(rename)
+        return Table.create(path, df.select(columns))
 
     @abstractmethod
     def __call__(self, update: TableData | Self | None = None, write_csv: bool = True) -> Self:
@@ -234,49 +242,39 @@ class Design(Abstract):
                                                separator=cls.con).alias(_head))
             df = df.select(head['n'] + head['x'] + [_head, 'l', 'y'])
             head = {'i': [_head]}
-        return cls(path, df.sort(head['i'] + ['l','n']))
+        return cls(path, df.sort(['l'] + head['i'], maintain_order=True))
 
 
-class Stats(Abstract):
-    """ A Design of user data, tabulating continuous inputs, categorical inputs, and unpivoted outputs."""
-
-    ext: str = '.stats.csv'
+class Measure(Abstract):
+    """ Measures a Design of user data."""
 
     axisTypes: list[str] = ['x', 'j', 'i', 'l', 'y']
     """ The axisTypes in any Design, ordered from left to right. """
 
-    agg: dict[str, [Callable[[], DataFrame]]] = {'min': pl.min, 'max': pl.max, 'mean': pl.mean, 'std': pl.std,
-                                                 'q': lambda col: pl.col(col).count().cast(Float),}
-    """ The aggregates collected for any Design. """
+    by: dict[str, [Callable[[], DataFrame]]] = {'min': pl.min, 'max': pl.max, 'mean': pl.mean, 'std': pl.std, }
+    """ Ways of measuring a Float axis. """
 
-    _yAxes = -len(agg)
+    _y = -len(by) - 1
 
     @property
     def x(self) -> Abstract.Slice:
-        return Abstract.Slice(axes=slice(None, self._xAxes))
+        return Abstract.Slice(axes=slice(None, self._x))
 
     @property
     def j(self) -> Abstract.Slice:
-        return Abstract.Slice(axes=slice(self._xAxes, self._xAxes + (1 if self.isFat else 0)))
+        return Abstract.Slice(axes=slice(self._x, self._x + (1 if self.isFat else 0)))
 
     @property
     def i(self) -> Abstract.Slice:
-        return Abstract.Slice(axes=slice(self._yAxes - 2, self._yAxes - (1 if self._J  else 2)))
+        return Abstract.Slice(axes=slice(self._y - 2, self._y - (1 if self._J  else 2)))
 
     @property
     def l(self) -> Abstract.Slice:
-        return Abstract.Slice(axes=slice(self._yAxes - 1, self._yAxes))
+        return Abstract.Slice(axes=slice(self._y - 1, self._y))
 
     @property
     def y(self) -> Abstract.Slice:
-        return Abstract.Slice(axes=slice(self._yAxes, None))
-
-    @property
-    def tail(self) -> Abstract.Slice:
-        return Abstract.Slice(rows=slice(-self._L, None), axes=slice(None, None))
-
-    def body(self) -> Abstract.Slice:
-        return Abstract.Slice(rows=slice(None, -self._L), axes=slice(None, None))
+        return Abstract.Slice(axes=slice(self._y, None))
 
     def __call__(self, update: TableData | Self | None = None, write_csv: bool = True) -> Self:
         super().__call__(update, write_csv=False)
@@ -285,14 +283,15 @@ class Stats(Abstract):
                            for _head, _type in self.schema.items())
             count = {axisType: len([axisValidator for axisValidator in schema if axisValidator.axis == axisType])
                      for axisType in self.axisTypes}
-            valid = {'_M': count['x'] // len(self.agg),
+            valid = {'_M': count['x'] // len(self.by),
                      '_L': self._df.select(pl.col('l').n_unique()).item(),
                      '_J': self._df.select(pl.col('j').n_unique()).item() - 1 if count['j'] else
                            self.head[count['x']].count(self.con) if count['i'] > 0 else 0, }
+                            # If there is an i-axis, its index is count['x'].
             if getattr(self, '_M', None) is None:
                 for attr, correct in valid.items():
                     setattr(self, attr, correct)
-                self._xAxes = self._M * len(self.agg)
+                self._x = self._M * len(self.by)
             else:
                 for attr, correct in valid.items():
                     assert getattr(self, attr, None) == correct, \
@@ -306,35 +305,45 @@ class Stats(Abstract):
                     f'{self}.{check.axis} schema violation.'
         if write_csv: self._df.write_csv(self._path, **self.writeOptions)
         return self
-        
+
+    def thin(self) -> Self:
+        """ Thin this Measure.
+
+        Returns: The thin version of this measure.
+        """
+        if not self.isFat: return self
+        df = self._df.select()
+        return self.create(self.path.with_suffix(''), df)
     @classmethod
-    def create(cls, design: Design) -> Self:
-        """ Create a Stats from a Design.
+    def create(cls, path: PathLike, design: Design) -> Self:
+        """ Measure a Design.
 
         Args:
-            design: The Design to describe.
+            path: The Path to store this Measure.
+            design: The Design to measure.
 
-        Returns: The Stats created.
+        Returns: The Measure created.
         """
-        agg = {_head + cls.con + _name: _agg(_head)
-                for _head in design.head[design.x.axes] + design.head[design.y.axes]
-                for _name,_agg in cls.agg.items()}
-        columns = list(agg.keys())
+        if design.isFat: path = Path(str(path) + cls.extFat)
+        by = {axis + cls.con + by: f(axis)
+               for axis in design.head[design.x.axes] + design.head[design.y.axes]
+               for by, f in cls.by.items()}
+        q = 'y' + cls.con + 'q'
+        by |= {q : pl.count('y').cast(Float), }
+        columns = list(by.keys())
         cats = ['j', 'i'] if design.isFat else design.head[design.i.axes] if design.J > 0 else []
-        columns[-len(cls.agg): -len(cls.agg)] = cats + ['l']
-        result = design.df.group_by('l').agg(**agg).sort('l')
+        columns[cls._y: cls._y] = cats + ['l']
+        result = design.df.group_by('l').agg(**by)
         if design.J == 0:
-            return cls(design.path, result.select(columns))
-        qs = {_head : '_' + _head for _head in columns if _head.endswith(cls.con + 'q')}
-        count = result.select(['l'] + list(qs.keys())).rename(qs)
-        result = result.with_columns(*tuple((pl.lit(cls.con * 3, Category).alias(_cat)
+            return cls(path, result.select(columns).sort('l'))
+        count = result.select(['l', q]).rename({q: cls.con})
+        result = result.with_columns(*tuple((pl.lit(cls.con * 2, Category).alias(_cat)
                                              for _cat in cats))).select(columns)
         for cat in reversed(design.head[design.i.axes]):
             df = design.df.select(design.head[design.x.axes] + [cat] + design.head[design.l.axes]
                                   + design.head[design.y.axes])
-            df = df.group_by((cat, 'l'), maintain_order=True).agg(**agg)
+            df = df.group_by((cat, 'l'), maintain_order=True).agg(**by)
             if design.isFat: df = df.with_columns(pl.lit(cat[2:], Category).alias('j')).rename({cat: 'i'})
-            df = df.join(count, on='l').with_columns(**{_df: pl.col(_df)/pl.col(_count)
-                                                      for _df, _count in qs.items()})
+            df = df.join(count, on='l').with_columns(**{q: pl.col(q)/pl.col(cls.con)})
             result = df.select(columns).vstack(result)
-        return cls(design.path, result)
+        return cls(path, result.sort('l'))
