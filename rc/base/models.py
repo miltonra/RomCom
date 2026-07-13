@@ -16,7 +16,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """ Abstract and concrete BaseClasses for RomCom models."""
-import pylab as pl
 
 from .definitions import *
 from shutil import copyfile, copytree, rmtree
@@ -286,8 +285,7 @@ class Table(Store):
     ext: str = '.csv'   #: Class attribute specifying the file extension of Table objects. Defaults to ``.csv``.
 
     con: str = '│'
-    """ Class attribute specifying the connector when collapsing multi-heads and Categories.
-    Defaults to ``│``."""
+    """ Class attribute specifying the connector when collapsing multi-heads and Categories."""
 
     readOptions: MetaData = {}
     """ File read options passed directly to `pl.read_csv <https://docs.pola.rs/api/python/dev/reference/api/polars.read_csv.html#polars.read_csv>`__."""

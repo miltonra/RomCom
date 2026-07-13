@@ -16,7 +16,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """ Experiment Designs and Measures. """
-import pylab as pl
 
 from rc.base import *
 
@@ -30,7 +29,7 @@ class Abstract(Table):
     axisTypes: list[str] = []
     """ The axisTypes in any Design, ordered from left to right. """
 
-    class AxisValidator(NamedTuple):
+    class AxisType(NamedTuple):
         """ A NamedTuple for validating an axis in a Design. Used exclusively by the ``__call__()`` method."""
         axis: str  #: The axis to validate.
         Type: type = Category | Float   #: The Type of data accepted by this axis.
@@ -49,29 +48,24 @@ class Abstract(Table):
         return self._isFat
 
     @property
+    def ms(self) -> list[str]:
+        """ Lists the x-axes. """
+        return self._ms
+
+    @property
     def M(self) -> int:
         """ Counts the x-axes. """
         return self._M
 
     @property
-    def J(self) -> int:
-        """ Counts the i-axes. """
-        return self._J
-
-    @property
-    def L(self) -> int:
-        """ Counts the y-axes occurring in the l-axis. """
-        return self._L
-
-    @property
-    def ls(self) -> list[str]:
-        """ Lists the y-axes occurring in the l-axis. """
-        return self._ls
-
-    @property
     def js(self) -> list[str]:
         """ Lists the i-axes. """
         return self._js
+
+    @property
+    def J(self) -> int:
+        """ Counts the i-axes. """
+        return self._J
 
     def ijs(self, j: str = '') -> list[str]:
         """ Lists the values ``i(j)`` appearing in the i-axis named ``j``.
@@ -93,6 +87,16 @@ class Abstract(Table):
         return result
     
     @property
+    def ls(self) -> list[str]:
+        """ Lists the y-axes occurring in the l-axis. """
+        return self._ls
+
+    @property
+    def L(self) -> int:
+        """ Counts the y-axes occurring in the l-axis. """
+        return self._L
+
+    @property
     @abstractmethod
     def y(self) -> Abstract.Slice:
         raise NotImplementedError
@@ -106,19 +110,19 @@ class Abstract(Table):
         Returns: A fat Table with no 'l' axis but several output axes in place of the 'y' axes.
         """
         if not path: path = self.path.with_suffix(self.path.suffix + self.extPivot)
-        yAxisPrefix = 'y│'
-        axes = self.head[self.y.axes]
-        rename = ({l: yAxisPrefix + l for l in self.ls} if len(axes) == 1 else
-                  {'_'.join((axis,l)): yAxisPrefix + l + axis[1:] for l in self.ls for axis in axes})
-        columns = self.head[:-len(axes) - 1] + list(rename.values())
-        df = self._df.pivot('l', values=axes, maintain_order=True)
+        yAxes = self.head[self.y.axes]
+        rename = ({l: 'y│' + l for l in self.ls} if len(yAxes) == 1 else
+                  {'_'.join((axis,l)): 'y│' + l + axis[1:] for l in self.ls for axis in yAxes})
+        columns = self.head[:-len(yAxes) - 1] + list(rename.values())
+        df = self._df.pivot('l', values=yAxes, maintain_order=True)
         df = df.rename(rename)
         return Table.create(path, df.select(columns))
 
     @abstractmethod
     def __call__(self, update: TableData | Self | None = None, write_csv: bool = True) -> Self:
-        """ Overrides must set ``self._M, self._J, self._L, self._isFat, self._ls, self._js``. """
+        """ Overrides must set ``, self._ms``self._M, self._js``, self._J, self._ls, self._L, self._isFat. """
         super().__call__(update, write_csv=False)
+        self._M = getattr(self, '_M', None)
         return self
 
     @classmethod
@@ -165,9 +169,8 @@ class Design(Abstract):
 
     def __call__(self, update: TableData | Self | None = None, write_csv: bool = True) -> Self:
         super().__call__(update, write_csv=False)
-        self._M = getattr(self, '_M', None)
         if __debug__ or self._M is None:
-            schema = tuple(self.AxisValidator(*schema) for schema in self.schema.items())
+            schema = tuple(self.AxisType(*schema) for schema in self.schema.items())
             # Verify singleton axisTypes
             validate = {'n': schema[0],
                      'l': schema[len(schema)-2],
@@ -179,7 +182,7 @@ class Design(Abstract):
                 elif actual.Type != Category:
                     self._df = self._df.with_columns(pl.col(axisType).cast(String).cast(Category))
             # Verify non-singleton axisTypes
-            correct = (self.AxisValidator(axis='i', Type=Category), self.AxisValidator(axis='x', Type=Float))
+            correct = (self.AxisType(axis='i', Type=Category), self.AxisType(axis='x', Type=Float))
             validate = {}
             for valid in correct:
                 validate[valid.axis] = [check for check in schema if check.axis.startswith(valid.axis)]
@@ -187,11 +190,12 @@ class Design(Abstract):
                 if invalid: self._df = self._df.with_columns(pl.col(invalid).cast(String).cast(valid.Type))
             iAxes = len(validate['i'])
             isFat = iAxes > 1
+            ms = [axisType.axis[2:] for axisType in validate['x']]
             ls = self._df['l'].unique(maintain_order=True).to_list()
-            js = ([axisValidator.axis[2:] for axisValidator in validate['i']] if isFat else
+            js = ([axisType.axis[2:] for axisType in validate['i']] if isFat else
                   validate['i'][0].axis.split('│')[1:] if iAxes else [])
-            valid = {'_M': len(validate['x']), '_L': len(ls), '_J': len(js),
-                     '_isFat': isFat, '_ls': ls, '_js': js,}
+            valid = {'_ms': ms, '_M': len(ms), '_ls': ls, '_L': len(ls),
+                     '_js': ls, '_J': len(js), '_isFat': isFat, }
             if self._M is None:
                 for attr, actual in valid.items():
                     setattr(self, attr, actual)
@@ -302,6 +306,10 @@ class Measure(Abstract):
     def y(self) -> Abstract.Slice:
         return Abstract.Slice(axes=slice(self._y, None))
 
+    @property
+    def q(self) -> Abstract.Slice:
+        return Abstract.Slice(axes=slice(self._y, self._y + 1))
+
     def xAxes(self, path: PathLike, statistic: str = '50%') -> Table:
         """ Describe_ the x-axes of this Measure.
 
@@ -335,17 +343,18 @@ class Measure(Abstract):
     def __call__(self, update: TableData | Self | None = None, write_csv: bool = True) -> Self:
         super().__call__(update, write_csv=False)
         if __debug__ or self._M is None:
-            schema = tuple(self.AxisValidator(_head.partition('│')[0], _type)
+            schema = tuple(self.AxisType(_head.partition('│')[0], _type)
                            for _head, _type in self.schema.items())
-            count = {axisType: len([axisValidator for axisValidator in schema if axisValidator.axis == axisType])
+            count = {axisType: len([_axisType for _axisType in schema if _axisType.axis == axisType])
                      for axisType in self.axisTypes}
             isFat = count['j'] > 0
+            ms = [_axis[2:] for _axis in self.head[0:count['x']:len(self.by)]]
             ls = self._df['l'].unique(maintain_order=True).to_list()
             js = (self._df['j'].unique(maintain_order=True).to_list() if isFat else
                   self.head[count['x']].split('│')[1:] if count['i'] > 0 else [])
                   # If there is an i-axis, its index is count['x'].
-            valid = {'_M': count['x'] // len(self.by), '_L': len(ls), '_J': len(js),
-                     '_isFat': isFat, '_ls': ls, '_js': js, }
+            valid = {'_ms': ms, '_M': len(ms), '_ls': ls, '_L': len(ls),
+                     '_js': ls, '_J': len(js), '_isFat': isFat, }
             if getattr(self, '_M', None) is None:
                 for attr, correct in valid.items():
                     setattr(self, attr, correct)
@@ -354,9 +363,9 @@ class Measure(Abstract):
                 for attr, correct in valid.items():
                     assert getattr(self, attr, None) == correct, \
                         f'{correct[-1]} changed from {getattr(self, attr, None)} to {correct} in {self}.'
-            validate = [self.AxisValidator('x', Float), self.AxisValidator('j', Category),
-                        self.AxisValidator('i', Category), self.AxisValidator('l', Category),
-                        self.AxisValidator('y', Float),]
+            validate = [self.AxisType('x', Float), self.AxisType('j', Category),
+                        self.AxisType('i', Category), self.AxisType('l', Category),
+                        self.AxisType('y', Float),]
             for check in validate:
                 assert count[check.axis] == 0 \
                        or list(set(schema[getattr(self, check.axis).axes])) == [check], \
@@ -394,7 +403,7 @@ class Measure(Abstract):
         if design.J == 0:
             return cls(path, result.select(columns).sort('l'))
         count = result.select(['l', 'y│q']).rename({'y│q': '│││'})
-        result = result.with_columns(*tuple((pl.lit(cls.agg, Category).alias(_cat)
+        result = result.with_columns(*tuple((pl.lit('││', Category).alias(_cat)
                                              for _cat in cats))).select(columns)
         for cat in reversed(design.head[design.i.axes]):
             df = design.df.select(design.head[design.x.axes] + [cat] + design.head[design.l.axes]

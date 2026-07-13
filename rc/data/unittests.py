@@ -16,6 +16,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from rc.data.designs import *
+from rc.data.normalizers import *
 
 
 class TestCase(ut.TestCase):
@@ -46,13 +47,13 @@ class TestCase(ut.TestCase):
         design = Design.create(Test.folder() / 'design.0', self.table0)
         measure = Measure.create(Test.folder() / 'measure.0', design)
         yPivot = measure.yPivot()
-        xAxes = measure.xAxes(Test.folder() / 'xAxes.0')
+        self.assertRaises(AssertionError, IAxes.create, Test.folder() / 'iAxes.0', measure)
         for isFat in (False, True):
             fat = ".fat" if isFat else ""
             design = Design.create(Test.folder() / f'design{fat}', self.table, isFat=isFat)
             measure = Measure.create(Test.folder() / f'measure{fat}', design)
             yPivot = measure.yPivot()
-            xAxes = measure.xAxes(Test.folder() / f'xAxes{fat}')
+            iAxes = IAxes.create(Test.folder() / f'iAxes{fat}', measure)
 
 
 if __name__ == '__main__':

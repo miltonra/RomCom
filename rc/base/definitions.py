@@ -47,7 +47,7 @@ from warnings import warn
 import pandas as pd
 
 
-zero: float = 1.0E-64
+zero: float = 1.0E-06
 """Tolerance when testing floats for equality."""
 
 
