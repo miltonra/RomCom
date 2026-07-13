@@ -509,11 +509,11 @@ class Table(Store):
         """
         src = cls.extAppend(src)
         head = pl.read_csv(src, **(cls.readOptions | {'has_header': False,'n_rows': headcount})
-                            ).fill_null(2*cls.con)
+                            ).fill_null('││')
         src = pl.read_csv(src, **(cls.readOptions | {'has_header': False, 'skip_rows': headcount}))
-        head = [cls.con.join(map(str, head[_head].to_list())).join((cls.con,)*2) for _head in head.columns]
-        head[0] = cls.con + head[0].lstrip(cls.con)
-        src = DataFrame(src, head).drop([col for col in head[1:] if 2*cls.con in col])
+        head = ['│'.join(map(str, head[_head].to_list())).join(('│',)*2) for _head in head.columns]
+        head[0] = '│' + head[0].lstrip('│')
+        src = DataFrame(src, head).drop([col for col in head[1:] if '││' in col])
         src.columns = [_head[1:-1] for _head in src.columns]
         return cls.create(dst, src)
 
@@ -530,7 +530,7 @@ class Table(Store):
         Returns: ``dst``, now containing the unjoined ``dst.csv``.
         Raises: AssertionError if ``src.head`` cannot be unjoined due to inconsistent headcount (rows).
         """
-        head = [_head.split(cls.con) for _head in src.head]
+        head = [_head.split('│') for _head in src.head]
         if len(head) > 1:
             headcount = {len(_head) for _head in head[1:]}
             assert len(headcount) == 1, f'{src} has incompatible headcounts {headcount}.'

@@ -1,0 +1,4 @@
+<map id="inheritance1a39cbf850" name="inheritance1a39cbf850">
+<area shape="rect" id="node1" title="Creates a new instance of ``cls`` at ``path`` from a DataFrame or Table." alt="" coords="125,29,197,56"/>
+<area shape="rect" id="node2" title="The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods." alt="" coords="5,29,77,56"/>
+</map>

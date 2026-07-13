@@ -26,7 +26,6 @@ from rc.base import *
 # apiReplacements = {}
 apiReplacements = {r'rc\.base\.definitions\.': r'',}
 
-
 pagesReplacements = {r'rc\.base': r'base', r'rc\.data': r'data'}
 
 _here = Path(os.path.abspath(__file__)).parent  # docs/sphinx/

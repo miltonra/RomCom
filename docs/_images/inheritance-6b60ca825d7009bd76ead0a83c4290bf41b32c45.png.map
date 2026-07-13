@@ -1,0 +1,4 @@
+<map id="inheritance664873a3f3" name="inheritance664873a3f3">
+<area shape="rect" id="node1" title="``self == other`` compares Meta and ``tables`` between two DataBases." alt="" coords="125,29,197,56"/>
+<area shape="rect" id="node2" title="The Protocol from which all Protocols derive. Any ``cls`` defines SubClasses of Protocol to document its API, especially dunder methods." alt="" coords="5,29,77,56"/>
+</map>

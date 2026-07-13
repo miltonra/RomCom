@@ -1,0 +1,843 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>base &#8212; RomCom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydata-custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pages/base';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../_static/MattLogo2.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="data" href="data.html" />
+    <link rel="prev" title="Plan" href="plan.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.0" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/MattLogo2.svg" class="logo__image only-light" alt="RomCom - Home"/>
+    <img src="../_static/MattLogo2.svg" class="logo__image only-dark pst-js-only" alt="RomCom - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="plan.html">
+    Plan
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    base
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="data.html">
+    data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tasks.html">
+    tasks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="rom.html">
+    ROM
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="glr.html">
+    GLR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../genindex.html">
+    Index
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/miltonra/RomCom" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="plan.html">
+    Plan
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    base
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="data.html">
+    data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tasks.html">
+    tasks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gpr.html">
+    GPR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gsa.html">
+    GSA
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="rom.html">
+    ROM
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="glr.html">
+    GLR
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../genindex.html">
+    Index
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/miltonra/RomCom" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">base</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="base">
+<h1>base<a class="headerlink" href="#base" title="Link to this heading">§</a></h1>
+<p>The first package in RomCom’s alphabetical <a class="reference internal" href="plan.html"><span class="doc">Plan</span></a> is the <a class="reference internal" href="api/rc/base/index.html"><span class="doc">base</span></a> package,
+pervasively underpinning the entire <a class="reference internal" href="api/rc/index.html"><span class="doc">RomCom Library</span></a>.</p>
+<p>The package consists of two modules which we shall describe in reverse order.
+Contrary to their (alphabetically expressed) functional dependence,
+<a class="reference internal" href="api/rc/base/models/index.html"><span class="doc">base.models</span></a> makes sense of <a class="reference internal" href="api/rc/base/definitions/index.html"><span class="doc">base.definitions</span></a>
+because the latter is principally motivated and exemplified by the former.</p>
+<section id="models">
+<span id="basemodels"></span><h2>models<a class="headerlink" href="#models" title="Link to this heading">§</a></h2>
+<p>RomCom software objects derive from BaseClasses contained in the <a class="reference internal" href="api/rc/base/models/index.html"><span class="doc">base.models</span></a> module.
+They consist of <em>DataBases</em> made of Tables and Meta.
+These components are <strong>always</strong> perfectly synchronized with the filesystem.</p>
+<section id="store">
+<h3><em>Store</em><a class="headerlink" href="#store" title="Link to this heading">§</a></h3>
+<p>An abstract BaseClass whose objects are endowed with filesystem storage in <code class="docutils literal notranslate"><span class="pre">self.path</span></code>.</p>
+<p>Every Class derived from <em>Store</em> has a (constant) classAttribute <code class="docutils literal notranslate"><span class="pre">Store.ext</span></code> specifying its file extension.
+This is implicitly appended to any path sent or received by the <em>Store</em>.</p>
+<p><em>Store</em> regards itself as the <em>SuperClass</em> of all files and folders.</p>
+</section>
+<section id="meta">
+<span id="basemeta"></span><h3>Meta<a class="headerlink" href="#meta" title="Link to this heading">§</a></h3>
+<p>A concrete <em>Store</em>, consisting of <a class="reference internal" href="#basetypes"><span class="std std-ref">MetaData</span></a> stored in a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file.</p>
+</section>
+<section id="table">
+<span id="basetable"></span><h3>Table<a class="headerlink" href="#table" title="Link to this heading">§</a></h3>
+<p>A concrete <em>Store</em>, consisting of a <a class="reference internal" href="#basetypes"><span class="std std-ref">DataFrame</span></a> stored in a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.</p>
+<p>Tables are created from <code class="docutils literal notranslate"><span class="pre">DataFrame</span> <span class="pre">|</span> <span class="pre">Table</span></code>, and may be updated from <a class="reference internal" href="#basetypes"><span class="std std-ref">TableData</span></a>.
+These operations are governed by <a class="reference internal" href="glossary.html#term-CRUD"><span class="xref std std-term">CRUD</span></a> <a class="reference internal" href="#baseprotocols"><span class="std std-ref">Protocols</span></a> described below.</p>
+<p>The <a class="reference internal" href="#basetypes"><span class="std std-ref">TableData</span></a> held in a <code class="docutils literal notranslate"><span class="pre">table</span></code> object is accessed in the desired <a class="reference internal" href="plan.html#ecosystem"><span class="std std-ref">ecosystem</span></a>
+format as the property <code class="docutils literal notranslate"><span class="pre">table.df</span></code>, <code class="docutils literal notranslate"><span class="pre">table.np</span></code>, or <code class="docutils literal notranslate"><span class="pre">table.tc</span></code>.</p>
+<p>Every Table begins with a single <code class="docutils literal notranslate"><span class="pre">table.head</span></code> (alias <code class="docutils literal notranslate"><span class="pre">table.df.columns</span></code>) of column names.
+Multiple levels in <code class="docutils literal notranslate"><span class="pre">table.head</span></code> are separated by <a class="reference internal" href="glossary.html#term-con"><span class="xref std std-term">con</span></a>.</p>
+<p>Multiple heads in a <code class="docutils literal notranslate"><span class="pre">src.csv</span></code> must be <a class="reference internal" href="glossary.html#term-conjoin"><span class="xref std std-term">conjoined</span></a> before a Table can be created, often as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Table</span><span class="o">.</span><span class="n">conjoinHeads</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">headcount</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">headcount</span></code> counts the <a class="reference internal" href="glossary.html#term-head"><span class="xref std std-term">heads</span></a> in <code class="docutils literal notranslate"><span class="pre">src.csv</span></code>.</p>
+<p>The body below <code class="docutils literal notranslate"><span class="pre">table.head</span></code> may contain data of just two Types: <a class="reference internal" href="#basetypes"><span class="std std-ref">Category</span></a> and <a class="reference internal" href="#basetypes"><span class="std std-ref">Float</span></a>.
+Every column must be of homogeneous Type: either all <code class="docutils literal notranslate"><span class="pre">Category</span></code> (including <a class="reference internal" href="glossary.html#term-null"><span class="xref std std-term">null</span></a>) or all <code class="docutils literal notranslate"><span class="pre">Float</span></code> (including <a class="reference internal" href="glossary.html#term-null"><span class="xref std std-term">null</span></a>).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">table.schema</span></code> is a <code class="docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">Type]</span></code> mapping column names (<code class="docutils literal notranslate"><span class="pre">table.head</span></code>) to their Types (<code class="docutils literal notranslate"><span class="pre">Category</span> <span class="pre">|</span> <span class="pre">Float</span></code>).</p>
+<p>The classAttributes <code class="docutils literal notranslate"><span class="pre">Table.readOptions</span></code> and <code class="docutils literal notranslate"><span class="pre">Table.writeOptions</span></code> govern <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file options.
+These constants should only be tailored by SubClassing.</p>
+<p>RomCom is replete with SubClasses of Table fulfilling specific needs.
+For example, <code class="docutils literal notranslate"><span class="pre">Design</span></code> is a concrete subclass of Table designed to hold training data.</p>
+</section>
+<section id="database">
+<span id="basedatabase"></span><h3><em>DataBase</em><a class="headerlink" href="#database" title="Link to this heading">§</a></h3>
+<p>An abstract <em>Store</em>, housing a Schema
+(a <a class="reference external" href="https://typing.python.org/en/latest/spec/namedtuples.html">NamedTuple</a> of Tables) with Meta.</p>
+<p>The Tables in any <em>DataBase</em> <code class="docutils literal notranslate"><span class="pre">object</span></code> are the property <code class="docutils literal notranslate"><span class="pre">object.tables:</span> <span class="pre">Schema[Table,</span> <span class="pre">...]</span></code> and
+its Meta the property <code class="docutils literal notranslate"><span class="pre">object.meta:</span> <span class="pre">MetaData</span></code>.</p>
+<p>Any concrete SubClass such as <code class="docutils literal notranslate"><span class="pre">MyDataBase</span></code> must define <code class="docutils literal notranslate"><span class="pre">MyDataBase.Schema(NamedTuple)</span></code>
+which indexes <code class="docutils literal notranslate"><span class="pre">MyDataBase.defaults()</span></code> by <code class="docutils literal notranslate"><span class="pre">MyDataBase.names()</span></code>.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">MyDataBase</span></code> may define <code class="docutils literal notranslate"><span class="pre">MyDataBase.Schema(NamedTuple)</span></code> as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyDataBase</span><span class="p">(</span><span class="n">DataBase</span><span class="p">)</span>
+    <span class="n">Schema</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">)</span>
+        <span class="n">zero</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">TableData</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Table</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">one</span><span class="p">:</span> <span class="n">Table</span> <span class="o">|</span> <span class="n">TableData</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Table</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">schema</span><span class="p">:</span> <span class="n">Schema</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Table</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="n">Table</span><span class="p">,</span> <span class="n">one</span><span class="o">=</span><span class="n">Table</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The last line is required to tell MyDataBase which SubClasses of Table to expect.
+This is how <code class="docutils literal notranslate"><span class="pre">schema</span></code> communicates <code class="docutils literal notranslate"><span class="pre">Table.readOptions</span></code>, <code class="docutils literal notranslate"><span class="pre">Table.writeOptions</span></code> and other functionality.
+Reflecting its programmatic content, an <code class="docutils literal notranslate"><span class="pre">object</span></code> of type <code class="docutils literal notranslate"><span class="pre">MyDataBase</span></code> would appear on the filesystem as</p>
+<a class="reference internal image-reference" href="../_images/DataBase.png"><img alt="../_images/DataBase.png" height="225" src="../_images/DataBase.png" width="574" />
+</a>
+<p>The  <a class="reference internal" href="glossary.html#term-CRUD"><span class="xref std std-term">CRUD</span></a> <a class="reference internal" href="#baseprotocols"><span class="std std-ref">Protocols</span></a> are implemented so that a <em>DataBase</em> may safely reside
+alongside other files (or folders) in <code class="docutils literal notranslate"><span class="pre">self.path</span></code> and its parents without affecting them.</p>
+<p>Most models in RomCom are some Type of concrete <em>Database</em>.</p>
+</section>
+</section>
+<section id="definitions">
+<h2>definitions<a class="headerlink" href="#definitions" title="Link to this heading">§</a></h2>
+<p>RomCom’s Types and <em>Protocols</em> are contained in the <a class="reference internal" href="api/rc/base/definitions/index.html"><span class="doc">base.definitions</span></a> module.</p>
+<section id="types">
+<span id="basetypes"></span><h3>Types<a class="headerlink" href="#types" title="Link to this heading">§</a></h3>
+<p>RomCom Types abide by the robustness principle</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Be conservative in what you send, be liberal in what you accept.</dt><dd><p>[<a class="reference external" href="https://en.wikipedia.org/wiki/Robustness_principle">Postel’s Law</a>]</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple glossary">
+<dt id="term-ReturnType-and-ArgumentType"><em>ReturnType</em> and <em>ArgumentType</em><a class="headerlink" href="#term-ReturnType-and-ArgumentType" title="Link to this term">§</a></dt><dd><p>RomCom methods send <em>ReturnTypes</em> and accept <em>ArgumentTypes</em>.</p>
+</dd>
+<dt id="term-Path-and-PathLike">Path and PathLike<a class="headerlink" href="#term-Path-and-PathLike" title="Link to this term">§</a></dt><dd><p>Files and folders are of <em>ReturnType</em> Path (alias <code class="docutils literal notranslate"><span class="pre">Pathlib.Path</span></code>) and <em>ArgumentType</em> PathLike (alias <code class="docutils literal notranslate"><span class="pre">Path</span> <span class="pre">|</span> <span class="pre">str</span></code>).</p>
+</dd>
+<dt id="term-IndexP.Index-and-IndexLike">IndexP.Index and IndexLike<a class="headerlink" href="#term-IndexP.Index-and-IndexLike" title="Link to this term">§</a></dt><dd><p>Elements are Indexed by <em>ReturnType</em> <a class="reference internal" href="api/rc/base/definitions/IndexP.Index.html"><span class="doc">IndexP.Index</span></a> (alias <code class="docutils literal notranslate"><span class="pre">tuple[int]</span></code>) and
+<em>ArgumentType</em> IndexLike (alias <code class="docutils literal notranslate"><span class="pre">str</span> <span class="pre">|</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">Iterable[str</span> <span class="pre">|</span> <span class="pre">int]</span> <span class="pre">|</span> <span class="pre">slice</span></code>).</p>
+</dd>
+<dt id="term-DataFrame">DataFrame<a class="headerlink" href="#term-DataFrame" title="Link to this term">§</a></dt><dd><p>Alias <a class="reference external" href="https://docs.pola.rs/api/python/stable/reference/dataframe/index.html">pl.DataFrame</a>
+holds the data in any <a class="reference internal" href="#basetable"><span class="std std-ref">Table</span></a>.
+A DataFrame is a 2D tabular data structure composed of one or more named, Type-homogeneous columns</p>
+</dd>
+<dt id="term-Category">Category<a class="headerlink" href="#term-Category" title="Link to this term">§</a></dt><dd><p>Any datum of Type <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">bool</span></code> in a DataFrame is cast to <code class="docutils literal notranslate"><span class="pre">Category</span></code>
+(alias <a class="reference external" href="https://docs.pola.rs/user-guide/expressions/categorical-data-and-enums/#data-type-categorical">pl.Categorical</a>).
+A Category is a variable with a finite set of discrete values, much like an enum.</p>
+</dd>
+<dt id="term-Float">Float<a class="headerlink" href="#term-Float" title="Link to this term">§</a></dt><dd><p>Any <a class="reference internal" href="glossary.html#term-decimal-fraction"><span class="xref std std-term">decimal fraction</span></a> or <a class="reference internal" href="glossary.html#term-NaN"><span class="xref std std-term">NaN</span></a> in a DataFrame is cast to <code class="docutils literal notranslate"><span class="pre">Float</span></code> (alias <code class="docutils literal notranslate"><span class="pre">pl.Float32</span></code>).</p>
+</dd>
+<dt id="term-Np-and-Tc-Tensors">Np and Tc Tensors<a class="headerlink" href="#term-Np-and-Tc-Tensors" title="Link to this term">§</a></dt><dd><p><em>Np</em> and <em>Tc</em> are <em>AbstractClasses</em> extending Types to NumPy (<code class="docutils literal notranslate"><span class="pre">np</span></code>) and PyTorch (<code class="docutils literal notranslate"><span class="pre">tc</span></code>),
+such as <code class="docutils literal notranslate"><span class="pre">Np.Tensor=np.ndarray</span></code> , <code class="docutils literal notranslate"><span class="pre">Tc.Tensor</span></code> , <code class="docutils literal notranslate"><span class="pre">Np.Matrix</span></code> , <code class="docutils literal notranslate"><span class="pre">Tc.Matrix</span></code> , <code class="docutils literal notranslate"><span class="pre">Np.Vector</span></code> , <code class="docutils literal notranslate"><span class="pre">Tc.Vector</span></code>.
+These are to express intention when heavy math is being done.</p>
+</dd>
+<dt id="term-MetaData">MetaData<a class="headerlink" href="#term-MetaData" title="Link to this term">§</a></dt><dd><p><a class="reference internal" href="#basemeta"><span class="std std-ref">Meta</span></a> is sent and accepted as MetaData (alias <code class="docutils literal notranslate"><span class="pre">Mapping[str,</span> <span class="pre">Any]</span></code>), often passed as <a class="reference internal" href="glossary.html#term-kwargs"><span class="xref std std-term">kwargs</span></a>.</p>
+</dd>
+<dt id="term-TableData">TableData<a class="headerlink" href="#term-TableData" title="Link to this term">§</a></dt><dd><p><a class="reference internal" href="#basetable"><span class="std std-ref">Tables</span></a> are sent and accepted as TableData (alias <code class="docutils literal notranslate"><span class="pre">DataFrame</span> <span class="pre">|</span> <span class="pre">Np.Matrix</span> <span class="pre">|</span> <span class="pre">Tc.Matrix</span></code>).</p>
+</dd>
+</dl>
+</section>
+<section id="protocols">
+<span id="baseprotocols"></span><h3><em>Protocols</em><a class="headerlink" href="#protocols" title="Link to this heading">§</a></h3>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/The_Lifecycle_of_Software_Objects">Lifecycle of Software Objects</a> in RomCom
+follows the conventional <a class="reference internal" href="glossary.html#term-CRUD"><span class="xref std std-term">CRUD</span></a> biography, told on the user’s filesystem.
+Software objects in RomCom are also named, and their content indexed by element and compared with other objects.
+The <a class="reference internal" href="api/rc/base/index.html"><span class="doc">base</span></a> <a class="reference internal" href="#basemodels"><span class="std std-ref">models</span></a> are responsible for implementing these <em>Protocols</em> in RomCom, as follows.</p>
+<section id="namep">
+<h4><em>NameP</em><a class="headerlink" href="#namep" title="Link to this heading">§</a></h4>
+<p>The <em>NameP Protocol</em> provides <code class="docutils literal notranslate"><span class="pre">str(store)</span> <span class="pre">=</span> <span class="pre">str(store.path.name)</span></code> and <code class="docutils literal notranslate"><span class="pre">format(store)</span> <span class="pre">=</span> <span class="pre">repr(store)</span> <span class="pre">=</span> <span class="pre">str(store.path)</span></code>
+for any <code class="docutils literal notranslate"><span class="pre">store</span></code> derived from <em>Store</em>.</p>
+</section>
+<section id="indexp">
+<h4><em>IndexP</em><a class="headerlink" href="#indexp" title="Link to this heading">§</a></h4>
+<p>Items are retrieved or replaced using the <em>IndexP Protocol</em>, as in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>  <span class="c1"># Retrieves item(s) from store</span>
+<span class="n">store</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>  <span class="c1"># Replaces item(s) in store</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>             <span class="c1"># Counts the items accessible by index</span>
+<span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;is always True&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">index</span></code> must be of <em>ArgumentType</em> <span class="xref std std-ref">IndexLike</span>.
+When <code class="docutils literal notranslate"><span class="pre">index</span></code> is Iterable, <code class="docutils literal notranslate"><span class="pre">values</span></code> must be an <code class="docutils literal notranslate"><span class="pre">Np.Matrix</span> <span class="pre">|</span> <span class="pre">Tc.Matrix</span></code> or <code class="docutils literal notranslate"><span class="pre">tuple[Np.Matrix</span> <span class="pre">|</span> <span class="pre">Tc.Matrix,...]</span></code>.</p>
+<p><em>IndexP</em> is conceptually identical to a Python <a class="reference external" href="https://docs.python.org/3/glossary.html#term-sequence">sequence</a>.</p>
+<dl class="simple glossary">
+<dt id="term-Meta">Meta<a class="headerlink" href="#term-Meta" title="Link to this term">§</a></dt><dd><p><em>IndexP</em> refers to <code class="docutils literal notranslate"><span class="pre">dict</span></code> items, but writes updates to disk immediately.</p>
+</dd>
+<dt id="term-Table">Table<a class="headerlink" href="#term-Table" title="Link to this term">§</a></dt><dd><p><em>IndexP</em> refers to <code class="docutils literal notranslate"><span class="pre">table.head</span></code> by column name, so <code class="docutils literal notranslate"><span class="pre">len(table)</span></code> is its width (complementing <code class="docutils literal notranslate"><span class="pre">len(table.pl)</span></code> its height).</p>
+</dd>
+<dt id="term-DataBase"><em>DataBase</em><a class="headerlink" href="#term-DataBase" title="Link to this term">§</a></dt><dd><p><em>IndexP</em> refers to <code class="docutils literal notranslate"><span class="pre">database.tables</span></code> by name.</p>
+</dd>
+</dl>
+</section>
+<section id="equalsp">
+<h4><em>EqualsP</em><a class="headerlink" href="#equalsp" title="Link to this heading">§</a></h4>
+<p>The <em>EqualsP Protocol</em> enables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">storeA</span> <span class="o">==</span> <span class="n">storeB</span>
+</pre></div>
+</div>
+<p>which exhaustively compares all content except for <code class="docutils literal notranslate"><span class="pre">path</span></code>.
+If two stores of the same Type share the same location, they are surely identical for the filesystem is always synchronized with memory.
+So the only interesting comparison is between stores whose <code class="docutils literal notranslate"><span class="pre">path</span></code> differs.</p>
+<p>This is straightforward, but we may as well highlight some pedantry</p>
+<dl class="glossary">
+<dt id="term-0"><em>DataBase</em><a class="headerlink" href="#term-0" title="Link to this term">§</a></dt><dd><p>Two <em>DataBase</em> stores are equal if and only if their <code class="docutils literal notranslate"><span class="pre">.meta</span></code> is equal, their <code class="docutils literal notranslate"><span class="pre">.tables</span></code> are equal,
+and their <code class="docutils literal notranslate"><span class="pre">.names()</span></code> are equal. This is <strong>not</strong> the same as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataBaseA</span><span class="o">.</span><span class="n">meta</span> <span class="o">==</span> <span class="n">dataBaseB</span><span class="o">.</span><span class="n">meta</span> <span class="ow">and</span> <span class="n">dataBaseA</span><span class="o">.</span><span class="n">tables</span> <span class="o">==</span> <span class="n">dataBaseB</span><span class="o">.</span><span class="n">tables</span>
+</pre></div>
+</div>
+<p>because <a class="reference external" href="https://typing.python.org/en/latest/spec/namedtuples.html">NamedTuple</a> equality does not compare names.</p>
+<p>Two equal <em>DataBase</em> stores need not be of the same Type, nor share <code class="docutils literal notranslate"><span class="pre">dataBaseA.Schema</span> <span class="pre">is</span> <span class="pre">dataBaseB.Schema</span></code>.
+They are equal if and only if their <strong>contents</strong> are equal, regardless of their own Types.</p>
+</dd>
+</dl>
+</section>
+<section id="createp">
+<h4><em>CreateP</em><a class="headerlink" href="#createp" title="Link to this heading">§</a></h4>
+<p>Every derived <code class="docutils literal notranslate"><span class="pre">Class(Store)</span></code> possesses a <code class="docutils literal notranslate"><span class="pre">Class.create(path)</span></code> classMethod
+returning a store of Type <code class="docutils literal notranslate"><span class="pre">Class</span></code> created in <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<p>Every derived <code class="docutils literal notranslate"><span class="pre">Class(Store)</span></code> implements <em>CreateP</em> selectively, preserving other files in <code class="docutils literal notranslate"><span class="pre">path</span></code> intact and unaffected.
+<code class="docutils literal notranslate"><span class="pre">DataBase.create(path,</span> <span class="pre">tableData_and_metaData)</span></code> will not harm any files (or folders) in <code class="docutils literal notranslate"><span class="pre">path</span></code> and its parents.</p>
+<p>Alternatively,
+<code class="docutils literal notranslate"><span class="pre">Store.create(path)</span></code> deletes everything in its <code class="docutils literal notranslate"><span class="pre">path</span></code> before (re-)creating it.</p>
+</section>
+<section id="readp">
+<h4><em>ReadP</em><a class="headerlink" href="#readp" title="Link to this heading">§</a></h4>
+<p>Every <code class="docutils literal notranslate"><span class="pre">store</span></code> of derived <code class="docutils literal notranslate"><span class="pre">Class(Store)</span></code> is read from <code class="docutils literal notranslate"><span class="pre">path</span></code> by its constructor <code class="docutils literal notranslate"><span class="pre">store</span> <span class="pre">=</span> <span class="pre">Class(path)</span></code>
+defined in <code class="docutils literal notranslate"><span class="pre">Class.__init__(path)</span></code>.</p>
+</section>
+<section id="updatep">
+<h4><em>UpdateP</em><a class="headerlink" href="#updatep" title="Link to this heading">§</a></h4>
+<p>Every <code class="docutils literal notranslate"><span class="pre">store</span></code> of derived <code class="docutils literal notranslate"><span class="pre">Class(Store)</span></code> is updated in place and written in <code class="docutils literal notranslate"><span class="pre">store.path</span></code> by the
+function <code class="docutils literal notranslate"><span class="pre">store(update=None)</span></code> defined in <code class="docutils literal notranslate"><span class="pre">__call__(self,</span> <span class="pre">update=None)</span></code>.</p>
+<p>SubClasses frequently override <code class="docutils literal notranslate"><span class="pre">__call__(self,update=None)</span></code> to perform some validation or calibration before updating.</p>
+</section>
+<section id="deletep">
+<h4><em>DeleteP</em><a class="headerlink" href="#deletep" title="Link to this heading">§</a></h4>
+<p>Every class derived from <em>Store</em> has a <code class="docutils literal notranslate"><span class="pre">delete(path)</span></code> classMethod which deletes a <em>Store</em>.</p>
+<p>Every derived <code class="docutils literal notranslate"><span class="pre">Class(Store)</span></code> implements <em>DeleteP</em> selectively, preserving other files in <code class="docutils literal notranslate"><span class="pre">path</span></code> intact and unaffected.
+So <code class="docutils literal notranslate"><span class="pre">DataBase.delete(path)</span></code> preserves all other files (or folders) in <code class="docutils literal notranslate"><span class="pre">path</span></code> and its parents, unlike <code class="docutils literal notranslate"><span class="pre">Store.delete</span></code>.</p>
+<p>Alternatively,
+<code class="docutils literal notranslate"><span class="pre">Store.delete(path)</span></code> deletes everything in its <code class="docutils literal notranslate"><span class="pre">path</span></code> before (re-)creating it. Which can be useful.</p>
+</section>
+<section id="copyp">
+<h4><em>CopyP</em><a class="headerlink" href="#copyp" title="Link to this heading">§</a></h4>
+<p>Every derived <code class="docutils literal notranslate"><span class="pre">Class(Store)</span></code> possesses a <code class="docutils literal notranslate"><span class="pre">Class.copy(src:</span> <span class="pre">Class,</span> <span class="pre">dst:</span> <span class="pre">PathLike)</span></code> classMethod
+returning a copy of <code class="docutils literal notranslate"><span class="pre">src</span></code> created in <code class="docutils literal notranslate"><span class="pre">dst</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Class.copy(src,</span> <span class="pre">dst)</span></code> is entirely selective. The operation neither affects nor is affected by
+any extraneous files (or folders) in <code class="docutils literal notranslate"><span class="pre">src.path</span></code> and <code class="docutils literal notranslate"><span class="pre">dst</span></code> and their parents.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plan.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Plan</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models">models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#store"><em>Store</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meta">Meta</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#table">Table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#database"><em>DataBase</em></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definitions">definitions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types">Types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#protocols"><em>Protocols</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#namep"><em>NameP</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#indexp"><em>IndexP</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#equalsp"><em>EqualsP</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#createp"><em>CreateP</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#readp"><em>ReadP</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#updatep"><em>UpdateP</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#deletep"><em>DeleteP</em></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#copyp"><em>CopyP</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2027, Robert A. Milton.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

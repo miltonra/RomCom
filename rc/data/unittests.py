@@ -31,27 +31,28 @@ class TestCase(ut.TestCase):
         design = Design.create(Test.folder() / 'design', self.table)
         yPivot = design.yPivot()
         self.assertRaises(AssertionError, Design.create, Test.folder() / 'design.0', self.table0, True)
-        designF = Design.create(Test.folder() / 'design', self.table, isFat=True)
+        designF = Design.create(Test.folder() / 'design.fat', self.table, isFat=True)
         yPivotF = designF.yPivot()
         self.assertEqual(design0, Design(Test.folder() / 'design.0'))
         self.assertEqual(design0, Design.create(Test.folder() / 'design.0', yPivot0))
         self.assertEqual(design, Design(Test.folder() / 'design'))
         self.assertEqual(design, Design.create(Test.folder() / 'design', yPivot))
         self.assertEqual(design, Design.create(Test.folder() / 'design', designF))
-        self.assertEqual(designF, Design(Test.folder() / f'design{Design.extFat}'))
-        self.assertEqual(designF, Design.create(Test.folder() / 'design.y', yPivotF, isFat=True))
-        print(designF.df)
-        print(Design.create(Test.folder() / 'design.balls', design, isFat=True).df)
-        self.assertEqual(designF, Design.create(Test.folder() / 'design', design, isFat=True))
+        self.assertEqual(designF, Design(Test.folder() / f'design.fat'))
+        self.assertEqual(designF, Design.create(Test.folder() / 'design.fat.y', yPivotF, isFat=True))
+        self.assertEqual(designF, Design.create(Test.folder() / 'design.fat', design, isFat=True))
 
     def test_Measure(self):
         design = Design.create(Test.folder() / 'design.0', self.table0)
         measure = Measure.create(Test.folder() / 'measure.0', design)
         yPivot = measure.yPivot()
+        xAxes = measure.xAxes(Test.folder() / 'xAxes.0')
         for isFat in (False, True):
-            design = Design.create(Test.folder() / 'design', self.table, isFat=isFat)
-            measure = Measure.create(Test.folder() / 'measure', design)
+            fat = ".fat" if isFat else ""
+            design = Design.create(Test.folder() / f'design{fat}', self.table, isFat=isFat)
+            measure = Measure.create(Test.folder() / f'measure{fat}', design)
             yPivot = measure.yPivot()
+            xAxes = measure.xAxes(Test.folder() / f'xAxes{fat}')
 
 
 if __name__ == '__main__':

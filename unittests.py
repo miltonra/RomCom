@@ -18,9 +18,19 @@
 """ Unit Tests for the RomCom Library. """
 
 import rc
+from pathlib import Path
+
+def clean():
+    """ Remove all files and directories contained in ```` except those listed in ``preserve``."""
+    path: Path = rc.base.Test.root
+    rc.base.Store.delete(path)
+    rc.base.Store.copy(Path('tst'), path)
 
 
 if __name__ == '__main__':
+    clean()
     loader = rc.base.ut.TestLoader()
-    suite=loader.loadTestsFromModule(rc.base.unittests)
-    rc.base.ut.TextTestRunner(verbosity=2).run(suite)
+    runner = rc.base.ut.TextTestRunner(verbosity=2)
+    for mdl in (rc.base, rc.data):
+        suite = loader.loadTestsFromModule(mdl.unittests)
+        rc.base.ut.TextTestRunner(verbosity=2).run(suite)
