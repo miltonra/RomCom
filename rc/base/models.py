@@ -549,11 +549,11 @@ class DataBase(Store):
 
             class Schema(NamedTuple):
 
-                names[i]: TableData | Table = defaults[names[i]]
+                names[i]: TableData | Table | type(Table) = defaults[names[i]]
                 \"\"\" Normally a DataFrame. If no value is appropriate, default to the TableType.\"\"\"
                 ...
 
-                def __call__(self, name: str) -> TableData | Table | MetaData:
+                def __call__(self, name: str) -> TableData | Table | type(Table):
                     \"\"\" Returns the Table named ``name``.\"\"\"
                     return getattr(self, name)
 
@@ -567,9 +567,9 @@ class DataBase(Store):
 
     class Schema(NamedTuple):
         """ Must be overridden. """
-        NotImplemented: TableData | Table = Table
+        NotImplemented: TableData | Table | type(Table) = Table
 
-        def __call__(self, name: str) -> TableData | Table | MetaData:
+        def __call__(self, name: str) -> TableData | Table | type(Table):
             """ Returns the Table named ``name``."""
             return getattr(self, name)
 
@@ -679,10 +679,10 @@ class DataBase(Store):
         try:
             self._meta = Meta(self._meta_in(path))
             self._tables = self.Schema(**{name:
-                                                    TableType.create(self._path / name, tables[name])
-                                                    if name in tables and tables[name] is not None
-                                                    else TableType(self._path / name)
-                                               for name, TableType in self.schema._asdict().items()})
+                                                Type.create(self._path / name, tables[name])
+                                                if name in tables and tables[name] is not None
+                                                else Type(self._path / name)
+                                                for name, Type in self.schema._asdict().items()})
         except FileNotFoundError as error:
             print(f'DataBase "{self}" is trying to read a non-existent Table. Did your script mean to call '
                   f'{type(self).__qualname__}.create("{str(self)}") '
@@ -708,12 +708,14 @@ class DataBase(Store):
             path: The folder to store the *DataBase* in. Need not exist,
                 any existing ``Tables`` will be overwritten if it does.
             **tableData_and_metaData: Data to update ``cls.defaults()``, in the form ``names[i]=tables[i]``,
-                and optional ``MetaData`` to update ``cls.defaultMetaData`` in the form ``meta=MetaData``.
+                and optional ``MetaData`` to update ``cls.defaultMetaData``.
 
         Returns: The *DataBase* created.
         """
-        Meta.create(cls._meta_in(path), **(cls.defaultMeta | (tableData_and_metaData.pop('meta', {}))))
-        return cls(path, **(cls.defaults() | tableData_and_metaData))
+        tables = [name for name in cls.names() if name in tableData_and_metaData]
+        tables = {name: tableData_and_metaData.pop(name) for name in tables}
+        Meta.create(cls._meta_in(path), **(cls.defaultMeta | tableData_and_metaData))
+        return cls(path, **(cls.defaults() | tables))
 
     @classmethod
     def copy(cls, src: Self, dst: PathLike) -> Self:
@@ -725,7 +727,7 @@ class DataBase(Store):
 
         Returns: The *DataBase* now stored in ``dst``.
         """
-        return cls.create(dst, meta=src.meta, **src._tables._asdict())
+        return cls.create(dst, **(src._tables._asdict() | src.meta))
 
     @classmethod
     def delete(cls, path: PathLike) -> Path:

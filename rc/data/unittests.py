@@ -34,6 +34,7 @@ class TestCase(ut.TestCase):
         self.assertRaises(AssertionError, Design.create, Test.folder() / 'design.0', self.table0, True)
         designF = Design.create(Test.folder() / 'design.fat', self.table, isFat=True)
         yPivotF = designF.yPivot()
+        wank = Design(Test.folder() / 'design.0')
         self.assertEqual(design0, Design(Test.folder() / 'design.0'))
         self.assertEqual(design0, Design.create(Test.folder() / 'design.0', yPivot0))
         self.assertEqual(design, Design(Test.folder() / 'design'))

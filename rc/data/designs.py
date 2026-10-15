@@ -310,36 +310,6 @@ class Measure(Abstract):
     def q(self) -> Abstract.Slice:
         return Abstract.Slice(axes=slice(self._y, self._y + 1))
 
-    def xAxes(self, path: PathLike, statistic: str = '50%') -> Table:
-        """ Describe_ the x-axes of this Measure.
-
-        .. _Describe: https://docs.pola.rs/api/python/dev/reference/dataframe/api/polars.DataFrame.describe.html
-
-        Args:
-            path: The Path to store the description.
-            statistic: The statistic recorded as the aggregate ││.
-
-        Returns: A Table of statistics for each x-axis.
-
-        """
-        head = self.head[self.x.axes]
-        if iAxis := self.head[self.i.axes]:
-            df = self._df.filter(pl.col(iAxis) != '││').select(head)
-        else:
-            df = self._df.select(head)
-        for m in range(self._M):
-            idx = m * len(self.by)
-            xAxis = head[idx].rpartition('│')[0][2:]
-            desc = (df.select(head[idx: idx + len(self.by)])
-                    .describe().with_columns(pl.col('statistic').cast(Category)))
-            stat = (desc.filter(pl.col('statistic') == statistic)
-                         .with_columns(statistic=pl.lit('││', Category)))
-            desc = desc.vstack(stat)
-            desc = desc.rename({_head: _head[len(xAxis) + 3 : ] for _head in desc.columns[1:]})
-            desc = desc.insert_column(0, pl.lit(xAxis, Category).alias('x-axis'))
-            result = desc if m == 0 else result.vstack(desc)
-        return Table(path, result)
-
     def __call__(self, update: TableData | Self | None = None, write_csv: bool = True) -> Self:
         super().__call__(update, write_csv=False)
         if __debug__ or self._M is None:
@@ -373,16 +343,7 @@ class Measure(Abstract):
         if write_csv: self._df.write_csv(self._path, **self.writeOptions)
         return self
 
-    def thin(self) -> Self:
-        """ Thin this Measure.
-
-        Returns: The thin version of this measure.
-        """
-        if not self.isFat: return self
-        df = self._df.select()
-        return self.create(self.path.with_suffix(''), df)
     @classmethod
-
     def create(cls, path: PathLike, design: Design) -> Self:
         """ Measure a Design.
 
@@ -413,3 +374,165 @@ class Measure(Abstract):
             df = df.join(count, on='l').with_columns(**{'y│q': pl.col('y│q')/pl.col('│││')})
             result = df.select(columns).vstack(result)
         return cls(path, result.sort('l'))
+
+
+class IAxes(Table):
+    """A Table of i-axis probabilities calculated as ``y│q`` and used as ``q``."""
+
+    @property
+    def isFat(self) -> bool:
+        """ Whether the Table has a j-axis."""
+        return self._isFat
+
+    @property
+    def ls(self) -> list[str]:
+        """ Lists the y-axes occurring in the l-axis. """
+        return self._ls
+
+    @property
+    def js(self) -> list[str]:
+        """ Lists the i-axes. """
+        return self._js
+
+    def __call__(self, update: TableData | Self | None = None, write_csv: bool = True) -> Self:
+        super().__call__(update, write_csv=False)
+        head = self.head
+        self._isFat = head[0] == 'j'
+        self._ls = self._df['l'].unique(maintain_order=True).to_list() if head[-4] == 'l' else []
+        self._js = (self._df['j'].unique(maintain_order=True).to_list() if self._isFat else
+                    self.head[0].split('│')[1:])
+        head = ['j'] if self._isFat else [] + (['l'] if self._ls else [])
+        qs = ('y│q', 'q')
+        check = self._df.group_by(head).agg(pl.col(qs).sum())
+        assert check.select(pl.all_horizontal(pl.col(qs).is_close(1.0, abs_tol=zero).all())).item(), \
+            (f'IAxes {check.filter(~(pl.all_horizontal(pl.col(qs).is_close(1.0, abs_tol=zero))))}'
+             f'do not add up in {self}')
+        self._df = self._df.with_columns(r = pl.col('y│q') / pl.col('q'))
+        if write_csv: self._df.write_csv(self._path, **self.writeOptions)
+        return self
+
+    def _dependent(self, df: DataFrame) -> DataFrame:
+        """ Make fat IAxes thin.
+
+        Args:
+            df: The DataFrame of a fat IAxes instance.
+
+        Returns: The thin version of ``df``.
+        """
+        assert self.isFat, f'{self}.isFat is False when calling _dependent'
+        result = df.filter(pl.col('j') == self._js[0]).drop('j', 'r').rename({'i': '│││'})
+        for j in self._js[1:]:
+            marginalized = df.filter(pl.col('j') == j).drop('j', 'r').rename({'y│q': '_y│q', 'q': '_q'})
+            result = (result.join(marginalized, how='cross')
+                      .with_columns(pl.concat_str('│││', 'i',  separator='│'),
+                                    pl.col('y│q') * pl.col('_y│q').alias('y│q'),
+                                    pl.col('q') * pl.col('_q').alias('q'))
+                      .drop('i', '_y│q', '_q'))
+        result = result.with_columns(pl.col('│││').cast(Category)).rename({'│││': '│'.join(['i'] + self._js)})
+        return result.with_columns(r=pl.col('y│q') / pl.col('q'))
+
+    def _independent(self, df: DataFrame) -> DataFrame:
+        """ Make thin IAxes fat.
+
+        Args:
+            df: The DataFrame of a thin IAxes instance.
+
+        Returns: The fat version of ``df``.
+        """
+        assert not self.isFat, f'{self}.isFat is False when calling _dependent'
+        result = df.filter(pl.col('j') == self._js[0]).drop('j', 'r').rename({'i': '│││'})
+    @property
+    def dependent(self) -> DataFrame:
+        """ The thin version of these IAxes. """
+        if not self.isFat:
+            return self._df
+        else:
+            return self._dependent(self._df)
+
+    @property
+    def independent(self) -> DataFrame:
+        """ The fat version of these IAxes. """
+        if self.isFat: return self._df
+
+    @property
+    def uniform(self) -> DataFrame:
+        return self._df
+
+    @classmethod
+    def create(cls, path: PathLike, measure: Measure, lAgg: pl.Expr | None = pl.median) -> Self:
+            """ Calculate the i-axis probabilities ``q`` from ``measure``.
+
+            Args:
+                path: The Path to store the description.
+                measure: The Measure to use.
+                lAxis: How to aggregate over the l-axis.
+                    If ``None`` no aggregation is performed and the l-axis appears in the result.
+            Returns: A Table of probabilities for the i-axis values.
+            """
+            assert measure._J, f'No i-axis in {measure}.iAxes().'
+            head = (['j'] if measure.isFat else []) + measure.head[measure.i.axes] + ['l', 'y│q']
+            result = measure._df.select(head)
+            if lAgg:
+                result = (result.drop('l').filter(pl.col(head[0]) != '││')
+                          .group_by(head[:-2], maintain_order=True).agg(lAgg('y│q')))
+            return cls(path, result.with_columns(pl.col('y│q').alias('q'), pl.lit(1.0).alias('r')))
+
+
+class Synopsis(DataBase):
+
+    class Schema(NamedTuple):
+
+        measure: Measure | type(Measure) = Measure
+        """ Describes i-axes."""
+        iAxes: IAxes | type(IAxes) = IAxes
+        """ Describes i-axes."""
+        xAxes: Table | type(Table) = Table
+        """ Describes x-axes."""
+        yAxes: Table | type(Table) = Table
+        """ Describes y-axes."""
+
+        def __call__(self, name: str) -> TableData | Table | type(Table):
+            """ Returns the Table named ``name``."""
+            return getattr(self, name)
+
+    schema: Schema[type[Table], ...] = Schema()
+    """ The ``Schema`` of TableTypes, to communicate ``readOptions, writeOptions``."""
+
+    defaultMeta: MetaData = {'Type': 'Synopsis',
+                             'schema': {name: Type.__name__ for name, Type in schema._asdict().items()},
+                             'design': '',
+                             'xAxes': {'statistic': '50%'},
+                             }
+    """ Class default ``self.meta``."""
+
+    def xAxes(self, path: PathLike, statistic: str = '50%') -> Table:
+        """ Describe_ the x-axes of this Measure.
+
+        .. _Describe: https://docs.pola.rs/api/python/dev/reference/dataframe/api/polars.DataFrame.describe.html
+
+        Args:
+            path: The Path to store the description.
+            statistic: The statistic recorded as the aggregate ││.
+
+        Returns: A Table of statistics for each x-axis.
+        """
+        head = self.head[self.x.axes]
+        if iAxis := self.head[self.i.axes]:
+            df = self._df.filter(pl.col(iAxis) != '││').select(head)
+        else:
+            df = self._df.select(head)
+        for m in range(self._M):
+            idx = m * len(self.by)
+            xAxis = head[idx].rpartition('│')[0][2:]
+            desc = (df.select(head[idx: idx + len(self.by)])
+                    .describe().with_columns(pl.col('statistic').cast(Category)))
+            stat = (desc.filter(pl.col('statistic') == statistic)
+                         .with_columns(statistic=pl.lit('││', Category)))
+            desc = desc.vstack(stat)
+            desc = desc.rename({_head: _head[len(xAxis) + 3 : ] for _head in desc.columns[1:]})
+            desc = desc.insert_column(0, pl.lit(xAxis, Category).alias('x-axis'))
+            result = desc if m == 0 else result.vstack(desc)
+        return Table(path, result)
+
+    def create(cls, path: PathLike, design: Design, lAgg: pl.Expr | None = pl.median) -> Self:
+        pass
